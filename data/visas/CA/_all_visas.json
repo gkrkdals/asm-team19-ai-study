@@ -1,0 +1,478 @@
+[
+  {
+    "visa_code": "Visitor_Visa",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada.html",
+    "extracted_at": "2026-05-31T05:19:28.228679+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Visitor Visa (TRV)",
+    "category": "Travel",
+    "subcategory": "Visitor",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "캐나다 방문 목적(관광/사업/친족방문) 증명",
+      "체류 기간 동안 재정 능력 증명",
+      "범죄 기록 없음",
+      "본국과의 연계성 증명"
+    ],
+    "key_documents": [
+      "여권",
+      "비자 신청서(IMM 5257)",
+      "재정 증명(은행 거래 내역 등)",
+      "여행 일정 증명(항공권/호텔 예약 등)",
+      "초대장(해당 시)"
+    ],
+    "processing_note": "처리 기간 변동 가능. 온라인 신청 가능. 슈퍼 비자(최대 5년 체류) 별도 존재. eTA 필요 여부 사전 확인 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "eTA",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eta.html",
+    "extracted_at": "2026-05-31T05:19:33.498627+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "eTA",
+    "category": "Travel",
+    "subcategory": "Visitor",
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "유효한 여권 보유",
+      "캐나다 경유 또는 방문 목적",
+      "범죄 기록 없음",
+      "건강 상태 양호"
+    ],
+    "key_documents": [
+      "유효한 여권",
+      "신용카드/직불카드",
+      "이메일 주소"
+    ],
+    "processing_note": "온라인 신청 필수. 처리 시간 대부분 72시간 이내. 승인 시 여권 유효기간 또는 5년 중 짧은 기간 유효.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Study_Permit",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit.html",
+    "extracted_at": "2026-05-31T05:19:38.655819+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "Study_dep"
+    ],
+    "visa_type": "Study Permit",
+    "category": "Student",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "지정된 교육기관(DLI) 입학 허가",
+      "필요한 서류 구비",
+      "신청 비용 CAD 150 납부"
+    ],
+    "key_documents": [
+      "여권",
+      "입학 허가서(DLI 발급)",
+      "재정 증명",
+      "신청서 및 수수료"
+    ],
+    "processing_note": "처리 기간은 국가별 상이. 박사 과정 학생은 신속 처리 가능. 가족 동반 신청 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "PGWP",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation.html",
+    "extracted_at": "2026-05-31T05:19:44.464788+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Post-Graduation Work Permit (PGWP)",
+    "category": "Employment",
+    "subcategory": "Post-Graduation Work",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다 지정 교육기관 졸업",
+      "유효한 학습 허가증 소지",
+      "풀타임 학생 신분 유지"
+    ],
+    "key_documents": [
+      "졸업 증명서",
+      "유효한 여권",
+      "학습 허가증 사본"
+    ],
+    "processing_note": "처리 시간 변동 가능. 학생 신분 복원 시 별도 비용 발생. PGWP 불가 시 다른 취업 허가 신청 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Work_Permit",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/permit.html",
+    "extracted_at": "2026-05-31T05:19:53.692453+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "Work_dep"
+    ],
+    "visa_type": "Work Permit",
+    "category": "Employment",
+    "subcategory": "Temporary Foreign Worker",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "고용주 지정형(Employer-specific) 또는 개방형(Open) 중 해당 조건 충족",
+      "고용주 지정형은 Job offer 필수",
+      "개방형은 Job offer 불필요 (예: 졸업 후 취업 허가증, IEC 참가자 등)",
+      "캐나다 고용주로부터 LMIA 승인 또는 면제 조건 충족"
+    ],
+    "key_documents": [
+      "신청서(IMM 1295)",
+      "여권",
+      "Job offer(고용주 지정형 경우)",
+      "LMIA 승인서(해당 시)",
+      "졸업 후 취업 허가증 신청 시 유효한 Study Permit 및 졸업 증명서"
+    ],
+    "processing_note": "처리 기간은 신청 유형 및 지역에 따라 상이. 온라인/입국 시 신청 가능. 고용주 변경 시 조건 변경 신청 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Work_Temp",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/permit/temporary.html",
+    "extracted_at": "2026-05-31T05:20:03.970313+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Temporary Work Permit",
+    "category": "Employment",
+    "subcategory": "Temporary Employment",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "고용주 지정형(Employer-specific) 또는 개방형(Open) 중 해당 유형 충족",
+      "고용주 지정형의 경우 유효한 취업 오퍼(Job offer) 필요",
+      "개방형의 경우 취업 오퍼 불필요 (예: 졸업 후 취업 허가, IEC 참가자 등)",
+      "특별 지시 사항 적용 대상 여부 확인 (예: 학생, IEC, 영주권 대기자 등)"
+    ],
+    "key_documents": [
+      "신청서(Work Permit Application)",
+      "고용주 지정형의 경우 취업 오퍼(Job offer) 및 LMIA(해당 시)",
+      "개방형의 경우 특별 지시 사항 관련 서류 (예: 졸업 증명서, IEC 승인서 등)",
+      "여권 및 신분 증명 서류"
+    ],
+    "processing_note": "처리 기간은 신청 유형 및 특별 지시 사항에 따라 상이. 온라인 또는 입국 시 신청 가능. 고용주 지정형은 LMIA 필요 여부 확인 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Express_Entry",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry.html",
+    "extracted_at": "2026-05-31T05:20:10.596870+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "ExpressEntry_dep"
+    ],
+    "visa_type": "Express Entry",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "기술직 종사자(Skilled Worker)",
+      "Canadian Experience Class, Federal Skilled Worker Program, Federal Skilled Trades Program 중 하나 충족",
+      "온라인 프로필 생성 및 점수제 평가 통과"
+    ],
+    "key_documents": [
+      "온라인 프로필 신청서",
+      "초청 후 정식 신청서",
+      "신분 증명 서류",
+      "경력 및 학력 증명"
+    ],
+    "processing_note": "처리 기간은 프로그램별 상이. 신청인 및 가족 동반 시 별도 비용 발생(수수료 확인 필요).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "FSW",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/federal-skilled-workers.html",
+    "extracted_at": "2026-05-31T05:20:18.203923+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Federal Skilled Worker",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "TEER 0, 1, 2, 3 직종의 1년 이상 숙련직 경력",
+      "최소 언어 능력(CLB 7 이상) 충족",
+      "캐나다 또는 외국 학력 증명(외국 학력은 ECA 평가 필요)",
+      "67점 이상(학력, 경력, 언어, 연령 등 종합 평가) 획득",
+      "퀘벡 주 외 거주 계획"
+    ],
+    "key_documents": [
+      "언어 시험(CLB 7 이상) 결과",
+      "학력 증명서(캐나다 또는 ECA 평가 완료 외국 학력)",
+      "경력 증명(1,560시간 이상)",
+      "NOC 코드 확인서",
+      "재정 증명(고용 제안 없을 시)"
+    ],
+    "processing_note": "Express Entry 풀 제출 후 CRS 점수 기반 추첨. 퀘벡 주 제외. 취업 제안 시 재정 증명 불필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "CEC",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/eligibility/canadian-experience-class.html",
+    "extracted_at": "2026-05-31T05:20:25.691466+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Canadian Experience Class",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다 내 TEER 0, 1, 2, 3 직종의 최소 1년(1,560시간) 유급 근로 경험",
+      "공인 영어/프랑스어 시험 최소 점수 충족(읽기, 쓰기, 듣기, 말하기)",
+      "퀘벡 주 외 지역 거주 계획",
+      "캐나다 입국 허용 요건 충족(보안, 범죄, 건강 문제 없음)"
+    ],
+    "key_documents": [
+      "NOC(직업 분류 코드) 증명 서류",
+      "언어 시험 결과(CELPIP/IELTS/TEF 등)",
+      "캐나다 근로 경험 증명(급여 명세서, 고용계약서 등)",
+      "교육 자격 평가 보고서(해외 학력자 한정)"
+    ],
+    "processing_note": "퀘벡 주 제외. Express Entry 풀에서 점수 향상을 위해 캐나다 학력 또는 교육 평가 보고서 제출 가능. 의사 특별 정책 적용(2023.04.25 이후 신청자).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "PNP",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/provincial-nominees.html",
+    "extracted_at": "2026-05-31T05:20:32.321217+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Provincial Nominee Program (PNP)",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "주정부별 기술·교육·경력 요건 충족",
+      "해당 주/지역 거주 및 영주권 취득 의사",
+      "Express Entry 연계 시 연방 프로그램 자격 요건 충족 (선택적)"
+    ],
+    "key_documents": [
+      "주정부 추천서(Nomination Certificate)",
+      "Express Entry 프로필 (해당 시)",
+      "신분 증명 서류 및 경력 증명"
+    ],
+    "processing_note": "처리 기간 변동 가능. Express Entry 연계 시 600점 추가. 연간 쿼터 초과 시 처리 지연 발생 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Startup_Visa",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/start-visa.html",
+    "extracted_at": "2026-05-31T05:20:37.961987+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Start-up Visa",
+    "category": "Immigration",
+    "subcategory": "Entrepreneur",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다(퀘벡 제외)에서 사업 창업 및 운영 가능성 보유",
+      "캐나다 국민 고용 창출 가능성",
+      "글로벌 경쟁력 있는 사업 아이디어 보유",
+      "2025년 유효한 지정기관(Designated Organization)의 Commitment Certificate 보유",
+      "2026년 6월 30일까지 신청"
+    ],
+    "key_documents": [
+      "2025년 Commitment Certificate",
+      "사업 계획서",
+      "지정기관 지원 확인서",
+      "영구거주자 신청서"
+    ],
+    "processing_note": "2025년 12월 31일 이후 지정기관 지원 불가. 2026년 6월 30일까지 신청 마감. 현재 신규 신청 불가(2025년 12월 19일 기준).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Self_Employed",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/self-employed.html",
+    "extracted_at": "2026-05-31T05:20:44.298723+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Self-Employed Persons Program",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "문화 활동 또는 체육 분야 관련 경험 보유",
+      "캐나다 문화/체육 생활에 중대한 기여 가능성"
+    ],
+    "key_documents": [
+      "경력 증명 서류",
+      "기여 가능성 입증 자료"
+    ],
+    "processing_note": "처리 기간은 신청 유형, 서류 완성도, 정보 확인 용이성 등에 따라 변동. 연간 신청자 수에 따라 지연 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Atlantic_Immig",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/atlantic-immigration.html",
+    "extracted_at": "2026-05-31T05:20:50.350092+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Atlantic Immigration Program",
+    "category": "Immigration",
+    "subcategory": "Permanent Residence for Skilled Workers & Graduates",
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다 대서양 4개 주(뉴브런즈윅, 노바스코샤, 프린스에드워드아일랜드, 뉴펀들랜드 래브라도) 지정 고용주로부터 잡 오퍼 획득",
+      "숙련 외국인 근로자 또는 대서양 지역 공인 대학 졸업생",
+      "캐나다 임시 거주자 또는 해외 거주자 가능"
+    ],
+    "key_documents": [
+      "지정된 고용주의 잡 오퍼",
+      "대서양 주 정부 추천서(referral letter)",
+      "임시 취업 허가 신청서(선택 사항)"
+    ],
+    "processing_note": "고용주는 주 정부로부터 지정(designated)되어야 함. 무료 지정 절차. 임시 취업 허가 신청 가능(잡 오퍼 및 추천서 필요).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Rural_Northern",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/rural-northern-immigration-pilot.html",
+    "extracted_at": "2026-05-31T05:20:57.211455+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Rural and Northern Immigration Pilot (RNIP)",
+    "category": "Immigration",
+    "subcategory": "Community-Driven Economic Immigration",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "IRCC(캐나다 이민부) 자격 요건 충족",
+      "참여 지역별 추가 요건 충족",
+      "참여 지역 고용주로부터 적격 직업 제안 획득",
+      "지역 경제 수요에 부합",
+      "지역 내 정착 의사 증명"
+    ],
+    "key_documents": [
+      "지역별 추천 신청서",
+      "고용계약서",
+      "IRCC 영주권 신청서",
+      "선택사항: 워크퍼밋 신청서"
+    ],
+    "processing_note": "2024년 8월 31일 신청 종료. 기존 신청자 처리 중. 워크퍼밋 신청 가능(선택). 지역별 추가 요건 및 절차는 해당 지역 웹사이트에서 확인 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Family_Sponsorship",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/family-sponsorship.html",
+    "extracted_at": "2026-05-31T05:21:02.893646+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Family Sponsorship",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다 영주권자 또는 시민권자",
+      "배우자·파트너·부양 자녀·입양아·특정 친척·부모·조부모 초청 가능",
+      "가족 폭력 피해자 지원 프로그램 적용 가능"
+    ],
+    "key_documents": [
+      "PR 포털 신청서",
+      "가족 관계 증명 서류",
+      "재정 능력 증명",
+      "입양 관련 법적 문서(입양아 경우)"
+    ],
+    "processing_note": "현재 처리 시간 확인 필요. 온라인 PR 포털 또는 대리인 통해 신청 가능. 가족 폭력 피해자 특별 지원 프로그램 존재.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Refugees_Main",
+    "source_url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/refugees.html",
+    "extracted_at": "2026-05-31T05:21:10.687767+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Refugee and Asylum",
+    "category": "Humanitarian",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다 내/외에서 난민 보호 신청 자격 충족",
+      "박해 또는 생명 위협 등 난민 요건 충족",
+      "캐나다 난민 시스템 절차 준수"
+    ],
+    "key_documents": [
+      "난민 신청 서류(Refugee Protection Application)",
+      "신분 증명 서류(여권 등)",
+      "박해 증거 자료(의료 기록, 경찰 보고서 등)"
+    ],
+    "processing_note": "처리 기간 변동 가능. 사기 주의. 난민 신청 후 건강 관리·재정 지원·캐나다 적응 지원 서비스 이용 가능.",
+    "annual_quota": null,
+    "home_return_required": false
+  }
+]

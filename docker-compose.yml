@@ -1,0 +1,42 @@
+services:
+  vectordb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8002:8000"
+    volumes:
+      - chroma_data:/chroma/.chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - CHROMA_HOST=vectordb
+      - CHROMA_PORT=8000
+      - DATA_PATH=/app/data/visas
+    volumes:
+      - ./data:/app/data:ro
+    depends_on:
+      vectordb:
+        condition: service_healthy
+
+  ui:
+    build: ./ui
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://api:8000
+    depends_on:
+      - api
+
+volumes:
+  chroma_data:

@@ -1,0 +1,906 @@
+[
+  {
+    "visa_code": "B-1_B-2",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+    "extracted_at": "2026-05-31T05:14:11.980202+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "B-1/B-2",
+    "category": "Travel",
+    "subcategory": "Visitor",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "실질적인 방문 목적 증명 (관광/비즈니스)",
+      "체류 비용 부담 능력 증명",
+      "본국과의 강한 연계성 (고용/가족 관계 등)",
+      "미국 체류 종료 후 귀국 의사 증명"
+    ],
+    "key_documents": [
+      "여권 (미국 체류 기간 +6개월 유효)",
+      "DS-160 신청서 확인 페이지",
+      "비자 신청비 영수증",
+      "사진 (DS-160 업로드 또는 인쇄본)",
+      "추가 서류 (여행 목적/재정 증명 등)"
+    ],
+    "processing_note": "비자 발급 보장 없음. 체류 기간은 입국 시 CBP에서 결정. 취업 불가. 체류 기간 초과 시 비자 무효화 및 향후 비자 신청 불이익 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "VWP_ESTA",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visa-waiver-program.html",
+    "extracted_at": "2026-05-31T05:14:16.857312+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Visa Waiver Program (VWP)",
+    "category": "Travel",
+    "subcategory": "Visitor (Tourism/Business)",
+    "max_duration_months": 3,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "참여국(VWP Designated Country) 국민",
+      "관광/비즈니스 목적(90일 이하 체류)",
+      "e-패스포트 소지",
+      "ESTA 승인 완료",
+      "미국 입국 시 귀국 항공권 또는 여행 일정 증명",
+      "특정 국가(북한, 이란 등) 방문 이력 없음(2015년 법 적용)"
+    ],
+    "key_documents": [
+      "유효한 e-패스포트",
+      "ESTA 승인 번호",
+      "왕복 항공권 또는 여행 일정 증명",
+      "체류 기간 동안의 재정 증명(필요 시)"
+    ],
+    "processing_note": "ESTA 신청 수수료 $21(승인 시 $10 추가). 최대 90일 체류. 체류 연장/신분 변경 불가. 참여국 39개국(영국·대만 포함).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "CA_BM_NoVisa",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/citizens-of-canada-and-bermuda.html",
+    "extracted_at": "2026-05-31T05:14:21.726696+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Canada & Bermuda Visa-Free Entry",
+    "category": "Travel",
+    "subcategory": null,
+    "max_duration_months": 6,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "캐나다 또는 버뮤다 시민권 보유",
+      "비자 면제 대상 여행 목적 (관광, 상용 등)",
+      "미국 입국 시 CBP 심사 통과",
+      "비자 필요 목적(A, G, E-1 등) 제외"
+    ],
+    "key_documents": [
+      "여권 (캐나다/버뮤다 발급)",
+      "입국 목적 증명 서류 (관광/상용 등)",
+      "체류 기간 내 귀국 증명 (필요 시)"
+    ],
+    "processing_note": "캐나다 시민: 일반적 관광/상용 시 비자 면제. 버뮤다 시민: 180일 이내 체류 시 비자 면제. CBP에서 최종 입국 허가 결정.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "F-1_M-1",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html",
+    "extracted_at": "2026-05-31T05:14:26.455146+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "F-2",
+      "M-2"
+    ],
+    "visa_type": "F-1_M-1",
+    "category": "Student",
+    "subcategory": "Academic and Vocational Study",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "SEVP 승인 학교 입학 허가",
+      "학업 목적 증명",
+      "재정 능력 증명",
+      "미국 체류 종료 후 본국 귀환 의사 증명"
+    ],
+    "key_documents": [
+      "여권",
+      "DS-160 신청서 확인 페이지",
+      "SEVIS I-901 수수료 납부 증명",
+      "Form I-20 (학교 발급)",
+      "재정 증명 서류",
+      "학업 성적 증명서 및 표준화 시험 점수"
+    ],
+    "processing_note": "비자 인터뷰 필수. 신규 학생 비자 발급은 프로그램 시작 365일 전부터 가능. 미국 입국은 시작 30일 전부터 허용. OPT 신청 시 EAD 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "J-1",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/study/exchange.html",
+    "extracted_at": "2026-05-31T05:14:31.537633+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "J-2"
+    ],
+    "visa_type": "J-1",
+    "category": "Student",
+    "subcategory": "Exchange Visitor Program",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 국무부 승인 교환 방문자 프로그램 참여 자격",
+      "DS-2019 서류 발급(프로그램 스폰서 등록 필수)",
+      "정부 지원 프로그램·의학 교육·특수 기술 보유 시 2년 본국 귀환 의무",
+      "비자 신청 시 재정 능력 및 귀국 의사 증명"
+    ],
+    "key_documents": [
+      "DS-2019(교환 방문자 자격 증명서)",
+      "DS-160 신청서 확인 페이지",
+      "여권(유효 기간 6개월 이상)",
+      "SEVIS I-901 수수료 납부 증명",
+      "DS-7002(인턴/연수생 카테고리 한정)"
+    ],
+    "processing_note": "비자 발급 후 30일 이내 입국 불가. 프로그램 연장 시 스폰서 승인 필요. 2년 귀환 의무 조건 적용 시 영주권·일부 비자 제한. J-2 동반 가족 비자 신청 가능.",
+    "annual_quota": null,
+    "home_return_required": true
+  },
+  {
+    "visa_code": "H_L_O_P_Q",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html",
+    "extracted_at": "2026-05-31T05:14:37.087664+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "H-4",
+      "L-2",
+      "O-2",
+      "O-3",
+      "P-4"
+    ],
+    "visa_type": "H-1B/L-1/O-1/P/Q (Temporary Worker)",
+    "category": "Employment",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "고용주로부터 승인된 청원(Form I-129) 보유",
+      "해당 비자 카테고리의 특정 자격 요건 충족(예: H-1B는 학사 학위 이상)",
+      "미국 외 국가에서 1년 이상 근무 경력(L-1 비자)",
+      "과학/예술/교육/비즈니스/운동 분야에서 탁월한 능력(O-1 비자)",
+      "국제 문화 교류 프로그램 참여(Q-1 비자)"
+    ],
+    "key_documents": [
+      "고용주 제출 Form I-129 청원서",
+      "DS-160 온라인 비자 신청서",
+      "여권 및 사진",
+      "노동부 노동 인증서(해당 비자 카테고리 한정)",
+      "Form I-797 청원 승인 통지서"
+    ],
+    "processing_note": "비자 신청 전 반드시 USCIS 청원 승인 필요. H-1B는 연간 쿼터(65,000+석사 20,000) 적용. 비자 발급 후 미국 입국 시 CBP에서 실제 체류 기간 결정. 비자 유효 기간 내 다중 입국 가능.",
+    "annual_quota": 65000,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "E-1_E-2_E-3",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/employment/treaty-trader-investor-visa-e.html",
+    "extracted_at": "2026-05-31T05:14:42.478531+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "E-dep"
+    ],
+    "visa_type": "E-1/E-2/E-3",
+    "category": "Employment",
+    "subcategory": "Treaty Trader/Investor & Specialty Occupation",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "E-1: 조약국 국적자, 미국-조약국 간 실질적 무역 수행, 50% 이상 조약국 소유 기업 소속",
+      "E-2: 조약국 국적자, 미국 내 기업에 상당한 자본 투자, 기업 운영 개발/감독 또는 필수 직원",
+      "E-3: 호주 국적자, 전문직 직종, 승인된 LCA 및 학력/경력 증명"
+    ],
+    "key_documents": [
+      "DS-160 신청서, DS-156E(조약 무역/투자자), 여권, 사진",
+      "E-1: 무역 계약서, 기업 소유권 증명(50% 이상)",
+      "E-2: 투자 증명, 기업 운영 계획, 자본 투자 증빙",
+      "E-3: 승인된 LCA, 학력/경력 증명, 고용 계약서"
+    ],
+    "processing_note": "비자 신청 시 인터뷰 필수(일부 예외). 처리 기간은 신청처에 따라 상이. 비자 발급 후 체류 기간 연장 가능(USCIS 신청).",
+    "annual_quota": null,
+    "home_return_required": true
+  },
+  {
+    "visa_code": "TN_TD",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/employment/visas-canadian-mexican-usmca-professional-workers.html",
+    "extracted_at": "2026-05-31T05:14:47.368221+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "TD"
+    ],
+    "visa_type": "TN/TD (USMCA Professional)",
+    "category": "Employment",
+    "subcategory": "USMCA Professional",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "캐나다 또는 멕시코 시민권",
+      "USMCA 직업 목록(Appendix 1603.D.1) 해당 직종",
+      "미국 내 사전 고용계약(풀타임/파트타임)",
+      "학사 학위 또는 해당 경력 증명",
+      "자영업 불가"
+    ],
+    "key_documents": [
+      "고용계약서 또는 미국 고용주 발급 취업확인서",
+      "학위증·자격증·경력증명서(Appendix 1603.D.1 기준)",
+      "DS-160 신청서 확인 페이지",
+      "여권(유효기간 6개월 이상)",
+      "비자 신청비 영수증"
+    ],
+    "processing_note": "멕시코 시민은 TN 비자 필수. 캐나다 시민은 입국 시 TN 상태 신청 가능. TD 비자는 동반가족용. 처리 기간은 신청처에 따라 상이.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "I_Media",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/employment/visas-members-foreign-media-press-radio.html",
+    "extracted_at": "2026-05-31T05:14:52.454798+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "I_Media",
+    "category": "Employment",
+    "subcategory": "Foreign Media Representative",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "외국 미디어 기관(언론·라디오·영화·인쇄 매체) 소속",
+      "미국 외 본사 소유 미디어 기관 소속",
+      "정보 수집·보도·교육 목적 활동",
+      "미국 내 상업적 오락·광고 목적 아님",
+      "독립 제작사 직원일 경우 전문 언론인 협회 자격증 소지"
+    ],
+    "key_documents": [
+      "온라인 비자 신청서(DS-160)",
+      "여권(유효 기간 6개월 이상)",
+      "고용 계약서(프리랜서·계약직 포함)",
+      "전문 언론인 협회 자격증(독립 제작사 직원)",
+      "미디어 기관 소속 증명 서류"
+    ],
+    "processing_note": "비자 인터뷰 필수. 신청 절차: DS-160 작성→수수료 납부→인터뷰 예약. 체류 기간 연장 불가. 동반 가족(배우자·미성년 자녀) 신청 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "R-1",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/temporary-religious-worker.html",
+    "extracted_at": "2026-05-31T05:14:57.177026+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "R-2"
+    ],
+    "visa_type": "R-1",
+    "category": "Employment",
+    "subcategory": "Religious Worker",
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 내 동일 종교단체 소속 2년 이상",
+      "목회자 또는 종교 직업 종사자",
+      "미국 비영리 종교기관 고용 계약",
+      "주당 최소 20시간 근무"
+    ],
+    "key_documents": [
+      "고용주 Form I-129 청원서",
+      "USCIS 승인서(Form I-797)",
+      "DS-160 신청서",
+      "여권 및 사진"
+    ],
+    "processing_note": "비자 신청 전 USCIS 청원 필수. 배우자/자녀 R-2 동반 가능(취업 불가). 캐나다/버뮤다 국적자 비자 면제(USCIS 청원 필요).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "CW-1_CW-2",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/employment/temporary-worker-visas.html",
+    "extracted_at": "2026-05-31T05:15:04.240682+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "CW-2"
+    ],
+    "visa_type": "CW-1/CW-2",
+    "category": "Employment",
+    "subcategory": "CNMI Transitional Worker",
+    "max_duration_months": 36,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "CNMI 지역 고용주로부터 고용 제안 필요",
+      "특정 직종(호텔, 건설, 관광업 등) 해당",
+      "학사 학위 또는 해당 분야 경험 보유"
+    ],
+    "key_documents": [
+      "고용주 Form I-129 청원서",
+      "노동조건신청서(LCA)",
+      "USCIS 승인서(Form I-797)"
+    ],
+    "processing_note": "연간 쿼터 3,555명. 연장 시 최대 3년 추가 가능(총 6년). 프리미엄 프로세싱 불가.",
+    "annual_quota": 3555,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "C-1",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/transit.html",
+    "extracted_at": "2026-05-31T05:15:09.288235+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "C-1",
+    "category": "Travel",
+    "subcategory": "Transit",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "순수 경유 목적 (관광/친목 목적 불가)",
+      "사전 예약된 일정 및 불필요한 경유 기간 없음",
+      "미국 외 최종 목적지 입국 허가 증명",
+      "체류 비용 부담 능력 또는 후원자 증명",
+      "본국 귀환 의사 증명 (고용/가족 관계 등)"
+    ],
+    "key_documents": [
+      "여권 (미국 체류 기간 +6개월 유효)",
+      "DS-160 신청서 확인 페이지",
+      "비자 신청 수수료 영수증",
+      "사진 (DS-160 업로드 또는 인쇄본)",
+      "경유 여행 일정 증명 (항공권/크루즈 티켓 등)",
+      "재정 증명 (은행 잔고/후원자 서신)"
+    ],
+    "processing_note": "비자 인터뷰 필수. 처리 기간은 신청처에 따라 상이. B 비자 보유자 또는 VWP 참여국 국민은 C-1 불필요. 경유 목적 위반 시 입국 거부 가능.",
+    "annual_quota": null,
+    "home_return_required": true
+  },
+  {
+    "visa_code": "D_Crewmember",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/crewmember-visa.html",
+    "extracted_at": "2026-05-31T05:15:13.939242+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "D",
+    "category": "Employment",
+    "subcategory": "Crewmember",
+    "max_duration_months": 2,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "상업 선박/국제 항공사 근무자",
+      "정상 운영에 필요한 서비스 제공",
+      "29일(D) 또는 180일(D-3) 내 출국 예정",
+      "고용 계약서 또는 고용주 서신 증빙"
+    ],
+    "key_documents": [
+      "DS-160 신청서",
+      "여권(6개월 이상 유효)",
+      "비자 신청비 영수증",
+      "고용주 서신(고용 및 출국 예정 증빙)",
+      "재정 능력 증명(필요 시)"
+    ],
+    "processing_note": "인터뷰 필수. C-1/D 또는 C-4/D-3 복합 비자 발급 가능. 국가별 상호주의 규정 적용. 최대 29일(D) 또는 180일(D-3) 체류.",
+    "annual_quota": null,
+    "home_return_required": true
+  },
+  {
+    "visa_code": "A-1_A-2_A-3",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visas-diplomats.html",
+    "extracted_at": "2026-05-31T05:15:19.831010+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "A-1/A-2/A-3",
+    "category": "Diplomatic",
+    "subcategory": "Diplomatic and Government Officials",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "국가 정부를 대표하여 공식 업무 수행",
+      "대사, 정부 장관, EU/AU 대표 등 특정 직위 보유",
+      "A-3 지원자의 경우 A-1/A-2 비자 소지자의 고용 계약서 및 외교 각서 제출",
+      "미국 내 비정부적 상업 활동 또는 관광 목적 제외"
+    ],
+    "key_documents": [
+      "여권 (미국 체류 기간 + 6개월 유효)",
+      "DS-160 신청서 확인 페이지 (A-1/A-2 갱신 시 DS-1648)",
+      "정부 발행 외교 각서 (공식 신분 및 방문 목적 확인)",
+      "A-3 지원자의 경우 고용 계약서 (영어 및 번역본)",
+      "주신청자의 비자 및 I-94 사본 (가족 구성원 별도 신청 시)"
+    ],
+    "processing_note": "A-1/A-2 비자 신청자는 일반적으로 인터뷰 면제. A-3 비자 신청자는 필수 인터뷰. 공식 비자 분류 시 비자 수수료 면제. 체류 기간은 임무에 따라 유동적 (TDY 표기 시 90일 이내).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "G_NATO",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visa-employees-nato.html",
+    "extracted_at": "2026-05-31T05:15:25.885993+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "G-5"
+    ],
+    "visa_type": "G-1~G-5 / NATO-1~NATO-7",
+    "category": "Diplomatic",
+    "subcategory": "International Organization/NATO Officials",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "국제기구(UN 등) 또는 NATO에서 공식 업무 수행 예정자",
+      "국제기구/NATO의 공식 초청장(외교 공문) 또는 여행 명령서 제출",
+      "G-1~G-4: 정부 대표 또는 국제기구 직원",
+      "NATO-1~NATO-6: NATO 회원국 대표 또는 국제 스태프",
+      "G-5/NATO-7: G-1~G-4 또는 NATO-1~NATO-6 비자 소지자의 개인 직원"
+    ],
+    "key_documents": [
+      "여권(유효 기간 6개월 이상)",
+      "DS-160 신청서 확인 페이지",
+      "국제기구/NATO 발급 외교 공문 또는 여행 명령서",
+      "고용 계약서(G-5/NATO-7 필수)",
+      "주 신청자의 비자 및 I-94 사본(가족 동반 시)"
+    ],
+    "processing_note": "G-1~G-4 및 NATO-1~NATO-6 비자 신청자는 일반적으로 인터뷰 면제. G-5/NATO-7은 인터뷰 필수. 공식 비자 분류(A, G, C-3, NATO) 신청자는 비자 수수료 면제. 체류 기간은 업무 기간에 따라 유동적.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "T_Trafficking",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visas-for-victims-of-human-trafficking.html",
+    "extracted_at": "2026-05-31T05:15:30.892514+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "T_Trafficking",
+    "category": "Humanitarian",
+    "subcategory": "Victims of Trafficking",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "인신매매 피해자 증명 (성매매 또는 강제 노동)",
+      "미국 내 체류 중 또는 인신매매로 인해 입국한 경우",
+      "법 집행 기관 협조 또는 면제 요건 충족",
+      "미국 입국 허가 또는 조사/기소 절차 참여"
+    ],
+    "key_documents": [
+      "Form I-914 (T 비이민자 신분 신청서)",
+      "Form I-914 Supplement A (가족 구성원 신청서)",
+      "Form I-797 (USCIS 승인 통지서)",
+      "Form DS-160 (온라인 비자 신청서)",
+      "여권 및 사진",
+      "비자 신청 수수료 영수증"
+    ],
+    "processing_note": "가족 구성원(T-2~T-6)은 대사관에서 별도 신청. 취업 및 학업 가능. 연간 5,000명 쿼터. 연장 시 Form I-539 제출 필요.",
+    "annual_quota": 5000,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "U_CrimeVictim",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/other-visa-categories/visas-for-victims-of-criminal-activity.html",
+    "extracted_at": "2026-05-31T05:15:36.814908+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "U_CrimeVictim",
+    "category": "Humanitarian",
+    "subcategory": "Victim of Criminal Activity",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국에서 발생한 범죄 또는 미국 법률 위반 범죄 피해자",
+      "중대한 정신적/신체적 피해 입음",
+      "범죄 관련 구체적이고 신뢰할 수 있는 정보 보유",
+      "수사·기소·판결에 협조했거나 할 가능성 있음(경찰 등 공식 기관 증명 필요)",
+      "미국 입국 자격 또는 면제 요건 충족"
+    ],
+    "key_documents": [
+      "Form I-918, Petition For U Nonimmigrant Status",
+      "Form I-918B, U Nonimmigrant Status Certification",
+      "Form I-918A, Petition for Qualifying Family Member of U-1 Recipient(가족 동반 시)",
+      "DS-160 온라인 비자 신청서",
+      "Form I-797, USCIS 승인 통지서",
+      "범죄 피해 및 협조 증명 서류"
+    ],
+    "processing_note": "연간 10,000명 쿼터. 가족 동반 가능(U-2~U-5). 비자 발급 후 미국 입국 시 CBP에서 최종 승인. 취업 허가 신청 가능(EAD). 체류 기간 연장 시 Form I-539 제출 필요.",
+    "annual_quota": 10000,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "EB-1_to_5",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/employment-based-immigrant-visas.html",
+    "extracted_at": "2026-05-31T05:15:43.045612+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "EB-1~EB-5",
+    "category": "Immigration",
+    "subcategory": "Employment-Based Immigrant",
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "고용주 또는 에이전트의 노동부 노동 인증서 획득 (EB-2, EB-3)",
+      "고용주의 Form I-140 청원서 제출 (EB-1~EB-3)",
+      "EB-1: 특출난 능력/국제적 명성/다국적 경영진",
+      "EB-2: 고급 학위 또는 탁월한 능력",
+      "EB-3: 숙련/비숙련 근로자",
+      "EB-4: 특정 특수 이민자 (종교인, 전직 정부 직원 등)",
+      "EB-5: 미국 신규 상업 기업에 자본 투자 및 고용 창출"
+    ],
+    "key_documents": [
+      "노동부 노동 인증서 (Labor Certification)",
+      "Form I-140 (Immigrant Petition for Alien Worker)",
+      "Form I-360 (EB-4 특수 이민자용)",
+      "Form DS-260 (Immigrant Visa Application)",
+      "여권, 출생증명서, 결혼증명서 등 민사 서류",
+      "재정 증명 (Form I-864 Affidavit of Support)",
+      "의료 검진 및 예방 접종 증명서"
+    ],
+    "processing_note": "연간 쿼터 140,000명. 우선순위 날짜 도달 시 처리. 비자 유효기간 6개월. 가족 동반 가능 (배우자 및 21세 미만 미혼 자녀). USCIS 수수료 및 NVC 처리 비용 별도",
+    "annual_quota": 140000,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "EB-5_Investor",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/immigrant-investor-visas.html",
+    "extracted_at": "2026-05-31T05:15:47.886859+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "EB-5",
+    "category": "Immigration",
+    "subcategory": "Investor",
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "최소 $500,000(타겟 지역) 또는 $1,000,000(비타겟 지역) 투자",
+      "2년 내 10개 이상의 정규직 일자리 창출",
+      "투자금은 차입 없이 조달",
+      "미국 경제 기여(상업 기업 설립/투자)"
+    ],
+    "key_documents": [
+      "Form I-526(외국인 기업가 이민 청원서)",
+      "투자 증빙 자료(은행 거래 내역, 소유권 증명 등)",
+      "일자리 창출 계획서",
+      "여권 및 DS-260 신청서",
+      "의료 검진 결과 및 예방접종 증명서"
+    ],
+    "processing_note": "연간 쿼터 7.1%(약 10,000명 중 710명). 처리 기간 변동 가능. 비자 발급 후 6개월 내 미국 입국 필요. USCIS 이민 수수료 별도 납부.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Family_IV",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration.html",
+    "extracted_at": "2026-05-31T05:15:52.309567+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Family_IV",
+    "category": "Family",
+    "subcategory": "Immediate Relative or Family Preference",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 시민권자 또는 영주권자의 직계 가족/특정 친척 관계 증명",
+      "스폰서(21세 이상 미국 시민권자 또는 영주권자) 필요",
+      "미국 시민권자: 배우자, 자녀, 부모, 형제자매 가능",
+      "영주권자: 배우자 또는 미혼 자녀만 가능"
+    ],
+    "key_documents": [
+      "이민 청원(I-130) 승인서",
+      "스폰서 관계 증명 서류(가족관계증명서 등)",
+      "재정 보증서(I-864)",
+      "USCIS 승인 후 NVC 처리 서류"
+    ],
+    "processing_note": "영구 체류 비자. 쿼터 제한 여부에 따라 처리 기간 차이. USCIS 청원 승인 후 NVC 및 대사관 인터뷰 진행.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "K-1_K-2_K-3_K-4",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration/nonimmigrant-visa-for-a-fiance-k-1.html",
+    "extracted_at": "2026-05-31T05:15:57.704099+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "K-2",
+      "K-4"
+    ],
+    "visa_type": "K-1/K-2/K-3/K-4",
+    "category": "Family",
+    "subcategory": "Fiancé(e) & Spouse",
+    "max_duration_months": 6,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "미국 시민과의 법적 결혼 가능 상태 유지",
+      "과거 2년 내 직접 만남(극단적 어려움 또는 문화적 예외 시 면제 가능)",
+      "약혼자 또는 배우자 관계 증명",
+      "미국 시민의 Form I-129F 청원 승인",
+      "범죄 기록 없음(면제 가능성 있음)"
+    ],
+    "key_documents": [
+      "Form I-129F 승인서",
+      "Form DS-160 확인서",
+      "유효한 여권(6개월 이상 유효)",
+      "출생증명서",
+      "이전 배우자 사망/이혼 증명서(해당 시)",
+      "경찰 증명서(16세 이후 6개월 이상 거주한 모든 국가)",
+      "의료 검진 결과",
+      "Form I-134 재정 지원 서약서(요청 시)",
+      "2x2 사진 2매",
+      "관계 증명 자료(사진 등)"
+    ],
+    "processing_note": "비자 신청비 및 의료 검진비 발생. K-1 비자 발급 후 90일 내 결혼 필수. K-2/K-3/K-4는 별도 신청 필요. 처리 기간은 개별 사례별로 상이.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "V_Spouse",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/family-immigration.html",
+    "extracted_at": "2026-05-31T05:16:02.300562+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "CR1/IR1 (Spouse of U.S. Citizen) or F2A (Spouse of LPR)",
+    "category": "Family",
+    "subcategory": "Spouse of U.S. Citizen/LPR",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 시민 또는 영주권자의 배우자",
+      "스폰서(배우자)가 21세 이상",
+      "영구적 거주 목적 증명",
+      "법적 결혼 관계 증명"
+    ],
+    "key_documents": [
+      "I-130 청원서 (스폰서 제출)",
+      "결혼 증명서",
+      "범죄 기록 확인서",
+      "의료 검진 보고서",
+      "DS-260 신청서"
+    ],
+    "processing_note": "미국 시민 배우자(IR1/CR1)는 쿼터 없음. 영주권 배우자(F2A)는 연간 쿼터 적용. 처리 기간 6~12개월. 조건부 영주권(CR1) 2년 후 갱신 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "DV_Lottery",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+    "extracted_at": "2026-05-31T05:16:06.884247+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "DV_Lottery",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "출생국이 최근 5년간 50,000명 이상 미국 이민자 배출하지 않은 국가",
+      "고등학교 졸업 이상 또는 2년 이상의 경력 보유",
+      "전자 등록 기간 내 신청(1인당 1회만 가능)"
+    ],
+    "key_documents": [
+      "온라인 신청서(E-DV 웹사이트)",
+      "확인 페이지 및 고유 확인 번호",
+      "이민 비자 신청서(DS-260)",
+      "여권 및 사진",
+      "출생 증명서, 결혼 증명서 등"
+    ],
+    "processing_note": "등록 무료. 추첨 후 인터뷰 진행. 연간 55,000명 쿼터. 신청 시 '비자 컨설턴트' 도움 자제 권고.",
+    "annual_quota": 55000,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Religious_IV",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/visa-religious-workers.html",
+    "extracted_at": "2026-05-31T05:16:12.195703+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "E4",
+    "category": "Immigration",
+    "subcategory": "Religious Workers",
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 내 비영리 종교 단체와 연계된 종교 단체 소속 (최소 2년)",
+      "미국에서 수행할 종교 직업/직책과 동일한 분야에서 최소 2년 이상 지속적 활동",
+      "Ministers of Religion(SD) 또는 Certain Religious Workers(SR) 자격 요건 충족",
+      "미국 종교 단체의 청원(Form I-360) 승인 필요"
+    ],
+    "key_documents": [
+      "Form I-360 청원서 (USCIS 승인)",
+      "여권 (미국 입국 예정일 기준 6개월 이상 유효)",
+      "Form DS-260 신청서",
+      "2x2 규격 사진 2매",
+      "출생증명서, 결혼증명서 등 민사 서류 (번역본 포함)",
+      "의료 검진 및 예방접종 증명서 (지정 의사 발급)"
+    ],
+    "processing_note": "연간 쿼터 제한으로 처리 기간 변동 가능. 비자 발급 후 6개월 이내 미국 입국 필요. 가족 동반 시 추가 서류 및 비용 발생.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "SIV_IraqAfghan",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/siv-iraqi-afghan-translators-interpreters.html",
+    "extracted_at": "2026-05-31T05:16:17.531850+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "SIV_IraqAfghan",
+    "category": "Humanitarian",
+    "subcategory": "Translator/Interpreter for U.S. Armed Forces",
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "이라크 또는 아프가니스탄 국적자",
+      "미군 또는 대사관(COM) 권한 하에서 최소 12개월 이상 통역사/번역자로 근무",
+      "미군 장군 또는 대사관장의 추천서 보유"
+    ],
+    "key_documents": [
+      "Form I-360 청원서",
+      "여권 또는 국적/출생 증명서(영문 번역본 포함)",
+      "12개월 이상 근무 증명 서류",
+      "미군 또는 COM의 배경 조사 증명",
+      "추천서(General/Flag Officer 또는 COM 발급)",
+      "DS-260 온라인 비자 신청서",
+      "DS-0234 특별 이민 비자 생체인식 양식"
+    ],
+    "processing_note": "연간 50명 쿼터. USCIS 승인 후 NVC 처리 및 대사관 인터뷰 필요. 서류 미비 시 1년 내 보완 필수. 비자 발급 전까지 여행/재산 처분 금지.",
+    "annual_quota": 50,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "SIV_Afghan_Gov",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/special-immg-visa-afghans-employed-us-gov.html",
+    "extracted_at": "2026-05-31T05:16:22.225480+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "SIV_Afghan_Gov",
+    "category": "Humanitarian",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 정부 또는 이를 대행한 기관에 고용된 아프가니스탄인",
+      "2025년 12월 31일까지 Chief of Mission(COM) 승인 신청",
+      "2026년 6월 5일까지 모든 지원 서류 제출"
+    ],
+    "key_documents": [
+      "COM 승인 신청서",
+      "고용 증명 서류",
+      "추가 요청 서류(Department 지정)"
+    ],
+    "processing_note": "2026년 1월 1일 이후 대통령 선언 10998로 아프가니스탄 국적자 입국 제한. COM 승인 후 비자 처리 단계에는 마감일 미적용.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "SB_Returning",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/returning-resident.html",
+    "extracted_at": "2026-05-31T05:16:27.254571+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "SB-1",
+    "category": "Immigration",
+    "subcategory": "Returning Resident",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 출발 시 합법적 영주권자(LPR) 상태",
+      "미국 재입국 의도 유지 및 포기하지 않음",
+      "해외 장기 체류가 본인 통제 불가한 사유(의료 문제, 미국 기업 고용 등)"
+    ],
+    "key_documents": [
+      "재입국 자격 신청서(Form DS-117)",
+      "영주권자 카드(Form I-551)",
+      "재입국 허가서(Re-entry Permit, 있을 경우)",
+      "해외 체류 기간 증명(항공권, 여권 스탬프 등)",
+      "미국 내 경제적·가족·사회적 유대 증명(세금 신고서 등)",
+      "통제 불가한 사유 증명(의료 기록, 고용 계약서 등)"
+    ],
+    "processing_note": "비자 신청 시 DS-117 심사 및 영사관 인터뷰 필수. DS-260 신청, 의료 검진, 사진 등 추가 서류 필요. 처리 기간 3개월 이상 권장.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Refugee_Asylee",
+    "source_url": "https://travel.state.gov/content/travel/en/us-visas/immigrate/follow-to-join-refugees-and-asylees.html",
+    "extracted_at": "2026-05-31T05:16:32.931766+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Refugee_Asylee",
+    "category": "Humanitarian",
+    "subcategory": "Family Reunification",
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "미국 내 난민 또는 망명자(신청인)의 배우자 또는 미혼 자녀",
+      "Form I-730(난민/망명자 친척 청원) 승인",
+      "신청인 도착 후 2년 이내 청원 제출",
+      "미국 입국 자격 요건 충족(범죄 기록 등 결격 사유 없음)"
+    ],
+    "key_documents": [
+      "Form I-730(난민/망명자 친척 청원) 승인서",
+      "출생증명서 또는 결혼증명서(관계 증명)",
+      "여권 및 여행 서류",
+      "의료 검진 보고서(대사관 승인 의사 발급)",
+      "사진 6매(규격 준수)",
+      "영문 번역본(영문 외 문서)"
+    ],
+    "processing_note": "처리 기간 예측 불가. 난민 수혜자는 IOM(국제이주기구)을 통한 여행 필수. 망명자 수혜자는 직접 여행 예약. 수수료 없음. 대사관 또는 USCIS 국제 사무소와 직접 연락 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  }
+]

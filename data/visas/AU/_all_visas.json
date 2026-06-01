@@ -1,0 +1,93 @@
+[
+  {
+    "visa_code": "500_Student",
+    "source_url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500",
+    "extracted_at": "2026-05-30T15:37:32.999757+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Subclass 500",
+    "category": "Student",
+    "subcategory": null,
+    "max_duration_months": 72,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "호주에서 학업 과정에 등록",
+      "유효한 등록 확인서(CoE) 보유",
+      "해외 학생 건강 보험(OSHC) 보유",
+      "6세 이상"
+    ],
+    "key_documents": [
+      "유효한 여권",
+      "등록 확인서(CoE)",
+      "OSHC 증명서",
+      "재정 증명",
+      "영어 능력 증명 (IELTS/TOEFL 등)"
+    ],
+    "processing_note": "비용은 AUD710부터 시작. 면제 대상자는 제외.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "482_SID",
+    "source_url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skills-in-demand-visa-subclass-482",
+    "extracted_at": "2026-05-30T15:37:36.998792+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Skills in Demand visa (subclass 482)",
+    "category": "Employment",
+    "subcategory": "Core Skills Stream, Specialist Skills Stream, Labour Agreement Stream",
+    "max_duration_months": 48,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "승인된 스폰서에 의해 기술 직위에 지명되어야 함",
+      "직무 수행에 필요한 적절한 기술 보유",
+      "관련 영어 능력 요건 충족"
+    ],
+    "key_documents": [
+      "스폰서십 지명서",
+      "기술 평가서",
+      "영어 능력 증명서",
+      "여권"
+    ],
+    "processing_note": "최대 4년 체류 가능. 스폰서 승인 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "189_SkilledInd",
+    "source_url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-independent-189",
+    "extracted_at": "2026-05-30T15:37:40.587276+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Skilled Independent visa (subclass 189)",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "45세 이하 초청 필요",
+      "기술 평가 필요",
+      "영어 능력 증명 필요"
+    ],
+    "key_documents": [
+      "기술 평가서",
+      "Expression of Interest (SkillSelect)",
+      "초청장",
+      "여권",
+      "영어 능력 증명",
+      "건강 및 인품 요건"
+    ],
+    "processing_note": "비용: AUD4,910. 영구 체류 비자.",
+    "annual_quota": null,
+    "home_return_required": null
+  }
+]

@@ -1,0 +1,5 @@
+# .github/ISSUE_TEMPLATE/config.yml
+blank_issues_enabled: false # 자유 양식 작성을 막고 템플릿 선택을 유도함
+contact_links:
+  - name: "PR 컨벤션 가이드"
+    about: "노션의 PR 작성 규칙을 준수해주세요."

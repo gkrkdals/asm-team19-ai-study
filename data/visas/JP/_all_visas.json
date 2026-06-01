@@ -1,0 +1,326 @@
+[
+  {
+    "visa_code": "All_Status_Index",
+    "source_url": "https://www.moj.go.jp/isa/applications/status/index.html",
+    "extracted_at": "2026-05-31T05:18:25.288330+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "All_Status_Index",
+    "category": "Employment",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": null,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "일본에서 수행할 활동 내용에 따른 재류자격 충족 필요",
+      "기술·인문지식·국제업무 분야 해당 직종 종사",
+      "신분/지위에 따른 요건(배우자·자녀 등) 충족"
+    ],
+    "key_documents": [
+      "재류자격 인정증명서(在留資格認定証明書)",
+      "고용계약서 또는 활동 계획서",
+      "신분 증명 서류(결혼증명서 등)"
+    ],
+    "processing_note": null,
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Zairyu_Certificate",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-1.html",
+    "extracted_at": "2026-05-31T05:18:29.775288+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "HighlySkilled_dep",
+      "Worker_dep",
+      "Student_dep"
+    ],
+    "visa_type": "Zairyu_Certificate",
+    "category": "Immigration",
+    "subcategory": "Pre-Arrival Residence Certification",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "일본 입국 목적(취업, 유학 등)에 부합하는 재류자격 보유",
+      "수용 기관(고용주/학교 등)의 공식 초청 또는 지원 필요",
+      "신청인 본인 또는 지정된 대리인(변호사/행정서사 등)을 통한 접수"
+    ],
+    "key_documents": [
+      "재류자격인증서 신청서",
+      "여권 사본",
+      "수용 기관의 초청장 또는 고용계약서",
+      "활동 내용 증명 서류(학위증, 경력증명서 등)",
+      "대리인 신청 시 신분증 및 위임장"
+    ],
+    "processing_note": "대면 접수 필수(접수처: 관할 지방출입국재류관리청). 처리 기간 2~3주. 온라인 신청 불가. 재류자격 종류에 따라 추가 서류 요구 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Status_Change",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-2.html",
+    "extracted_at": "2026-05-31T05:18:34.168910+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Status_Change",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "일본 내 체류 중인 외국인 본인 또는 법적 대리인",
+      "변경하려는 재류자격에 따른 활동 내용 충족",
+      "18세 이상 성인 또는 대리인 위임 필요 (16세 미만/질병 등 예외 적용)"
+    ],
+    "key_documents": [
+      "재류자격 변경 허가 신청서",
+      "수수화 납부서 (PDF/Excel)",
+      "변경 예정 활동 내용 증명 서류",
+      "대리인 위임장 (해당 시)"
+    ],
+    "processing_note": "평일 09:00-12:00, 13:00-16:00 접수. 관할 지방입국재류관리국에 제출. 재류자격별 추가 서류 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Period_Extension",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-3.html",
+    "extracted_at": "2026-05-31T05:18:41.016743+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Period_Extension",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "일본 내 합법적 체류 자격 유지",
+      "체류기간 갱신 요건 충족 (활동 내용·재정 상태 등)",
+      "18세 이상 본인 직접 신청 또는 대리인 신청 가능"
+    ],
+    "key_documents": [
+      "체류기간 갱신 신청서",
+      "여권 및 재류카드",
+      "활동 내용 증명 서류 (재직증명서, 재학증명서 등)",
+      "재정 증명 서류",
+      "수수료 납부서"
+    ],
+    "processing_note": "신청은 관할 지방입국재류관리국에서 평일 9시~12시, 13시~16시 접수. 대리인 신청 가능. 18세 미만 또는 질병 등으로 본인 출두 불가 시 친족·동거인 등 대리 신청 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Permanent_Residence",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-4.html",
+    "extracted_at": "2026-05-31T05:18:45.245143+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Permanent Residence",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "독립적 생계 유지 가능한 자산 또는 기술 보유",
+      "영주가 일본 국익에 부합한다고 인정",
+      "일본인/영주자/특별영주자 배우자 또는 그 직계비속",
+      "정주자(定住者) 자격 보유자",
+      "기술·인문지식·국제업무 등 취업 자격 또는 가족 체류 자격 보유자",
+      "고도인재 또는 특별고도인재 해당"
+    ],
+    "key_documents": [
+      "영주권 신청서(永住許可申請書)",
+      "여권 및 재류카드",
+      "소득 증명(세금 납부 증명 등)",
+      "가족 관계 증명(일본인/영주자 배우자 증명 등)",
+      "고용 계약서 또는 사업자 등록 증명",
+      "고도인재 포인트 증명서(해당 시)"
+    ],
+    "processing_note": "거주지 관할 지방출입국재류관리청에서 신청. 평일 9시~12시, 13시~16시 접수. 온라인 신청 불가. 심사 기간 및 수수료 별도 확인 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Outside_Status_Work",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-8.html",
+    "extracted_at": "2026-05-31T05:18:51.053312+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Outside_Status_Work",
+    "category": "Employment",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "현재 보유 중인 재류자격과 다른 활동 수행 필요",
+      "소속 기관(고용주/교육기관/공익법인)의 승인 또는 계약서 필요",
+      "특정 재난 상황(능登반파 호우 등)으로 인한 활동 제한 시 특별 조치 적용 가능"
+    ],
+    "key_documents": [
+      "자격외활동허가신청서(PDF/Excel 형식)",
+      "활동 내용 증명 서류(고용계약서, 교육기관 증명서 등)",
+      "재류카드 사본(본인 또는 대리인 제출 시)",
+      "재난 관련 설명서(해당 시)"
+    ],
+    "processing_note": "신청은 관할 지방출입국재류관리청에서 평일 9시~12시, 13시~16시 접수. 처리 시간은 별도 문의 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Work_Qualification",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-9.html",
+    "extracted_at": "2026-05-31T05:18:57.774962+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Work_Qualification",
+    "category": "Employment",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": null,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "해당 비자 기본 요건 충족 필요",
+      "일본 기업 고용 계약 또는 활동 목적 증명"
+    ],
+    "key_documents": [
+      "재류자격 인정증명서(在留資格認定証明書)",
+      "고용계약서 또는 활동 계획서",
+      "여권 및 신청서"
+    ],
+    "processing_note": "일본 입국관리청(地方出入国在留管理官署) 또는 외국인 종합정보센터(0570-013904)에 문의 필요. 평일 9시~12시, 13시~16시 운영.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Status_Acquisition",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/16-10.html",
+    "extracted_at": "2026-05-31T05:19:05.031575+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Status_Acquisition",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": true,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "일본 체류 목적(취업, 유학 등)에 부합하는 재류자격 선택",
+      "신청인 본인 또는 법적 대리인/기관 직원 등 지정 대리인 제출",
+      "16세 미만 또는 질병 등으로 본인 출두 불가 시 친족/동거인 등 대리인 지정",
+      "일본 내 실제 체류 요건 충족(취차자 신청 시)"
+    ],
+    "key_documents": [
+      "재류자격별 신청서 및 증빙 서류",
+      "여권 및 사진",
+      "체류 목적 증명 자료(고용계약서, 재학증명서 등)",
+      "대리인 신청 시 위임장 및 대리인 신분증"
+    ],
+    "processing_note": "관할 지방입국재류관리국에 평일 9시~12시, 13시~16시 방문 신청. 재류자격별 제출 서류 상이하므로 사전 확인 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Online_Procedures",
+    "source_url": "https://www.moj.go.jp/isa/applications/online/onlineprocedures.html",
+    "extracted_at": "2026-05-31T05:19:11.317903+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Online_Procedures",
+    "category": "Travel",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": null,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "해당 비자 기본 요건 충족 필요"
+    ],
+    "key_documents": [
+      "여권",
+      "온라인 신청서",
+      "재류자격 증명서(해당 시)"
+    ],
+    "processing_note": "일본 입국관리청 온라인 절차 페이지. 비자별 상세 정보는 별도 확인 필요",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Zairyu_Card_Info",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/whatzairyu_00001.html",
+    "extracted_at": "2026-05-31T05:19:18.016145+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Zairyu_Card_Info",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": null,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "중장기 재류자(1년 이상 체류)",
+      "출입국재류관리청 장관의 재류 자격 및 기간 허가 취득",
+      "1세 이상 시 얼굴 사진 부착(2026년 6월 14일 이후 발급 시)"
+    ],
+    "key_documents": [
+      "재류카드(在留カード)",
+      "특정재류카드(特定在留カード, 2026년 6월 14일 이후)",
+      "특별영주자증명서(特別永住者証明書)"
+    ],
+    "processing_note": "2026년 6월 14일 이후 발급 시 마이넘버 카드 기능 추가. 기재 사항 변경 시 변경 신고 의무. 1세 이상자 사진 부착.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Specified_Skilled_Info",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/nyuukokukanri07_00262.html",
+    "extracted_at": "2026-05-31T05:19:21.520800+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "特定技能",
+    "category": "Employment",
+    "subcategory": "Specified Skilled Worker",
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "특정 기술 분야(14개 업종) 해당",
+      "일본어 능력(N4 이상) 또는 기술 평가 시험 합격",
+      "일본 기업과의 고용 계약 체결"
+    ],
+    "key_documents": [
+      "재류자격 인정증명서(在留資格認定証明書)",
+      "고용계약서",
+      "기술 평가 증명서",
+      "여권 및 사진"
+    ],
+    "processing_note": "최대 5년 체류 가능(갱신 가능). 업종별 기술 평가 필수. 스폰서 기업 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  }
+]

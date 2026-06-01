@@ -1,0 +1,136 @@
+[
+  {
+    "visa_code": "Visa_for_Germany",
+    "source_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/606848-606848",
+    "extracted_at": "2026-05-31T05:17:59.231811+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "BlueCard_dep"
+    ],
+    "visa_type": "Visa for Germany (독일 비자 종합: 단기·학생·취업·블루카드)",
+    "category": "Travel",
+    "subcategory": null,
+    "max_duration_months": 12,
+    "is_renewable": false,
+    "requires_sponsor": true,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "유효한 여권 소지 (체류 종료일 기준 3개월 이상 유효, 발급 후 10년 이내)",
+      "체류 목적 및 상황 증명 서류 제출 (관광·비즈니스 등)",
+      "체류 기간 중 생활비 및 귀국 비용 충분 증명",
+      "건강 보험 가입 (귀국 시 치료비 포함)"
+    ],
+    "key_documents": [
+      "여권 (유효 기간 3개월 이상, 발급 후 10년 이내)",
+      "체류 목적 증명 서류 (초대장 등)",
+      "재정 증명 (은행 잔고 등)",
+      "건강 보험 증명",
+      "비자 신청서 (해당 시)"
+    ],
+    "processing_note": "90일 초과 체류 시 학생·취업 비자 필요. EU 시민은 비자 불필요. 비자 신청 시 체류 목적·재정 증명 필수. 처리 기간은 개별 사례별 상이.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Working_Living_DE",
+    "source_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/606852-606852",
+    "extracted_at": "2026-05-31T05:18:04.197997+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "SkillWork_dep",
+      "FamilyReunion_dep"
+    ],
+    "visa_type": "Working and Living in Germany",
+    "category": "Employment",
+    "subcategory": "Highly-Qualified Workers",
+    "max_duration_months": 72,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "EU 블루카드 요건 충족 (학사 학위 이상 + 연소득 56,400유로 이상)",
+      "IT·자연과학·의학 분야 연소득 43,992유로 이상",
+      "구직비자 요건 (학위 증명 + 체류 비용 자립 증명)",
+      "자영업 비자 요건 (사업 타당성·자금 증명 + 45세 이상 시 노후 자금 증명)"
+    ],
+    "key_documents": [
+      "학위 증명서 (EU 블루카드·구직비자)",
+      "고용계약서 (EU 블루카드·취업비자)",
+      "재정 증명 (구직비자·자영업 비자)",
+      "사업 계획서 (자영업 비자)",
+      "소득 증명 (EU 블루카드)"
+    ],
+    "processing_note": "EU 블루카드: 33개월 후 영주권 신청 가능. 언어 능력 증명 시 21개월로 단축. 구직비자 최대 6개월 체류 가능. 자영업 비자 초기 3년, 성공 시 연장 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Studying_DE",
+    "source_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/606850-606850",
+    "extracted_at": "2026-05-31T05:18:09.147357+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "Student_dep"
+    ],
+    "visa_type": "Student Visa (Type D)",
+    "category": "Student",
+    "subcategory": "Higher Education",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "독일 대학 입학 허가 증명",
+      "체류 기간 동안 충분한 재정 증명 (부모 소득, 보증인, 장학금 등)",
+      "독일어 또는 영어 능력 (대학 요구 조건 충족)"
+    ],
+    "key_documents": [
+      "대학 입학 허가서",
+      "재정 증명 서류 (봉급명세서, 장학금 증명서, 차단계좌 증명 등)",
+      "여권 및 신청서",
+      "가족 동반 시 결혼 증명서 및 부양 능력 증명"
+    ],
+    "processing_note": "비자 신청 시 현지 독일 대사관 승인 필요. 체류 중 연간 120일(풀타임) 또는 240일(파트타임) 취업 가능. 가족 동반 시 1년 이상 체류 예상 및 재정 증명 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Citizenship_DE",
+    "source_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/606854-606854",
+    "extracted_at": "2026-05-31T05:18:18.784097+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "German Settlement & Citizenship (영주·시민권)",
+    "category": "Immigration",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": null,
+    "requires_sponsor": null,
+    "work_authorized": null,
+    "eligibility_criteria": [
+      "부모 중 1인이 독일 국적자여야 함 (미혼 부계 시 법적 인지 필요)",
+      "2000년 1월 1일 이후 해외에서 출생한 독일인 자녀는 출생 후 1년 이내 독일 영사관에 출생 신고 필수",
+      "배우자가 독일 국적자일 경우 3년 이상 합법적 거주 및 2년 이상 혼인 유지 시 귀화 가능",
+      "2000년 1월 1일 이후 독일에서 출생한 자녀는 부모 중 1인이 8년 이상 합법적 거주 및 영구 체류권 보유 시 독일 국적 취득 가능 (18~23세 사이 국적 선택 필요)",
+      "독일 외 거주자도 독일어 능력·독일 연계성·생계 유지 능력 증명 시 귀화 가능",
+      "외국 국적 취득 시 독일 국적 자동 상실 (EU/스위스 국적 제외, 사전 보유 허가 시 예외)",
+      "나치 박해로 국적 박탈된 자 및 그 후손은 재국적 권리 보유 (독일어 능력 증명 불필요)"
+    ],
+    "key_documents": [
+      "출생 신고서 (해외 출생 시 1년 이내 제출)",
+      "혼인 증명서 (배우자 귀화 시)",
+      "거주 증명서 (8년 이상 체류 증명)",
+      "영구 체류권 증명서",
+      "독일어 능력 증명서 (일반 귀화 시)",
+      "생계 유지 능력 증명서",
+      "나치 박해 관련 증거 자료 (재국적 신청 시)"
+    ],
+    "processing_note": "국적 취득·상실·회복 절차는 거주지 관할 독일 관청 또는 영사관에 문의 필요. 신청 시 수수료 발생. 이중국적 허용 조건 확인 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  }
+]

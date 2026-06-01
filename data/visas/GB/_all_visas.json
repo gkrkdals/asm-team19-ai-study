@@ -1,0 +1,492 @@
+[
+  {
+    "visa_code": "Standard_Visitor",
+    "source_url": "https://www.gov.uk/standard-visitor",
+    "extracted_at": "2026-05-31T05:16:38.561753+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Standard Visitor visa",
+    "category": "Travel",
+    "subcategory": "Visitor",
+    "max_duration_months": 6,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "관광·비즈니스·6개월 이하 학습 목적",
+      "체류 기간 전체 유효한 여권 소지",
+      "체류 비용 및 귀국 비용 부담 능력 증명",
+      "영국 장기 체류 목적 없음 증명",
+      "의료 목적 등 특정 조건 시 추가 요건 충족"
+    ],
+    "key_documents": [
+      "여권 또는 여행 증명서",
+      "체류 비용 및 귀국 비용 증명 서류",
+      "비자 신청서(필요 시)",
+      "의료 목적 방문 시 관련 증빙 서류"
+    ],
+    "processing_note": "비자 필요 여부는 국적에 따라 다름. 온라인 신청 시 £135. 3개월 전부터 신청 가능. 장기 비자(2, 5, 10년) 선택 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Student",
+    "source_url": "https://www.gov.uk/student-visa",
+    "extracted_at": "2026-05-31T05:16:43.848872+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "Student_dep"
+    ],
+    "visa_type": "Student",
+    "category": "Student",
+    "subcategory": null,
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "16세 이상",
+      "영국 허가 교육기관의 입학 허가서 보유",
+      "체류 비용 및 학비 충당 가능한 재정 증명",
+      "영어 능력(읽기·쓰기·말하기·듣기) 증명",
+      "16-17세 경우 부모 동의서 제출"
+    ],
+    "key_documents": [
+      "입학 허가서(licensed student sponsor 발급)",
+      "재정 증명 서류",
+      "영어 능력 증명(TOEFL/IELTS 등)",
+      "부모 동의서(16-17세)",
+      "여권 및 신청서"
+    ],
+    "processing_note": "신청비 £558. 처리 기간: 영국 외 3주/내 8주. 건강보험 추가 납부 필수. 체류 기간은 과정 수준에 따라 24-60개월. 졸업 후 Graduate visa로 전환 가능(최대 3년).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Graduate",
+    "source_url": "https://www.gov.uk/graduate-visa",
+    "extracted_at": "2026-05-31T05:16:47.983415+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Graduate",
+    "category": "Employment",
+    "subcategory": "Post-Study Work",
+    "max_duration_months": 24,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "영국 학사/석사/박사 또는 기타 적격 과정 이수",
+      "Student/Tier 4 (General) 비자 소지자",
+      "교육기관이 홈오피스에 졸업 확인 통보 완료",
+      "영국 내에서 신청"
+    ],
+    "key_documents": [
+      "교육기관의 졸업 확인서",
+      "신분 증명 서류",
+      "여권",
+      "비자 신청서"
+    ],
+    "processing_note": "신청비 £937 + 건강보험료 £1,035/년. 8주 내 처리. 공공의료 종사자 시 Health and Care Worker 비자 신청 가능(수수료 감면).",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Skilled_Worker",
+    "source_url": "https://www.gov.uk/skilled-worker-visa",
+    "extracted_at": "2026-05-31T05:16:53.528078+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "Skilled_Worker_dep"
+    ],
+    "visa_type": "Skilled Worker",
+    "category": "Employment",
+    "subcategory": "Specialty Occupation",
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "영국 내 승인된 고용주로부터 Certificate of Sponsorship(CoS) 발급",
+      "적격 직업 목록(eligible occupations)에 포함된 직무 수행",
+      "최소 급여 요건 충족(직무 유형 및 CoS 발급일 기준)",
+      "영어 능력 증명(읽기·쓰기·말하기·이해)",
+      "체류 기간별 개인 저축 증명"
+    ],
+    "key_documents": [
+      "Certificate of Sponsorship(CoS)",
+      "고용 계약서",
+      "영어 능력 증명 서류",
+      "재정 증명(저축)",
+      "여권 및 신원 증명 서류"
+    ],
+    "processing_note": "신청 비용·의료보험 부담금(healthcare surcharge) 필수. 의사·간호사 등은 Health and Care Worker 비자 신청 가능(비용 감면). 처리 기간: 영국 외 3주, 영국 내 8주. 긴급 처리 옵션 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Global_Talent",
+    "source_url": "https://www.gov.uk/global-talent",
+    "extracted_at": "2026-05-31T05:16:58.855875+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [
+      "Global_Talent_dep"
+    ],
+    "visa_type": "Global_Talent",
+    "category": "Employment",
+    "subcategory": "Leader or Potential Leader in Academia/Arts/Digital Tech",
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "학술·연구, 예술·문화, 디지털 기술 분야 리더 또는 잠재적 리더",
+      "18세 이상",
+      "추천서 획득 또는 지정 권위상 수상",
+      "해당 분야 전문가로서의 실적 증명"
+    ],
+    "key_documents": [
+      "여권",
+      "추천서(Endorsement) 또는 권위상 수상 증명",
+      "신분 증명 서류",
+      "재정 증명(필요 시)"
+    ],
+    "processing_note": "신청 비용 £766. 처리 기간: 영국 외 3주/내 8주. 건강 보험 추가 비용 £1,035/년. 가족 동반 시 각각 £766 추가.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "HPI",
+    "source_url": "https://www.gov.uk/high-potential-individual-visa",
+    "extracted_at": "2026-05-31T05:17:03.213115+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "High Potential Individual visa",
+    "category": "Employment",
+    "subcategory": "High Potential Individual",
+    "max_duration_months": 24,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "최근 5년 이내 지정 대학 학위 취득",
+      "박사 학위 소지 시 최대 3년 체류 가능",
+      "영국 내 다른 비자로 전환 가능 (예: Skilled Worker visa)"
+    ],
+    "key_documents": [
+      "학위 증명서",
+      "개인 저축 증명",
+      "여권 및 신원 증명 서류"
+    ],
+    "processing_note": "온라인 신청 필수. 신청 시기: 여행 3개월 전. 처리 기간: 영국 외 3주/영국 내 8주. 신청비 및 건강보험료 납부 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Innovator_Founder",
+    "source_url": "https://www.gov.uk/innovator-founder-visa",
+    "extracted_at": "2026-05-31T05:17:08.820450+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Innovator_Founder",
+    "category": "Employment",
+    "subcategory": "Innovative Business Founder",
+    "max_duration_months": 36,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "영국에서 혁신적 사업 설립·운영 목적",
+      "승인 기관(Endorsing Body)의 보증 획득",
+      "사업 아이디어의 신규성·혁신성·성장 가능성·확장성 증명",
+      "영어 능력 증명(읽기, 쓰기, 말하기, 듣기)"
+    ],
+    "key_documents": [
+      "승인 기관의 보증서(Endorsement Letter)",
+      "사업 계획서(Business Plan)",
+      "영어 능력 증명 서류",
+      "재정 증명(사업 자금)",
+      "여권 및 신원 증명 서류"
+    ],
+    "processing_note": "영국 외 신청 시 3주, 영국 내 신청 시 8주 소요. 신청비: 영국 외 £1,357, 영국 내 £1,693. 보증 획득 비용 £1,000 추가. 12개월·24개월 차에 보증 기관과 진행 상황 점검 필수.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Scale_Up",
+    "source_url": "https://www.gov.uk/scale-up-worker-visa",
+    "extracted_at": "2026-05-31T05:17:13.775424+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Scale_Up",
+    "category": "Employment",
+    "subcategory": "Scale-up Business Worker",
+    "max_duration_months": 24,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "승인된 스케일업 기업(Scale-up Business)의 6개월 이상 고용 제안",
+      "인증서(Certificate of Sponsorship) 소지",
+      "적격 직업 목록(Eligible Occupations) 해당 직무",
+      "최소 급여 기준 충족",
+      "영어 능력 증명(읽기·쓰기·말하기·듣기)"
+    ],
+    "key_documents": [
+      "인증서(Certificate of Sponsorship)",
+      "고용 계약서",
+      "영어 능력 증명 서류",
+      "재정 증명(최소 개인 저축액)"
+    ],
+    "processing_note": "신청비 £937 + 건강보험료. 처리 기간: 영국 외 3주/내 8주. 6개월 내 고용주 변경 시 비자 업데이트 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Senior_Specialist",
+    "source_url": "https://www.gov.uk/senior-specialist-worker-visa",
+    "extracted_at": "2026-05-31T05:17:18.571037+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Senior or Specialist Worker visa",
+    "category": "Employment",
+    "subcategory": "Intra-company Transfer",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "Home Office 승인 스폰서 기업 소속 직원",
+      "고용주 발급 인증서(Certificate of Sponsorship) 소지",
+      "적격 직종(Eligible Occupations) 해당",
+      "연봉 £52,500 이상(£73,900 이상 시 체류기간 연장 가능)"
+    ],
+    "key_documents": [
+      "재류허가 인증서(Certificate of Sponsorship)",
+      "고용계약서",
+      "연봉 증명 서류",
+      "스폰서 기업 승인 증명"
+    ],
+    "processing_note": "온라인 신청 필수. 신청비·의료보험료·개인 저축 증명 필요. 처리 기간: 영국 외 3주/내 8주. 프리미엄 프로세싱 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Temporary_Worker_Index",
+    "source_url": "https://www.gov.uk/browse/visas-immigration/work-visas",
+    "extracted_at": "2026-05-31T05:17:23.163230+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Temporary Worker visas",
+    "category": "Employment",
+    "subcategory": "Seasonal/Creative/Religious/Government-Authorised Temporary Work",
+    "max_duration_months": 24,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "영국 정부 또는 공인 기관의 스폰서 확보",
+      "해당 분야(계절·창작·종교·교환 등)의 취업 제안",
+      "최소 영어 능력 요건 충족(해당 시)"
+    ],
+    "key_documents": [
+      "스폰서 기관의 승인서",
+      "고용 계약서 또는 초청장",
+      "여권 및 재정 증명 서류",
+      "영어 능력 증명(해당 시)"
+    ],
+    "processing_note": "최대 2년 체류 가능. 스폰서 필수. 비자 유형에 따라 추가 요건 적용 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Health_Care_Worker",
+    "source_url": "https://www.gov.uk/health-care-worker-visa",
+    "extracted_at": "2026-05-31T05:17:28.754237+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Health and Care Worker",
+    "category": "Employment",
+    "subcategory": "Medical Professionals",
+    "max_duration_months": 60,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "의사, 간호사, 보건 전문가 또는 성인 사회 복지 전문가 자격 보유",
+      "NHS, NHS 공급업체 또는 성인 사회 복지 분야에서 근무",
+      "영국 정부 승인 고용주로부터 취업 제안 및 Certificate of Sponsorship 발급",
+      "최소 급여 요건 충족 (직무 유형에 따라 상이)",
+      "영어 능력 증명 (읽기, 쓰기, 듣기, 말하기)"
+    ],
+    "key_documents": [
+      "Certificate of Sponsorship (CoS)",
+      "고용 계약서",
+      "자격 증명서 (의사/간호사 면허 등)",
+      "영어 능력 증명 서류 (IELTS 등)",
+      "재정 증명 (개인 저축)"
+    ],
+    "processing_note": "신청 비용: 1인당 £204~£247. 처리 기간: 3주. 의료부담금 면제. 비자 시작일부터 NHS 무료 이용 가능. 추가 작업 또는 고용주 변경 시 비자 업데이트 필요.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Minister_Religion",
+    "source_url": "https://www.gov.uk/minister-of-religion-visa",
+    "extracted_at": "2026-05-31T05:17:34.099104+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "T2 Minister of Religion",
+    "category": "Employment",
+    "subcategory": "Religious Worker",
+    "max_duration_months": 37,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "영국 내 종교 공동체(종교 지도자, 선교사, 종교 단체 구성원 등)에서 취업 제안",
+      "스폰서 기관(라이선스 보유)의 고용 계약 및 증명서 발급",
+      "최소 급여 요건 충족(고용주가 제공)",
+      "5년 후 영주권(ILR) 신청 가능"
+    ],
+    "key_documents": [
+      "스폰서십 증명서(Certificate of Sponsorship)",
+      "고용 계약서",
+      "재정 증명(급여 내역)",
+      "종교 단체 소속 증명 서류"
+    ],
+    "processing_note": "영국 외 신청 시 3주 내 처리. 영국 내 연장/전환 시 £819(표준), £943(우선 처리). 생체 정보 수집(지문·사진) 필수. 의료 부담금(Healthcare Surcharge) 추가 납부.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Family",
+    "source_url": "https://www.gov.uk/uk-family-visa",
+    "extracted_at": "2026-05-31T05:17:39.477089+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Family Visa",
+    "category": "Family",
+    "subcategory": null,
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": true,
+    "work_authorized": false,
+    "eligibility_criteria": [
+      "영국 내 가족 구성원(배우자/파트너/약혼자/간병인)과 동거 목적",
+      "영국 체류 기간 충족 후 영주권(ILR) 신청 가능",
+      "재정적 요건 충족(수수료 납부 또는 면제 조건)"
+    ],
+    "key_documents": [
+      "가족 관계 증명 서류",
+      "재정 증명(은행 거래 내역 등)",
+      "의료 보험 추가료(Healthcare Surcharge) 납부 증명",
+      "간병인 비자 시 보호자 재류 자격 증명"
+    ],
+    "processing_note": "수수료: £1,407~£3,635. 의료 추가료: £1,940~£5,175. 슈퍼 프라이어리티 서비스(£1,000 추가)로 신속 처리 가능. 단, 간병인 비자 제외.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "ILR",
+    "source_url": "https://www.gov.uk/indefinite-leave-to-remain",
+    "extracted_at": "2026-05-31T05:17:43.460925+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "ILR",
+    "category": "Immigration",
+    "subcategory": "Permanent Residence",
+    "max_duration_months": null,
+    "is_renewable": false,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "5년 이상 영국 거주 (취업·가족·기타 경로별 상이)",
+      "10년 연속 거주 (사적 생활 기반 비자 소지자)",
+      "영국 혈통 비자(UK Ancestry visa) 5년 거주",
+      "난민·인도적 보호·재량적 체류(Discretionary Leave) 소지자",
+      "영국군 복무 경력자",
+      "무국적자 체류 허가 소지자"
+    ],
+    "key_documents": [
+      "거주 기간 증명 서류 (비자 기록, 세금 납부 증명 등)",
+      "가족 관계 증명 (가족 경로 시)",
+      "고용 계약서 (취업 경로 시)",
+      "난민/인도적 보호 증명 서류 (해당 시)",
+      "군 복무 증명 (해당 시)"
+    ],
+    "processing_note": "영주권 취득 후 시민권 신청 가능. Windrush 제도 적용 가능자 확인 필요. 신청 경로는 비자 유형에 따라 상이.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "BNO",
+    "source_url": "https://www.gov.uk/british-national-overseas-bno-visa",
+    "extracted_at": "2026-05-31T05:17:47.970622+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "BNO",
+    "category": "Immigration",
+    "subcategory": "British National (Overseas)",
+    "max_duration_months": 30,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "홍콩 출신 영국 해외국민(BNO) 또는 1979년 7월 1일 이후 출생한 BNO 자녀",
+      "18세 이상",
+      "영구 거주지 조건 충족(영국 외 신청 시 홍콩, 영국 내 신청 시 영국·채널제도·맨섬·홍콩)"
+    ],
+    "key_documents": [
+      "BNO 여권 또는 BNO 부모 증명 서류",
+      "가족 관계 증명 서류(해당 시)",
+      "거주 증명 서류(임대계약서 등)"
+    ],
+    "processing_note": "초기 체류 기간 30개월. 영국 내 연장 무제한 가능. 5년 후 영주권 신청 가능. 스포츠인·코치 취업 불가. 특정 조건 시 복지 혜택 접근 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  },
+  {
+    "visa_code": "Ukraine_Scheme",
+    "source_url": "https://www.gov.uk/guidance/ukrainian-nationals-in-the-uk-visa-support",
+    "extracted_at": "2026-05-31T05:17:52.476865+00:00",
+    "is_derivative": false,
+    "parent_visa_code": null,
+    "dependent_visas": [],
+    "visa_type": "Ukraine_Scheme",
+    "category": "Humanitarian",
+    "subcategory": "Ukraine Permission Extension",
+    "max_duration_months": null,
+    "is_renewable": true,
+    "requires_sponsor": false,
+    "work_authorized": true,
+    "eligibility_criteria": [
+      "기존 Ukraine Scheme 허가자",
+      "UPE 신청 요건 충족",
+      "BRP 소지자 또는 관련 서류 보유"
+    ],
+    "key_documents": [
+      "BRP(생체정보 거주허가증)",
+      "기존 Ukraine Scheme 허가 증명",
+      "UPE 신청서"
+    ],
+    "processing_note": "BRP는 UPE 신청 시 필수. 방문자·Skilled Worker·Student 등은 별도 비자 규정 적용. Seasonal Worker는 동일 스폰서 하에서만 근무 가능.",
+    "annual_quota": null,
+    "home_return_required": null
+  }
+]
