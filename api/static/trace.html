@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VisaGuide AI · 워크플로우 실시간 트레이스</title>
+<style>
+  :root {
+    --bg:#0f1420; --panel:#18202f; --line:#2b3648; --text:#e6edf3; --muted:#93a1b5;
+    --accent:#4f9dff; --ok:#3fb950; --warn:#d29922; --idle:#3a455a; --err:#f85149;
+    --llm:#a371f7; --vdb:#3fb950; --web:#4f9dff; --rule:#d29922; --state:#8b98ad;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-size:14px; line-height:1.5;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+  header { padding:13px 22px; border-bottom:1px solid var(--line); display:flex; align-items:center;
+    gap:10px; flex-wrap:wrap; background:linear-gradient(180deg,#131a28,#0f1420); }
+  header .title { font-size:17px; font-weight:800; }
+  header .badge { font-size:11px; color:var(--muted); border:1px solid var(--line); padding:2px 8px; border-radius:999px; }
+  .pill { font-size:12px; padding:3px 10px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+  .pill.run { color:var(--accent); border-color:var(--accent); }
+  .pill.done { color:var(--ok); border-color:var(--ok); }
+  .pill.err { color:var(--err); border-color:var(--err); }
+  .pill.on { color:var(--ok); border-color:var(--ok); }
+  .wrap { padding:16px 22px; max-width:1320px; margin:0 auto; }
+  .inputbar { display:flex; gap:8px; margin-bottom:6px; }
+  .inputbar input { flex:1; background:var(--panel); border:1px solid var(--line); color:var(--text);
+    padding:11px 13px; border-radius:8px; font-size:14px; }
+  .inputbar button { background:var(--accent); color:#fff; border:0; padding:0 18px; border-radius:8px; font-weight:700; cursor:pointer; }
+  .inputbar button:disabled { opacity:.5; cursor:not-allowed; }
+  .chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .chip { font-size:12px; color:var(--muted); border:1px solid var(--line); background:var(--panel); padding:4px 10px; border-radius:999px; cursor:pointer; }
+  .chip:hover { color:var(--text); border-color:var(--accent); }
+  .grid { display:grid; grid-template-columns:1.35fr 1fr; gap:16px; }
+  @media (max-width:980px){ .grid { grid-template-columns:1fr; } }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; }
+  .card h2 { font-size:13px; margin:0; padding:11px 14px; border-bottom:1px solid var(--line); color:var(--muted); font-weight:700; }
+  .card .body { padding:12px 14px; }
+
+  /* ── 2D 그래프 ── */
+  #graphScroll { overflow:auto; }
+  #graphWrap { position:relative; margin:0 auto; }
+  #edges { position:absolute; top:0; left:0; overflow:visible; }
+  .edge { stroke:var(--idle); stroke-width:2; fill:none; }
+  .edge.cond { stroke-dasharray:6 4; }
+  .edge.flow { stroke:var(--ok); stroke-width:3; stroke-dasharray:9 6; animation:dash .7s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset:-30; } }
+  .elabel { position:absolute; transform:translate(-50%,-50%); font-size:10px; color:var(--muted);
+    background:var(--bg); border:1px solid var(--line); padding:1px 6px; border-radius:999px; white-space:nowrap; pointer-events:none; }
+  .elabel.data { color:var(--ok); border-color:var(--ok); font-weight:700; }
+  .gnode { position:absolute; border:1px solid var(--line); border-radius:10px; background:#141b29;
+    padding:8px 10px; cursor:pointer; transition:all .2s; opacity:.85; overflow:hidden; }
+  .gnode:hover { border-color:var(--accent); }
+  .gnode .r1 { display:flex; align-items:center; gap:7px; }
+  .gnode .ico { font-size:16px; }
+  .gnode .nm { font-weight:700; font-size:13px; }
+  .gnode .dot { margin-left:auto; width:9px; height:9px; border-radius:50%; background:var(--idle); flex:none; }
+  .gnode .brief { margin-top:5px; display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
+  .gnode .gist { margin-top:5px; font-size:10.5px; color:var(--muted); white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+  .gnode.active { opacity:1; border-color:var(--accent); box-shadow:0 0 0 2px rgba(79,157,255,.3); }
+  .gnode.active .dot { background:var(--accent); animation:pulse 1s infinite; }
+  .gnode.done { opacity:1; border-color:var(--ok); }
+  .gnode.done .dot { background:var(--ok); }
+  .gnode.skipped { opacity:.38; }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.6);} }
+  .src { font-size:9.5px; padding:1px 6px; border-radius:999px; border:1px solid; font-weight:600; }
+  .src.LLM{color:var(--llm);border-color:var(--llm);} .src.VectorDB{color:var(--vdb);border-color:var(--vdb);}
+  .src.WebSearch{color:var(--web);border-color:var(--web);} .src.Rule{color:var(--rule);border-color:var(--rule);}
+  .src.State{color:var(--state);border-color:var(--state);}
+  .legend { font-size:11px; color:var(--muted); display:flex; gap:14px; margin-top:10px; flex-wrap:wrap; }
+  .legend i { width:9px; height:9px; border-radius:50%; display:inline-block; margin-right:4px; vertical-align:middle; }
+  .legend .ln { width:16px; height:0; border-top:2px solid var(--idle); display:inline-block; margin-right:4px; vertical-align:middle; }
+  .legend .ln.cond { border-top-style:dashed; }
+
+  /* ── 타임라인 ── */
+  #timeline { min-height:80px; max-height:62vh; overflow:auto; }
+  .step { border-left:2px solid var(--line); padding:0 0 14px 14px; margin-left:6px; position:relative; }
+  .step::before { content:""; position:absolute; left:-7px; top:2px; width:12px; height:12px; border-radius:50%; background:var(--ok); border:2px solid var(--bg); }
+  .step .head { display:flex; align-items:baseline; gap:8px; }
+  .step .head .nm { font-weight:700; }
+  .step .head .ms { margin-left:auto; font-size:11px; color:var(--muted); }
+  .step .hl { font-size:11.5px; color:var(--accent); margin:3px 0; }
+  table.io { width:100%; border-collapse:collapse; margin-top:5px; }
+  table.io td { font-size:12px; vertical-align:top; padding:3px 6px; border-bottom:1px solid #222c3d; }
+  table.io td.k { color:var(--muted); white-space:nowrap; width:38%; }
+  table.io td.v { color:#dbe6f2; word-break:break-word; white-space:pre-wrap; font-family:ui-monospace,Menlo,monospace; font-size:11px; }
+  details.delta { margin-top:6px; }
+  details.delta summary { cursor:pointer; font-size:11px; color:var(--muted); }
+  pre.json { background:#0c111b; border:1px solid var(--line); border-radius:6px; padding:8px; font-size:11px; overflow-x:auto; color:#b9c7d9; white-space:pre-wrap; word-break:break-word; }
+  .hint { color:var(--muted); font-size:12.5px; }
+
+  /* ── 최종 답변 ── */
+  #answer { margin-top:16px; }
+  .answer-body { padding:14px 16px; }
+  .answer-body h2 { all:unset; display:block; font-size:15px; font-weight:800; color:var(--accent); margin:12px 0 4px; }
+  .answer-body h3 { font-size:13.5px; font-weight:700; margin:8px 0 2px; }
+  .answer-body ul { margin:4px 0 8px; padding-left:20px; }
+  .answer-body a { color:var(--accent); }
+  .answer-body hr { border:0; border-top:1px solid var(--line); margin:10px 0; }
+
+  /* ── 모달 ── */
+  #modal { position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:50; }
+  #modal.open { display:flex; }
+  .modal-card { background:var(--panel); border:1px solid var(--line); border-radius:12px; width:min(560px,92vw); max-height:86vh; overflow:auto; }
+  .modal-card .mh { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:9px; }
+  .modal-card .mh .x { margin-left:auto; cursor:pointer; color:var(--muted); font-size:20px; line-height:1; }
+  .modal-card .mb { padding:14px 16px; }
+  .modal-card .mb .desc { color:var(--muted); font-size:12.5px; margin-bottom:10px; }
+</style>
+</head>
+<body>
+<header>
+  <span class="title">🔬 워크플로우 실시간 트레이스</span>
+  <span class="badge">FastAPI · LangGraph · ChromaDB · Tavily</span>
+  <span id="livePill" class="pill">⚪ 연결 대기</span>
+  <span id="statusPill" class="pill">대기 중</span>
+</header>
+
+<div class="wrap">
+  <div class="inputbar">
+    <input id="q" type="text" placeholder="질문 입력 (예: 남아공에서 취업하고 싶어요 / 캐나다 소프트웨어 개발자 취업)" />
+    <button id="run">실행 ▶</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <p class="hint" style="margin:-6px 0 14px">
+    💡 이 화면은 <b>Streamlit(:8501)에서 입력한 질문</b>도 실시간으로 함께 표시합니다(아래 연결 표시가 켜져 있을 때).
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>① LangGraph 데이터 흐름 (노드를 클릭하면 상세)</h2>
+      <div class="body">
+        <div id="graphScroll"><div id="graphWrap">
+          <svg id="edges">
+            <defs>
+              <marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
+                <path d="M0,0 L9,4.5 L0,9 Z" fill="#3a455a"/></marker>
+              <marker id="arrowFlow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
+                <path d="M0,0 L9,4.5 L0,9 Z" fill="#3fb950"/></marker>
+            </defs>
+          </svg>
+        </div></div>
+        <div class="legend">
+          <span><i style="background:var(--idle)"></i>대기</span>
+          <span><i style="background:var(--accent)"></i>실행 중</span>
+          <span><i style="background:var(--ok)"></i>완료</span>
+          <span><i style="background:var(--idle);opacity:.4"></i>미실행(분기)</span>
+          <span><span class="ln"></span>고정 간선</span>
+          <span><span class="ln cond"></span>조건 분기</span>
+          <span><span class="ln" style="border-color:var(--ok)"></span>이번 실행 경로</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>② 단계별 데이터 정제 타임라인</h2>
+      <div class="body">
+        <div id="timeline"><p class="hint">질문을 입력하면 각 노드가 어떤 plain data(질의어·벡터DB·웹검색)를 참조하고 어떻게 정제하는지 단계별로 표시됩니다.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="answer" style="display:none">
+    <h2>③ 사용자에게 반환되는 최종 답변</h2>
+    <div class="answer-body" id="answerBody"></div>
+  </div>
+</div>
+
+<div id="modal"><div class="modal-card">
+  <div class="mh"><span id="mIco"></span><b id="mTitle"></b><span class="x" id="mClose">✕</span></div>
+  <div class="mb" id="mBody"></div>
+</div></div>
+
+<script>
+const SAMPLES = [
+  "캐나다에서 소프트웨어 개발자로 취업하고 싶어요",
+  "남아공에서 취업하고 싶어요",
+  "미국 관광 비자로 입국 후 체류 연장이 가능한가요?",
+  "일본 유학 비자 받으려면 어떻게 해야 하나요?",
+];
+let PATHS = { topology:"/graph/topology", stream:"/chat/stream", live:"/trace/live", run:"/trace/run" };
+const $ = (id)=>document.getElementById(id);
+const esc = (s)=>String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+let TOPO = null;            // {nodes,edges}
+let META = {};             // id -> node meta (label,icon,desc,sources,produces,source_labels)
+let POS = {};              // id -> {x,y,W,H}
+let DETAILS = {};          // id -> detail record (latest run)
+let curRunId = null;
+let prevExec = null;
+let answerAcc = "";        // 최종 답변 토큰 누적 버퍼
+
+function setStatus(t,cls){ const p=$("statusPill"); p.textContent=t; p.className="pill"+(cls?" "+cls:""); }
+function setLive(t,cls){ const p=$("livePill"); p.textContent=t; p.className="pill"+(cls?" "+cls:""); }
+
+// ── 토폴로지 로드 ────────────────────────────────────────────────────────
+async function loadTopology(){
+  const r = await fetch(PATHS.topology);
+  const topo = await r.json();
+  if (topo.paths) PATHS = topo.paths;
+  TOPO = topo; META = {};
+  topo.nodes.forEach(n=>META[n.id]=n);
+  layoutAndRender(topo);
+}
+
+// 레이어드 DAG 레이아웃(최장경로 랭킹) — 노드 추가 시 자동 재배치
+function computeLayout(nodes, edges){
+  const ids = nodes.map(n=>n.id);
+  const preds={}, succs={}, indeg={};
+  ids.forEach(id=>{preds[id]=[];succs[id]=[];indeg[id]=0;});
+  edges.forEach(e=>{ if(succs[e.source]&&preds[e.target]!==undefined){ succs[e.source].push(e.target); preds[e.target].push(e.source); indeg[e.target]++; }});
+  const rank={}; ids.forEach(id=>rank[id]=0);
+  const q = ids.filter(id=>indeg[id]===0);
+  while(q.length){ const u=q.shift(); (succs[u]||[]).forEach(v=>{ rank[v]=Math.max(rank[v],rank[u]+1); if(--indeg[v]===0) q.push(v); }); }
+  const byRank={}; ids.forEach(id=>{ (byRank[rank[id]]=byRank[rank[id]]||[]).push(id); });
+  const maxRank = Math.max(0,...ids.map(id=>rank[id]));
+  const maxPer = Math.max(1,...Object.values(byRank).map(a=>a.length));
+  const W=176, H=86, vGap=148;
+  const width = Math.max(560, maxPer*250);
+  const height = (maxRank+1)*vGap + 24;
+  const pos={};
+  for(let r=0;r<=maxRank;r++){ const arr=byRank[r]||[];
+    arr.forEach((id,i)=>{ pos[id]={ x:(i+1)/(arr.length+1)*width - W/2, y:r*vGap+12, W, H }; });
+  }
+  return { pos, width, height };
+}
+
+function layoutAndRender(topo){
+  const { pos, width, height } = computeLayout(topo.nodes, topo.edges);
+  POS = pos;
+  const wrap = $("graphWrap"); wrap.style.width = width+"px"; wrap.style.height = height+"px";
+  const svg = $("edges"); svg.setAttribute("width",width); svg.setAttribute("height",height);
+  // 기존 노드/라벨 제거(엣지 defs 는 유지)
+  [...wrap.querySelectorAll(".gnode,.elabel")].forEach(e=>e.remove());
+  [...svg.querySelectorAll("path.edge")].forEach(e=>e.remove());
+
+  // 엣지(간선)
+  topo.edges.forEach(e=>{
+    const s=pos[e.source], t=pos[e.target]; if(!s||!t) return;
+    const x1=s.x+s.W/2, y1=s.y+s.H, x2=t.x+t.W/2, y2=t.y;
+    const dy=Math.max(40,(y2-y1));
+    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d",`M${x1},${y1} C${x1},${y1+dy*0.45} ${x2},${y2-dy*0.45} ${x2},${y2}`);
+    path.setAttribute("class","edge"+(e.conditional?" cond":""));
+    path.setAttribute("marker-end","url(#arrow)");
+    path.id = "edge-"+e.source+"__"+e.target;
+    svg.appendChild(path);
+    if(e.label){
+      const lab=document.createElement("div"); lab.className="elabel"; lab.id="elabel-"+e.source+"__"+e.target;
+      lab.style.left=((x1+x2)/2)+"px"; lab.style.top=((y1+y2)/2)+"px"; lab.textContent=e.label;
+      wrap.appendChild(lab);
+    }
+  });
+
+  // 노드
+  topo.nodes.forEach(n=>{
+    const p=pos[n.id]; if(!p) return;
+    const div=document.createElement("div");
+    const term = n.kind==="terminal";
+    div.className="gnode"; div.id="gnode-"+n.id;
+    div.style.left=p.x+"px"; div.style.top=p.y+"px"; div.style.width=p.W+"px"; div.style.minHeight=p.H+"px";
+    if(term){ div.style.opacity=.6; div.style.borderStyle="dashed"; }
+    const badges=(n.sources||[]).map((s,i)=>`<span class="src ${s}">${esc((n.source_labels||[])[i]||s)}</span>`).join("");
+    div.innerHTML = `<div class="r1"><span class="ico">${esc(n.icon)}</span><span class="nm">${esc(n.label)}</span><span class="dot"></span></div>`
+      + (badges?`<div class="brief">${badges}</div>`:"")
+      + `<div class="gist" id="gist-${esc(n.id)}"></div>`;
+    if(!term) div.addEventListener("click",()=>openNode(n.id));
+    wrap.appendChild(div);
+  });
+}
+
+function setNode(id,cls){ const el=$("gnode-"+id); if(el){ el.classList.remove("active","done","skipped"); el.classList.add(cls); } }
+function resetGraph(){ document.querySelectorAll(".gnode").forEach(el=>el.classList.remove("active","done","skipped"));
+  document.querySelectorAll("path.edge").forEach(p=>{ p.classList.remove("flow"); p.setAttribute("marker-end","url(#arrow)"); });
+  document.querySelectorAll(".elabel.data").forEach(e=>e.remove());
+  document.querySelectorAll(".gist").forEach(e=>e.textContent=""); }
+
+function flowEdge(src,tgt,dataLabel){
+  const p=$("edge-"+src+"__"+tgt);
+  if(p){ p.classList.add("flow"); p.setAttribute("marker-end","url(#arrowFlow)"); }
+  if(dataLabel){
+    const s=POS[src], t=POS[tgt]; if(!s||!t) return;
+    const x1=s.x+s.W/2,y1=s.y+s.H,x2=t.x+t.W/2,y2=t.y;
+    const lab=document.createElement("div"); lab.className="elabel data";
+    lab.style.left=((x1+x2)/2)+"px"; lab.style.top=((y1+y2)/2+14)+"px"; lab.textContent="📦 "+dataLabel;
+    $("graphWrap").appendChild(lab);
+  }
+}
+
+// ── 모달(노드 상세) ──────────────────────────────────────────────────────
+function openNode(id){
+  const m=META[id]; if(!m) return;
+  $("mIco").textContent=m.icon; $("mTitle").textContent=m.label;
+  const srcs=(m.sources||[]).map((s,i)=>`<span class="src ${s}">${esc((m.source_labels||[])[i]||s)}</span>`).join(" ");
+  const prod=(m.produces||[]).length?`<p style="font-size:12px;color:var(--muted)">정제·기록 필드: <code>${m.produces.map(esc).join(", ")}</code></p>`:"";
+  const det=DETAILS[id];
+  let detHtml='<p class="hint">아직 이번 세션 실행 데이터가 없습니다. 질문을 실행하면 이 노드가 참조한 입력/산출이 표시됩니다.</p>';
+  if(det){
+    const rows=(det.items||[]).map(it=>`<tr><td class="k">${esc(it.label)}</td><td class="v">${esc(it.value)}</td></tr>`).join("");
+    detHtml=`${det.headline?`<div class="hl" style="margin-bottom:6px">${esc(det.headline)}</div>`:""}<table class="io">${rows}</table>`;
+  }
+  $("mBody").innerHTML=`<div class="desc">${esc(m.desc||"")}</div><div style="margin-bottom:10px">${srcs}</div>${prod}<hr style="border:0;border-top:1px solid var(--line);margin:10px 0"><h3 style="margin:0 0 4px;font-size:13px">최근 실행 상세</h3>${detHtml}`;
+  $("modal").classList.add("open");
+}
+$("mClose").addEventListener("click",()=>$("modal").classList.remove("open"));
+$("modal").addEventListener("click",(e)=>{ if(e.target.id==="modal") $("modal").classList.remove("open"); });
+
+// ── 최소 마크다운 ────────────────────────────────────────────────────────
+function md(src){
+  const lines=esc(src).split("\n"); let out="",inList=false;
+  const inline=(t)=>t.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+  for(let ln of lines){
+    if(/^\s*---\s*$/.test(ln)){ if(inList){out+="</ul>";inList=false;} out+="<hr>"; continue; }
+    let m;
+    if((m=ln.match(/^###\s+(.*)/))){ if(inList){out+="</ul>";inList=false;} out+="<h3>"+inline(m[1])+"</h3>"; continue; }
+    if((m=ln.match(/^##\s+(.*)/))){ if(inList){out+="</ul>";inList=false;} out+="<h2>"+inline(m[1])+"</h2>"; continue; }
+    if((m=ln.match(/^\s*[-*]\s+(.*)/))){ if(!inList){out+="<ul>";inList=true;} out+="<li>"+inline(m[1])+"</li>"; continue; }
+    if(inList){out+="</ul>";inList=false;}
+    out += ln.trim()===""?"<br>":"<p>"+inline(ln)+"</p>";
+  }
+  if(inList) out+="</ul>";
+  return out;
+}
+
+// ── 이벤트 처리(스트림/라이브 공통) ──────────────────────────────────────
+function handleEvent(evt){
+  if(evt.type==="connected"){ setLive("🟢 연결됨 (Streamlit 입력도 수신)","on"); return; }
+  if(evt.type==="start"){
+    curRunId=evt.run_id; prevExec="__start__"; answerAcc="";
+    DETAILS={}; resetGraph();
+    document.querySelectorAll(".gnode").forEach(el=>{ if(!el.style.borderStyle||el.style.borderStyle!=="dashed") el.classList.add("skipped"); });
+    $("timeline").innerHTML=""; $("answer").style.display="none"; $("answerBody").innerHTML=""; $("answerBody").style.whiteSpace="";
+    setStatus(`실행 중 · "${(evt.message||"").slice(0,24)}…"`,"run");
+    return;
+  }
+  if(evt.run_id && curRunId && evt.run_id!==curRunId && evt.type!=="start") return; // 다른 실행 무시
+  if(evt.type==="node"){
+    if(prevExec){ setNode(prevExec,"done");
+      const moved = prevExec==="__start__" ? "사용자 요청" : ((META[prevExec]&&META[prevExec].produces||[]).join(", ")||"state");
+      flowEdge(prevExec, evt.node, moved);
+    }
+    setNode(evt.node,"active"); prevExec=evt.node;
+    if(evt.detail) DETAILS[evt.node]=evt.detail;
+    const g=$("gist-"+evt.node); if(g && evt.detail) g.textContent = evt.detail.headline||"";
+    appendStep(evt);
+  } else if(evt.type==="token"){
+    // 최종 답변 토큰 실시간 누적(타자기 효과). 마크다운은 done 시 1회 적용.
+    answerAcc += evt.text || "";
+    const a=$("answer"); if(a.style.display==="none") a.style.display="";
+    const b=$("answerBody"); b.style.whiteSpace="pre-wrap"; b.textContent=answerAcc;
+  } else if(evt.type==="done"){
+    if(prevExec){ setNode(prevExec,"done"); flowEdge(prevExec,"__end__"); }
+    const finalText = evt.final_response || answerAcc;
+    if(finalText){ $("answer").style.display=""; const b=$("answerBody"); b.style.whiteSpace=""; b.innerHTML=md(finalText); }
+    setStatus(`완료 · 총 ${evt.total_ms} ms`,"done");
+  } else if(evt.type==="error"){
+    setStatus("백엔드 오류: "+evt.message,"err");
+  }
+}
+
+function appendStep(evt){
+  const srcs=(evt.source_labels||[]).map((s,i)=>`<span class="src ${(evt.sources||[])[i]}">${esc(s)}</span>`).join(" ");
+  const det=evt.detail;
+  const io = det&&det.items&&det.items.length
+    ? `<table class="io">${det.items.map(it=>`<tr><td class="k">${esc(it.label)}</td><td class="v">${esc(it.value)}</td></tr>`).join("")}</table>` : "";
+  const hasDelta=evt.update && Object.keys(evt.update).length;
+  const delta=hasDelta?`<details class="delta"><summary>State 델타(JSON)</summary><pre class="json">${esc(JSON.stringify(evt.update,null,2))}</pre></details>`:"";
+  const div=document.createElement("div"); div.className="step";
+  div.innerHTML = `<div class="head"><span>${esc(evt.icon)}</span><span class="nm">${esc(evt.step)}. ${esc(evt.label)}</span><span class="ms">${evt.elapsed_ms} ms</span></div>`
+    + `<div style="margin-top:4px">${srcs}</div>`
+    + (det&&det.headline?`<div class="hl">${esc(det.headline)}</div>`:"")
+    + io + delta;
+  $("timeline").appendChild(div);
+  $("timeline").scrollTop = $("timeline").scrollHeight;
+}
+
+// ── 실행(대시보드 자체 입력 → /trace/run, 렌더는 /trace/live 통해 수신) ────
+async function run(question){
+  const q=(question ?? $("q").value).trim(); if(!q) return;
+  $("q").value=q;
+  try{
+    await fetch(PATHS.run,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:q,session_id:"trace-dashboard",history:[]})});
+  }catch(e){ setStatus("실행 요청 실패: "+e.message,"err"); }
+}
+
+// ── 라이브 구독(Streamlit 등 외부 실행 + 자체 실행 모두 수신) ──────────────
+function connectLive(){
+  const es=new EventSource(PATHS.live);
+  es.onmessage=(m)=>{ try{ handleEvent(JSON.parse(m.data)); }catch(_){} };
+  es.onerror=()=>{ setLive("🟡 재연결 중…"); };
+}
+
+// ── 초기화 ──────────────────────────────────────────────────────────────
+$("chips").innerHTML=SAMPLES.map(s=>`<span class="chip">${esc(s)}</span>`).join("");
+$("chips").querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>run(c.textContent)));
+$("run").addEventListener("click",()=>run());
+$("q").addEventListener("keydown",(e)=>{ if(e.key==="Enter") run(); });
+
+loadTopology().then(()=>{
+  connectLive();
+  const seed=new URLSearchParams(location.search).get("seed");
+  if(seed){ $("q").value=seed; setTimeout(()=>run(seed),400); }
+});
+</script>
+</body>
+</html>

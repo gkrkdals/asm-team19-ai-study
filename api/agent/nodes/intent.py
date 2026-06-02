@@ -49,7 +49,7 @@ async def intent_classifier(state: AgentState) -> dict:
         logger.warning("Intent extraction error: %s", e)
         data = {}
 
-    return {
+    resolved = {
         "country": data.get("country") or state.get("country"),
         "purpose": data.get("purpose") or state.get("purpose"),
         "duration": data.get("duration") or state.get("duration"),
@@ -58,3 +58,27 @@ async def intent_classifier(state: AgentState) -> dict:
         "is_exception": bool(detected_exception),
         "exception_type": detected_exception or state.get("exception_type"),
     }
+
+    detail = {
+        "node": "intent_classifier",
+        "headline": "자연어 → 구조화된 의도(JSON)",
+        "items": [
+            {"label": "① 사용자 요청(원문)", "value": last_message},
+            {"label": "② LLM 추출 결과", "value": json.dumps(
+                {k: resolved[k] for k in ("country", "purpose", "duration", "profession", "has_sponsor")},
+                ensure_ascii=False,
+            )},
+            {"label": "③ 예외 키워드 감지", "value": detected_exception or "감지 안 됨"},
+            {"label": "→ 다음 분기 근거", "value": _route_reason(resolved)},
+        ],
+    }
+
+    return {**resolved, "node_details": [detail]}
+
+
+def _route_reason(r: dict) -> str:
+    if r["is_exception"]:
+        return f"예외({r['exception_type']}) → exception_handler 로 이동"
+    if r["country"] and r["purpose"]:
+        return f"국가={r['country']}·목적={r['purpose']} 확보 → visa_rag_search 로 이동"
+    return "국가/목적 부족 → response_formatter(재질문)으로 이동"

@@ -83,6 +83,7 @@ def _ingest_country(data_path: str, country_code: str, collection) -> int:
         ).hexdigest()
         documents.append(text)
         metadatas.append({
+            "doc_type": "visa",
             "country_code": country_code,
             "country_name": COUNTRIES.get(country_code, country_code),
             "visa_code": visa.get("visa_code") or "",
@@ -96,6 +97,36 @@ def _ingest_country(data_path: str, country_code: str, collection) -> int:
         collection.upsert(documents=documents, metadatas=metadatas, ids=ids)
         logger.info(f"[{country_code}] Ingested {len(documents)} visa records.")
 
+    return len(documents)
+
+
+def _ingest_exceptions(collection) -> int:
+    """교차 예외 규칙(쉥겐·환승·ETA·비자런 등)을 RAG 문서로 적재한다."""
+    try:
+        from knowledge.exceptions import to_rag_chunks
+    except Exception as e:
+        logger.warning(f"Exception rules unavailable, skipping: {e}")
+        return 0
+
+    documents, metadatas, ids = [], [], []
+    for chunk in to_rag_chunks():
+        countries = chunk.get("countries") or []
+        documents.append(chunk["text"])
+        metadatas.append({
+            "doc_type": "exception_rule",
+            "country_code": "",                       # 비자 문서 국가필터와 분리
+            "rule_id": chunk.get("id", ""),
+            "title": chunk.get("title", ""),
+            "category": chunk.get("category", ""),
+            "severity": chunk.get("severity", ""),
+            "scope": "global" if not countries else ",".join(countries),
+            "keywords": ",".join(chunk.get("keywords") or []),
+        })
+        ids.append("exc:" + chunk.get("id", str(len(ids))))
+
+    if documents:
+        collection.upsert(documents=documents, metadatas=metadatas, ids=ids)
+        logger.info(f"[exceptions] Ingested {len(documents)} cross-cutting rules.")
     return len(documents)
 
 
@@ -119,6 +150,11 @@ def ingest_all(force: bool = False) -> int:
             total += _ingest_country(data_path, country_code, collection)
         except Exception as e:
             logger.error(f"Ingestion error for {country_code}: {e}")
+
+    try:
+        total += _ingest_exceptions(collection)
+    except Exception as e:
+        logger.error(f"Exception rule ingestion error: {e}")
 
     logger.info(f"Ingestion complete: {total} total documents.")
     return total

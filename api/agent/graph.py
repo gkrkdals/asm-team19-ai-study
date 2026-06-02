@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from langgraph.graph import StateGraph, END
 from agent.state import AgentState
 from agent.nodes import (
@@ -62,3 +64,13 @@ def build_graph():
     graph.add_edge("response_formatter", END)
 
     return graph.compile()
+
+
+@lru_cache(maxsize=1)
+def get_graph():
+    """컴파일된 그래프 싱글턴.
+
+    채팅 라우터와 워크플로우 트레이스 라우터가 동일한 컴파일 인스턴스를
+    공유하도록 보장한다(토폴로지와 실제 실행이 항상 일치).
+    """
+    return build_graph()
