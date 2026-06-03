@@ -54,15 +54,28 @@ def _exception_context(query: str, last_msg: str = "", n: int = 3):
     return context, titles
 
 
-async def _run_tavily(query: str, domains: list, tavily_key: str, max_results: int = 4):
-    """Tavily 저수준 실행기. (우선)도메인 제한 적용."""
+async def _run_tavily(query: str, domains: list, tavily_key: str, max_results: int = 4, deep: bool = False):
+    """Tavily 저수준 실행기. (우선)도메인 제한 적용.
+
+    deep=True 면 search_depth='advanced' + include_raw_content 로 공식 사이트 원문까지
+    상세 탐색한다(후속 '공식 사이트 상세 탐색' 기능).
+    """
     from langchain_community.tools.tavily_search import TavilySearchResults
-    tool = TavilySearchResults(max_results=max_results, api_key=tavily_key, include_domains=domains or [])
+    kwargs = dict(max_results=max_results, api_key=tavily_key, include_domains=domains or [])
+    if deep:
+        kwargs.update(search_depth="advanced", include_raw_content=True)
+    tool = TavilySearchResults(**kwargs)
     results = await tool.ainvoke({"query": query})
     rl = results if isinstance(results, list) else []
     urls = [r.get("url", "") for r in rl if r.get("url")]
+
+    def _body(r: dict) -> str:
+        if deep and r.get("raw_content"):
+            return (r.get("raw_content") or "")[:1800]   # 원문 일부(과다 방지)
+        return r.get("content", "")
+
     context = "\n".join(
-        f"[웹 검색] 출처: {r.get('url', '')}\n{r.get('content', '')}" for r in rl
+        f"[웹 검색] 출처: {r.get('url', '')}\n{_body(r)}" for r in rl
     )
     return {"urls": urls, "context": context, "count": len(rl)}
 
@@ -123,6 +136,7 @@ async def web_search_tool(state: AgentState) -> dict:
     tavily_key = settings.tavily_api_key or ""
     country = state.get("country", "")
     purpose = state.get("purpose", "")
+    deep = bool(state.get("deep_search"))
     last_msg = state["messages"][-1].content
 
     # 검색어는 '국가명 + visa + requirements …' 형태의 영어 핵심 쿼리만 사용한다.
@@ -131,6 +145,7 @@ async def web_search_tool(state: AgentState) -> dict:
     hint = build_tavily_query(country or "", PURPOSE_TO_KEYWORD.get(purpose or "", "all"))
     domains = get_priority_domains(country)
     query = refined or hint["query"]
+    max_results = 6 if deep else 4
 
     if not tavily_key or tavily_key.startswith("tvly-..."):
         logger.warning("TAVILY_API_KEY not configured, skipping web search.")
@@ -146,16 +161,19 @@ async def web_search_tool(state: AgentState) -> dict:
         return {"search_results": None, "web_query": query, "node_details": [detail]}
 
     try:
-        res = await _run_tavily(query, domains, tavily_key, max_results=4)
+        res = await _run_tavily(query, domains, tavily_key, max_results=max_results, deep=deep)
+        mode = "공식 사이트 상세 탐색(advanced+원문)" if deep else (
+            "재생성 검색어" if refined else "우선 도메인")
         detail = {
             "node": "web_search_tool",
-            "headline": "Tavily 웹 검색 실행" + (" (재생성 검색어)" if refined else " (우선 도메인)"),
+            "headline": "Tavily 웹 검색 실행 — " + mode,
             "items": [
                 {"label": "① 검색어(query)", "value": query},
                 {"label": "② 우선 도메인(include_domains)", "value": ", ".join(domains) or "없음(일반 검색)"},
-                {"label": "③ 결과 수", "value": f"{res['count']}건"},
-                {"label": "④ 출처 URL", "value": "\n".join(res["urls"]) if res["urls"] else "없음"},
-                {"label": "⑤ 컨텍스트 길이", "value": f"{len(res['context']):,}자"},
+                {"label": "③ 검색 깊이", "value": "advanced(원문 포함)" if deep else "basic"},
+                {"label": "④ 결과 수", "value": f"{res['count']}건"},
+                {"label": "⑤ 출처 URL", "value": "\n".join(res["urls"]) if res["urls"] else "없음"},
+                {"label": "⑥ 컨텍스트 길이", "value": f"{len(res['context']):,}자"},
             ],
         }
         return {"search_results": res["context"] or None, "web_query": query, "node_details": [detail]}
@@ -179,9 +197,10 @@ async def exception_handler(state: AgentState) -> dict:
     last_msg = state["messages"][-1].content
 
     exc_query_map = {
-        "extension": f"visa stay extension period {country}",
-        "status_change": f"visa status change {country}",
+        "extension": f"visa stay extension I-539 period {country}",
+        "status_change": f"visa status change tourist to work {country}",
         "rejection": f"visa rejection appeal reapplication {country}",
+        "emergency": f"emergency expedited visa premium processing appointment {country}",
     }
     query = exc_query_map.get(exception_type, last_msg)
 

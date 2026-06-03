@@ -3,6 +3,7 @@ from agent.nodes.search import visa_rag_search, web_search_tool, exception_handl
 from agent.nodes.response import response_formatter
 from agent.nodes.general import general_chat
 from agent.nodes.refine import search_quality_gate, query_refiner
+from agent.nodes.learn import knowledge_writer
 
 __all__ = [
     "intent_classifier",
@@ -13,4 +14,5 @@ __all__ = [
     "general_chat",
     "search_quality_gate",
     "query_refiner",
+    "knowledge_writer",
 ]

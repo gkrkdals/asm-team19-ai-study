@@ -84,6 +84,14 @@ NODE_META: dict[str, dict[str, Any]] = {
         "sources": ["LLM"],
         "produces": ["web_query", "search_attempts"],
     },
+    "knowledge_writer": {
+        "label": "지식 학습 저장",
+        "icon": "🧠",
+        "desc": "신뢰도 높은 웹 검색 결과를 ChromaDB 비자 컬렉션에 학습 문서로 저장(upsert)합니다. "
+                "다음 동일 국가 질의 시 RAG 검색에 즉시 활용됩니다.",
+        "sources": ["WebSearch", "VectorDB"],
+        "produces": ["kb_written"],
+    },
 }
 
 # 그래프의 가상 시작/끝 노드
@@ -97,13 +105,16 @@ TERMINAL_NODES = {
 EDGE_LABELS: dict[tuple[str, str], str] = {
     ("intent_classifier", "general_chat"): "비자 무관 질문",
     ("intent_classifier", "visa_rag_search"): "국가·목적 확인됨",
+    ("intent_classifier", "web_search_tool"): "상세 탐색(딥서치) 직행",
     ("intent_classifier", "exception_handler"): "예외 키워드 감지",
     ("intent_classifier", "response_formatter"): "정보 부족 → 재질문",
     ("visa_rag_search", "web_search_tool"): "비자 결과 0건",
     ("visa_rag_search", "response_formatter"): "비자 결과 있음",
     ("web_search_tool", "search_quality_gate"): "검색 결과 평가",
     ("search_quality_gate", "query_refiner"): "신뢰도 낮음",
-    ("search_quality_gate", "response_formatter"): "신뢰도 충분",
+    ("search_quality_gate", "knowledge_writer"): "신뢰도 충분 → 학습 저장",
+    ("search_quality_gate", "response_formatter"): "재시도 한도 도달",
+    ("knowledge_writer", "response_formatter"): "학습 저장 후 응답",
     ("query_refiner", "web_search_tool"): "재생성 검색어로 재검색",
     ("web_search_tool", "response_formatter"): "웹 검색 결과 반영",
     ("exception_handler", "response_formatter"): "예외 정보 반영",
@@ -123,6 +134,7 @@ FIELD_KO: dict[str, str] = {
     "is_exception": "예외 여부",
     "exception_type": "예외 유형",
     "search_results": "검색 컨텍스트",
+    "kb_written": "학습 저장 ID",
     "final_response": "최종 답변",
 }
 
@@ -220,6 +232,14 @@ def summarize_update(node: str, update: dict | None) -> dict[str, Any]:
             )
         else:
             lines.append("검색 결과 없음 → 폴백 경로로 분기")
+
+    # 학습 저장(고신뢰 웹검색 → ChromaDB)
+    if "kb_written" in update:
+        kid = update.get("kb_written")
+        lines.append(
+            f"고신뢰 결과 ChromaDB 학습 저장: {kid}" if kid
+            else "학습 저장 생략(신뢰도 미달)"
+        )
 
     # 최종 응답
     if update.get("final_response"):

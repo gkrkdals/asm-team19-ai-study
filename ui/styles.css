@@ -1,12 +1,125 @@
-.block-container { max-width: 800px; }
-.visa-title { font-size: 2.2rem; font-weight: 800; color: #1F4E79; }
-.visa-subtitle { font-size: 1rem; color: #555; margin-bottom: 0.5rem; }
-.disclaimer-box {
-  background: #fff8e1;
-  border-left: 4px solid #ffc107;
-  padding: 0.6rem 0.9rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  color: #555;
-  margin-top: 1rem;
+/* ============================================================================
+   VisaGuide AI — 3-pane 테마
+   좌측: 다크(블랙) 사이드바 · 중앙: 메인 대화 · 우측: 워크플로우 패널
+   (Streamlit 1.41 기준 data-testid 셀렉터. 현 구조 유지 + 색/디자인/UX 보완)
+   ========================================================================== */
+:root{
+  --vg-sidebar:#0e1117; --vg-sidebar-2:#1a1f2b; --vg-sidebar-line:#262c3a;
+  --vg-side-text:#e7ecf3; --vg-side-muted:#9aa6b8;
+  --vg-accent:#4f7cff; --vg-accent-2:#6c8bff;
+  --vg-bg:#f5f6fa; --vg-card:#ffffff; --vg-line:#e6e9f0;
+  --vg-text:#1f2430; --vg-muted:#6b7384;
 }
+
+/* ── 전체 배경 / 본문 폭 ─────────────────────────────────────────────── */
+.stApp{ background:var(--vg-bg); }
+.block-container{ max-width:1320px; padding-top:1.0rem; padding-bottom:6rem; }
+
+/* ── 좌측 사이드바(블랙) ─────────────────────────────────────────────── */
+section[data-testid="stSidebar"]{ background:var(--vg-sidebar); border-right:1px solid #000; }
+section[data-testid="stSidebar"] > div{ background:var(--vg-sidebar); }
+section[data-testid="stSidebar"] *{ color:var(--vg-side-text); }
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] h4,
+section[data-testid="stSidebar"] h5{ color:#ffffff; letter-spacing:-.2px; }
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li{ color:var(--vg-side-muted); }
+section[data-testid="stSidebar"] hr{ border-color:var(--vg-sidebar-line); }
+
+/* 사이드바 일반 버튼(대화 목록·예시) */
+section[data-testid="stSidebar"] .stButton > button{
+  background:var(--vg-sidebar-2); color:var(--vg-side-text);
+  border:1px solid var(--vg-sidebar-line); border-radius:9px;
+  text-align:left; justify-content:flex-start; font-weight:500;
+  padding:.42rem .6rem; transition:all .15s; }
+section[data-testid="stSidebar"] .stButton > button:hover{
+  border-color:var(--vg-accent); background:#222a3a; color:#fff; }
+section[data-testid="stSidebar"] .stButton > button p{ color:inherit !important; }
+
+/* 주(primary) 버튼 = ➕ 새 대화 — 버전별 testid 변종 모두 커버 */
+section[data-testid="stSidebar"] .stButton > button[kind="primary"],
+section[data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"],
+section[data-testid="stSidebar"] .stButton > button[data-testid="stBaseButton-primary"]{
+  background:linear-gradient(180deg,var(--vg-accent-2),var(--vg-accent));
+  border:0; color:#fff; font-weight:700; text-align:center; justify-content:center; }
+
+/* 사이드바 링크 버튼(트레이스 열기) */
+section[data-testid="stSidebar"] .stLinkButton a,
+section[data-testid="stSidebar"] [data-testid="stLinkButton"] a{
+  background:#1e2536; color:#cfe0ff; border:1px solid #2a3550; border-radius:9px; }
+section[data-testid="stSidebar"] .stLinkButton a:hover{ border-color:var(--vg-accent); color:#fff; }
+
+/* ── 헤더 타이틀 ──────────────────────────────────────────────────────── */
+.visa-title{
+  font-size:1.7rem; font-weight:800; margin-bottom:0;
+  background:linear-gradient(90deg,#1f4e79,#4f7cff);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.visa-subtitle{ font-size:.92rem; color:var(--vg-muted); margin-top:.15rem; margin-bottom:.4rem; }
+
+/* ── 채팅 메시지 카드 ─────────────────────────────────────────────────── */
+[data-testid="stChatMessage"]{
+  background:var(--vg-card); border:1px solid var(--vg-line); border-radius:13px;
+  padding:.5rem .9rem; box-shadow:0 1px 2px rgba(20,30,60,.04); }
+
+/* 채팅 입력창 */
+[data-testid="stChatInput"]{ border-radius:12px; }
+
+/* ── 우측 워크플로우 패널 ─────────────────────────────────────────────── */
+.wf-panel-title{
+  font-weight:800; font-size:1.02rem; color:var(--vg-text);
+  display:flex; align-items:center; gap:.45rem; margin:.15rem 0 .55rem; }
+.wf-panel-sub{ color:var(--vg-muted); font-size:.78rem; margin:-.35rem 0 .6rem; }
+.wf-list{ display:flex; flex-direction:column; gap:.5rem; }
+.wf-step{
+  background:var(--vg-card); border:1px solid var(--vg-line);
+  border-left:3px solid var(--vg-accent); border-radius:10px; padding:.5rem .65rem; }
+.wf-step-h{ display:flex; align-items:center; gap:.42rem; font-size:.86rem; }
+.wf-num{
+  background:var(--vg-accent); color:#fff; border-radius:50%; width:19px; height:19px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:.7rem; font-weight:700; flex:none; }
+.wf-name{ font-weight:700; color:var(--vg-text); }
+.wf-ms{ margin-left:auto; color:var(--vg-muted); font-size:.72rem; white-space:nowrap; }
+.wf-src{ color:var(--vg-muted); font-size:.74rem; margin:.26rem 0 .16rem; }
+.wf-lines{ color:#3a4355; font-size:.77rem; line-height:1.5; }
+.wf-empty{
+  color:var(--vg-muted); font-size:.84rem; background:var(--vg-card);
+  border:1px dashed var(--vg-line); border-radius:10px; padding:.85rem; }
+.wf-running{ color:var(--vg-accent); font-weight:700; font-size:.85rem; margin-bottom:.45rem; }
+.wf-done{ color:#2f9e44; font-weight:700; font-size:.82rem; margin:.25rem 0 .5rem; }
+.wf-err{ color:#c0392b; font-size:.82rem; }
+
+/* ── 워크플로우 패널 열기/닫기 토글 버튼(메인 영역) ──────────────────── */
+.st-key-wf_toggle button{
+  background:#eef2ff; color:#2f49b8; border:1px solid #cdd8ff; border-radius:10px;
+  font-weight:700; }
+.st-key-wf_toggle button:hover{
+  background:#e3e9ff; border-color:var(--vg-accent); color:var(--vg-accent); }
+
+/* 워크플로우 패널 컬럼을 드로어처럼 고정 — 대화를 스크롤해도 우측에 머무름 */
+[data-testid="stColumn"]:has(.wf-panel-title){
+  position:sticky; top:.5rem; align-self:flex-start; max-height:92vh; overflow-y:auto; }
+
+/* ── 대화 목록 태그 칩(사이드바) ───────────────────────────────────────── */
+.conv-tags{ margin:-4px 0 7px 4px; display:flex; gap:4px; flex-wrap:wrap; }
+.tagchip{ font-size:.66rem; color:#cfe0ff; background:#1e2740; border:1px solid #2a3550;
+  border-radius:999px; padding:1px 8px; }
+
+/* ── 후속 요청 제안 버튼(메인 영역, 칩 스타일) ─────────────────────────── */
+.followup-label{ color:var(--vg-muted); font-size:.84rem; font-weight:700; margin:.5rem 0 .2rem; }
+.fu-ai{ font-size:.66rem; font-weight:700; color:#2f49b8; background:#e7ecff;
+  border:1px solid #cdd8ff; border-radius:999px; padding:1px 8px; margin-left:4px; }
+.fu-basic{ font-size:.66rem; font-weight:600; color:#4a5568; background:#f0f2f5;
+  border:1px solid #d1d5db; border-radius:999px; padding:1px 8px; margin-left:4px; }
+[class*="st-key-fu_"] button{
+  background:#eef2ff; color:#2f49b8; border:1px solid #d4dcff; border-radius:999px;
+  font-weight:600; font-size:.8rem; padding:.3rem .5rem; }
+[class*="st-key-fu_"] button:hover{
+  background:#e3e9ff; border-color:var(--vg-accent); color:var(--vg-accent); }
+
+/* ── 안내 박스 ────────────────────────────────────────────────────────── */
+.disclaimer-box{
+  background:#171c27; border-left:3px solid #ffc24a; color:#c9b787;
+  padding:.6rem .8rem; border-radius:6px; font-size:.76rem; margin-top:1rem; }

@@ -35,6 +35,9 @@ app.add_middleware(
 from routers.chat import router as chat_router
 app.include_router(chat_router, prefix="/chat", tags=["chat"])
 
+from routers.sessions import router as sessions_router
+app.include_router(sessions_router)
+
 from routers.workflow import router as workflow_router
 app.include_router(workflow_router)
 
