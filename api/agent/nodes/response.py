@@ -16,6 +16,7 @@ async def response_formatter(state: AgentState) -> dict:
     is_exception = state.get("is_exception", False)
     exception_type = state.get("exception_type")
     search_results = state.get("search_results")
+    extra_context = state.get("extra_context")
     last_msg = state["messages"][-1].content
 
     if not country and not purpose and not is_exception:
@@ -39,7 +40,12 @@ async def response_formatter(state: AgentState) -> dict:
         purpose_label = PURPOSE_KO.get(purpose, purpose)
         task = f"{country_label} {purpose_label} 비자에 대해 안내해주세요."
 
-    context_section = f"\n\n참고 정보:\n{search_results}" if search_results else ""
+    context_parts = []
+    if search_results:
+        context_parts.append(search_results)
+    if extra_context:
+        context_parts.append("[교차 예외규칙 — 반드시 검토]\n" + extra_context)
+    context_section = ("\n\n참고 정보:\n" + "\n\n".join(context_parts)) if context_parts else ""
 
     prompt = f"""{task}
 

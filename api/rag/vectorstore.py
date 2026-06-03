@@ -39,35 +39,51 @@ def get_collection():
     return _collection
 
 
+def _query(where: Optional[dict], query: str, n_results: int) -> List[dict]:
+    collection = get_collection()
+    results = collection.query(query_texts=[query], n_results=n_results, where=where)
+    if not results["documents"] or not results["documents"][0]:
+        return []
+    return [
+        {"document": doc, "metadata": meta, "distance": dist}
+        for doc, meta, dist in zip(
+            results["documents"][0],
+            results["metadatas"][0],
+            results["distances"][0],
+        )
+    ]
+
+
 def search_visas(
     query: str,
     country_code: Optional[str] = None,
     n_results: int = 5,
 ) -> List[dict]:
+    """비자 문서(doc_type=visa)만 검색한다. 예외 규칙은 제외."""
     try:
-        collection = get_collection()
-
-        where = {"country_code": {"$eq": country_code}} if country_code else None
-
-        results = collection.query(
-            query_texts=[query],
-            n_results=n_results,
-            where=where,
-        )
-
-        if not results["documents"] or not results["documents"][0]:
-            return []
-
-        return [
-            {"document": doc, "metadata": meta, "distance": dist}
-            for doc, meta, dist in zip(
-                results["documents"][0],
-                results["metadatas"][0],
-                results["distances"][0],
-            )
-        ]
+        if country_code:
+            where = {"$and": [
+                {"country_code": {"$eq": country_code}},
+                {"doc_type": {"$eq": "visa"}},
+            ]}
+        else:
+            where = {"doc_type": {"$eq": "visa"}}
+        return _query(where, query, n_results)
     except Exception as e:
         logger.error(f"Vector search error: {e}")
+        return []
+
+
+def search_exceptions(query: str, n_results: int = 3) -> List[dict]:
+    """교차 예외 규칙(doc_type=exception_rule)을 국가 필터 없이 의미검색한다.
+
+    쉥겐·환승·ETA·비자런·유효기간≠체류 등 비자 레코드만으로 답할 수 없는
+    교차 규칙을 LLM 컨텍스트로 주입하기 위해 사용한다.
+    """
+    try:
+        return _query({"doc_type": {"$eq": "exception_rule"}}, query, n_results)
+    except Exception as e:
+        logger.error(f"Exception rule search error: {e}")
         return []
 
 

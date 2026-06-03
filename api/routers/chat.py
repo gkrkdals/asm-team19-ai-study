@@ -7,15 +7,10 @@ import logging
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-_graph = None
-
 
 def get_graph():
-    global _graph
-    if _graph is None:
-        from agent.graph import build_graph
-        _graph = build_graph()
-    return _graph
+    from agent.graph import get_graph as _get_graph
+    return _get_graph()
 
 
 class MessageItem(BaseModel):
@@ -34,19 +29,17 @@ class ChatResponse(BaseModel):
     session_id: str
 
 
-@router.post("/", response_model=ChatResponse)
-async def chat(req: ChatRequest):
-    graph = get_graph()
-
+def build_initial_state(message: str, history: Optional[List[MessageItem]] = None) -> dict:
+    """채팅/스트리밍이 공유하는 LangGraph 초기 State 빌더."""
     messages = []
-    for m in (req.history or []):
+    for m in (history or []):
         if m.role == "user":
             messages.append(HumanMessage(content=m.content))
         else:
             messages.append(AIMessage(content=m.content))
-    messages.append(HumanMessage(content=req.message))
+    messages.append(HumanMessage(content=message))
 
-    initial_state = {
+    return {
         "messages": messages,
         "country": None,
         "purpose": None,
@@ -55,9 +48,22 @@ async def chat(req: ChatRequest):
         "has_sponsor": None,
         "is_exception": False,
         "exception_type": None,
+        "is_visa_related": True,
         "search_results": None,
+        "extra_context": None,
+        "web_query": None,
+        "search_attempts": 0,
+        "search_quality": None,
         "final_response": None,
+        "node_details": [],
     }
+
+
+@router.post("/", response_model=ChatResponse)
+async def chat(req: ChatRequest):
+    graph = get_graph()
+
+    initial_state = build_initial_state(req.message, req.history)
 
     try:
         result = await graph.ainvoke(initial_state)
