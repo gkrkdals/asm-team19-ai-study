@@ -23,17 +23,24 @@
 ## LangGraph Agentic Workflow
 
 ```
-intent_classifier ──┬─ (국가+목적 파악) ─→ visa_rag_search ─┬─ (결과 O) ─→ response_formatter ─→ END
-                    │                                       └─ (결과 X) ─→ web_search_tool ─→ ┘
-                    ├─ (예외 키워드 감지) ─→ exception_handler ──────────────────────────────→ ┘
-                    └─ (정보 부족) ───────────────────────────────────────────→ response_formatter
+intent_classifier ─┬─ (비자 무관) ───────→ general_chat ─────────────────────────────→ END
+                   ├─ (예외/교차규칙) ───→ exception_handler ─────────────────→ response_formatter ─→ END
+                   ├─ (국가+목적) ──────→ visa_rag_search ─┬─ (비자 결과 O) ─→ response_formatter ─→ END
+                   │                                       └─ (결과 X) ─→ web_search_tool → search_quality_gate
+                   │                                                            ↑                  │
+                   │                                              query_refiner ┘  (신뢰도 낮음·재시도)│
+                   │                                                            (신뢰도 충분) ─────────┴→ response_formatter
+                   └─ (정보 부족) ─────────────────────────────────────────────────────→ response_formatter (재질문)
 ```
 
-- **intent_classifier**: 사용자 입력에서 국가·목적·기간·직업 추출 + 예외 키워드(연장/변경/거절) 감지
-- **visa_rag_search**: ChromaDB 벡터 검색
-- **web_search_tool**: RAG 미커버 시 Tavily 폴백
-- **exception_handler**: 체류 연장·신분 변경·비자 거절 전용 처리
-- **response_formatter**: 추천 비자/요건/서류/주의사항/공식 링크 구조화
+- **intent_classifier**: 국가(ISO 코드)·목적·기간·직업 추출 + **비자 관련 여부 판별** + 예외 키워드(연장/변경/거절·**쉥겐/환승/ESTA** 등) 감지 + **멀티턴 맥락 이어받기**(이전 대화 반영)
+- **general_chat**: 비자와 무관한 질문을 간단히 응대하고 도메인으로 유도 (노드 오진입 방지)
+- **visa_rag_search**: ChromaDB 비자 문서 검색 + **교차 예외규칙(extra_context)** 병합
+- **web_search_tool**: 6개국 외 국가까지 대응. `search_hints`의 **우선 공식도메인(include_domains)**·검색어 템플릿 적용
+- **search_quality_gate**: 웹 결과 신뢰도(공식 출처 포함·내용량) 평가
+- **query_refiner**: 신뢰도가 낮으면 **LLM이 한국어→영어 공식 검색어를 재생성**해 재검색(최대 2회 루프)
+- **exception_handler**: 연장·변경·거절 + 쉥겐·환승·전자여행허가 등 **교차 규칙**을 키워드+의미 하이브리드로 검색
+- **response_formatter**: 추천 비자/요건/서류/주의사항/공식 링크 구조화 (**토큰 스트리밍**)
 
 ## 🔬 백엔드 워크플로우 실시간 트레이스 (`/trace`)
 
@@ -97,14 +104,17 @@ visa_guide_ai/
 │   ├── routers/
 │   │   ├── chat.py          # POST /chat/  (+ 공유 build_initial_state)
 │   │   └── workflow.py      # GET /graph/topology · POST /chat/stream · GET /trace
-│   ├── static/trace.html    # 실시간 트레이스 대시보드 (의존성 없는 vanilla JS)
+│   ├── static/trace.html    # 실시간 트레이스 대시보드 (2D 그래프·vanilla JS)
+│   ├── knowledge/           # 도메인 지식(반입)
+│   │   ├── exceptions.py    #   교차 예외규칙 13종(쉥겐·환승·ETA…) → RAG 적재
+│   │   └── search_hints.py  #   국가별 우선 공식도메인 + 검색어 템플릿
 │   ├── agent/
 │   │   ├── {state,graph,routing,config,domain}.py
-│   │   ├── nodes/{intent,search,response,llm}.py  # 노드가 node_details 진단 기록
-│   │   ├── event_bus.py     # Streamlit↔trace 브로드캐스트 pub/sub
+│   │   ├── nodes/{intent,search,response,general,refine,llm}.py
+│   │   ├── event_bus.py     # Streamlit↔trace 브로드캐스트 pub/sub(+리플레이)
 │   │   └── trace_meta.py    # 노드/간선 표시 메타데이터(확장 지점)
-│   └── rag/{vectorstore,ingest}.py
-└── ui/app.py                # Streamlit 채팅 UI (+ 인라인 워크플로우 스트리밍)
+│   └── rag/{vectorstore,ingest}.py   # 비자 + 예외규칙 적재, search_exceptions
+└── ui/app.py                # Streamlit 채팅 UI(+워크플로우 단계·토큰 스트리밍)
 ```
 
 ---
@@ -166,11 +176,38 @@ TRACE_URL=http://localhost:8000/trace     # 사이드바 '워크플로우 실시
 
 ---
 
+## 추가 개선(2차)
+
+- **의도 분류 강건화**: `intent_classifier`를 결정적(temperature=0)으로 실행하고
+  `INTENT_MODEL`로 모델 교체 가능. 도메인 키워드(`VISA_KEYWORDS`)·국가/목적 신호가 있으면
+  LLM 오판을 무시하고 비자 플로로 강제(예: "캐나다 취업"이 일반대화로 빠지는 문제 해결).
+- **멀티 채팅 세션(ChatGPT/Claude 식)**: 사이드바에서 **➕ 새 대화** 생성·전환·삭제,
+  대화별 맥락 유지(세션별 history). 첫 메시지로 대화 제목 자동 설정.
+- **Tavily 검색어 정제**: 한국어 원문·`Korea` 관련 단어를 배제하고 `search_hints` 템플릿의
+  **핵심 영어 쿼리(국가명 + visa + requirements/eligibility/official)**만 사용
+  (예: `South Africa work visa eligibility requirements official`). 재생성 검색어도 동일 규칙.
+
+## 데모 리뷰 반영(개선 이력)
+
+- **장기 체류 비중 강화**: 단기→영주권·정착 경로와 갱신/전환 조건을 함께 안내(SYSTEM_PROMPT).
+- **교차 예외규칙 보강**: 쉥겐↔비쉥겐, 환승, ESTA/eTA, 유효기간≠체류, 단·복수입국 등 13종 규칙을
+  RAG에 적재하고 키워드+의미 하이브리드로 검색(`knowledge/exceptions.py`).
+- **전세계 국가 대응**: 6개국은 RAG, 그 외는 `knowledge/search_hints.py`의 우선 공식도메인·검색어
+  템플릿으로 Tavily 검색(예: 남아공→dha.gov.za, 프랑스→france-visas.gouv.fr).
+- **검색 신뢰도 게이트 + 검색어 재생성 루프**: 공식 출처가 부족하면 LLM이 한국어→영어 검색어를
+  재생성해 재검색(에이전트형 자기교정).
+- **일반 대화 분기**: 비자 무관 질문이 비자 워크플로에 잘못 진입하지 않도록 `general_chat`로 분리.
+- **멀티턴 맥락**: 직전 대화를 의도 추출에 반영(예: "캐나다 개발자 취업" 후 "그럼 영국은?" →
+  영국·취업·개발자로 이어받음).
+- **응답 토큰 스트리밍**: 최종 답변을 토큰 단위로 실시간 갱신(Streamlit·/trace 공통).
+- **Streamlit ↔ /trace 실시간 연동**: 채팅 입력이 트레이스 대시보드에 실시간 브로드캐스트
+  (이벤트 버스 + 캐시 무효화 + 직전 실행 리플레이).
+
 ## 제약 사항 (MVP)
 
-- 6개국 한정 (미국·일본·영국·캐나다·호주·독일)
+- 정밀 RAG 데이터는 6개국(미국·일본·영국·캐나다·호주·독일), 그 외 국가는 웹검색 기반(정확도 변동)
 - 실제 비자 신청 대행 / 승인 가능성 예측 없음
-- 세션 간 영속 대화 기록 미지원 (세션 내 State만 유지)
-- 한국어 전용
+- 세션 영속 저장은 미지원(대화 history 기반 멀티턴만 지원)
+- 한국어 전용 · 단일 프로세스(트레이스 브로드캐스트는 단일 uvicorn 워커 기준)
 
 > ⚠️ 모든 비자 정보는 **참고용**이며, 실제 신청 시 해당 국가 공식 기관(대사관·이민국)에서 최신 정보를 반드시 확인하세요.

@@ -48,7 +48,12 @@ def build_initial_state(message: str, history: Optional[List[MessageItem]] = Non
         "has_sponsor": None,
         "is_exception": False,
         "exception_type": None,
+        "is_visa_related": True,
         "search_results": None,
+        "extra_context": None,
+        "web_query": None,
+        "search_attempts": 0,
+        "search_quality": None,
         "final_response": None,
         "node_details": [],
     }

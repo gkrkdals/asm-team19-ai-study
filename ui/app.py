@@ -53,34 +53,81 @@ def load_styles() -> None:
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
+# ── 멀티 채팅 세션 관리 (ChatGPT/Claude 식) ───────────────────────────────
+def _new_sid() -> str:
+    return "session_" + datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+
+def _sync_active() -> None:
+    """활성 대화의 messages/session_id 를 다른 함수가 쓰는 별칭으로 노출."""
+    conv = st.session_state.conversations[st.session_state.active_sid]
+    st.session_state.messages = conv["messages"]
+    st.session_state.session_id = st.session_state.active_sid
+
+
+def create_conversation() -> None:
+    sid = _new_sid()
+    st.session_state.conversations[sid] = {
+        "title": "새 대화",
+        "messages": [],
+        "created": datetime.now().strftime("%m/%d %H:%M"),
+    }
+    st.session_state.active_sid = sid
+    st.session_state.pending_input = None
+    _sync_active()
+
+
+def switch_conversation(sid: str) -> None:
+    if sid in st.session_state.conversations:
+        st.session_state.active_sid = sid
+        st.session_state.pending_input = None
+        _sync_active()
+
+
+def delete_conversation(sid: str) -> None:
+    st.session_state.conversations.pop(sid, None)
+    if not st.session_state.conversations:
+        create_conversation()
+    elif st.session_state.active_sid == sid:
+        st.session_state.active_sid = next(reversed(st.session_state.conversations))
+    _sync_active()
+
+
 def init_session_state() -> None:
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
-    if "session_id" not in st.session_state:
-        st.session_state.session_id = f"session_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+    if "conversations" not in st.session_state:
+        st.session_state.conversations = {}
     if "pending_input" not in st.session_state:
         st.session_state.pending_input = None
-
-
-def reset_session_state() -> None:
-    st.session_state.messages = []
-    st.session_state.session_id = f"session_{datetime.now().strftime('%Y%m%d%H%M%S')}"
-    st.session_state.pending_input = None
+    if not st.session_state.conversations:
+        create_conversation()
+    if st.session_state.get("active_sid") not in st.session_state.conversations:
+        st.session_state.active_sid = next(reversed(st.session_state.conversations))
+    _sync_active()
 
 
 def render_sidebar(example_queries: list[str]) -> None:
     st.markdown("## 🛂 VisaGuide AI")
-    st.markdown("---")
-    st.markdown("### 지원 국가")
-    st.markdown(
-        "🇺🇸 미국 &nbsp; 🇯🇵 일본 &nbsp; 🇬🇧 영국\n\n"
-        "🇨🇦 캐나다 &nbsp; 🇦🇺 호주 &nbsp; 🇩🇪 독일"
-    )
-    st.markdown("---")
-    st.markdown("### 예시 질문")
-    for i, q in enumerate(example_queries):
-        if st.button(q, use_container_width=True, key=f"btn_{i}"):
-            st.session_state["pending_input"] = q
+
+    # ── 대화 목록 (새 대화 / 전환 / 삭제) ──────────────────────────────
+    if st.button("➕ 새 대화", use_container_width=True, type="primary"):
+        create_conversation()
+        st.rerun()
+
+    st.markdown("##### 💬 대화 목록")
+    for sid, conv in reversed(list(st.session_state.conversations.items())):
+        active = sid == st.session_state.active_sid
+        col_a, col_b = st.columns([0.82, 0.18])
+        label = (conv["title"] or "새 대화")[:26]
+        with col_a:
+            if st.button(("🟢 " if active else "💬 ") + label,
+                         key=f"conv_{sid}", use_container_width=True):
+                switch_conversation(sid)
+                st.rerun()
+        with col_b:
+            if st.button("🗑", key=f"del_{sid}", use_container_width=True,
+                         help="이 대화 삭제"):
+                delete_conversation(sid)
+                st.rerun()
 
     st.markdown("---")
     st.markdown("### 🔬 백엔드 트레이스")
@@ -97,9 +144,16 @@ def render_sidebar(example_queries: list[str]) -> None:
     )
 
     st.markdown("---")
-    if st.button("대화 초기화", use_container_width=True):
-        reset_session_state()
-        st.rerun()
+    st.markdown("### 예시 질문")
+    for i, q in enumerate(example_queries):
+        if st.button(q, use_container_width=True, key=f"btn_{i}"):
+            st.session_state["pending_input"] = q
+
+    st.markdown("### 지원 국가")
+    st.markdown(
+        "🇺🇸 미국 · 🇯🇵 일본 · 🇬🇧 영국 · 🇨🇦 캐나다 · 🇦🇺 호주 · 🇩🇪 독일\n\n"
+        "그 외 국가는 웹검색으로 대응합니다."
+    )
 
     st.markdown(
         '<div class="disclaimer-box">'
@@ -275,6 +329,11 @@ pending = st.session_state.pop("pending_input", None)
 user_input = st.chat_input("질문을 입력하세요 (예: 캐나다 취업 비자 알고 싶어요)") or pending
 
 if user_input:
+    conv = st.session_state.conversations[st.session_state.active_sid]
+    # 첫 사용자 메시지로 대화 제목 설정
+    if conv["title"] == "새 대화":
+        conv["title"] = user_input.strip()[:30]
+
     with st.chat_message("user"):
         st.markdown(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
@@ -284,3 +343,5 @@ if user_input:
         ai_response = render_workflow_and_answer(user_input)
 
     st.session_state.messages.append({"role": "assistant", "content": ai_response})
+    # 사이드바 대화 목록의 제목/활성 표시를 즉시 갱신
+    st.rerun()

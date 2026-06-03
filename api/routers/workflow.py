@@ -135,8 +135,8 @@ async def _iter_events(req: ChatRequest):
         ):
             if mode == "messages":
                 msg_chunk, meta = payload
-                # 최종 답변 노드(response_formatter)의 토큰만 스트리밍한다.
-                if meta.get("langgraph_node") == "response_formatter":
+                # 최종 답변 노드(response_formatter/general_chat)의 토큰만 스트리밍한다.
+                if meta.get("langgraph_node") in ("response_formatter", "general_chat"):
                     text = getattr(msg_chunk, "content", "") or ""
                     if text:
                         streamed_tokens += text

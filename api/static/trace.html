@@ -203,12 +203,24 @@ async function loadTopology(){
   layoutAndRender(topo);
 }
 
-// 레이어드 DAG 레이아웃(최장경로 랭킹) — 노드 추가 시 자동 재배치
+// 레이어드 DAG 레이아웃(최장경로 랭킹) — 노드 추가/루프에도 자동 대응
 function computeLayout(nodes, edges){
   const ids = nodes.map(n=>n.id);
+  const idset = new Set(ids);
+  // 1) DFS 로 back-edge(되돌아가는 루프 간선) 탐지 → 랭킹에서 제외(그리기는 유지)
+  const adj={}; ids.forEach(id=>adj[id]=[]);
+  edges.forEach(e=>{ if(adj[e.source]&&idset.has(e.target)) adj[e.source].push(e.target); });
+  const vis={}; ids.forEach(id=>vis[id]=0); // 0 미방문,1 스택,2 완료
+  const back=new Set();
+  const dfs=(u)=>{ vis[u]=1; for(const v of adj[u]){ if(vis[v]===1) back.add(u+">"+v); else if(vis[v]===0) dfs(v); } vis[u]=2; };
+  ids.forEach(id=>{ if(vis[id]===0) dfs(id); });
+
   const preds={}, succs={}, indeg={};
   ids.forEach(id=>{preds[id]=[];succs[id]=[];indeg[id]=0;});
-  edges.forEach(e=>{ if(succs[e.source]&&preds[e.target]!==undefined){ succs[e.source].push(e.target); preds[e.target].push(e.source); indeg[e.target]++; }});
+  edges.forEach(e=>{
+    if(back.has(e.source+">"+e.target)) return;       // back-edge 는 랭킹 제외
+    if(succs[e.source]&&preds[e.target]!==undefined){ succs[e.source].push(e.target); preds[e.target].push(e.source); indeg[e.target]++; }
+  });
   const rank={}; ids.forEach(id=>rank[id]=0);
   const q = ids.filter(id=>indeg[id]===0);
   while(q.length){ const u=q.shift(); (succs[u]||[]).forEach(v=>{ rank[v]=Math.max(rank[v],rank[u]+1); if(--indeg[v]===0) q.push(v); }); }

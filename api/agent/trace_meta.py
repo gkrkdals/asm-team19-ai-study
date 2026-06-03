@@ -63,6 +63,27 @@ NODE_META: dict[str, dict[str, Any]] = {
         "sources": ["LLM", "State"],
         "produces": ["final_response"],
     },
+    "general_chat": {
+        "label": "일반 대화",
+        "icon": "💬",
+        "desc": "비자와 무관한 질문을 간단히 응대하고 비자 도메인으로 유도합니다.",
+        "sources": ["LLM"],
+        "produces": ["final_response"],
+    },
+    "search_quality_gate": {
+        "label": "검색 신뢰도 게이트",
+        "icon": "🔎",
+        "desc": "웹 검색 결과의 공식 출처 포함·내용 충분성을 평가해 재검색 여부를 결정합니다.",
+        "sources": ["Rule"],
+        "produces": ["search_quality"],
+    },
+    "query_refiner": {
+        "label": "검색어 재생성",
+        "icon": "🔁",
+        "desc": "신뢰도가 낮으면 LLM 이 한국어→영어 공식 검색어를 다시 생성해 재검색합니다.",
+        "sources": ["LLM"],
+        "produces": ["web_query", "search_attempts"],
+    },
 }
 
 # 그래프의 가상 시작/끝 노드
@@ -74,11 +95,16 @@ TERMINAL_NODES = {
 # ── 간선(엣지) 라벨: 어떤 조건/데이터로 이 간선을 타는지 ────────────────────
 # 새 간선을 의미 있게 표기하려면 (source, target) 키를 추가한다. 없으면 라벨 생략.
 EDGE_LABELS: dict[tuple[str, str], str] = {
+    ("intent_classifier", "general_chat"): "비자 무관 질문",
     ("intent_classifier", "visa_rag_search"): "국가·목적 확인됨",
     ("intent_classifier", "exception_handler"): "예외 키워드 감지",
     ("intent_classifier", "response_formatter"): "정보 부족 → 재질문",
-    ("visa_rag_search", "web_search_tool"): "RAG 결과 0건",
-    ("visa_rag_search", "response_formatter"): "RAG 결과 있음",
+    ("visa_rag_search", "web_search_tool"): "비자 결과 0건",
+    ("visa_rag_search", "response_formatter"): "비자 결과 있음",
+    ("web_search_tool", "search_quality_gate"): "검색 결과 평가",
+    ("search_quality_gate", "query_refiner"): "신뢰도 낮음",
+    ("search_quality_gate", "response_formatter"): "신뢰도 충분",
+    ("query_refiner", "web_search_tool"): "재생성 검색어로 재검색",
     ("web_search_tool", "response_formatter"): "웹 검색 결과 반영",
     ("exception_handler", "response_formatter"): "예외 정보 반영",
 }
