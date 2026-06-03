@@ -31,37 +31,56 @@
   .chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
   .chip { font-size:12px; color:var(--muted); border:1px solid var(--line); background:var(--panel); padding:4px 10px; border-radius:999px; cursor:pointer; }
   .chip:hover { color:var(--text); border-color:var(--accent); }
-  .grid { display:grid; grid-template-columns:1.35fr 1fr; gap:16px; }
-  @media (max-width:980px){ .grid { grid-template-columns:1fr; } }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; }
+  /* 그래프(①)와 파이프라인(②)을 위아래로 쌓아 각각 전체 폭을 사용한다.
+     → 데스크탑에서 파이프라인을 좁은 슬라이드/스크롤로 가두지 않는다. */
+  .grid { display:grid; grid-template-columns:1fr; gap:16px; }
+  /* min-width:0 → 그리드 아이템이 넓은 그래프 내용에 끌려 확장되지 않게(반응형 폭 유지) */
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; min-width:0; }
   .card h2 { font-size:13px; margin:0; padding:11px 14px; border-bottom:1px solid var(--line); color:var(--muted); font-weight:700; }
   .card .body { padding:12px 14px; }
 
   /* ── 2D 그래프 ── */
-  #graphScroll { overflow:auto; }
-  #graphWrap { position:relative; margin:0 auto; }
-  #edges { position:absolute; top:0; left:0; overflow:visible; }
+  #graphScroll { overflow:auto; max-width:100%; }
+  #graphSizer { position:relative; margin:0 auto; }
+  #graphWrap { position:relative; transform-origin:top left; }
+  /* 그래프 툴바(배치 전환 + 줌) */
+  .gtoolbar { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:8px 14px;
+    border-bottom:1px solid var(--line); font-size:12px; color:var(--muted); }
+  .gtoolbar button { background:#1b2435; color:var(--text); border:1px solid var(--line);
+    border-radius:7px; padding:3px 10px; cursor:pointer; font-size:12px; font-weight:600; }
+  .gtoolbar button:hover { border-color:var(--accent); color:#fff; }
+  .gtoolbar #zVal { min-width:46px; text-align:center; color:var(--text); font-variant-numeric:tabular-nums; }
+  .gtoolbar .zlbl { color:var(--muted); }
+  .gtoolbar .sep { width:1px; height:16px; background:var(--line); margin:0 4px; }
+  .gtoolbar .ahint { margin-left:auto; color:var(--muted); font-size:11px; }
+  /* z-index 레이어:  비활성 노드(1) < 간선/라벨(2) < 플로우 오버레이(2) < 활성·완료 노드(3) < hover·데이터칩(4) */
+  #edges { position:absolute; top:0; left:0; overflow:visible; z-index:0; }            /* 기본(유휴) 간선 */
+  #edgesFlow { position:absolute; top:0; left:0; overflow:visible; z-index:2; pointer-events:none; } /* 실행 경로 화살표(상단) */
   .edge { stroke:var(--idle); stroke-width:2; fill:none; }
   .edge.cond { stroke-dasharray:6 4; }
-  .edge.flow { stroke:var(--ok); stroke-width:3; stroke-dasharray:9 6; animation:dash .7s linear infinite; }
+  .edge.flow { stroke:var(--ok); stroke-width:4; stroke-dasharray:9 6; animation:dash .7s linear infinite; filter:drop-shadow(0 0 5px rgba(63,185,80,.85)); }
   @keyframes dash { to { stroke-dashoffset:-30; } }
-  .elabel { position:absolute; transform:translate(-50%,-50%); font-size:10px; color:var(--muted);
+  .elabel { position:absolute; z-index:2; transform:translate(-50%,-50%); font-size:10px; color:var(--muted);
     background:var(--bg); border:1px solid var(--line); padding:1px 6px; border-radius:999px; white-space:nowrap; pointer-events:none; }
-  .elabel.data { color:var(--ok); border-color:var(--ok); font-weight:700; }
-  .gnode { position:absolute; border:1px solid var(--line); border-radius:10px; background:#141b29;
-    padding:8px 10px; cursor:pointer; transition:all .2s; opacity:.85; overflow:hidden; }
-  .gnode:hover { border-color:var(--accent); }
+  .elabel.data { z-index:4; color:var(--ok); border-color:var(--ok); font-weight:700; }
+  .gnode { position:absolute; z-index:1; border:1px solid var(--line); border-radius:10px; background:#141b29;
+    padding:8px 10px; cursor:pointer; transition:border-color .2s, box-shadow .2s, opacity .2s; opacity:.85; overflow:hidden; }
+  .gnode:hover { border-color:var(--accent); z-index:7; box-shadow:0 0 0 2px rgba(79,157,255,.5), 0 10px 26px 6px rgba(0,0,0,.6); }
   .gnode .r1 { display:flex; align-items:center; gap:7px; }
   .gnode .ico { font-size:16px; }
   .gnode .nm { font-weight:700; font-size:13px; }
   .gnode .dot { margin-left:auto; width:9px; height:9px; border-radius:50%; background:var(--idle); flex:none; }
   .gnode .brief { margin-top:5px; display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
   .gnode .gist { margin-top:5px; font-size:10.5px; color:var(--muted); white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
-  .gnode.active { opacity:1; border-color:var(--accent); box-shadow:0 0 0 2px rgba(79,157,255,.3); }
+  /* 실행 경로(선택) 노드는 모든 요소 위(z-index 최상위)에 그리고, 강한 글로우+다크 헤일로
+     그림자로 주변 일부를 덮어 가시성을 극대화한다. 약간 확대해 도드라지게 한다. */
+  .gnode.active { z-index:6; opacity:1; border-color:var(--accent); transform:scale(1.05);
+    box-shadow:0 0 0 3px rgba(79,157,255,.5), 0 0 18px 4px rgba(79,157,255,.45), 0 10px 26px 6px rgba(0,0,0,.6); }
   .gnode.active .dot { background:var(--accent); animation:pulse 1s infinite; }
-  .gnode.done { opacity:1; border-color:var(--ok); }
+  .gnode.done { z-index:5; opacity:1; border-color:var(--ok); transform:scale(1.025);
+    box-shadow:0 0 0 2px rgba(63,185,80,.45), 0 0 12px 2px rgba(63,185,80,.35), 0 8px 20px 4px rgba(0,0,0,.5); }
   .gnode.done .dot { background:var(--ok); }
-  .gnode.skipped { opacity:.38; }
+  .gnode.skipped { z-index:1; opacity:.3; filter:saturate(.5); }
   @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.6);} }
   .src { font-size:9.5px; padding:1px 6px; border-radius:999px; border:1px solid; font-weight:600; }
   .src.LLM{color:var(--llm);border-color:var(--llm);} .src.VectorDB{color:var(--vdb);border-color:var(--vdb);}
@@ -72,14 +91,22 @@
   .legend .ln { width:16px; height:0; border-top:2px solid var(--idle); display:inline-block; margin-right:4px; vertical-align:middle; }
   .legend .ln.cond { border-top-style:dashed; }
 
-  /* ── 타임라인 ── */
-  #timeline { min-height:80px; max-height:62vh; overflow:auto; }
-  .step { border-left:2px solid var(--line); padding:0 0 14px 14px; margin-left:6px; position:relative; }
-  .step::before { content:""; position:absolute; left:-7px; top:2px; width:12px; height:12px; border-radius:50%; background:var(--ok); border:2px solid var(--bg); }
+  /* ── 단계별 파이프라인 ──
+     데스크탑: 전체 폭을 채우는 반응형 카드 그리드(한눈에 모든 단계 비교).
+     모바일: 단일 컬럼 세로 스택으로 자연 스크롤. */
+  #timeline { min-height:80px; display:grid; align-content:start; gap:12px 14px;
+    grid-template-columns:repeat(auto-fill, minmax(330px, 1fr)); }
+  #timeline > .hint { grid-column:1 / -1; }
+  .step { border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:10px;
+    background:#141b29; padding:9px 12px 11px; margin:0; position:relative; }
+  .step::before { display:none; }
   .step .head { display:flex; align-items:baseline; gap:8px; }
   .step .head .nm { font-weight:700; }
   .step .head .ms { margin-left:auto; font-size:11px; color:var(--muted); }
   .step .hl { font-size:11.5px; color:var(--accent); margin:3px 0; }
+  @media (max-width:760px){
+    #timeline { grid-template-columns:1fr; max-height:62vh; overflow:auto; }
+  }
   table.io { width:100%; border-collapse:collapse; margin-top:5px; }
   table.io td { font-size:12px; vertical-align:top; padding:3px 6px; border-bottom:1px solid #222c3d; }
   table.io td.k { color:var(--muted); white-space:nowrap; width:38%; }
@@ -110,8 +137,9 @@
 </head>
 <body>
 <header>
-  <span class="title">🔬 워크플로우 실시간 트레이스</span>
-  <span class="badge">FastAPI · LangGraph · ChromaDB · Tavily</span>
+  <a class="badge" href="/trace" title="모든 세션 통합 허브로 이동">← 통합 허브</a>
+  <span class="title">🔬 세션 워크플로우 트레이스</span>
+  <span id="sessBadge" class="badge">세션: —</span>
   <span id="livePill" class="pill">⚪ 연결 대기</span>
   <span id="statusPill" class="pill">대기 중</span>
 </header>
@@ -129,8 +157,19 @@
   <div class="grid">
     <div class="card">
       <h2>① LangGraph 데이터 흐름 (노드를 클릭하면 상세)</h2>
+      <div class="gtoolbar">
+        <button id="orientBtn" title="가로(행)/세로(열) 배치 전환">⇄ <span id="orientTxt">자동</span></button>
+        <span class="sep"></span>
+        <span class="zlbl">확대</span>
+        <button id="zOut" title="축소">−</button>
+        <span id="zVal">100%</span>
+        <button id="zIn" title="확대">+</button>
+        <button id="zFit" title="모든 노드가 보이도록 맞춤">맞춤</button>
+        <button id="zReset" title="100%로">100%</button>
+        <span class="ahint">💡 2분할 등 좁은 화면에선 <b>맞춤</b>으로 전체 노드를 한눈에</span>
+      </div>
       <div class="body">
-        <div id="graphScroll"><div id="graphWrap">
+        <div id="graphScroll"><div id="graphSizer"><div id="graphWrap">
           <svg id="edges">
             <defs>
               <marker id="arrow" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
@@ -139,7 +178,14 @@
                 <path d="M0,0 L9,4.5 L0,9 Z" fill="#3fb950"/></marker>
             </defs>
           </svg>
-        </div></div>
+          <!-- 실행 경로 화살표 전용 오버레이(비활성 노드 위에 그려 가려짐 방지) -->
+          <svg id="edgesFlow">
+            <defs>
+              <marker id="arrowFlowTop" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
+                <path d="M0,0 L9,4.5 L0,9 Z" fill="#3fb950"/></marker>
+            </defs>
+          </svg>
+        </div></div></div>
         <div class="legend">
           <span><i style="background:var(--idle)"></i>대기</span>
           <span><i style="background:var(--accent)"></i>실행 중</span>
@@ -182,6 +228,14 @@ let PATHS = { topology:"/graph/topology", stream:"/chat/stream", live:"/trace/li
 const $ = (id)=>document.getElementById(id);
 const esc = (s)=>String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
+// 이 페이지가 다루는 대화 세션 ID: 경로 /{sid}/trace 또는 쿼리 ?session_id=
+function deriveSessionId(){
+  const m = location.pathname.match(/^\/([^\/]+)\/trace\/?$/);
+  if(m && m[1] !== "trace") return decodeURIComponent(m[1]);
+  return new URLSearchParams(location.search).get("session_id") || null;
+}
+const SESSION_ID = deriveSessionId();
+
 let TOPO = null;            // {nodes,edges}
 let META = {};             // id -> node meta (label,icon,desc,sources,produces,source_labels)
 let POS = {};              // id -> {x,y,W,H}
@@ -189,6 +243,12 @@ let DETAILS = {};          // id -> detail record (latest run)
 let curRunId = null;
 let prevExec = null;
 let answerAcc = "";        // 최종 답변 토큰 누적 버퍼
+let ORIENT_MODE = "auto";  // "auto" | "TB"(세로/열) | "LR"(가로/행)
+let CUR_ORIENT = "TB";     // 현재 렌더된 방향
+let ZOOM = 1, GW = 0, GH = 0;   // 줌 배율 + 그래프 원본 폭/높이
+let LAST_TOPO = null;
+let EXEC_SEQ = [];         // 이번 실행에서 거친 노드 순서(재배치/재렌더 시 재장식용)
+let EXEC_DONE = false;
 
 function setStatus(t,cls){ const p=$("statusPill"); p.textContent=t; p.className="pill"+(cls?" "+cls:""); }
 function setLive(t,cls){ const p=$("livePill"); p.textContent=t; p.className="pill"+(cls?" "+cls:""); }
@@ -203,8 +263,9 @@ async function loadTopology(){
   layoutAndRender(topo);
 }
 
-// 레이어드 DAG 레이아웃(최장경로 랭킹) — 노드 추가/루프에도 자동 대응
-function computeLayout(nodes, edges){
+// 레이어드 DAG 레이아웃(최장경로 랭킹) — 노드 추가/루프에도 자동 대응.
+// orient="TB"(세로/열) | "LR"(가로/행)
+function computeLayout(nodes, edges, orient){
   const ids = nodes.map(n=>n.id);
   const idset = new Set(ids);
   // 1) DFS 로 back-edge(되돌아가는 루프 간선) 탐지 → 랭킹에서 제외(그리기는 유지)
@@ -227,39 +288,66 @@ function computeLayout(nodes, edges){
   const byRank={}; ids.forEach(id=>{ (byRank[rank[id]]=byRank[rank[id]]||[]).push(id); });
   const maxRank = Math.max(0,...ids.map(id=>rank[id]));
   const maxPer = Math.max(1,...Object.values(byRank).map(a=>a.length));
-  const W=176, H=86, vGap=148;
-  const width = Math.max(560, maxPer*250);
-  const height = (maxRank+1)*vGap + 24;
+  const W=176, H=86;
   const pos={};
+  if(orient==="LR"){
+    // 가로(행) 배치: rank 가 좌→우, 같은 rank 는 세로로 분산
+    const hGap=232, height = Math.max(360, maxPer*128 + 24), width=(maxRank+1)*hGap + 24;
+    for(let r=0;r<=maxRank;r++){ const arr=byRank[r]||[];
+      arr.forEach((id,i)=>{ pos[id]={ x:r*hGap+12, y:(i+1)/(arr.length+1)*height - H/2, W, H }; });
+    }
+    return { pos, width, height };
+  }
+  // 세로(열) 배치: rank 가 상→하, 같은 rank 는 가로로 분산(기본)
+  const vGap=148, width = Math.max(560, maxPer*250), height=(maxRank+1)*vGap + 24;
   for(let r=0;r<=maxRank;r++){ const arr=byRank[r]||[];
     arr.forEach((id,i)=>{ pos[id]={ x:(i+1)/(arr.length+1)*width - W/2, y:r*vGap+12, W, H }; });
   }
   return { pos, width, height };
 }
 
+// 간선 베지어 기하(방향별). 시작/끝 접점과 path d 를 함께 반환.
+function edgeGeom(s, t, orient){
+  if(orient==="LR"){
+    const x1=s.x+s.W, y1=s.y+s.H/2, x2=t.x, y2=t.y+t.H/2, dx=Math.max(40,(x2-x1));
+    return { x1,y1,x2,y2, d:`M${x1},${y1} C${x1+dx*0.45},${y1} ${x2-dx*0.45},${y2} ${x2},${y2}` };
+  }
+  const x1=s.x+s.W/2, y1=s.y+s.H, x2=t.x+t.W/2, y2=t.y, dy=Math.max(40,(y2-y1));
+  return { x1,y1,x2,y2, d:`M${x1},${y1} C${x1},${y1+dy*0.45} ${x2},${y2-dy*0.45} ${x2},${y2}` };
+}
+
+function effectiveOrient(){
+  if(ORIENT_MODE!=="auto") return ORIENT_MODE;
+  const cw = ($("graphScroll")||{}).clientWidth || 1000;
+  return cw >= 1100 ? "LR" : "TB";   // 공간 충분 → 가로(행), 부족 → 세로(열)
+}
+
 function layoutAndRender(topo){
-  const { pos, width, height } = computeLayout(topo.nodes, topo.edges);
-  POS = pos;
+  LAST_TOPO = topo;
+  const orient = effectiveOrient(); CUR_ORIENT = orient;
+  const { pos, width, height } = computeLayout(topo.nodes, topo.edges, orient);
+  POS = pos; GW = width; GH = height;
   const wrap = $("graphWrap"); wrap.style.width = width+"px"; wrap.style.height = height+"px";
   const svg = $("edges"); svg.setAttribute("width",width); svg.setAttribute("height",height);
+  const svgF = $("edgesFlow"); svgF.setAttribute("width",width); svgF.setAttribute("height",height);
   // 기존 노드/라벨 제거(엣지 defs 는 유지)
   [...wrap.querySelectorAll(".gnode,.elabel")].forEach(e=>e.remove());
   [...svg.querySelectorAll("path.edge")].forEach(e=>e.remove());
+  [...svgF.querySelectorAll("path.edge")].forEach(e=>e.remove());
 
   // 엣지(간선)
   topo.edges.forEach(e=>{
     const s=pos[e.source], t=pos[e.target]; if(!s||!t) return;
-    const x1=s.x+s.W/2, y1=s.y+s.H, x2=t.x+t.W/2, y2=t.y;
-    const dy=Math.max(40,(y2-y1));
+    const g=edgeGeom(s,t,orient);
     const path=document.createElementNS("http://www.w3.org/2000/svg","path");
-    path.setAttribute("d",`M${x1},${y1} C${x1},${y1+dy*0.45} ${x2},${y2-dy*0.45} ${x2},${y2}`);
+    path.setAttribute("d",g.d);
     path.setAttribute("class","edge"+(e.conditional?" cond":""));
     path.setAttribute("marker-end","url(#arrow)");
     path.id = "edge-"+e.source+"__"+e.target;
     svg.appendChild(path);
     if(e.label){
       const lab=document.createElement("div"); lab.className="elabel"; lab.id="elabel-"+e.source+"__"+e.target;
-      lab.style.left=((x1+x2)/2)+"px"; lab.style.top=((y1+y2)/2)+"px"; lab.textContent=e.label;
+      lab.style.left=((g.x1+g.x2)/2)+"px"; lab.style.top=((g.y1+g.y2)/2)+"px"; lab.textContent=e.label;
       wrap.appendChild(lab);
     }
   });
@@ -279,23 +367,66 @@ function layoutAndRender(topo){
     if(!term) div.addEventListener("click",()=>openNode(n.id));
     wrap.appendChild(div);
   });
+  applyZoom();
+}
+
+// ── 줌/배치 컨트롤 ────────────────────────────────────────────────────────
+function applyZoom(){
+  const wrap=$("graphWrap"), sizer=$("graphSizer");
+  wrap.style.transform="scale("+ZOOM+")";
+  sizer.style.width=(GW*ZOOM)+"px"; sizer.style.height=(GH*ZOOM)+"px";
+  const z=$("zVal"); if(z) z.textContent=Math.round(ZOOM*100)+"%";
+}
+function setZoom(z){ ZOOM=Math.max(0.25, Math.min(2, z)); applyZoom(); }
+function fitZoom(){
+  const sc=$("graphScroll"); if(!sc||!GW||!GH) return;
+  const cw=sc.clientWidth-4, ch=Math.max(360, window.innerHeight*0.66);
+  setZoom(Math.min(cw/GW, ch/GH, 1.5));   // 폭·높이 모두 안에 들어오도록(모든 노드 가시)
+}
+function setOrientMode(m){ ORIENT_MODE=m; if(LAST_TOPO){ layoutAndRender(LAST_TOPO); redecorate(); } updateOrientTxt(); }
+function updateOrientTxt(){
+  const t=$("orientTxt"); if(!t) return;
+  t.textContent = ORIENT_MODE==="auto" ? ("자동·"+(CUR_ORIENT==="LR"?"가로":"세로")) : (ORIENT_MODE==="LR"?"가로":"세로");
 }
 
 function setNode(id,cls){ const el=$("gnode-"+id); if(el){ el.classList.remove("active","done","skipped"); el.classList.add(cls); } }
 function resetGraph(){ document.querySelectorAll(".gnode").forEach(el=>el.classList.remove("active","done","skipped"));
-  document.querySelectorAll("path.edge").forEach(p=>{ p.classList.remove("flow"); p.setAttribute("marker-end","url(#arrow)"); });
+  // 기본 간선 화살표 복구 + 오버레이(실행 경로) 화살표 제거
+  document.querySelectorAll("#edges path.edge").forEach(p=>{ p.classList.remove("flow"); p.setAttribute("marker-end","url(#arrow)"); });
+  document.querySelectorAll("#edgesFlow path.edge").forEach(p=>p.remove());
   document.querySelectorAll(".elabel.data").forEach(e=>e.remove());
   document.querySelectorAll(".gist").forEach(e=>e.textContent=""); }
 
 function flowEdge(src,tgt,dataLabel){
-  const p=$("edge-"+src+"__"+tgt);
-  if(p){ p.classList.add("flow"); p.setAttribute("marker-end","url(#arrowFlow)"); }
+  const s=POS[src], t=POS[tgt]; if(!s||!t) return;
+  const g=edgeGeom(s,t,CUR_ORIENT);
+  // 실행 경로 화살표를 '상단 오버레이 SVG'에 그려 비활성 노드에 가려지지 않게 한다.
+  const fp=document.createElementNS("http://www.w3.org/2000/svg","path");
+  fp.setAttribute("d",g.d);
+  fp.setAttribute("class","edge flow");
+  fp.setAttribute("marker-end","url(#arrowFlowTop)");
+  $("edgesFlow").appendChild(fp);
   if(dataLabel){
-    const s=POS[src], t=POS[tgt]; if(!s||!t) return;
-    const x1=s.x+s.W/2,y1=s.y+s.H,x2=t.x+t.W/2,y2=t.y;
     const lab=document.createElement("div"); lab.className="elabel data";
-    lab.style.left=((x1+x2)/2)+"px"; lab.style.top=((y1+y2)/2+14)+"px"; lab.textContent="📦 "+dataLabel;
+    lab.style.left=((g.x1+g.x2)/2)+"px"; lab.style.top=((g.y1+g.y2)/2+14)+"px"; lab.textContent="📦 "+dataLabel;
     $("graphWrap").appendChild(lab);
+  }
+}
+
+// 재배치(방향 전환) 후, 이번 실행에서 거친 경로를 다시 장식(노드 상태 + 플로우 간선)
+function redecorate(){
+  if(!EXEC_SEQ.length) return;
+  document.querySelectorAll(".gnode").forEach(el=>{
+    if(!el.style.borderStyle||el.style.borderStyle!=="dashed") el.classList.add("skipped");
+  });
+  for(let i=0;i<EXEC_SEQ.length;i++){
+    const id=EXEC_SEQ[i], isLast=(i===EXEC_SEQ.length-1);
+    setNode(id,(EXEC_DONE||!isLast)?"done":"active");
+    if(i>0){
+      const prev=EXEC_SEQ[i-1];
+      const moved = prev==="__start__" ? "사용자 요청" : ((META[prev]&&META[prev].produces||[]).join(", ")||"state");
+      flowEdge(prev, id, moved);
+    }
   }
 }
 
@@ -339,6 +470,8 @@ function handleEvent(evt){
   if(evt.type==="connected"){ setLive("🟢 연결됨 (Streamlit 입력도 수신)","on"); return; }
   if(evt.type==="start"){
     curRunId=evt.run_id; prevExec="__start__"; answerAcc="";
+    EXEC_SEQ=["__start__"]; EXEC_DONE=false;
+    if(evt.session_title){ const sb=$("sessBadge"); if(sb) sb.textContent="세션: "+evt.session_title; }
     DETAILS={}; resetGraph();
     document.querySelectorAll(".gnode").forEach(el=>{ if(!el.style.borderStyle||el.style.borderStyle!=="dashed") el.classList.add("skipped"); });
     $("timeline").innerHTML=""; $("answer").style.display="none"; $("answerBody").innerHTML=""; $("answerBody").style.whiteSpace="";
@@ -351,7 +484,7 @@ function handleEvent(evt){
       const moved = prevExec==="__start__" ? "사용자 요청" : ((META[prevExec]&&META[prevExec].produces||[]).join(", ")||"state");
       flowEdge(prevExec, evt.node, moved);
     }
-    setNode(evt.node,"active"); prevExec=evt.node;
+    setNode(evt.node,"active"); prevExec=evt.node; EXEC_SEQ.push(evt.node);
     if(evt.detail) DETAILS[evt.node]=evt.detail;
     const g=$("gist-"+evt.node); if(g && evt.detail) g.textContent = evt.detail.headline||"";
     appendStep(evt);
@@ -361,7 +494,8 @@ function handleEvent(evt){
     const a=$("answer"); if(a.style.display==="none") a.style.display="";
     const b=$("answerBody"); b.style.whiteSpace="pre-wrap"; b.textContent=answerAcc;
   } else if(evt.type==="done"){
-    if(prevExec){ setNode(prevExec,"done"); flowEdge(prevExec,"__end__"); }
+    if(prevExec){ setNode(prevExec,"done"); flowEdge(prevExec,"__end__"); EXEC_SEQ.push("__end__"); }
+    EXEC_DONE=true;
     const finalText = evt.final_response || answerAcc;
     if(finalText){ $("answer").style.display=""; const b=$("answerBody"); b.style.whiteSpace=""; b.innerHTML=md(finalText); }
     setStatus(`완료 · 총 ${evt.total_ms} ms`,"done");
@@ -392,13 +526,14 @@ async function run(question){
   $("q").value=q;
   try{
     await fetch(PATHS.run,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:q,session_id:"trace-dashboard",history:[]})});
+      body:JSON.stringify({message:q,session_id:(SESSION_ID||"trace-dashboard"),history:[]})});
   }catch(e){ setStatus("실행 요청 실패: "+e.message,"err"); }
 }
 
-// ── 라이브 구독(Streamlit 등 외부 실행 + 자체 실행 모두 수신) ──────────────
+// ── 라이브 구독(이 세션의 실행만 수신; Streamlit 입력 + 자체 실행 모두) ─────
 function connectLive(){
-  const es=new EventSource(PATHS.live);
+  const url = PATHS.live + (SESSION_ID ? ("?session_id="+encodeURIComponent(SESSION_ID)) : "");
+  const es=new EventSource(url);
   es.onmessage=(m)=>{ try{ handleEvent(JSON.parse(m.data)); }catch(_){} };
   es.onerror=()=>{ setLive("🟡 재연결 중…"); };
 }
@@ -409,7 +544,23 @@ $("chips").querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>r
 $("run").addEventListener("click",()=>run());
 $("q").addEventListener("keydown",(e)=>{ if(e.key==="Enter") run(); });
 
+// 그래프 툴바(가로/세로 배치 전환 + 줌)
+$("orientBtn").addEventListener("click",()=>{
+  const next = ORIENT_MODE==="auto" ? "TB" : (ORIENT_MODE==="TB" ? "LR" : "auto");
+  setOrientMode(next);
+});
+$("zOut").addEventListener("click",()=>setZoom(ZOOM-0.1));
+$("zIn").addEventListener("click",()=>setZoom(ZOOM+0.1));
+$("zFit").addEventListener("click",fitZoom);
+$("zReset").addEventListener("click",()=>setZoom(1));
+// 자동 모드일 때 창 크기 변화로 방향이 바뀌면 재배치
+let _rz; window.addEventListener("resize",()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{
+  if(ORIENT_MODE==="auto" && LAST_TOPO){ const want=effectiveOrient();
+    if(want!==CUR_ORIENT){ layoutAndRender(LAST_TOPO); redecorate(); updateOrientTxt(); } }
+},250); });
+
 loadTopology().then(()=>{
+  updateOrientTxt();
   connectLive();
   const seed=new URLSearchParams(location.search).get("seed");
   if(seed){ $("q").value=seed; setTimeout(()=>run(seed),400); }

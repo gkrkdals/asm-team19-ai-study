@@ -29,7 +29,7 @@ intent_classifier ─┬─ (비자 무관) ───────→ general_cha
                    │                                       └─ (결과 X) ─→ web_search_tool → search_quality_gate
                    │                                                            ↑                  │
                    │                                              query_refiner ┘  (신뢰도 낮음·재시도)│
-                   │                                                            (신뢰도 충분) ─────────┴→ response_formatter
+                   │                                  (신뢰도 충분) → knowledge_writer(ChromaDB 학습 저장) ─→ response_formatter
                    └─ (정보 부족) ─────────────────────────────────────────────────────→ response_formatter (재질문)
 ```
 
@@ -39,7 +39,8 @@ intent_classifier ─┬─ (비자 무관) ───────→ general_cha
 - **web_search_tool**: 6개국 외 국가까지 대응. `search_hints`의 **우선 공식도메인(include_domains)**·검색어 템플릿 적용
 - **search_quality_gate**: 웹 결과 신뢰도(공식 출처 포함·내용량) 평가
 - **query_refiner**: 신뢰도가 낮으면 **LLM이 한국어→영어 공식 검색어를 재생성**해 재검색(최대 2회 루프)
-- **exception_handler**: 연장·변경·거절 + 쉥겐·환승·전자여행허가 등 **교차 규칙**을 키워드+의미 하이브리드로 검색
+- **knowledge_writer**: 신뢰도 **good**인 웹 검색 결과를 **ChromaDB 비자 컬렉션에 학습 저장(upsert)** → 다음 동일 국가 질의 시 RAG로 즉시 활용(웹검색 생략). 이 동작은 트레이스에 `지식 학습 저장` 노드로 노출됩니다.
+- **exception_handler**: 연장·변경·거절 + 쉥겐·환승·전자여행허가 + **체류연장(I-539)·관광→취업 신분변경·긴급발급·오버스테이** 등 **교차 규칙**을 키워드+의미 하이브리드로 검색
 - **response_formatter**: 추천 비자/요건/서류/주의사항/공식 링크 구조화 (**토큰 스트리밍**)
 
 ## 🔬 백엔드 워크플로우 실시간 트레이스 (`/trace`)
@@ -101,20 +102,24 @@ visa_guide_ai/
 ├── data/visas/{US,JP,GB,CA,AU,DE}/_all_visas.json
 ├── api/
 │   ├── main.py              # FastAPI 앱 + 시작 시 자동 인제스트
+│   ├── sessions_store.py    # 대화 세션 영속 스토어(파일 data/sessions.json)
 │   ├── routers/
 │   │   ├── chat.py          # POST /chat/  (+ 공유 build_initial_state)
-│   │   └── workflow.py      # GET /graph/topology · POST /chat/stream · GET /trace
-│   ├── static/trace.html    # 실시간 트레이스 대시보드 (2D 그래프·vanilla JS)
+│   │   ├── sessions.py      # 세션 CRUD·메타데이터·메시지 영속 RESTful
+│   │   └── workflow.py      # 토폴로지·스트림 · /{sid}/trace(상세) · /trace(통합 허브)
+│   ├── static/
+│   │   ├── trace.html       # 세션별 상세 트레이스(2D 그래프·vanilla JS)
+│   │   └── trace_hub.html   # 통합 병렬 허브(세션별 간단 카드 + 상세 링크)
 │   ├── knowledge/           # 도메인 지식(반입)
-│   │   ├── exceptions.py    #   교차 예외규칙 13종(쉥겐·환승·ETA…) → RAG 적재
+│   │   ├── exceptions.py    #   교차 예외규칙 21종(쉥겐·환승·ETA·I-539·신분변경·긴급발급…) → RAG 적재
 │   │   └── search_hints.py  #   국가별 우선 공식도메인 + 검색어 템플릿
 │   ├── agent/
 │   │   ├── {state,graph,routing,config,domain}.py
-│   │   ├── nodes/{intent,search,response,general,refine,llm}.py
+│   │   ├── nodes/{intent,search,response,general,refine,learn,llm}.py  # learn=knowledge_writer
 │   │   ├── event_bus.py     # Streamlit↔trace 브로드캐스트 pub/sub(+리플레이)
 │   │   └── trace_meta.py    # 노드/간선 표시 메타데이터(확장 지점)
-│   └── rag/{vectorstore,ingest}.py   # 비자 + 예외규칙 적재, search_exceptions
-└── ui/app.py                # Streamlit 채팅 UI(+워크플로우 단계·토큰 스트리밍)
+│   └── rag/{vectorstore,ingest}.py   # 비자 + 예외규칙 적재, search_exceptions, add_learned_visa
+└── ui/app.py                # Streamlit 3-pane(좌 사이드바·중앙 대화·우 워크플로우 패널)
 ```
 
 ---
@@ -149,10 +154,17 @@ make dev-ui               # 터미널 2: Streamlit (8501)
 | GET | `/health` | 헬스체크 |
 | POST | `/chat/` | `{message, session_id, history}` → `{response, session_id}` |
 | POST | `/chat/stream` | 동일 입력 → 노드 실행을 SSE로 스트리밍(+버스 브로드캐스트) |
+| POST | `/chat/followups` | 대화 맥락 기반 **AI 후속 질문 칩** 4개 생성 |
 | GET | `/graph/topology` | LangGraph 노드·엣지·간선 라벨 토폴로지 JSON |
-| GET | `/trace` | 워크플로우 실시간 트레이스 대시보드 |
-| GET | `/trace/live` | 외부(Streamlit) 실행을 수신하는 브로드캐스트 SSE |
+| GET | `/trace` | **통합 병렬 허브**(모든 세션을 간단 카드 + 상세 링크로) |
+| GET | `/{session_id}/trace` | **세션별 상세 트레이스**(개별 워크플로우) |
+| GET | `/trace/live?session_id=` | 브로드캐스트 SSE — `session_id` 주면 해당 세션만 |
+| GET | `/trace/sessions` | 허브용 세션 개요 JSON |
 | POST | `/trace/run` | 대시보드 자체 입력 → 백그라운드 실행·브로드캐스트 |
+| GET·POST | `/sessions`, `/sessions/{sid}` | 대화 세션 CRUD(영속) |
+| PATCH | `/sessions/{sid}` | 세션 메타데이터(이름·한줄설명·태그) 수정 |
+| POST | `/sessions/{sid}/messages` | 메시지 추가(영속) |
+| PUT | `/sessions/{sid}/last_run` | 최근 워크플로우 실행 저장 |
 | POST | `/ingest` | 벡터 DB 강제 재적재 |
 
 ---
@@ -171,7 +183,8 @@ UI 전용(선택) 환경 변수:
 
 ```bash
 API_BASE_URL=http://localhost:8000        # Streamlit → API 서버 주소
-TRACE_URL=http://localhost:8000/trace     # 사이드바 '워크플로우 실시간 보기' 링크 대상
+TRACE_ORIGIN=http://localhost:8000        # 브라우저가 여는 트레이스 오리진
+                                          #  → 세션 상세 {TRACE_ORIGIN}/{sid}/trace, 허브 {TRACE_ORIGIN}/trace
 ```
 
 ---
@@ -186,6 +199,68 @@ TRACE_URL=http://localhost:8000/trace     # 사이드바 '워크플로우 실시
 - **Tavily 검색어 정제**: 한국어 원문·`Korea` 관련 단어를 배제하고 `search_hints` 템플릿의
   **핵심 영어 쿼리(국가명 + visa + requirements/eligibility/official)**만 사용
   (예: `South Africa work visa eligibility requirements official`). 재생성 검색어도 동일 규칙.
+
+## 추가 개선(3차)
+
+- **데스크탑 트레이스 레이아웃**: `/trace`의 단계별 파이프라인을 데스크탑에서는 **전체 폭 반응형
+  카드 그리드**(`repeat(auto-fill, minmax(330px,1fr))`)로 펼쳐 한눈에 비교합니다. 모바일(≤760px)
+  에서는 단일 컬럼 세로 스크롤로 자동 전환(좁은 슬라이드/스크롤 강제 제거).
+- **지식 자가 학습(knowledge_writer)**: 웹 검색 결과가 신뢰도 **good**(공식 도메인 포함·내용
+  충분)이면 ChromaDB 비자 컬렉션에 **학습 문서로 upsert**(`origin=web_search`). 다음에 같은
+  국가를 물으면 RAG로 즉시 답해 웹검색을 건너뜁니다(점진적 지식 축적). 이 저장 동작은 실시간
+  트레이스에 `지식 학습 저장` 노드·간선으로 표시됩니다.
+- **예외 시나리오 보강(13→21종)**: 시나리오 B(미국 관광 → 코로나로 귀국 불가 → **I-539** 체류
+  연장·USCIS), 시나리오 C(일본 관광 → 현지 취업 제의 → **신분 변경 제한·출국 후 재신청·불법취업
+  패널티**), **긴급/급행 비자(Expedite·Premium Processing)**, 오버스테이 입국금지(3/10년 바),
+  유학생 근로시간, 여권 6개월 유효, 범죄경력(DUI) 입국거부, 디지털 노마드 비자 추가.
+- **3-pane 프론트엔드**: 좌측 **다크(블랙) 사이드바**(대화 목록·예시·지원국가) · 중앙 **메인 대화**
+  · 우측 **워크플로우 패널**(노드별 단계·소요시간·데이터 출처 카드). 첨부 레퍼런스 스타일에 맞춰
+  색/디자인/UX를 보완(기존 기능 구조 유지).
+- **워크플로우 패널 열기/닫기**: 헤더의 `🔬 워크플로우 열기/닫기` 토글로 우측 패널을 사이드바처럼
+  접고 펼 수 있습니다(모바일·데스크탑 공통). 닫으면 대화가 전체 폭을 사용하고, 패널은 스크롤해도
+  머무는 sticky 드로어로 동작합니다.
+- **의도추출 키워드 폴백**: LLM이 `country`/`purpose`를 `null`로 반환(또는 파싱 실패)해도
+  메시지에서 국가명(캐나다→CA…)·목적(취업→employment…)을 직접 보강해 워크플로 진입을
+  **결정적**으로 만듭니다(`domain.detect_country/detect_purpose`). "캐나다 …취업"이 빈 추출로
+  빠지는 문제 방지.
+- **트레이스 그래프 가독성**: 실행 경로 노드와 화살표를 비활성(미실행) 노드 위에 그리도록
+  z-index 레이어링 + 화살표 전용 오버레이 SVG(`#edgesFlow`)를 도입해, 선택된 노드/간선이
+  다른 노드에 가려지지 않습니다.
+
+## 추가 개선(4차) — 세션 영속·후속요청·세션별/통합 트레이스
+
+- **선택 노드/간선 강조**: 실행 경로 노드는 **강한 글로우 + 다크 헤일로 그림자 + 약간 확대**로
+  주변을 덮으며 **최상위 z-index**로 그려져 가시성을 극대화한다(hover 시 더 강조).
+- **후속 요청 제안(ChatGPT 식)**: 답변 직후 `더 구체적으로 / 최신 정보로 확인 / 다른 비자 종류는? /
+  공식 사이트 상세 탐색` 버튼을 노출. 클릭하면 **사용자가 입력한 것처럼 자동 실행**(멀티턴 맥락 활용).
+- **공식 사이트 상세 탐색(딥서치)**: '상세 탐색/공식 사이트/최신 정보' 요청이면 RAG 를 건너뛰고
+  곧장 `web_search_tool` 로 가서 **Tavily `search_depth=advanced` + 원문(raw_content)** 으로 깊게
+  탐색한다(`intent → web_search_tool` 직행 엣지). 트레이스에 검색 깊이가 표시된다.
+- **대화 영속화(새로고침 보존)**: 대화를 **백엔드 RESTful 세션 스토어**(`/sessions`, 파일
+  `data/sessions.json`)로 이전. 활성 세션은 URL `?sid=` 로 유지되어 **새로고침/재시작에도 보존**된다.
+- **세션 메타데이터**: 세션별 **이름 변경·한줄 설명·태그**(장기체류/취업/유학/여행…)를 사이드바에서
+  편집·표시(태그 칩).
+- **세션별 RESTful 트레이스(2a)**: 각 대화 세션은 `8501/?sid=<id>` ↔ `8000/{id}/trace` 로 1:1
+  매핑된다. 이벤트마다 `session_id` 를 실어 `/trace/live?session_id=<id>` 로 **해당 세션만 필터**
+  구독한다(병렬 실행 격리).
+- **통합 병렬 허브(2b)**: `8000/trace` 는 모든 세션을 **간단한 동작(진행 바·현재 노드·상태)** 카드로
+  한눈에 보여주고, 각 카드의 **상세 트레이스 ↗** 링크로 세션별 상세(`/{id}/trace`)로 이동한다.
+
+## 추가 개선(5차) — AI 후속칩·반응형 트레이스 레이아웃·종합 검증
+
+- **상황별 AI 후속 질문 칩**: 답변 직후 `POST /chat/followups` 로 대화 맥락(국가·목적·언급 비자)을
+  반영한 후속 질문 4개를 **LLM 이 동적으로 생성**해 칩으로 노출(예: 캐나다 취업 → "Express Entry
+  자격 요건은?", "Work Permit 처리 기간은?", "영주권 전환 절차는?"). + 고정 유틸 칩(공식 사이트
+  상세 탐색). 칩은 세션 `last_run` 에 저장돼 새로고침에도 보존되며, 실패 시 정적 폴백.
+- **트레이스 그래프 반응형 배치 + 사용자 줌**: 공간이 충분하면 **가로(행/LR)**, 좁으면
+  **세로(열/TB)** 로 자동 배치(수동 ⇄ 토글로 자동/세로/가로 고정 가능). **줌(−/＋/맞춤/100%)** 으로
+  2분할(프론트+트레이스 동시 관찰) 등 좁은 화면에서도 **모든 노드가 한눈에** 보이도록 사용자가
+  크기를 조절. 타임라인·최종 답변은 그대로 유지.
+- **종합 검증(시나리오 A/B/C + 전체 노드)**: 시나리오 A(캐나다 개발자 → Express Entry vs Work
+  Permit 분기·요건/절차/기간), B(미국 I-539), C(일본 신분변경), 장기체류(독일 영주권), 교차규칙
+  (쉥겐·환승), 긴급발급, 일반대화 오분류 방지, 신규 국가 웹검색→학습 저장→재사용, 딥서치를 모두
+  검증. **9개 노드 전부 도달 가능**(query_refiner 는 웹검색 신뢰도 'poor' 시 동작 — 우선도메인
+  검색이 안정적이라 평시 미발동, 라우팅/엣지로 도달성 확인).
 
 ## 데모 리뷰 반영(개선 이력)
 

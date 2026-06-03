@@ -4,3 +4,4 @@ __pycache__/
 chroma_data/
 .DS_Store
 venv
+data/sessions.json

@@ -18,6 +18,8 @@ class AgentState(TypedDict):
     web_query: Optional[str]         # (재생성된) 웹 검색어
     search_attempts: int             # 웹 검색 재시도 횟수
     search_quality: Optional[str]    # good | poor (신뢰도 게이트 결과)
+    kb_written: Optional[str]        # 학습 저장된 문서 ID(고신뢰 웹검색 결과 → ChromaDB)
+    deep_search: bool                # 공식 사이트 '상세 탐색'(Tavily advanced + 원문) 요청 여부
     final_response: Optional[str]
     # 워크플로우 트레이스용 진단 로그. 각 노드가 자신이 참조한 입력(질의어 등)과
     # 산출물(결과 수 등)을 1건씩 append 한다(누적). 화면 표기/디버깅 전용이며

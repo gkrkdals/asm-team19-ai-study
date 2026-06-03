@@ -11,6 +11,7 @@ from agent.nodes import (
     general_chat,
     search_quality_gate,
     query_refiner,
+    knowledge_writer,
 )
 from agent.routing import route_intent, should_web_search, route_quality
 from agent.config import load_settings, validate_settings
@@ -41,6 +42,7 @@ def build_graph():
     graph.add_node("web_search_tool", web_search_tool)
     graph.add_node("search_quality_gate", search_quality_gate)
     graph.add_node("query_refiner", query_refiner)
+    graph.add_node("knowledge_writer", knowledge_writer)
     graph.add_node("exception_handler", exception_handler)
     graph.add_node("response_formatter", response_formatter)
 
@@ -53,6 +55,7 @@ def build_graph():
         {
             "general_chat": "general_chat",
             "visa_rag_search": "visa_rag_search",
+            "web_search_tool": "web_search_tool",       # 상세 탐색(딥서치) 직행
             "exception_handler": "exception_handler",
             "response_formatter": "response_formatter",
         },
@@ -68,17 +71,22 @@ def build_graph():
         },
     )
 
-    # 웹 검색 → 신뢰도 게이트 → (낮으면) 검색어 재생성 후 재검색(루프)
+    # 웹 검색 → 신뢰도 게이트 → 분기:
+    #   good        → knowledge_writer(ChromaDB 학습 저장) → response_formatter
+    #   재시도 한도 → response_formatter (학습 생략)
+    #   그 외       → query_refiner(검색어 재생성) → web_search_tool (루프)
     graph.add_edge("web_search_tool", "search_quality_gate")
     graph.add_conditional_edges(
         "search_quality_gate",
         route_quality,
         {
             "query_refiner": "query_refiner",
+            "knowledge_writer": "knowledge_writer",
             "response_formatter": "response_formatter",
         },
     )
     graph.add_edge("query_refiner", "web_search_tool")
+    graph.add_edge("knowledge_writer", "response_formatter")
 
     graph.add_edge("general_chat", END)
     graph.add_edge("exception_handler", "response_formatter")

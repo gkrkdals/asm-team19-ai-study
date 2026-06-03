@@ -26,7 +26,7 @@ import time
 import uuid
 from pathlib import Path
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from fastapi.responses import StreamingResponse, HTMLResponse, JSONResponse
 
 from agent.graph import get_graph
@@ -40,17 +40,21 @@ from agent.trace_meta import (
     SOURCE_LABELS,
 )
 from routers.chat import ChatRequest, build_initial_state
+import sessions_store as store
 
 # ── 경로 상수(한곳에서 관리) ──────────────────────────────────────────────
 TOPOLOGY_PATH = "/graph/topology"
 STREAM_PATH = "/chat/stream"
 LIVE_PATH = "/trace/live"
 RUN_PATH = "/trace/run"
-DASHBOARD_PATH = "/trace"
+DASHBOARD_PATH = "/trace"               # 통합 허브(모든 세션)
+SESSIONS_PATH = "/trace/sessions"       # 허브용 세션 개요 JSON
 
 router = APIRouter(tags=["workflow"])
 
-_DASHBOARD_HTML = Path(__file__).resolve().parent.parent / "static" / "trace.html"
+_STATIC = Path(__file__).resolve().parent.parent / "static"
+_DASHBOARD_HTML = _STATIC / "trace.html"        # 세션별 상세 트레이스
+_HUB_HTML = _STATIC / "trace_hub.html"          # 통합 병렬 허브
 
 # 백그라운드 실행 태스크가 GC 되지 않도록 참조 유지
 _bg_tasks: set[asyncio.Task] = set()
@@ -105,10 +109,19 @@ def _sse(obj: dict) -> str:
 
 
 async def _iter_events(req: ChatRequest):
-    """그래프를 실행하며 트레이스 이벤트 dict 를 순차적으로 생성한다."""
+    """그래프를 실행하며 트레이스 이벤트 dict 를 순차적으로 생성한다.
+
+    모든 이벤트에 ``session_id`` 를 실어, 세션별 상세 트레이스/통합 허브가
+    필터링·그룹화할 수 있게 한다(병렬 실행 지원).
+    """
     graph = get_graph()
     state = build_initial_state(req.message, req.history)
     run_id = uuid.uuid4().hex[:8]
+    sid = req.session_id or "default"
+    try:
+        title = store.session_title(sid)
+    except Exception:  # noqa: BLE001
+        title = sid
 
     topo = _build_topology()
     t0 = time.perf_counter()
@@ -117,6 +130,8 @@ async def _iter_events(req: ChatRequest):
     yield {
         "type": "start",
         "run_id": run_id,
+        "session_id": sid,
+        "session_title": title,
         "message": req.message,
         "nodes": topo["nodes"],
         "edges": topo["edges"],
@@ -143,6 +158,7 @@ async def _iter_events(req: ChatRequest):
                         yield {
                             "type": "token",
                             "run_id": run_id,
+                            "session_id": sid,
                             "node": "response_formatter",
                             "text": text,
                         }
@@ -158,6 +174,7 @@ async def _iter_events(req: ChatRequest):
                 yield {
                     "type": "node",
                     "run_id": run_id,
+                    "session_id": sid,
                     "step": step,
                     "node": node,
                     "label": meta["label"],
@@ -174,7 +191,7 @@ async def _iter_events(req: ChatRequest):
                 }
             last = now
     except Exception as e:  # noqa: BLE001
-        yield {"type": "error", "run_id": run_id, "message": str(e)}
+        yield {"type": "error", "run_id": run_id, "session_id": sid, "message": str(e)}
 
     # 토큰 스트림이 있었으면 그것을 최종 답변으로 사용(updates 누락 대비)
     if not final_response and streamed_tokens:
@@ -183,6 +200,7 @@ async def _iter_events(req: ChatRequest):
     yield {
         "type": "done",
         "run_id": run_id,
+        "session_id": sid,
         "final_response": final_response,
         "total_ms": round((time.perf_counter() - t0) * 1000),
     }
@@ -215,15 +233,16 @@ async def trace_run(req: ChatRequest) -> JSONResponse:
     return JSONResponse({"status": "started"})
 
 
-# ── GET /trace/live : 버스 구독 SSE (다른 곳에서 발생한 실행을 수신) ─────────
+# ── GET /trace/live : 버스 구독 SSE ───────────────────────────────────────
+#    session_id 가 주어지면 해당 세션만(상세 트레이스), 없으면 전체(통합 허브).
 @router.get(LIVE_PATH)
-async def trace_live() -> StreamingResponse:
+async def trace_live(session_id: str | None = Query(default=None)) -> StreamingResponse:
     async def gen():
-        q = bus.subscribe()
+        q = bus.subscribe(session_id=session_id)
         try:
-            yield _sse({"type": "connected"})
+            yield _sse({"type": "connected", "session_id": session_id})
             # 직전/진행 중 실행이 있으면 먼저 리플레이 → 늦게 열어도 즉시 그려진다.
-            for evt in bus.replay():
+            for evt in bus.replay(session_id):
                 yield _sse(evt)
             while True:
                 try:
@@ -241,16 +260,29 @@ async def trace_live() -> StreamingResponse:
     )
 
 
-# ── 라이브 대시보드 ───────────────────────────────────────────────────────
-@router.get(DASHBOARD_PATH, response_class=HTMLResponse)
-def dashboard() -> HTMLResponse:
+# ── GET /trace/sessions : 통합 허브용 세션 개요 JSON ───────────────────────
+@router.get(SESSIONS_PATH)
+def trace_sessions() -> JSONResponse:
+    return JSONResponse({"sessions": bus.sessions_overview()},
+                        headers={"Cache-Control": "no-store"})
+
+
+def _read_html(path: Path) -> HTMLResponse:
     try:
-        html = _DASHBOARD_HTML.read_text(encoding="utf-8")
+        html = path.read_text(encoding="utf-8")
     except FileNotFoundError:
-        return HTMLResponse(
-            "<h1>trace.html 을 찾을 수 없습니다.</h1>"
-            f"<p>경로 확인: {_DASHBOARD_HTML}</p>",
-            status_code=500,
-        )
+        return HTMLResponse(f"<h1>{path.name} 을 찾을 수 없습니다.</h1>", status_code=500)
     # 브라우저가 옛 대시보드를 캐시하지 않도록(실시간 연동 보장)
     return HTMLResponse(html, headers={"Cache-Control": "no-store"})
+
+
+# ── GET /trace : 통합 병렬 허브(모든 세션을 간단 카드 + 상세 링크로) ────────
+@router.get(DASHBOARD_PATH, response_class=HTMLResponse)
+def hub() -> HTMLResponse:
+    return _read_html(_HUB_HTML)
+
+
+# ── GET /{session_id}/trace : 세션별 상세 트레이스(개별 워크플로우) ──────────
+@router.get("/{session_id}/trace", response_class=HTMLResponse)
+def session_dashboard(session_id: str) -> HTMLResponse:
+    return _read_html(_DASHBOARD_HTML)

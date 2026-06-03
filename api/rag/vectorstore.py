@@ -1,4 +1,6 @@
 import os
+import time
+import hashlib
 import logging
 from typing import List, Optional
 import chromadb
@@ -85,6 +87,71 @@ def search_exceptions(query: str, n_results: int = 3) -> List[dict]:
     except Exception as e:
         logger.error(f"Exception rule search error: {e}")
         return []
+
+
+def count_learned() -> int:
+    """웹 검색으로 학습 저장된 문서 수(origin=web_search)."""
+    try:
+        collection = get_collection()
+        res = collection.get(where={"origin": {"$eq": "web_search"}})
+        return len(res.get("ids", []) or [])
+    except Exception as e:
+        logger.error(f"count_learned error: {e}")
+        return 0
+
+
+def add_learned_visa(
+    country_code: str,
+    content: str,
+    *,
+    purpose: str = "",
+    query: str = "",
+    source_urls: Optional[List[str]] = None,
+) -> dict:
+    """신뢰도 높은 웹 검색 결과를 비자 컬렉션에 '학습 문서'로 upsert 한다.
+
+    doc_type='visa' 로 저장하므로 다음 동일 국가 질의 시 RAG 검색에 포함되어
+    웹 검색을 건너뛰고 즉시 응답할 수 있다(점진적 지식 축적). origin='web_search'
+    로 표시해 사전 적재된 공식 문서와 구분한다.
+
+    Returns
+    -------
+    {"id", "chars", "sources", "is_new"}
+    """
+    collection = get_collection()
+    cc = (country_code or "XX").upper()
+    src = ", ".join([u for u in (source_urls or []) if u])
+    doc_id = "web:" + hashlib.md5(f"{cc}:{purpose}:{query}".encode()).hexdigest()[:16]
+
+    try:
+        existed = collection.get(ids=[doc_id])
+        is_new = not (existed and existed.get("ids"))
+    except Exception:
+        is_new = True
+
+    text = (
+        f"국가: {cc}\n"
+        f"(웹 검색으로 학습된 비자 정보 · 목적: {purpose or '일반'})\n"
+        f"검색어: {query}\n"
+        f"출처: {src or '미상'}\n\n"
+        f"{content}"
+    )
+    collection.upsert(
+        documents=[text],
+        metadatas=[{
+            "doc_type": "visa",                       # 다음 RAG 검색에 포함
+            "country_code": cc,
+            "country_name": cc,
+            "visa_code": "",
+            "visa_type": f"웹 학습 정보({purpose or '일반'})",
+            "category": "web_learned",
+            "origin": "web_search",                   # 사전 적재 공식문서와 구분
+            "source_url": src,
+            "learned_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        }],
+        ids=[doc_id],
+    )
+    return {"id": doc_id, "chars": len(content or ""), "sources": source_urls or [], "is_new": is_new}
 
 
 def reset_collection():

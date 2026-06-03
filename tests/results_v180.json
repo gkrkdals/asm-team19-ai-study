@@ -1,0 +1,2821 @@
+{
+  "meta": {
+    "timestamp": "2026-06-03T22:03:47.342165",
+    "total": 180,
+    "passed": 150,
+    "reliability_pct": 83.33
+  },
+  "by_category": {
+    "employment": {
+      "total": 15,
+      "passed": 14,
+      "pct": 93.33
+    },
+    "study": {
+      "total": 15,
+      "passed": 14,
+      "pct": 93.33
+    },
+    "extension": {
+      "total": 15,
+      "passed": 12,
+      "pct": 80.0
+    },
+    "status_change": {
+      "total": 15,
+      "passed": 3,
+      "pct": 20.0
+    },
+    "cross_rule": {
+      "total": 15,
+      "passed": 15,
+      "pct": 100.0
+    },
+    "long_stay": {
+      "total": 15,
+      "passed": 12,
+      "pct": 80.0
+    },
+    "deep_search": {
+      "total": 15,
+      "passed": 15,
+      "pct": 100.0
+    },
+    "reaction": {
+      "total": 15,
+      "passed": 15,
+      "pct": 100.0
+    },
+    "off_topic": {
+      "total": 15,
+      "passed": 13,
+      "pct": 86.67
+    },
+    "new_country": {
+      "total": 15,
+      "passed": 15,
+      "pct": 100.0
+    },
+    "multi_turn": {
+      "total": 7,
+      "passed": 3,
+      "pct": 42.86
+    },
+    "conflicting": {
+      "total": 8,
+      "passed": 4,
+      "pct": 50.0
+    },
+    "vague": {
+      "total": 7,
+      "passed": 7,
+      "pct": 100.0
+    },
+    "edge_case": {
+      "total": 8,
+      "passed": 8,
+      "pct": 100.0
+    }
+  },
+  "records": [
+    {
+      "no": 1,
+      "msg": "캐나다에서 개발자로 취업하고 싶어요",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.1
+    },
+    {
+      "no": 2,
+      "msg": "미국 H1B 비자 신청 조건이 궁금해요",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.6
+    },
+    {
+      "no": 3,
+      "msg": "호주에서 IT 엔지니어로 일하고 싶습니다",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.9
+    },
+    {
+      "no": 4,
+      "msg": "독일에서 취업비자를 받는 방법은?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.4
+    },
+    {
+      "no": 5,
+      "msg": "일본에서 워킹홀리데이로 일할 수 있나요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.5
+    },
+    {
+      "no": 6,
+      "msg": "영국 Tier 2 취업비자 조건이 뭔가요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4
+    },
+    {
+      "no": 7,
+      "msg": "프랑스에서 취업하려면 어떤 비자가 필요한가요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.5
+    },
+    {
+      "no": 8,
+      "msg": "싱가포르 취업 비자 종류와 조건은 어떻게 되나요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.4
+    },
+    {
+      "no": 9,
+      "msg": "캐나다 익스프레스 엔트리로 취업비자를 받을 수 있나요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.9
+    },
+    {
+      "no": 10,
+      "msg": "미국 L1 비자로 내부 이직이 가능한가요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.5
+    },
+    {
+      "no": 11,
+      "msg": "인도에서 기술자로 취업할 수 있는 비자 종류는?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.0
+    },
+    {
+      "no": 12,
+      "msg": "태국에서 일하고 싶은데 취업비자가 있나요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.6
+    },
+    {
+      "no": 13,
+      "msg": "남아공에서 취업하고 싶어요, 비자가 필요한가요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.1
+    },
+    {
+      "no": 14,
+      "msg": "뉴질랜드 취업비자 신청 조건은 무엇인가요?",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 9.5
+    },
+    {
+      "no": 15,
+      "msg": "브라질에서 취업 가능한 비자 종류를 알려주세요",
+      "cat": "employment",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.3
+    },
+    {
+      "no": 16,
+      "msg": "미국 대학원에 진학하려면 F1 비자가 필요한가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.7
+    },
+    {
+      "no": 17,
+      "msg": "영국 유학생 비자 신청 요건을 알려주세요",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.7
+    },
+    {
+      "no": 18,
+      "msg": "캐나다 유학 비자 최대 체류 기간은 얼마인가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.5
+    },
+    {
+      "no": 19,
+      "msg": "호주 학생비자로 아르바이트가 가능한가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 20,
+      "msg": "일본 어학연수 비자 신청 방법을 알려주세요",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 21,
+      "msg": "독일 대학원 입학 후 비자 비용은 얼마인가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 22,
+      "msg": "뉴질랜드 유학비자 신청 절차를 알려주세요",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 8.4
+    },
+    {
+      "no": 23,
+      "msg": "싱가포르 대학원 유학비자 조건은 어떻게 되나요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 24,
+      "msg": "프랑스 유학비자로 파트타임 근무가 가능한가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 25,
+      "msg": "캐나다에서 유학 후 취업비자로 전환하는 방법은?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.3
+    },
+    {
+      "no": 26,
+      "msg": "남아공 대학 유학비자는 어떻게 신청하나요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.0
+    },
+    {
+      "no": 27,
+      "msg": "태국 어학원 등록 후 학생비자를 받는 방법은?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.8
+    },
+    {
+      "no": 28,
+      "msg": "인도 대학원 유학비자 필요 요건은 무엇인가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.7
+    },
+    {
+      "no": 29,
+      "msg": "말레이시아 유학비자 신청 조건이 뭔가요?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.3
+    },
+    {
+      "no": 30,
+      "msg": "필리핀 어학연수 비자 종류와 체류 기간은?",
+      "cat": "study",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 11.8
+    },
+    {
+      "no": 31,
+      "msg": "미국 관광비자 체류 기간 연장이 가능한가요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    },
+    {
+      "no": 32,
+      "msg": "한국에서 장기 체류를 연장하고 싶어요",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.4
+    },
+    {
+      "no": 33,
+      "msg": "캐나다 학생비자 유효기간 연장은 어떻게 하나요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.6
+    },
+    {
+      "no": 34,
+      "msg": "일본 관광비자 체류기간을 연장할 수 있나요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.3
+    },
+    {
+      "no": 35,
+      "msg": "호주 워킹홀리데이 비자 2년차 신청이 가능한가요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 36,
+      "msg": "미국 비자 I-539 폼으로 체류 연장하는 방법은?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    },
+    {
+      "no": 37,
+      "msg": "영국 비자 만료 전 연장 신청 가능한 기간은 언제인가요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 38,
+      "msg": "독일 비자 유효기간 연장이 가능한가요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.3
+    },
+    {
+      "no": 39,
+      "msg": "프랑스에서 거주 기간을 연장하고 싶어요",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 40,
+      "msg": "싱가포르 체류 기간 연장 방법을 알려주세요",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.2
+    },
+    {
+      "no": 41,
+      "msg": "뉴질랜드 비자 갱신 절차를 알려주세요",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 8.7
+    },
+    {
+      "no": 42,
+      "msg": "캐나다에서 관광비자로 왔다가 학생비자로 변경 전 연장이 필요한가요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.0
+    },
+    {
+      "no": 43,
+      "msg": "미국에 3개월을 추가로 더 머물 수 있는 방법이 있나요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 4.9
+    },
+    {
+      "no": 44,
+      "msg": "호주 학생비자가 만료되기 전에 연장 신청을 해야 하나요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.6
+    },
+    {
+      "no": 45,
+      "msg": "일본 장기체류 비자 갱신 절차는 어떻게 되나요?",
+      "cat": "extension",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.7
+    },
+    {
+      "no": 46,
+      "msg": "일본에서 관광비자로 입국 후 취업비자로 변경이 가능한가요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.8
+    },
+    {
+      "no": 47,
+      "msg": "호주에서 학생비자를 워킹홀리데이 비자로 전환할 수 있나요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 8.6
+    },
+    {
+      "no": 48,
+      "msg": "미국 관광비자를 취업비자로 전환하는 방법은?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 9.0
+    },
+    {
+      "no": 49,
+      "msg": "캐나다에서 관광비자를 유학비자로 변경하려면?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.8
+    },
+    {
+      "no": 50,
+      "msg": "일반 취업비자에서 영주권으로 신분을 변경하는 절차는?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.2
+    },
+    {
+      "no": 51,
+      "msg": "영국 학생비자 만료 후 취업비자로 신청할 수 있나요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.6
+    },
+    {
+      "no": 52,
+      "msg": "프랑스에서 관광 후 취업비자로 전환 가능한가요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.7
+    },
+    {
+      "no": 53,
+      "msg": "독일 비자 유형을 변경하는 절차가 어떻게 되나요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.3
+    },
+    {
+      "no": 54,
+      "msg": "호주 워킹홀리데이 비자 후 영주권 신청이 가능한가요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 55,
+      "msg": "캐나다에서 유학비자를 이민비자로 전환하려면 어떻게 하나요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 56,
+      "msg": "미국에서 비자 종류를 업그레이드할 수 있는 방법이 있나요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.9
+    },
+    {
+      "no": 57,
+      "msg": "싱가포르 비자가 일시 정지된 경우 재개 절차는?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 4.1
+    },
+    {
+      "no": 58,
+      "msg": "태국에서 관광비자를 장기거주비자로 변경하려면?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 9.5
+    },
+    {
+      "no": 59,
+      "msg": "인도에서 학생비자를 취업비자로 직접 전환할 수 있나요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.4
+    },
+    {
+      "no": 60,
+      "msg": "브라질 비자 종류를 변경하는 것이 가능한가요?",
+      "cat": "status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.8
+    },
+    {
+      "no": 61,
+      "msg": "쉥겐 비자로 영국에도 입국할 수 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 62,
+      "msg": "미국을 경유할 때 환승비자가 별도로 필요한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.1
+    },
+    {
+      "no": 63,
+      "msg": "유럽 연합 비자로 여러 나라를 동시에 여행할 수 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.7
+    },
+    {
+      "no": 64,
+      "msg": "비자 런을 하면 어떤 법적 문제가 생길 수 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4
+    },
+    {
+      "no": 65,
+      "msg": "여권 유효기간이 6개월 미만이면 비자 신청이 가능한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.6
+    },
+    {
+      "no": 66,
+      "msg": "범죄경력이 있으면 비자가 거절될 수 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.3
+    },
+    {
+      "no": 67,
+      "msg": "오버스테이 기록이 있어도 재입국이 가능한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 68,
+      "msg": "여러 나라의 비자를 동시에 소지하는 것이 가능한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.8
+    },
+    {
+      "no": 69,
+      "msg": "불법체류 전과가 있는데 다시 입국 신청이 가능한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.6
+    },
+    {
+      "no": 70,
+      "msg": "환승비자 없이 국제공항 대기가 가능한 나라가 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 71,
+      "msg": "DUI 전과가 있는데 미국 입국이 가능한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.6
+    },
+    {
+      "no": 72,
+      "msg": "여권 유효기간이 3개월밖에 안 남았는데 비자 신청이 가능한가요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.5
+    },
+    {
+      "no": 73,
+      "msg": "임신 중인데 비자 신청을 해도 문제없나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.2
+    },
+    {
+      "no": 74,
+      "msg": "동성 커플인데 비자 신청 시 차별을 받을 수 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.2
+    },
+    {
+      "no": 75,
+      "msg": "특정 종교를 가진 사람도 모든 나라에서 비자를 받을 수 있나요?",
+      "cat": "cross_rule",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.0
+    },
+    {
+      "no": 76,
+      "msg": "캐나다에서 영구 주민(PR)이 되고 싶어요",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.7
+    },
+    {
+      "no": 77,
+      "msg": "독일 블루카드로 장기 체류가 가능한가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.7
+    },
+    {
+      "no": 78,
+      "msg": "미국 EB-5 투자이민으로 영주권을 받을 수 있나요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.2
+    },
+    {
+      "no": 79,
+      "msg": "호주 영주권 신청 조건이 무엇인가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.3
+    },
+    {
+      "no": 80,
+      "msg": "싱가포르에서 장기 거주하려면 어떤 비자가 필요한가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.5
+    },
+    {
+      "no": 81,
+      "msg": "영국 점수제 비자로 영주권을 받을 수 있나요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 8.2
+    },
+    {
+      "no": 82,
+      "msg": "뉴질랜드 영주권 신청 조건과 절차를 알려주세요",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 9.3
+    },
+    {
+      "no": 83,
+      "msg": "프랑스로 이민하려면 어떻게 해야 하나요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.2
+    },
+    {
+      "no": 84,
+      "msg": "일본에서 경영관리 비자로 장기 체류가 가능한가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    },
+    {
+      "no": 85,
+      "msg": "남아공으로 이민하는 조건은 어떻게 되나요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.8
+    },
+    {
+      "no": 86,
+      "msg": "태국에서 장기 거주비자를 받을 수 있나요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.7
+    },
+    {
+      "no": 87,
+      "msg": "말레이시아 이민 조건과 절차를 알려주세요",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.4
+    },
+    {
+      "no": 88,
+      "msg": "포르투갈 골든비자로 영주권 취득이 가능한가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.6
+    },
+    {
+      "no": 89,
+      "msg": "스페인으로 이민하는 방법은 무엇인가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 10.1
+    },
+    {
+      "no": 90,
+      "msg": "아일랜드에서 장기 거주하려면 어떤 비자가 필요한가요?",
+      "cat": "long_stay",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.5
+    },
+    {
+      "no": 91,
+      "msg": "프랑스 공식 사이트 상세 탐색으로 취업비자 최신 요건 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.9
+    },
+    {
+      "no": 92,
+      "msg": "미국 USCIS 공식 사이트에서 I-129 폼 원문으로 설명해줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 10.1
+    },
+    {
+      "no": 93,
+      "msg": "호주 이민국 공식 사이트 상세 탐색 기술이민 조건을 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 13.5
+    },
+    {
+      "no": 94,
+      "msg": "캐나다 이민청 공식 사이트 익스프레스 엔트리 점수 기준 원문",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 11.7
+    },
+    {
+      "no": 95,
+      "msg": "영국 gov.uk 상세 탐색 Tier 2 비자 최신 정보는?",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 10.9
+    },
+    {
+      "no": 96,
+      "msg": "독일 공식 이민국 기준 블루카드 요건을 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 10.4
+    },
+    {
+      "no": 97,
+      "msg": "일본 이민청 공식 기준 취업비자 요건을 원문으로 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 10.2
+    },
+    {
+      "no": 98,
+      "msg": "싱가포르 MOM 공식 사이트 상세 탐색 비자 조건 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.8
+    },
+    {
+      "no": 99,
+      "msg": "뉴질랜드 이민청 공식 영주권 신청 요건 상세 탐색",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.0
+    },
+    {
+      "no": 100,
+      "msg": "남아공 이민국 공식 정보로 취업비자 기준 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 11.8
+    },
+    {
+      "no": 101,
+      "msg": "태국 공식 사이트 상세 탐색 장기거주비자 조건",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 12.9
+    },
+    {
+      "no": 102,
+      "msg": "말레이시아 이민부 공식 기준 비자 조건 원문",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 11.1
+    },
+    {
+      "no": 103,
+      "msg": "포르투갈 공식 사이트 골든비자 점수 기준 상세 탐색",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 12.7
+    },
+    {
+      "no": 104,
+      "msg": "브라질 공식 이민청 원문으로 취업비자 조건 알려줘",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 11.2
+    },
+    {
+      "no": 105,
+      "msg": "인도 공식 기준 기술비자 점수 산정 방법 원문",
+      "cat": "deep_search",
+      "expects": [
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 13.5
+    },
+    {
+      "no": 106,
+      "msg": "뭐야 완전히 로또잖아;",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.1
+    },
+    {
+      "no": 107,
+      "msg": "진짜요? 신기하네요!",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 0.9
+    },
+    {
+      "no": 108,
+      "msg": "ㅋㅋㅋㅋ 말도 안 돼",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.7
+    },
+    {
+      "no": 109,
+      "msg": "대박!!!",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 0.9
+    },
+    {
+      "no": 110,
+      "msg": "감사합니다!",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 0.7
+    },
+    {
+      "no": 111,
+      "msg": "정말 고마워요",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.8
+    },
+    {
+      "no": 112,
+      "msg": "아 알겠습니다",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.7
+    },
+    {
+      "no": 113,
+      "msg": "ok 감사합니다",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.8
+    },
+    {
+      "no": 114,
+      "msg": "좋아요!",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.8
+    },
+    {
+      "no": 115,
+      "msg": "맞아요, 감사해요",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.8
+    },
+    {
+      "no": 116,
+      "msg": "헐!",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 0.8
+    },
+    {
+      "no": 117,
+      "msg": "와!",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.0
+    },
+    {
+      "no": 118,
+      "msg": "완전 신기해요",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.9
+    },
+    {
+      "no": 119,
+      "msg": "너무 고마워요",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 2.0
+    },
+    {
+      "no": 120,
+      "msg": "ㅎㄷㄷ 진짜요?",
+      "cat": "reaction",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.2
+    },
+    {
+      "no": 121,
+      "msg": "오늘 날씨가 어때요?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.4
+    },
+    {
+      "no": 122,
+      "msg": "점심에 뭐 먹을까요?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.9
+    },
+    {
+      "no": 123,
+      "msg": "강남 맛집 추천해줘",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 2.6
+    },
+    {
+      "no": 124,
+      "msg": "파이썬 배우고 싶어요",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.8
+    },
+    {
+      "no": 125,
+      "msg": "영어 발음 좋아지는 방법은?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.7
+    },
+    {
+      "no": 126,
+      "msg": "주식 투자 어떻게 시작하나요?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.9
+    },
+    {
+      "no": 127,
+      "msg": "날씨 정말 좋네요",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.5
+    },
+    {
+      "no": 128,
+      "msg": "코딩 처음 어떻게 배웠어요?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.4
+    },
+    {
+      "no": 129,
+      "msg": "영어 공부 방법을 알려주세요",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.7
+    },
+    {
+      "no": 130,
+      "msg": "게임 추천해줘",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 2.5
+    },
+    {
+      "no": 131,
+      "msg": "영화 뭐 볼까요?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.9
+    },
+    {
+      "no": 132,
+      "msg": "책 추천해줘",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.7
+    },
+    {
+      "no": 133,
+      "msg": "헬스 시작하려는데 팁이 있나요?",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.5
+    },
+    {
+      "no": 134,
+      "msg": "요리 레시피 알려줘",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.6
+    },
+    {
+      "no": 135,
+      "msg": "국내 여행지 추천해줘",
+      "cat": "off_topic",
+      "expects": [
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.4
+    },
+    {
+      "no": 136,
+      "msg": "남아공에서 취업하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.8
+    },
+    {
+      "no": 137,
+      "msg": "인도에서 기술자 비자를 받을 수 있나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.8
+    },
+    {
+      "no": 138,
+      "msg": "태국 장기 거주 비자가 있나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2
+    },
+    {
+      "no": 139,
+      "msg": "브라질에서 디지털 노마드 비자가 있나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.1
+    },
+    {
+      "no": 140,
+      "msg": "말레이시아에서 일하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.3
+    },
+    {
+      "no": 141,
+      "msg": "아랍에미리트에서 취업할 수 있나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4
+    },
+    {
+      "no": 142,
+      "msg": "포르투갈에 장기 거주하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.9
+    },
+    {
+      "no": 143,
+      "msg": "스페인에서 취업하려면 어떻게 해야 하나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.3
+    },
+    {
+      "no": 144,
+      "msg": "이탈리아 유학비자 조건은 무엇인가요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 12.9
+    },
+    {
+      "no": 145,
+      "msg": "네덜란드에서 일하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.6
+    },
+    {
+      "no": 146,
+      "msg": "스웨덴 취업비자는 어떻게 받나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.5
+    },
+    {
+      "no": 147,
+      "msg": "덴마크에서 유학하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 12.0
+    },
+    {
+      "no": 148,
+      "msg": "핀란드에서 일하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.9
+    },
+    {
+      "no": 149,
+      "msg": "노르웨이 거주비자 조건은 어떻게 되나요?",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 14.8
+    },
+    {
+      "no": 150,
+      "msg": "아일랜드에서 취업하고 싶어요",
+      "cat": "new_country",
+      "expects": [
+        "visa_rag_search",
+        "web_search_tool"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4
+    },
+    {
+      "no": 151,
+      "msg": "호주는 어떤가요?",
+      "cat": "multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.3
+    },
+    {
+      "no": 152,
+      "msg": "아니 사실은 유학만 하고 싶어요",
+      "cat": "multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 4.7
+    },
+    {
+      "no": 153,
+      "msg": "그럼 영국 학생비자는 어떤가요?",
+      "cat": "multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    },
+    {
+      "no": 154,
+      "msg": "3개월만 더 머물고 싶은데 가능한가요?",
+      "cat": "multi_turn",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 8.3
+    },
+    {
+      "no": 155,
+      "msg": "다시 생각해보니 취업보다 유학이 나을 것 같아요",
+      "cat": "multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4
+    },
+    {
+      "no": 156,
+      "msg": "미안해요, 일자리를 구하려고 해요",
+      "cat": "multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.4
+    },
+    {
+      "no": 157,
+      "msg": "사실은 장기 체류가 목적이에요",
+      "cat": "multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.4
+    },
+    {
+      "no": 158,
+      "msg": "미국에서 관광비자가 아니라 취업비자로 일하고 싶어요",
+      "cat": "conflicting",
+      "expects": [
+        "exception_handler",
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.6
+    },
+    {
+      "no": 159,
+      "msg": "유학이 아니라 취업으로 가고 싶어요",
+      "cat": "conflicting",
+      "expects": [
+        "exception_handler",
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.7
+    },
+    {
+      "no": 160,
+      "msg": "워킹홀리데이가 아닌 정규직 취업비자를 원해요",
+      "cat": "conflicting",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 4.9
+    },
+    {
+      "no": 161,
+      "msg": "장기 체류가 아니라 단기 여행이에요",
+      "cat": "conflicting",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.3
+    },
+    {
+      "no": 162,
+      "msg": "그게 아니고 다른 나라로 갈 수도 있어요",
+      "cat": "conflicting",
+      "expects": [
+        "response_formatter"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 3.8
+    },
+    {
+      "no": 163,
+      "msg": "미국도 아니고 캐나다도 아니고 어느 나라든 괜찮아요",
+      "cat": "conflicting",
+      "expects": [
+        "response_formatter"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.8
+    },
+    {
+      "no": 164,
+      "msg": "취업도 아니고 유학도 아닌 다른 목적이에요",
+      "cat": "conflicting",
+      "expects": [
+        "response_formatter"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    },
+    {
+      "no": 165,
+      "msg": "관광으로 입국 후 현지에서 취업을 원해요",
+      "cat": "conflicting",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.7
+    },
+    {
+      "no": 166,
+      "msg": "비자 받으려면 어떻게 해야 하나요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter",
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    },
+    {
+      "no": 167,
+      "msg": "필요한 서류가 뭔가요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.6
+    },
+    {
+      "no": 168,
+      "msg": "시간이 얼마나 걸리나요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter",
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.0
+    },
+    {
+      "no": 169,
+      "msg": "비용은 얼마예요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter",
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.5
+    },
+    {
+      "no": 170,
+      "msg": "언제쯤 신청해야 하나요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter",
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.8
+    },
+    {
+      "no": 171,
+      "msg": "어떻게 하면 되나요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter",
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "general_chat"
+      ],
+      "passed": true,
+      "elapsed_s": 1.8
+    },
+    {
+      "no": 172,
+      "msg": "최근에 바뀐 내용이 있나요?",
+      "cat": "vague",
+      "expects": [
+        "response_formatter",
+        "general_chat"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.9
+    },
+    {
+      "no": 173,
+      "msg": "DUI 전과가 있는데 미국 입국이 가능한가요?",
+      "cat": "edge_case",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.4
+    },
+    {
+      "no": 174,
+      "msg": "임신 중인데 비자 신청을 해도 문제없나요?",
+      "cat": "edge_case",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.1
+    },
+    {
+      "no": 175,
+      "msg": "여권 유효기간이 3개월밖에 안 남았는데 비자 신청이 가능한가요?",
+      "cat": "edge_case",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.5
+    },
+    {
+      "no": 176,
+      "msg": "동성 커플인데 비자 신청 시 차별을 받을 수 있나요?",
+      "cat": "edge_case",
+      "expects": [
+        "exception_handler",
+        "response_formatter"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.5
+    },
+    {
+      "no": 177,
+      "msg": "코로나 확진 기록이 있어도 입국에 문제없나요?",
+      "cat": "edge_case",
+      "expects": [
+        "response_formatter",
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.5
+    },
+    {
+      "no": 178,
+      "msg": "범죄 경력이 있으면 비자 거절이 확실한가요?",
+      "cat": "edge_case",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.0
+    },
+    {
+      "no": 179,
+      "msg": "특정 종교로 인해 비자 거절 가능성이 있나요?",
+      "cat": "edge_case",
+      "expects": [
+        "response_formatter",
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.7
+    },
+    {
+      "no": 180,
+      "msg": "성소수자인데 특정 국가 입국이 가능한가요?",
+      "cat": "edge_case",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.1
+    }
+  ]
+}
