@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "total": 4,
+    "cycle_proven": 4,
+    "stored": 4,
+    "recall_only": 4
+  },
+  "records": [
+    {
+      "cc": "IS",
+      "ko": "아이슬란드",
+      "before": 0,
+      "after": 1,
+      "grew": true,
+      "first_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "first_web": true,
+      "first_kw": true,
+      "recall_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "recall_rag": true,
+      "recall_no_web": true,
+      "cycle_proven": true
+    },
+    {
+      "cc": "LU",
+      "ko": "룩셈부르크",
+      "before": 0,
+      "after": 1,
+      "grew": true,
+      "first_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "first_web": true,
+      "first_kw": true,
+      "recall_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "recall_rag": true,
+      "recall_no_web": true,
+      "cycle_proven": true
+    },
+    {
+      "cc": "EE",
+      "ko": "에스토니아",
+      "before": 0,
+      "after": 1,
+      "grew": true,
+      "first_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "first_web": true,
+      "first_kw": true,
+      "recall_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "recall_rag": true,
+      "recall_no_web": true,
+      "cycle_proven": true
+    },
+    {
+      "cc": "UY",
+      "ko": "우루과이",
+      "before": 0,
+      "after": 1,
+      "grew": true,
+      "first_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "first_web": true,
+      "first_kw": true,
+      "recall_route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "recall_rag": true,
+      "recall_no_web": true,
+      "cycle_proven": true
+    }
+  ]
+}
