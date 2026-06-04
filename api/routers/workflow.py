@@ -6,7 +6,7 @@
   GET  {TOPOLOGY_PATH}  : LangGraph 노드/엣지 토폴로지(인트로스펙션) JSON
   POST {STREAM_PATH}    : 사용자 입력을 받아 노드 실행을 SSE 로 실시간 스트리밍
                           (호출자에게 스트리밍 + 동시에 이벤트 버스로 브로드캐스트)
-  GET  {LIVE_PATH}      : 버스를 구독해 '다른 곳(Streamlit 등)에서 발생한' 실행을
+  GET  {LIVE_PATH}      : 버스를 구독해 '다른 곳(고객 SPA 등)에서 발생한' 실행을
                           실시간으로 받아보는 SSE (대시보드 전용)
   POST {RUN_PATH}       : 대시보드 자체 입력 → 백그라운드로 실행 후 버스로 브로드캐스트
   GET  {DASHBOARD_PATH} : 위 엔드포인트들을 소비하는 라이브 대시보드 HTML
@@ -219,7 +219,7 @@ async def chat_stream(req: ChatRequest) -> StreamingResponse:
     async def gen():
         async for evt in _iter_events(req):
             await bus.publish(evt)          # 대시보드(/trace/live)로도 전달
-            yield _sse(evt)                 # 호출자(Streamlit/CLI)에게 스트리밍
+            yield _sse(evt)                 # 호출자(고객 SPA/CLI)에게 스트리밍
     return StreamingResponse(
         gen(),
         media_type="text/event-stream",

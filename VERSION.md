@@ -6,7 +6,18 @@
 
 ---
 
-## [v0.10.0] — 2026-06-04 (Round 10 / 현재)
+## [Unreleased]
+
+### Removed
+- **Streamlit UI 제거(`ui/`)** — 고객 UI 를 FastAPI 가 서빙하는 단일 SPA
+  (`http://localhost:8000/`, `api/static/app.html`)로 단일화. `ui/app.py`·`styles.css`·
+  `Dockerfile`·`requirements.txt`·`example_queries.json` 삭제, docker-compose 의 `ui` 서비스
+  (`:8501`)·Makefile `dev-ui` 타깃 제거. (이하 v0.10.0 이전 항목의 Streamlit/`ui/` 언급은
+  당시 구현을 기록한 변경 이력입니다.)
+
+---
+
+## [v0.10.0] — 2026-06-04 (Round 10)
 
 ### Added
 - **Frontend UI 7종 개선** (`ui/app.py`, `ui/styles.css`)

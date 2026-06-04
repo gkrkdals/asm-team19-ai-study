@@ -28,16 +28,7 @@ services:
     depends_on:
       vectordb:
         condition: service_healthy
-
-  ui:
-    build: ./ui
-    ports:
-      - "8501:8501"
-    environment:
-      - API_BASE_URL=http://api:8000          # 서버 내부 통신용
-      - TRACE_URL=http://localhost:8000/trace  # 사용자 브라우저가 직접 여는 대시보드
-    depends_on:
-      - api
+    # 고객 UI = http://localhost:8000/ (FastAPI 가 서빙하는 SPA: api/static/app.html)
 
 volumes:
   chroma_data:

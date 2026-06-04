@@ -12,8 +12,8 @@
 
 | 레이어 | 기술 |
 |---|---|
-| Frontend | Streamlit (채팅 UI) |
-| Backend API | FastAPI (REST 엔드포인트) |
+| Frontend | 정적 SPA (FastAPI 서빙) — `api/static/app.html` |
+| Backend API | FastAPI (REST 엔드포인트 + 고객 SPA 서빙) |
 | Agent Orchestration | LangGraph (노드/엣지 기반 워크플로우) |
 | LLM | Upstage Solar (`solar-pro`) / OpenAI 대체 가능 |
 | RAG | ChromaDB (벡터 검색, 코사인 유사도) |
@@ -60,16 +60,16 @@ intent_classifier ─┬─ (비자 무관) ───────→ general_cha
 - **단계별 타임라인**: 각 노드가 참조한 입력과 산출을 표로 보여줍니다. 예) RAG 노드는 실제
   질의어·`country_code` 필터·결과 건수·매칭 비자를, Tavily 노드는 검색어·결과 수·출처
   URL·컨텍스트 길이를 명시 → "왜 폴백되었는지"가 한눈에 보입니다.
-- **🔗 Streamlit 연동(실시간)**: `http://localhost:8501` 채팅창에 입력하면, 그 실행이
+- **🔗 SPA 연동(실시간)**: 고객 SPA(`http://localhost:8000/`) 채팅창에 입력하면, 그 실행이
   대시보드(`/trace`)에 **실시간으로 함께 표시**됩니다. 백엔드 이벤트 버스가 `/chat/stream`
-  실행을 `/trace/live`(SSE) 구독자에게 브로드캐스트하는 구조입니다. 사이드바
-  **"워크플로우 실시간 보기 ↗"** 버튼으로 대시보드를 열어 두면 됩니다.
+  실행을 `/trace/live`(SSE) 구독자에게 브로드캐스트하는 구조입니다. 대시보드를 별도 탭으로
+  열어 두면 됩니다.
 
 | 메서드 | 경로 | 설명 |
 |---|---|---|
 | GET | `/graph/topology` | 컴파일된 그래프 인트로스펙션(노드·엣지·간선 라벨) JSON |
 | POST | `/chat/stream` | 노드 실행을 **SSE**로 스트리밍 + 이벤트 버스로 브로드캐스트 |
-| GET | `/trace/live` | 이벤트 버스 구독 SSE — 외부(Streamlit) 실행을 실시간 수신 |
+| GET | `/trace/live` | 이벤트 버스 구독 SSE — 외부(SPA) 실행을 실시간 수신 |
 | POST | `/trace/run` | 대시보드 자체 입력 → 백그라운드 실행 후 브로드캐스트 |
 | GET | `/trace` | 위 엔드포인트들을 소비하는 라이브 대시보드 HTML |
 
@@ -96,8 +96,8 @@ intent_classifier ─┬─ (비자 무관) ───────→ general_cha
 
 ```
 visa_guide_ai/
-├── docker-compose.yml       # api:8000 / ui:8501 / vectordb:8002
-├── Makefile                 # make up / make dev-api / make dev-ui
+├── docker-compose.yml       # api:8000 (SPA 서빙) / vectordb:8002
+├── Makefile                 # make up / make dev-api
 ├── .env.example             # API 키 템플릿
 ├── data/visas/{US,JP,GB,CA,AU,DE}/_all_visas.json
 ├── api/
@@ -108,6 +108,7 @@ visa_guide_ai/
 │   │   ├── sessions.py      # 세션 CRUD·메타데이터·메시지 영속 RESTful
 │   │   └── workflow.py      # 토폴로지·스트림 · /{sid}/trace(상세) · /trace(통합 허브)
 │   ├── static/
+│   │   ├── app.html         # 고객용 메인 SPA(GET / 로 서빙, 동일 출처로 /sessions·/chat/stream 호출)
 │   │   ├── trace.html       # 세션별 상세 트레이스(2D 그래프·vanilla JS)
 │   │   └── trace_hub.html   # 통합 병렬 허브(세션별 간단 카드 + 상세 링크)
 │   ├── knowledge/           # 도메인 지식(반입)
@@ -116,10 +117,10 @@ visa_guide_ai/
 │   ├── agent/
 │   │   ├── {state,graph,routing,config,domain}.py
 │   │   ├── nodes/{intent,search,response,general,refine,learn,llm}.py  # learn=knowledge_writer
-│   │   ├── event_bus.py     # Streamlit↔trace 브로드캐스트 pub/sub(+리플레이)
+│   │   ├── event_bus.py     # SPA↔trace 브로드캐스트 pub/sub(+리플레이)
 │   │   └── trace_meta.py    # 노드/간선 표시 메타데이터(확장 지점)
 │   └── rag/{vectorstore,ingest}.py   # 비자 + 예외규칙 적재, search_exceptions, add_learned_visa
-└── ui/app.py                # Streamlit 3-pane(좌 사이드바·중앙 대화·우 워크플로우 패널)
+└── data/visas/...           # 국가별 비자 데이터(read-only 마운트)
 ```
 
 ---
@@ -131,7 +132,7 @@ visa_guide_ai/
 ```bash
 cp .env.example .env      # SOLAR_API_KEY, TAVILY_API_KEY 입력
 make up                   # 또는 docker compose up --build
-# → http://localhost:8501
+# → 고객 UI: http://localhost:8000/ (FastAPI 가 서빙하는 SPA)
 ```
 
 ### B. 로컬 실행 (Docker 없이)
@@ -139,8 +140,7 @@ make up                   # 또는 docker compose up --build
 ```bash
 cp .env.example .env      # API 키 입력
 make setup                # 패키지 설치
-make dev-api              # 터미널 1: FastAPI (8000)
-make dev-ui               # 터미널 2: Streamlit (8501)
+make dev-api              # FastAPI (8000) — 고객 UI: http://localhost:8000/
 ```
 
 로컬 실행 시 ChromaDB는 `chroma_data/` 폴더에 영속 저장됩니다(`PersistentClient`).
@@ -151,6 +151,7 @@ make dev-ui               # 터미널 2: Streamlit (8501)
 
 | 메서드 | 경로 | 설명 |
 |---|---|---|
+| GET | `/` | **고객용 메인 SPA**(`api/static/app.html` 서빙) |
 | GET | `/health` | 헬스체크 |
 | POST | `/chat/` | `{message, session_id, history}` → `{response, session_id}` |
 | POST | `/chat/stream` | 동일 입력 → 노드 실행을 SSE로 스트리밍(+버스 브로드캐스트) |
@@ -179,13 +180,9 @@ OPENAI_API_KEY=sk-...           # LLM_PROVIDER=openai 시
 TAVILY_API_KEY=tvly-...         # 없으면 RAG만으로 동작
 ```
 
-UI 전용(선택) 환경 변수:
-
-```bash
-API_BASE_URL=http://localhost:8000        # Streamlit → API 서버 주소
-TRACE_ORIGIN=http://localhost:8000        # 브라우저가 여는 트레이스 오리진
-                                          #  → 세션 상세 {TRACE_ORIGIN}/{sid}/trace, 허브 {TRACE_ORIGIN}/trace
-```
+고객 SPA 는 FastAPI 와 **동일 출처**(`http://localhost:8000/`)에서 서빙되므로 별도의
+API 주소 설정이 필요 없습니다. 트레이스 대시보드는 동일 오리진의 `/{sid}/trace`(세션 상세)·
+`/trace`(통합 허브) 로 접근합니다.
 
 ---
 
@@ -240,7 +237,7 @@ TRACE_ORIGIN=http://localhost:8000        # 브라우저가 여는 트레이스 
   `data/sessions.json`)로 이전. 활성 세션은 URL `?sid=` 로 유지되어 **새로고침/재시작에도 보존**된다.
 - **세션 메타데이터**: 세션별 **이름 변경·한줄 설명·태그**(장기체류/취업/유학/여행…)를 사이드바에서
   편집·표시(태그 칩).
-- **세션별 RESTful 트레이스(2a)**: 각 대화 세션은 `8501/?sid=<id>` ↔ `8000/{id}/trace` 로 1:1
+- **세션별 RESTful 트레이스(2a)**: 각 대화 세션은 `8000/?sid=<id>` ↔ `8000/{id}/trace` 로 1:1
   매핑된다. 이벤트마다 `session_id` 를 실어 `/trace/live?session_id=<id>` 로 **해당 세션만 필터**
   구독한다(병렬 실행 격리).
 - **통합 병렬 허브(2b)**: `8000/trace` 는 모든 세션을 **간단한 동작(진행 바·현재 노드·상태)** 카드로
@@ -274,8 +271,8 @@ TRACE_ORIGIN=http://localhost:8000        # 브라우저가 여는 트레이스 
 - **일반 대화 분기**: 비자 무관 질문이 비자 워크플로에 잘못 진입하지 않도록 `general_chat`로 분리.
 - **멀티턴 맥락**: 직전 대화를 의도 추출에 반영(예: "캐나다 개발자 취업" 후 "그럼 영국은?" →
   영국·취업·개발자로 이어받음).
-- **응답 토큰 스트리밍**: 최종 답변을 토큰 단위로 실시간 갱신(Streamlit·/trace 공통).
-- **Streamlit ↔ /trace 실시간 연동**: 채팅 입력이 트레이스 대시보드에 실시간 브로드캐스트
+- **응답 토큰 스트리밍**: 최종 답변을 토큰 단위로 실시간 갱신(SPA·/trace 공통).
+- **SPA ↔ /trace 실시간 연동**: 채팅 입력이 트레이스 대시보드에 실시간 브로드캐스트
   (이벤트 버스 + 캐시 무효화 + 직전 실행 리플레이).
 
 ## 제약 사항 (MVP)
