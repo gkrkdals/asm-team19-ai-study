@@ -173,9 +173,20 @@ async def _iter_events(req: ChatRequest):
                 if update and update.get("final_response"):
                     final_response = update["final_response"]
                 if update:
+                    changed = False
                     for _k in ("country", "purpose", "duration", "profession"):
-                        if update.get(_k):
-                            slots[_k] = update[_k]
+                        v = update.get(_k)
+                        if v and v != slots[_k]:
+                            slots[_k] = v
+                            changed = True
+                    if changed:
+                        # 슬롯이 확정되는 즉시 조기 방출 → 프론트가 요약 카드를 답변보다 먼저 렌더(이슈 #12)
+                        yield {
+                            "type": "slots",
+                            "run_id": run_id,
+                            "session_id": sid,
+                            "slots": dict(slots),
+                        }
                 meta = describe_node(node)
                 yield {
                     "type": "node",
