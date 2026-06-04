@@ -15,7 +15,7 @@
   "created":     ISO8601,
   "updated":     ISO8601,
   "messages":    [{"role","content","ts"}],
-  "last_run":    {"steps":[...], "total_ms":int} | None   # 우측 패널/트레이스 복원용
+  "last_run":    {"steps":[...], "total_ms":int, "followups":[...], "slots":{...}|None} | None   # 우측 패널/트레이스·요약 카드 복원용
 }
 
 주의: 단일 uvicorn 워커(인메모리 + 파일) 기준의 prototype. 멀티 워커/수평 확장
