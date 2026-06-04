@@ -1,5 +1,8 @@
 """
-백엔드 워크플로우 실시간 트레이스 라우터.
+백엔드 워크플로우 실시간 트레이스 라우터(순수 JSON/SSE API).
+
+화면(HTML)은 별도 Express 정적 서버(web/, :3000)가 서빙하고, 브라우저가
+아래 JSON/SSE 엔드포인트를 CORS 로 직접 호출한다.
 
 제공 엔드포인트(경로는 아래 상수에서 한곳으로 관리 → URL 변경 용이)
 ────────────────────────────────────────────────────────────────────
@@ -9,7 +12,7 @@
   GET  {LIVE_PATH}      : 버스를 구독해 '다른 곳(고객 SPA 등)에서 발생한' 실행을
                           실시간으로 받아보는 SSE (대시보드 전용)
   POST {RUN_PATH}       : 대시보드 자체 입력 → 백그라운드로 실행 후 버스로 브로드캐스트
-  GET  {DASHBOARD_PATH} : 위 엔드포인트들을 소비하는 라이브 대시보드 HTML
+  GET  {SESSIONS_PATH}  : 통합 허브용 세션 개요 JSON
 
 확장 유연성
 ────────────────────────────────────────────────────────────────────
@@ -24,10 +27,9 @@ import asyncio
 import json
 import time
 import uuid
-from pathlib import Path
 
 from fastapi import APIRouter, Query
-from fastapi.responses import StreamingResponse, HTMLResponse, JSONResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 
 from agent.graph import get_graph
 from agent.event_bus import bus
@@ -51,11 +53,6 @@ DASHBOARD_PATH = "/trace"               # 통합 허브(모든 세션)
 SESSIONS_PATH = "/trace/sessions"       # 허브용 세션 개요 JSON
 
 router = APIRouter(tags=["workflow"])
-
-_STATIC = Path(__file__).resolve().parent.parent / "static"
-_DASHBOARD_HTML = _STATIC / "trace.html"        # 세션별 상세 트레이스
-_HUB_HTML = _STATIC / "trace_hub.html"          # 통합 병렬 허브
-_APP_HTML = _STATIC / "app.html"                # 고객용 메인 SPA(하네스 디자인 100% 일치)
 
 # 백그라운드 실행 태스크가 GC 되지 않도록 참조 유지
 _bg_tasks: set[asyncio.Task] = set()
@@ -283,30 +280,3 @@ async def trace_live(session_id: str | None = Query(default=None)) -> StreamingR
 def trace_sessions() -> JSONResponse:
     return JSONResponse({"sessions": bus.sessions_overview()},
                         headers={"Cache-Control": "no-store"})
-
-
-def _read_html(path: Path) -> HTMLResponse:
-    try:
-        html = path.read_text(encoding="utf-8")
-    except FileNotFoundError:
-        return HTMLResponse(f"<h1>{path.name} 을 찾을 수 없습니다.</h1>", status_code=500)
-    # 브라우저가 옛 대시보드를 캐시하지 않도록(실시간 연동 보장)
-    return HTMLResponse(html, headers={"Cache-Control": "no-store"})
-
-
-# ── GET / : 고객용 메인 SPA(하네스 프로토타입 디자인, 백엔드 동일 출처) ──────
-@router.get("/", response_class=HTMLResponse)
-def app_spa() -> HTMLResponse:
-    return _read_html(_APP_HTML)
-
-
-# ── GET /trace : 통합 병렬 허브(모든 세션을 간단 카드 + 상세 링크로) ────────
-@router.get(DASHBOARD_PATH, response_class=HTMLResponse)
-def hub() -> HTMLResponse:
-    return _read_html(_HUB_HTML)
-
-
-# ── GET /{session_id}/trace : 세션별 상세 트레이스(개별 워크플로우) ──────────
-@router.get("/{session_id}/trace", response_class=HTMLResponse)
-def session_dashboard(session_id: str) -> HTMLResponse:
-    return _read_html(_DASHBOARD_HTML)

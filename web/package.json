@@ -1,0 +1,9 @@
+{
+  "name": "visaguide-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VisaGuide AI 프론트엔드 정적 서버 (Express)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^4.19.2" }
+}
