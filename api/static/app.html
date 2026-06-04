@@ -113,7 +113,7 @@
   .av.live::after{content:""; position:absolute; inset:-3px; border-radius:12px; border:1.5px solid var(--azure); opacity:.4; animation:breathe 4s ease-in-out infinite;}
   .bubble-a{background:var(--surface); border:1px solid var(--line); border-radius:4px 12px 12px 12px; padding:13px 16px; box-shadow:var(--shadow-sm);}
   .bubble-a b{color:var(--navy); font-weight:600;}
-  .msg.user{flex-direction:row-reverse; scroll-margin-top:var(--anchor-top,74px);}
+  .msg.user{flex-direction:row-reverse;}
   .msg.user .av{background:#E4E9F4; color:var(--navy); box-shadow:var(--shadow-sm); font-family:var(--grotesk); font-weight:700; font-size:13px;}
   .bubble-u{background:linear-gradient(170deg,#1D2F54,var(--navy)); color:#EAEFFA; border-radius:12px 4px 12px 12px; padding:12px 16px; max-width:80%; box-shadow:0 6px 18px rgba(19,24,38,.18);}
 
@@ -334,7 +334,7 @@
   function headerOffset(){ var h=document.querySelector('.main-head'); return (h?h.getBoundingClientRect().height:62)+12; }
   var spacer=document.getElementById('scroll-spacer');
   function setSpacer(h){ if(spacer) spacer.style.height=Math.max(0,h)+'px'; }
-  function anchorLastUser(){ var els=stream.querySelectorAll('.msg.user'); var el=els[els.length-1]; if(!el) return; document.documentElement.style.setProperty('--anchor-top', headerOffset()+'px'); window.scrollTo({top: el.getBoundingClientRect().top+window.scrollY-headerOffset(), behavior: reduce?'auto':'smooth'}); }
+  function anchorLastUser(){ var els=stream.querySelectorAll('.msg.user'); var el=els[els.length-1]; if(!el) return; window.scrollTo({top: el.getBoundingClientRect().top+window.scrollY-headerOffset(), behavior: reduce?'auto':'smooth'}); }
   function setSid(sid){ state.sid=sid; var u=new URL(location.href); u.searchParams.set('sid',sid); history.replaceState(null,'',u); }
 
   var SEAL='<svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="vgarc" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="1"/><text font-family="Space Mono" font-size="9" font-weight="700" letter-spacing="1.5" fill="currentColor"><textPath href="#vgarc" startOffset="2%">APPROVED · FOR GUIDANCE · VISAGUIDE · </textPath></text><text x="60" y="55" text-anchor="middle" font-family="Archivo Expanded" font-weight="700" font-size="17" fill="currentColor">VISA</text><text x="60" y="70" text-anchor="middle" font-family="Space Mono" font-weight="700" font-size="8" letter-spacing="3" fill="currentColor">GUIDE</text><text x="60" y="87" text-anchor="middle" font-size="13" class="star">★</text></svg>';
