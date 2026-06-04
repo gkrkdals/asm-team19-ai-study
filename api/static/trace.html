@@ -151,7 +151,7 @@
   </div>
   <div class="chips" id="chips"></div>
   <p class="hint" style="margin:-6px 0 14px">
-    💡 이 화면은 <b>Streamlit(:8501)에서 입력한 질문</b>도 실시간으로 함께 표시합니다(아래 연결 표시가 켜져 있을 때).
+    💡 이 화면은 <b>고객 화면(:8000/)에서 입력한 질문</b>도 실시간으로 함께 표시합니다(아래 연결 표시가 켜져 있을 때).
   </p>
 
   <div class="grid">
@@ -467,7 +467,7 @@ function md(src){
 
 // ── 이벤트 처리(스트림/라이브 공통) ──────────────────────────────────────
 function handleEvent(evt){
-  if(evt.type==="connected"){ setLive("🟢 연결됨 (Streamlit 입력도 수신)","on"); return; }
+  if(evt.type==="connected"){ setLive("🟢 연결됨 (고객 화면 입력도 수신)","on"); return; }
   if(evt.type==="start"){
     curRunId=evt.run_id; prevExec="__start__"; answerAcc="";
     EXEC_SEQ=["__start__"]; EXEC_DONE=false;
@@ -530,7 +530,7 @@ async function run(question){
   }catch(e){ setStatus("실행 요청 실패: "+e.message,"err"); }
 }
 
-// ── 라이브 구독(이 세션의 실행만 수신; Streamlit 입력 + 자체 실행 모두) ─────
+// ── 라이브 구독(이 세션의 실행만 수신; 고객 화면 입력 + 자체 실행 모두) ─────
 function connectLive(){
   const url = PATHS.live + (SESSION_ID ? ("?session_id="+encodeURIComponent(SESSION_ID)) : "");
   const es=new EventSource(url);
