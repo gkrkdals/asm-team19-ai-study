@@ -107,6 +107,7 @@
   .app{width:100%; max-width:760px; margin:0 auto; padding:22px 22px 168px;}
 
   .stream{display:flex; flex-direction:column; gap:20px; margin-top:4px;}
+  #scroll-spacer{flex:0 0 auto; height:0;}
   .msg{display:flex; gap:12px; align-items:flex-start; animation:rise .45s cubic-bezier(.2,.7,.2,1) both;}
   .av{width:36px;height:36px;border-radius:9px;flex:0 0 auto; display:grid; place-items:center; background:linear-gradient(170deg,var(--navy),var(--navy-2)); color:#fff; font-family:var(--display); font-weight:700; font-size:15px; position:relative; box-shadow:0 2px 8px rgba(19,24,38,.25), inset 0 0 0 1px rgba(255,255,255,.08);}
   .av.live::after{content:""; position:absolute; inset:-3px; border-radius:12px; border:1.5px solid var(--azure); opacity:.4; animation:breathe 4s ease-in-out infinite;}
@@ -290,6 +291,7 @@
 
     <main class="app">
       <section class="stream" id="stream"></section>
+      <div id="scroll-spacer" aria-hidden="true"></div>
     </main>
   </div>
 
@@ -329,6 +331,10 @@
   }
   function relTime(iso){ if(!iso) return ''; try{ var s=(Date.now()-new Date(iso).getTime())/1000; if(s<60)return'방금'; if(s<3600)return Math.floor(s/60)+'분 전'; if(s<86400)return Math.floor(s/3600)+'시간 전'; var d=Math.floor(s/86400); if(d===1)return'어제'; if(d<7)return d+'일 전'; return Math.floor(d/7)+'주 전'; }catch(e){return'';} }
   function scrollDown(){ window.scrollTo({top:document.body.scrollHeight, behavior:reduce?'auto':'smooth'}); }
+  function headerOffset(){ var h=document.querySelector('.main-head'); return (h?h.getBoundingClientRect().height:62)+12; }
+  var spacer=document.getElementById('scroll-spacer');
+  function setSpacer(h){ if(spacer) spacer.style.height=Math.max(0,h)+'px'; }
+  function anchorLastUser(){ var els=stream.querySelectorAll('.msg.user'); var el=els[els.length-1]; if(!el) return; window.scrollTo({top: el.getBoundingClientRect().top+window.scrollY-headerOffset(), behavior: reduce?'auto':'smooth'}); }
   function setSid(sid){ state.sid=sid; var u=new URL(location.href); u.searchParams.set('sid',sid); history.replaceState(null,'',u); }
 
   var SEAL='<svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="vgarc" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="1"/><text font-family="Space Mono" font-size="9" font-weight="700" letter-spacing="1.5" fill="currentColor"><textPath href="#vgarc" startOffset="2%">APPROVED · FOR GUIDANCE · VISAGUIDE · </textPath></text><text x="60" y="55" text-anchor="middle" font-family="Archivo Expanded" font-weight="700" font-size="17" fill="currentColor">VISA</text><text x="60" y="70" text-anchor="middle" font-family="Space Mono" font-weight="700" font-size="8" letter-spacing="3" fill="currentColor">GUIDE</text><text x="60" y="87" text-anchor="middle" font-size="13" class="star">★</text></svg>';
@@ -424,8 +430,8 @@
   }
 
   function grow(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,128)+'px'; }
-  function liveNode(){ var m=document.createElement('div'); m.className='msg'; m.innerHTML='<div class="av live">V</div><div class="loading"><span class="text">공식 자료를 차분히 확인하고 있어요</span><span class="dots"><i></i><i></i><i></i></span><a class="live-trace" href="/trace" target="_blank" rel="noopener">실시간 과정 보기 ↗</a></div>'; stream.appendChild(m); scrollDown(); return m; }
-  function liveCard(node, acc){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+docCardHtml(acc)+'</div>'; scrollDown(); }
+  function liveNode(){ var m=document.createElement('div'); m.className='msg'; m.innerHTML='<div class="av live">V</div><div class="loading"><span class="text">공식 자료를 차분히 확인하고 있어요</span><span class="dots"><i></i><i></i><i></i></span><a class="live-trace" href="/trace" target="_blank" rel="noopener">실시간 과정 보기 ↗</a></div>'; stream.appendChild(m); return m; }
+  function liveCard(node, acc){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+docCardHtml(acc)+'</div>'; }
 
   function send(text){
     if(state.busy) return; if(!text||!text.trim()) return; text=text.trim();
@@ -433,6 +439,9 @@
     var ex=document.querySelector('.followups'); if(ex) ex.remove();
     state.messages.push({role:'user', content:text}); renderStream();
     var live=liveNode();
+    var uel=stream.querySelectorAll('.msg.user'); uel=uel[uel.length-1]; var uH=uel?uel.getBoundingClientRect().height:0;
+    setSpacer(window.innerHeight - headerOffset() - uH - 24);
+    anchorLastUser();
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
     var acc='', finalResp=null, doneSlots=null;
@@ -462,6 +471,8 @@
     live.remove();
     var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots;
     state.messages.push(amsg); renderStream();
+    var msgs=stream.querySelectorAll('.msg'); var aH=0,uH2=0; var aEl=msgs[msgs.length-1]; var uEl2=msgs[msgs.length-2]; if(aEl)aH=aEl.getBoundingClientRect().height; if(uEl2)uH2=uEl2.getBoundingClientRect().height;
+    setSpacer(window.innerHeight - headerOffset() - aH - uH2 - 24);
     state.busy=false; sendBtn.disabled=false;
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'assistant',content:finalText}).catch(function(){});
     var hist=state.messages.slice(-6).map(function(m){ return {role:m.role, content:m.content}; });
