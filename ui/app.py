@@ -8,26 +8,30 @@ from pathlib import Path
 from urllib.parse import quote
 
 API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
-# 사용자 브라우저가 직접 여는 트레이스 오리진(서버 내부 주소 API_BASE_URL 과 구분).
-TRACE_ORIGIN = os.getenv("TRACE_ORIGIN", "http://localhost:8000")
-SESSIONS_API = f"{API_BASE_URL}/sessions"
+TRACE_ORIGIN  = os.getenv("TRACE_ORIGIN",  "http://localhost:8000")
+SESSIONS_API  = f"{API_BASE_URL}/sessions"
 EXAMPLE_QUERIES_PATH = Path(__file__).with_name("example_queries.json")
-STYLES_PATH = Path(__file__).with_name("styles.css")
+STYLES_PATH          = Path(__file__).with_name("styles.css")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("visaguide.ui")
 
-# AI 제안이 없을 때의 후속 질문 폴백. (버튼라벨, 실제 전송 메시지)
+# 후속질문 폴백 (AI 생성 실패 시)
 FALLBACK_FOLLOWUPS = [
-    ("🔎 더 구체적으로", "방금 안내한 비자에 대해 자격 요건·필요 서류·신청 절차를 더 구체적으로 알려줘"),
+    ("🔎 더 구체적으로",    "방금 안내한 비자에 대해 자격 요건·필요 서류·신청 절차를 더 구체적으로 알려줘"),
     ("🆕 최신 정보로 확인", "공식 사이트의 최신 정보로 확인해서 요건과 수수료를 알려줘"),
     ("🗂️ 다른 비자 종류는?", "같은 국가에서 신청할 수 있는 다른 비자 종류도 있는지 비교해서 알려줘"),
 ]
-# 항상 노출하는 고정 유틸 칩(공식 사이트 딥서치)
-DEEP_CHIP = ("🌐 공식 사이트 상세 탐색",
-             "공식 사이트를 상세 탐색해서 최신 요건·서류·수수료·처리기간을 원문 기준으로 구체적으로 알려줘")
+DEEP_CHIP = (
+    "🌐 공식 사이트 상세 탐색",
+    "공식 사이트를 상세 탐색해서 최신 요건·서류·수수료·처리기간을 원문 기준으로 구체적으로 알려줘",
+)
+
+# 사이드바 대화 목록: 이 개수를 초과하면 스크롤 컨테이너 적용
+CONV_LIST_SCROLL_THRESHOLD = 5
 
 
+# ── 파일 로더 ─────────────────────────────────────────────────────────────
 def load_example_queries() -> list[str]:
     try:
         with EXAMPLE_QUERIES_PATH.open("r", encoding="utf-8") as f:
@@ -52,105 +56,82 @@ def load_example_queries() -> list[str]:
 def load_styles() -> None:
     try:
         css = STYLES_PATH.read_text(encoding="utf-8")
-    except FileNotFoundError:
-        logger.warning("Styles file not found: %s", STYLES_PATH)
-        return
     except Exception:
         logger.exception("Failed to load styles")
         return
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
-# ── 백엔드 세션 REST 클라이언트(새로고침에도 보존되는 영속 스토어) ─────────
+# ── 백엔드 REST 클라이언트 ────────────────────────────────────────────────
 def _api(method: str, path: str, **kw):
     try:
         r = httpx.request(method, f"{SESSIONS_API}{path}", timeout=10.0, **kw)
         r.raise_for_status()
         return r.json()
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         logger.warning("sessions API %s %s failed: %s", method, path, e)
         return None
 
 
-def api_list_sessions() -> list[dict]:
-    d = _api("GET", "")
-    return (d or {}).get("sessions", []) if d else []
-
-
-def api_get_session(sid: str) -> dict | None:
-    return _api("GET", f"/{sid}")
-
-
-def api_create_session(title: str = "새 대화") -> dict | None:
-    return _api("POST", "", json={"title": title})
-
-
-def api_update_session(sid: str, **meta) -> dict | None:
-    return _api("PATCH", f"/{sid}", json=meta)
-
-
-def api_delete_session(sid: str) -> None:
-    _api("DELETE", f"/{sid}")
-
-
+def api_list_sessions()                       -> list[dict]: return (_api("GET", "") or {}).get("sessions", [])
+def api_get_session(sid: str)                 -> dict | None: return _api("GET", f"/{sid}")
+def api_create_session(title: str="새 대화")  -> dict | None: return _api("POST", "", json={"title": title})
+def api_update_session(sid: str, **meta)      -> dict | None: return _api("PATCH", f"/{sid}", json=meta)
+def api_delete_session(sid: str)              -> None:        _api("DELETE", f"/{sid}")
 def api_append_message(sid: str, role: str, content: str) -> None:
     _api("POST", f"/{sid}/messages", json={"role": role, "content": content})
-
-
 def api_set_last_run(sid: str, run: dict) -> None:
     _api("PUT", f"/{sid}/last_run", json=run)
-
-
 def api_suggested_tags() -> list[str]:
     d = _api("GET", "/meta/tags")
     return (d or {}).get("tags", []) if d else ["장기체류", "취업", "유학", "여행"]
-
-
 def api_followups(history: list[dict]) -> list[str]:
-    """대화 맥락 기반 AI 후속 질문 제안(백엔드 /chat/followups)."""
     try:
         r = httpx.post(f"{API_BASE_URL}/chat/followups", json={"history": history}, timeout=30.0)
         r.raise_for_status()
         return [s for s in r.json().get("suggestions", []) if s]
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         logger.warning("followups fetch failed: %s", e)
         return []
 
 
-# ── 세션 상태(백엔드 단일 출처 + 로컬 미러) ───────────────────────────────
+# ── 세션 상태 ─────────────────────────────────────────────────────────────
 def _load_active(sid: str) -> None:
-    """활성 세션의 메시지/메타데이터를 백엔드에서 로드해 로컬 미러에 채운다."""
     full = api_get_session(sid)
-    if not full:                       # 백엔드에 없으면 생성
+    if not full:
         full = api_create_session()
-        sid = full["id"] if full else sid
-    st.session_state.session_id = sid
-    st.session_state.messages = [
+        sid  = full["id"] if full else sid
+    st.session_state.session_id  = sid
+    st.session_state.messages    = [
         {"role": m["role"], "content": m["content"]} for m in (full or {}).get("messages", [])
     ]
     st.session_state.active_meta = {
-        "title": (full or {}).get("title", "새 대화"),
+        "title":       (full or {}).get("title", "새 대화"),
         "description": (full or {}).get("description", ""),
-        "tags": (full or {}).get("tags", []),
-        "last_run": (full or {}).get("last_run"),
+        "tags":        (full or {}).get("tags", []),
+        "last_run":    (full or {}).get("last_run"),
     }
     st.session_state.loaded_sid = sid
 
 
 def init_session_state() -> None:
-    if "pending_input" not in st.session_state:
-        st.session_state.pending_input = None
-    if "wf_open" not in st.session_state:
-        st.session_state.wf_open = True
+    for key, default in [
+        ("pending_input",    None),
+        ("wf_open",          True),
+        ("settings_open_for", None),   # 설정 패널이 열린 conversation sid
+    ]:
+        if key not in st.session_state:
+            st.session_state[key] = default
 
     sessions = api_list_sessions()
-    if not sessions:                                  # 첫 실행 → 세션 생성
-        created = api_create_session()
+    if not sessions:
+        created  = api_create_session()
         sessions = api_list_sessions()
+    else:
+        created = None
     st.session_state.sessions_list = sessions
 
-    # URL 쿼리(?sid=)에서 활성 세션 결정 → 새로고침에도 같은 세션 유지
-    sid = st.query_params.get("sid")
+    sid   = st.query_params.get("sid")
     valid = {s["id"] for s in sessions}
     if sid not in valid:
         sid = sessions[0]["id"] if sessions else (created or {}).get("id")
@@ -166,18 +147,22 @@ def create_conversation() -> None:
     if s:
         st.query_params["sid"] = s["id"]
         st.session_state.loaded_sid = None
-    st.session_state.pending_input = None
+    st.session_state.pending_input     = None
+    st.session_state.settings_open_for = None
 
 
 def switch_conversation(sid: str) -> None:
     st.query_params["sid"] = sid
-    st.session_state.loaded_sid = None
-    st.session_state.pending_input = None
+    st.session_state.loaded_sid        = None
+    st.session_state.pending_input     = None
+    st.session_state.settings_open_for = None
 
 
 def delete_conversation(sid: str) -> None:
+    if st.session_state.settings_open_for == sid:
+        st.session_state.settings_open_for = None
     api_delete_session(sid)
-    remaining = [s for s in api_list_sessions()]
+    remaining = api_list_sessions()
     if remaining:
         st.query_params["sid"] = remaining[0]["id"]
     else:
@@ -192,61 +177,141 @@ def _tag_chips(tags: list[str]) -> str:
     return "".join(f'<span class="tagchip">{escape(t)}</span>' for t in (tags or [])[:4])
 
 
-def render_sidebar(example_queries: list[str]) -> None:
+def _render_inline_settings(sid: str, meta: dict) -> None:
+    """활성 대화 행 아래에 인라인으로 표시되는 설정 폼."""
+    with st.container():
+        st.markdown('<div class="conv-settings-panel">', unsafe_allow_html=True)
+        new_title = st.text_input(
+            "이름", value=meta.get("title", ""), key=f"ti_{sid}",
+            placeholder="대화 제목", label_visibility="collapsed",
+        )
+        new_desc = st.text_input(
+            "설명", value=meta.get("description", ""), key=f"de_{sid}",
+            placeholder="한줄 설명 (예: 캐나다 Express Entry 상담)",
+            label_visibility="collapsed",
+        )
+        new_tags = st.multiselect(
+            "태그", options=api_suggested_tags(),
+            default=meta.get("tags", []), key=f"tg_{sid}",
+            label_visibility="collapsed",
+        )
+        c1, c2 = st.columns(2)
+        with c1:
+            if st.button("💾 저장", use_container_width=True, key=f"save_{sid}"):
+                api_update_session(sid, title=new_title, description=new_desc, tags=new_tags)
+                st.session_state.settings_open_for = None
+                st.session_state.loaded_sid = None
+                st.rerun()
+        with c2:
+            if st.button("✕ 닫기", use_container_width=True, key=f"close_set_{sid}"):
+                st.session_state.settings_open_for = None
+                st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+
+def render_sidebar() -> None:
+    """사이드바: 대화 목록 + 인라인 설정 패널 + 트레이스 링크."""
     st.markdown("## 🛂 VisaGuide AI")
+    st.markdown(
+        '<p class="side-tagline">FastAPI · LangGraph · RAG · Tool Calling<br>'
+        "<span>목적지·목적·기간 세 가지만 말씀해 주세요</span></p>",
+        unsafe_allow_html=True,
+    )
 
     if st.button("➕ 새 대화", use_container_width=True, type="primary"):
         create_conversation()
         st.rerun()
 
     st.markdown("##### 💬 대화 목록")
-    active_sid = st.session_state.session_id
-    for s in st.session_state.sessions_list:
-        sid = s["id"]
-        active = sid == active_sid
-        col_a, col_b = st.columns([0.82, 0.18])
-        label = (s.get("title") or "새 대화")[:24]
-        help_txt = s.get("description") or "설명 없음"
-        with col_a:
-            if st.button(("🟢 " if active else "💬 ") + label,
-                         key=f"conv_{sid}", use_container_width=True, help=help_txt):
-                switch_conversation(sid)
-                st.rerun()
-        with col_b:
-            if st.button("🗑", key=f"del_{sid}", use_container_width=True, help="이 대화 삭제"):
-                delete_conversation(sid)
-                st.rerun()
-        if s.get("tags"):
-            st.markdown(f'<div class="conv-tags">{_tag_chips(s["tags"])}</div>',
-                        unsafe_allow_html=True)
+    active_sid  = st.session_state.session_id
+    active_meta = st.session_state.active_meta
+    sessions    = st.session_state.sessions_list
+    use_scroll  = len(sessions) > CONV_LIST_SCROLL_THRESHOLD
 
-    # ── 세션 설정(이름·한줄설명·태그) ─────────────────────────────────────
-    meta = st.session_state.active_meta
-    with st.expander("⚙️ 현재 대화 설정 (이름·설명·태그)", expanded=False):
-        new_title = st.text_input("이름", value=meta.get("title", ""), key=f"ti_{active_sid}")
-        new_desc = st.text_input("한줄 설명", value=meta.get("description", ""),
-                                 key=f"de_{active_sid}", placeholder="예: 캐나다 Express Entry 상담")
-        new_tags = st.multiselect("태그", options=api_suggested_tags(),
-                                  default=meta.get("tags", []), key=f"tg_{active_sid}")
-        if st.button("💾 저장", use_container_width=True, key=f"save_{active_sid}"):
-            api_update_session(active_sid, title=new_title, description=new_desc, tags=new_tags)
-            st.session_state.loaded_sid = None
-            st.rerun()
+    # 대화 목록: 일정 개수 초과 시 스크롤 컨테이너 적용
+    list_container = st.container(key="conv_list_wrap") if use_scroll else st.container()
+    with list_container:
+        for s in sessions:
+            sid    = s["id"]
+            active = sid == active_sid
+            label  = (s.get("title") or "새 대화")[:24]
+            tags   = s.get("tags") or []
 
+            # 대화 항목 감싸기: 구분선 + 시각 그룹
+            st.markdown(
+                f'<div class="conv-item{"--active" if active else ""}">',
+                unsafe_allow_html=True,
+            )
+
+            if active:
+                # 활성: [제목(68%) | ⚙️(16%) | 🗑(16%)]
+                col_t, col_s, col_d = st.columns([0.68, 0.16, 0.16])
+                with col_t:
+                    if st.button(
+                        "🟢 " + label, key=f"conv_{sid}",
+                        use_container_width=True, help=s.get("description") or "현재 대화",
+                    ):
+                        switch_conversation(sid)
+                        st.rerun()
+                with col_s:
+                    gear_label = "⚙️" if st.session_state.settings_open_for != sid else "▲"
+                    if st.button(gear_label, key=f"set_{sid}", use_container_width=True,
+                                 help="이 대화 설정 열기/닫기"):
+                        st.session_state.settings_open_for = (
+                            None if st.session_state.settings_open_for == sid else sid
+                        )
+                        st.rerun()
+                with col_d:
+                    if st.button("🗑", key=f"del_{sid}", use_container_width=True, help="이 대화 삭제"):
+                        delete_conversation(sid)
+                        st.rerun()
+            else:
+                # 비활성: [제목(82%) | 🗑(18%)]
+                col_t, col_d = st.columns([0.82, 0.18])
+                with col_t:
+                    if st.button(
+                        "💬 " + label, key=f"conv_{sid}",
+                        use_container_width=True, help=s.get("description") or "설명 없음",
+                    ):
+                        switch_conversation(sid)
+                        st.rerun()
+                with col_d:
+                    if st.button("🗑", key=f"del_{sid}", use_container_width=True, help="이 대화 삭제"):
+                        delete_conversation(sid)
+                        st.rerun()
+
+            # 태그: 해당 대화 바로 아래 — 시각적 연관성 확보
+            if tags:
+                st.markdown(
+                    f'<div class="conv-tags">'
+                    f'<span class="conv-tags-arrow">└</span>'
+                    f'{_tag_chips(tags)}'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+
+            st.markdown("</div>", unsafe_allow_html=True)
+
+            # 인라인 설정 패널(활성 대화이고 설정 열림 상태)
+            if active and st.session_state.settings_open_for == sid:
+                _render_inline_settings(sid, active_meta)
+
+    # ── 트레이스 링크 ────────────────────────────────────────────────────
     st.markdown("---")
     st.markdown("### 🔬 백엔드 트레이스")
-    st.link_button("이 세션 상세 트레이스 ↗", f"{TRACE_ORIGIN}/{quote(active_sid)}/trace",
-                   use_container_width=True,
-                   help="이 대화 세션의 LangGraph 워크플로우를 실시간으로 봅니다.")
-    st.link_button("🛰️ 통합 병렬 허브 ↗", f"{TRACE_ORIGIN}/trace", use_container_width=True,
-                   help="모든 대화 세션의 병렬 실행을 한눈에 보고 각 세션 상세로 이동합니다.")
+    st.link_button(
+        "이 세션 상세 트레이스 ↗",
+        f"{TRACE_ORIGIN}/{quote(active_sid)}/trace",
+        use_container_width=True,
+        help="이 대화 세션의 LangGraph 워크플로우를 실시간으로 봅니다.",
+    )
+    st.link_button(
+        "🛰️ 통합 병렬 허브 ↗", f"{TRACE_ORIGIN}/trace",
+        use_container_width=True,
+        help="모든 대화 세션의 병렬 실행을 한눈에 봅니다.",
+    )
 
     st.markdown("---")
-    st.markdown("### 예시 질문")
-    for i, q in enumerate(example_queries):
-        if st.button(q, use_container_width=True, key=f"btn_{i}"):
-            st.session_state["pending_input"] = q
-
     st.markdown("### 지원 국가")
     st.markdown(
         "🇺🇸 미국 · 🇯🇵 일본 · 🇬🇧 영국 · 🇨🇦 캐나다 · 🇦🇺 호주 · 🇩🇪 독일\n\n"
@@ -260,24 +325,41 @@ def render_sidebar(example_queries: list[str]) -> None:
     )
 
 
+# ── 헤더 ────────────────────────────────────────────────────────────────
 def render_header() -> None:
     st.markdown('<p class="visa-title">🛂 VisaGuide AI</p>', unsafe_allow_html=True)
-    st.markdown(
-        '<p class="visa-subtitle">FastAPI · LangGraph · RAG · Tool Calling — '
-        "목적지·목적·기간 세 가지만 말씀해 주세요</p>",
-        unsafe_allow_html=True,
-    )
 
 
-def render_initial_greeting() -> None:
-    if not st.session_state.messages:
-        with st.chat_message("assistant"):
-            st.markdown(
-                "안녕하세요! **VisaGuide AI**입니다. 🛂\n\n"
-                "**어느 나라에서, 얼마나, 무슨 목적으로** 체류하실 계획인지 알려주세요. "
-                "적합한 비자 정보를 찾아드리겠습니다.\n\n"
-                "> 지원 국가: 🇺🇸 미국 · 🇯🇵 일본 · 🇬🇧 영국 · 🇨🇦 캐나다 · 🇦🇺 호주 · 🇩🇪 독일"
-            )
+# ── 초기 인사 + 예시 질문 (새 대화 시 채팅창 상단) ────────────────────────
+def render_initial_greeting(example_queries: list[str]) -> None:
+    if st.session_state.messages:
+        return          # 메시지가 있으면 표시 안 함
+
+    with st.chat_message("assistant"):
+        st.markdown(
+            "안녕하세요! **VisaGuide AI**입니다. 🛂\n\n"
+            "**어느 나라에서, 얼마나, 무슨 목적으로** 체류하실 계획인지 알려주세요. "
+            "적합한 비자 정보를 찾아드리겠습니다.\n\n"
+            "> 지원 국가: 🇺🇸 미국 · 🇯🇵 일본 · 🇬🇧 영국 · 🇨🇦 캐나다 · 🇦🇺 호주 · 🇩🇪 독일"
+        )
+
+    # 예시 질문 — 채팅창 상단 그리드 버튼 (사이드바 대신 여기에)
+    if example_queries:
+        st.markdown(
+            '<div class="example-header">💡 예시 질문으로 시작해보세요</div>',
+            unsafe_allow_html=True,
+        )
+        cols_per_row = 2
+        for row_start in range(0, len(example_queries), cols_per_row):
+            row = example_queries[row_start: row_start + cols_per_row]
+            cols = st.columns(len(row))
+            for j, q in enumerate(row):
+                with cols[j]:
+                    disp = q if len(q) <= 28 else q[:27] + "…"
+                    if st.button(disp, key=f"eq_{row_start + j}",
+                                 use_container_width=True, help=q):
+                        st.session_state["pending_input"] = q
+                        st.rerun()
 
 
 def render_history() -> None:
@@ -286,16 +368,8 @@ def render_history() -> None:
             st.markdown(msg["content"])
 
 
+# ── 후속 질문 칩 (답변 후 표시) ───────────────────────────────────────────
 def render_followups() -> None:
-    """답변 직후 상황별 후속 요청 칩.
-
-    - AI 추천(🤖): /chat/followups 가 대화 맥락 기반으로 LLM 이 동적 생성.
-                  세션 last_run.followups 에 저장 → 새로고침에도 보존.
-    - 기본 추천(📋): AI 생성 실패 또는 세션 최초 로딩 시 정적 폴백.
-    - 🌐 공식 사이트 상세 탐색: 항상 고정 노출.
-
-    클릭 → pending_input 에 설정 → 사용자가 입력한 것처럼 자동 실행.
-    """
     msgs = st.session_state.messages
     if not msgs or msgs[-1]["role"] != "assistant":
         return
@@ -304,34 +378,36 @@ def render_followups() -> None:
     ai_followups = [s for s in (run.get("followups") or []) if s]
 
     if ai_followups:
-        chips = [(s, s) for s in ai_followups]
+        chips        = [(s, s) for s in ai_followups]
         header_badge = '<span class="fu-ai">🤖 AI 추천</span>'
     else:
-        chips = [(lbl, m) for lbl, m in FALLBACK_FOLLOWUPS]
+        chips        = [(lbl, m) for lbl, m in FALLBACK_FOLLOWUPS]
         header_badge = '<span class="fu-basic">📋 기본 추천</span>'
 
-    chips.append(DEEP_CHIP)   # 항상 노출하는 딥서치 칩
+    chips.append(DEEP_CHIP)
 
     st.markdown(
         f'<div class="followup-label">💡 이어서 물어볼까요? {header_badge}</div>',
         unsafe_allow_html=True,
     )
 
-    # 칩을 3열 그리드로 배치
-    per_row = 3
+    # ── 2열 그리드: 화면이 작아도 안정적 ────────────────────────────────
+    per_row = 2
     idx = 0
     for start in range(0, len(chips), per_row):
-        row = chips[start:start + per_row]
+        row  = chips[start: start + per_row]
         cols = st.columns(len(row))
         for j, (label, msg) in enumerate(row):
-            disp = label if len(label) <= 26 else label[:25] + "…"
+            disp = label if len(label) <= 28 else label[:27] + "…"
             with cols[j]:
-                if st.button(disp, key=f"fu_{idx}", use_container_width=True, help=label):
+                if st.button(disp, key=f"fu_{idx}",
+                             use_container_width=True, help=label):
                     st.session_state["pending_input"] = msg
                     st.rerun()
             idx += 1
 
 
+# ── 스트리밍 / 워크플로우 ─────────────────────────────────────────────────
 def fetch_ai_response(user_input: str) -> str:
     history = [
         {"role": m["role"], "content": m["content"]}
@@ -340,14 +416,14 @@ def fetch_ai_response(user_input: str) -> str:
     try:
         resp = httpx.post(
             f"{API_BASE_URL}/chat/",
-            json={"message": user_input, "session_id": st.session_state.session_id,
+            json={"message": user_input,
+                  "session_id": st.session_state.session_id,
                   "history": history},
             timeout=90.0,
         )
         resp.raise_for_status()
         return resp.json()["response"]
     except httpx.ConnectError:
-        logger.warning("API connection error", exc_info=True)
         return "⚠️ API 서버에 연결할 수 없습니다. 서버 실행 여부를 확인해 주세요."
     except httpx.TimeoutException:
         return "⚠️ 응답 시간이 초과되었습니다. 다시 시도해 주세요."
@@ -357,14 +433,14 @@ def fetch_ai_response(user_input: str) -> str:
 
 
 def stream_workflow(user_input: str):
-    """백엔드 /chat/stream(SSE)을 소비하며 노드 실행 이벤트를 차례로 yield 한다."""
     history = [
         {"role": m["role"], "content": m["content"]}
         for m in st.session_state.messages[:-1][-10:]
     ]
     with httpx.stream(
         "POST", f"{API_BASE_URL}/chat/stream",
-        json={"message": user_input, "session_id": st.session_state.session_id,
+        json={"message": user_input,
+              "session_id": st.session_state.session_id,
               "history": history},
         timeout=180.0,
     ) as resp:
@@ -382,15 +458,14 @@ def stream_workflow(user_input: str):
                             logger.warning("Bad SSE line: %s", line)
 
 
-# ── 우측 워크플로우 패널 렌더 헬퍼 ────────────────────────────────────────
 def _collect_step(evt: dict) -> dict:
     return {
-        "step": evt.get("step"),
-        "icon": evt.get("icon", ""),
-        "label": evt.get("label", ""),
+        "step":       evt.get("step"),
+        "icon":       evt.get("icon", ""),
+        "label":      evt.get("label", ""),
         "elapsed_ms": evt.get("elapsed_ms"),
-        "srcs": " · ".join(evt.get("source_labels", [])),
-        "lines": (evt.get("summary") or {}).get("lines", []),
+        "srcs":       " · ".join(evt.get("source_labels", [])),
+        "lines":      (evt.get("summary") or {}).get("lines", []),
     }
 
 
@@ -398,7 +473,8 @@ def _wf_step_html(s: dict) -> str:
     lines = "<br>".join(escape(str(x)) for x in s.get("lines", []))
     return (
         '<div class="wf-step">'
-        f'<div class="wf-step-h"><span class="wf-num">{escape(str(s.get("step", "•")))}</span>'
+        f'<div class="wf-step-h">'
+        f'<span class="wf-num">{escape(str(s.get("step", "•")))}</span>'
         f'<span>{escape(s.get("icon", ""))}</span>'
         f'<span class="wf-name">{escape(s.get("label", ""))}</span>'
         f'<span class="wf-ms">{escape(str(s.get("elapsed_ms", "")))}ms</span></div>'
@@ -417,7 +493,6 @@ def _wf_panel_header() -> None:
 
 
 def render_workflow_panel() -> None:
-    """우측 패널: 활성 대화의 '최근 실행' 워크플로우를 단계별 카드로 표시한다."""
     _wf_panel_header()
     run = (st.session_state.active_meta or {}).get("last_run")
     if run and run.get("steps"):
@@ -430,21 +505,22 @@ def render_workflow_panel() -> None:
             '신뢰도평가·학습저장 → 응답 생성까지 각 단계가 여기에 실시간으로 표시됩니다.</div>',
             unsafe_allow_html=True,
         )
-    st.link_button("상세 실시간 트레이스 열기 ↗",
-                   f"{TRACE_ORIGIN}/{quote(st.session_state.session_id)}/trace",
-                   use_container_width=True)
+    st.link_button(
+        "상세 실시간 트레이스 열기 ↗",
+        f"{TRACE_ORIGIN}/{quote(st.session_state.session_id)}/trace",
+        use_container_width=True,
+    )
 
 
 def run_turn(user_input: str, answer_ph, wf_live) -> tuple:
-    """백엔드 스트림 소비: 답변은 answer_ph 에 타자기 스트리밍, 단계는 wf_live 에 카드로 누적."""
     def wf(html: str) -> None:
         if wf_live is not None:
             wf_live.markdown(html, unsafe_allow_html=True)
 
-    acc = ""
+    acc            = ""
     final_response = None
-    total_ms = None
-    steps: list = []
+    total_ms       = None
+    steps: list    = []
     wf('<div class="wf-running">⏳ 워크플로우 실행 중…</div>')
     try:
         for evt in stream_workflow(user_input):
@@ -458,7 +534,7 @@ def run_turn(user_input: str, answer_ph, wf_live) -> tuple:
                 answer_ph.markdown(acc + " ▌")
             elif etype == "done":
                 final_response = evt.get("final_response") or acc
-                total_ms = evt.get("total_ms")
+                total_ms       = evt.get("total_ms")
                 wf(f'<div class="wf-done">✅ 완료 · 총 {total_ms}ms</div>')
             elif etype == "error":
                 wf(f'<div class="wf-err">⚠️ 백엔드 오류: {escape(str(evt.get("message")))}</div>')
@@ -474,35 +550,44 @@ def run_turn(user_input: str, answer_ph, wf_live) -> tuple:
 
 
 # ══════════════════════════════════════════════════════════════════════════
-st.set_page_config(page_title="VisaGuide AI", page_icon="🛂",
-                   layout="wide", initial_sidebar_state="expanded")
+# 진입점
+# ══════════════════════════════════════════════════════════════════════════
+st.set_page_config(
+    page_title="VisaGuide AI", page_icon="🛂",
+    layout="wide", initial_sidebar_state="expanded",
+)
 load_styles()
 init_session_state()
 example_queries = load_example_queries()
 
+# ── 사이드바 ──────────────────────────────────────────────────────────────
 with st.sidebar:
-    render_sidebar(example_queries)
+    render_sidebar()
 
-# ── 헤더 + 워크플로우 패널 열기/닫기 토글 ────────────────────────────────
-head_l, head_r = st.columns([0.72, 0.28])
-with head_l:
-    render_header()
-with head_r:
-    toggle_label = "🔬 워크플로우 닫기 ✕" if st.session_state.wf_open else "🔬 워크플로우 열기 ☰"
-    if st.button(toggle_label, use_container_width=True, key="wf_toggle",
-                 help="우측 워크플로우 트레이스 패널을 사이드바처럼 열고 닫습니다 (모바일·데스크탑 공통)"):
-        st.session_state.wf_open = not st.session_state.wf_open
-        st.rerun()
+# ── 헤더 (타이틀만, 일반 흐름 — 상단 여백은 CSS .block-container padding-top) ──
+render_header()
 
-pending = st.session_state.pop("pending_input", None)
-user_input = st.chat_input("질문을 입력하세요 (예: 캐나다 취업 비자 알고 싶어요)") or pending
+# ── 워크플로우 토글 — 최상위에서 렌더 후 CSS로 '채팅 입력창 위'에 고정 ───────
+#    (position:fixed 앵커가 뷰포트가 되도록 컬럼/컨테이너 밖 최상위에 배치)
+toggle_label = "🔬 워크플로우 닫기 ✕" if st.session_state.wf_open else "🔬 워크플로우 열기 ☰"
+if st.button(
+    toggle_label, key="wf_toggle",
+    help="우측 워크플로우 트레이스 패널을 열고 닫습니다 (채팅 입력창 위에 항상 고정)",
+):
+    st.session_state.wf_open = not st.session_state.wf_open
+    st.rerun()
 
-# ── 메인 레이아웃: 패널 열림이면 2-pane, 닫힘이면 대화 전체폭 ─────────────
+pending     = st.session_state.pop("pending_input", None)
+user_input  = st.chat_input("질문을 입력하세요 (예: 캐나다 취업 비자 알고 싶어요)") or pending
+
+# ── 메인 레이아웃 ─────────────────────────────────────────────────────────
 if st.session_state.wf_open:
     chat_col, wf_col = st.columns([0.62, 0.38], gap="large")
 else:
-    chat_col, wf_col = st.container(), None
+    chat_col = st.container()
+    wf_col   = None
 
+# 워크플로우 패널 (오른쪽)
 if wf_col is not None:
     with wf_col:
         if user_input:
@@ -514,30 +599,32 @@ if wf_col is not None:
 else:
     wf_live = None
 
+# 채팅 패널 (왼쪽·전체)
 with chat_col:
-    render_initial_greeting()
+    render_initial_greeting(example_queries)   # 새 대화 시 예시 질문 포함
     render_history()
 
     if user_input:
         with st.chat_message("user"):
             st.markdown(user_input)
         st.session_state.messages.append({"role": "user", "content": user_input})
-        api_append_message(st.session_state.session_id, "user", user_input)  # 영속화
+        api_append_message(st.session_state.session_id, "user", user_input)
 
         with st.chat_message("assistant"):
             answer_ph = st.empty()
         ai_response, steps, total_ms = run_turn(user_input, answer_ph, wf_live)
 
         st.session_state.messages.append({"role": "assistant", "content": ai_response})
-        api_append_message(st.session_state.session_id, "assistant", ai_response)  # 영속화
+        api_append_message(st.session_state.session_id, "assistant", ai_response)
 
-        # 상황별 후속 질문 칩을 AI 로 생성(맥락 = 최근 대화) → last_run 에 저장
-        hist = [{"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages[-6:]]
+        hist        = [{"role": m["role"], "content": m["content"]}
+                       for m in st.session_state.messages[-6:]]
         suggestions = api_followups(hist)
-        api_set_last_run(st.session_state.session_id,
-                         {"steps": steps, "total_ms": total_ms, "followups": suggestions})
-        st.session_state.loaded_sid = None    # 다음 런에서 메타/제목·후속칩 갱신 반영
+        api_set_last_run(
+            st.session_state.session_id,
+            {"steps": steps, "total_ms": total_ms, "followups": suggestions},
+        )
+        st.session_state.loaded_sid = None
         st.rerun()
     else:
         render_followups()

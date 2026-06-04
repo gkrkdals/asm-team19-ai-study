@@ -1,0 +1,852 @@
+{
+  "meta": {
+    "timestamp": "2026-06-04T17:06:04.267918",
+    "total": 50,
+    "passed": 22,
+    "reliability_pct": 44.0
+  },
+  "by_phase": {
+    "A1_status_change": {
+      "total": 8,
+      "passed": 6,
+      "pct": 75.0
+    },
+    "A2_multi_turn": {
+      "total": 6,
+      "passed": 2,
+      "pct": 33.33
+    },
+    "A3_conflicting": {
+      "total": 6,
+      "passed": 0,
+      "pct": 0.0
+    },
+    "B1_first_request": {
+      "total": 15,
+      "passed": 0,
+      "pct": 0.0
+    },
+    "B2_chroma_recall": {
+      "total": 15,
+      "passed": 14,
+      "pct": 93.33
+    }
+  },
+  "chroma_analysis": {
+    "b1_web_search_runs": 0,
+    "b1_knowledge_writer_runs": 0,
+    "b2_rag_hit": 14,
+    "b2_rag_only_no_web": 14,
+    "chroma_reuse_pct": 93.33
+  },
+  "records": [
+    {
+      "no": 1,
+      "msg": "일본에서 관광비자로 입국 후 취업비자로 신분 변경이 가능한가요?",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.8,
+      "note": "신분 변경 명시 + 관광→취업 패턴"
+    },
+    {
+      "no": 2,
+      "msg": "호주 학생비자에서 워킹홀리데이 비자로 종류 변경 절차가 궁금해요",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.7,
+      "note": "비자 종류 변경 명시"
+    },
+    {
+      "no": 3,
+      "msg": "미국에서 관광비자를 취업비자로 전환하는 것이 가능한가요?",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 8.8,
+      "note": "'전환' 키워드 명시"
+    },
+    {
+      "no": 4,
+      "msg": "캐나다 관광 → 유학 비자 변경 절차를 알려주세요",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.6,
+      "note": "화살표 패턴 직접 사용 (→)"
+    },
+    {
+      "no": 5,
+      "msg": "취업비자에서 영주권으로 신분을 변경하는 절차가 어떻게 되나요?",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.7,
+      "note": "취업→영주 전환 패턴"
+    },
+    {
+      "no": 6,
+      "msg": "영국에서 학생비자 만료 후 취업비자로 신청 변경이 가능한가요?",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2,
+      "note": "학생→취업 + '신청 변경' 키워드"
+    },
+    {
+      "no": 7,
+      "msg": "독일 비자 유형을 학생에서 취업으로 전환할 수 있나요?",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.4,
+      "note": "학생→취업 + '전환' 키워드"
+    },
+    {
+      "no": 8,
+      "msg": "호주 워킹홀리데이 후 영주권으로 신분 변경이 되나요?",
+      "phase": "A1_status_change",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 9.6,
+      "note": "워홀→영주권 신분 변경"
+    },
+    {
+      "no": 9,
+      "msg": "아니 사실은 유학만 하고 싶어요",
+      "phase": "A2_multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.6,
+      "note": "수정신호(아니 사실은) → 유학으로 목적 변경"
+    },
+    {
+      "no": 10,
+      "msg": "그런데 3개월만 더 머물고 싶어요",
+      "phase": "A2_multi_turn",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 9.9,
+      "note": "이전 맥락(미국 관광) 유지 + 체류 연장 요청"
+    },
+    {
+      "no": 11,
+      "msg": "다시 생각해보니 취업보다 유학이 맞는 것 같아요",
+      "phase": "A2_multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4,
+      "note": "수정신호(다시 생각해보니) → 유학으로 전환"
+    },
+    {
+      "no": 12,
+      "msg": "그럼 영국 학생비자는 어떤가요?",
+      "phase": "A2_multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.1,
+      "note": "국가 변경(미국→영국) + 목적(유학) 유지"
+    },
+    {
+      "no": 13,
+      "msg": "미안해요, 사실 일자리를 구하고 싶어요",
+      "phase": "A2_multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.1,
+      "note": "수정신호(미안해요 사실) → 취업으로 목적 변경"
+    },
+    {
+      "no": 14,
+      "msg": "사실은 장기 거주가 목적이에요",
+      "phase": "A2_multi_turn",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.8,
+      "note": "수정신호(사실은) → 장기 거주로 목적 변경"
+    },
+    {
+      "no": 15,
+      "msg": "관광이 아니라 취업으로 가고 싶어요",
+      "phase": "A3_conflicting",
+      "expects": [
+        "exception_handler",
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.2,
+      "note": "'이 아니라' 부정 + 취업 목적 조합"
+    },
+    {
+      "no": 16,
+      "msg": "유학이 아니라 취업비자가 필요해요",
+      "phase": "A3_conflicting",
+      "expects": [
+        "exception_handler",
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.1,
+      "note": "'이 아니라' + 취업비자 명시"
+    },
+    {
+      "no": 17,
+      "msg": "워킹홀리데이가 아닌 정규 취업비자를 원해요",
+      "phase": "A3_conflicting",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 4.6,
+      "note": "'이 아닌' + 정규 취업비자 명시"
+    },
+    {
+      "no": 18,
+      "msg": "미국에서 관광비자로 입국하지만 실제로는 취업을 원해요",
+      "phase": "A3_conflicting",
+      "expects": [
+        "exception_handler"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.3,
+      "note": "관광→취업 상충 (신분변경 케이스)"
+    },
+    {
+      "no": 19,
+      "msg": "단기 체류가 아니라 장기 거주를 원해요",
+      "phase": "A3_conflicting",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.7,
+      "note": "단기→장기 상충 → 장기 거주 목적 우선"
+    },
+    {
+      "no": 20,
+      "msg": "여행이 아니라 이민을 생각하고 있어요",
+      "phase": "A3_conflicting",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.6,
+      "note": "여행→이민 상충 → 이민 목적 우선"
+    },
+    {
+      "no": 21,
+      "msg": "포르투갈 골든비자 취득 조건은 무엇인가요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.3,
+      "note": "신규 국가(PT) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 22,
+      "msg": "스페인에서 디지털 노마드 비자를 받고 싶어요",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.8,
+      "note": "신규 국가(ES) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 23,
+      "msg": "아랍에미리트(UAE) 취업비자 요건은 어떻게 되나요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.0,
+      "note": "신규 국가(AE) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 24,
+      "msg": "말레이시아 MM2H 비자로 장기 거주가 가능한가요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.4,
+      "note": "신규 국가(MY) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 25,
+      "msg": "태국 LTR(장기 거주) 비자 조건을 알려주세요",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.6,
+      "note": "신규 국가(TH) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 26,
+      "msg": "이탈리아 취업비자 신청 절차가 궁금해요",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.2,
+      "note": "신규 국가(IT) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 27,
+      "msg": "네덜란드 고숙련 이민자 비자(HSM) 조건은?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.2,
+      "note": "신규 국가(NL) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 28,
+      "msg": "스웨덴 취업비자 신청 방법을 알려주세요",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.7,
+      "note": "신규 국가(SE) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 29,
+      "msg": "덴마크 그린카드 비자로 일할 수 있나요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.6,
+      "note": "신규 국가(DK) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 30,
+      "msg": "노르웨이에서 취업비자를 받으려면 어떻게 해야 하나요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.4,
+      "note": "신규 국가(NO) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 31,
+      "msg": "아일랜드 취업허가증(Employment Permit) 종류와 조건은?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.8,
+      "note": "신규 국가(IE) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 32,
+      "msg": "핀란드에서 일하려면 어떤 비자가 필요한가요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.8,
+      "note": "신규 국가(FI) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 33,
+      "msg": "남아공 취업비자(Work Permit) 신청 조건을 알려주세요",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 7.9,
+      "note": "신규 국가(ZA) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 34,
+      "msg": "브라질 디지털 노마드 비자 조건은 무엇인가요?",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 5.9,
+      "note": "신규 국가(BR) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 35,
+      "msg": "인도 취업비자(Employment Visa) 신청 자격을 알려주세요",
+      "phase": "B1_first_request",
+      "expects": [
+        "web_search_tool",
+        "knowledge_writer"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 6.9,
+      "note": "신규 국가(IN) 첫 요청 → 웹검색 후 ChromaDB 저장"
+    },
+    {
+      "no": 36,
+      "msg": "포르투갈 골든비자 자격 요건 다시 알려줘",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "passed": false,
+      "elapsed_s": 4.6,
+      "note": "PT 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 37,
+      "msg": "스페인 디지털 노마드 비자 신청 방법이 어떻게 되죠?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.5,
+      "note": "ES 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 38,
+      "msg": "UAE에서 취업비자 받는 조건 한번 더 알려줘요",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.2,
+      "note": "AE 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 39,
+      "msg": "말레이시아 MM2H 비자 신청 자격 조건이 뭔가요?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.5,
+      "note": "MY 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 40,
+      "msg": "태국에서 장기 거주 비자 받으려면 어떻게 하나요?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2,
+      "note": "TH 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 41,
+      "msg": "이탈리아 취업비자 절차를 간략히 설명해줘",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.2,
+      "note": "IT 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 42,
+      "msg": "네덜란드 고숙련 비자 조건이 어떻게 되나요?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.4,
+      "note": "NL 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 43,
+      "msg": "스웨덴 취업비자 조건 요약해줘",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 5.8,
+      "note": "SE 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 44,
+      "msg": "덴마크 취업비자로 일할 수 있는 조건 알려줘",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.0,
+      "note": "DK 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 45,
+      "msg": "노르웨이 취업비자 신청 요건이 어떻게 되나요?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 7.2,
+      "note": "NO 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 46,
+      "msg": "아일랜드 취업허가증 종류와 신청 조건은?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.5,
+      "note": "IE 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 47,
+      "msg": "핀란드 취업비자 신청 조건 다시 알려줘",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.5,
+      "note": "FI 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 48,
+      "msg": "남아공 취업비자 신청 자격이 어떻게 되나요?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.0,
+      "note": "ZA 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 49,
+      "msg": "브라질에서 디지털 노마드 비자 받으려면?",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 8.5,
+      "note": "BR 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    },
+    {
+      "no": 50,
+      "msg": "인도 취업비자 자격 요건을 알려주세요",
+      "phase": "B2_chroma_recall",
+      "expects": [
+        "visa_rag_search"
+      ],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "elapsed_s": 6.4,
+      "note": "IN 재요청 → ChromaDB 학습 문서에서 직접 추출"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+====================================================================================================
+VisaGuideAI ChromaDB 재검색 증명 + 개선 영역 검증 v50 | 2026-06-04 17:00:05
+구성: Phase A (20개 개선 영역) + Phase B (30개 ChromaDB 검증)
+====================================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  Phase A1: Status Change 재검증 (8개)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  1  ✅  A1_status_change        일본에서 관광비자로 입국 후 취업비자로 신분 변경이 가능한가요?            intent → exception → response
+  2  ✅  A1_status_change        호주 학생비자에서 워킹홀리데이 비자로 종류 변경 절차가 궁금해요            intent → exception → response
+  3  ❌  A1_status_change        미국에서 관광비자를 취업비자로 전환하는 것이 가능한가요?                intent → visa_rag → response
+  4  ✅  A1_status_change        캐나다 관광 → 유학 비자 변경 절차를 알려주세요                    intent → exception → response
+  5  ✅  A1_status_change        취업비자에서 영주권으로 신분을 변경하는 절차가 어떻게 되나요?             intent → exception → response
+  6  ✅  A1_status_change        영국에서 학생비자 만료 후 취업비자로 신청 변경이 가능한가요?             intent → exception → response
+  7  ❌  A1_status_change        독일 비자 유형을 학생에서 취업으로 전환할 수 있나요?                 intent → visa_rag → response
+  8  ✅  A1_status_change        호주 워킹홀리데이 후 영주권으로 신분 변경이 되나요?                  intent → exception → response
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  Phase A2: Multi-turn 재검증 (6개)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  9  ❌  A2_multi_turn           아니 사실은 유학만 하고 싶어요                              intent → response
+ 10  ❌  A2_multi_turn           그런데 3개월만 더 머물고 싶어요                             intent → visa_rag → response
+ 11  ✅  A2_multi_turn           다시 생각해보니 취업보다 유학이 맞는 것 같아요                     intent → visa_rag → response
+ 12  ✅  A2_multi_turn           그럼 영국 학생비자는 어떤가요?                              intent → visa_rag → response
+ 13  ❌  A2_multi_turn           미안해요, 사실 일자리를 구하고 싶어요                          intent → response
+ 14  ❌  A2_multi_turn           사실은 장기 거주가 목적이에요                               intent → response
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  Phase A3: Conflicting 재검증 (6개)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+ 15  ❌  A3_conflicting          관광이 아니라 취업으로 가고 싶어요                            intent → response
+ 16  ❌  A3_conflicting          유학이 아니라 취업비자가 필요해요                             intent → response
+ 17  ❌  A3_conflicting          워킹홀리데이가 아닌 정규 취업비자를 원해요                        intent → response
+ 18  ❌  A3_conflicting          미국에서 관광비자로 입국하지만 실제로는 취업을 원해요                  intent → visa_rag → response
+ 19  ❌  A3_conflicting          단기 체류가 아니라 장기 거주를 원해요                          intent → response
+ 20  ❌  A3_conflicting          여행이 아니라 이민을 생각하고 있어요                           intent → response
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  Phase B1: ChromaDB 첫 저장 (15개)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+ 21  ❌  B1_first_request        포르투갈 골든비자 취득 조건은 무엇인가요?                        intent → visa_rag → response
+ 22  ❌  B1_first_request        스페인에서 디지털 노마드 비자를 받고 싶어요                       intent → visa_rag → response
+ 23  ❌  B1_first_request        아랍에미리트(UAE) 취업비자 요건은 어떻게 되나요?                  intent → visa_rag → response
+ 24  ❌  B1_first_request        말레이시아 MM2H 비자로 장기 거주가 가능한가요?                   intent → visa_rag → response
+ 25  ❌  B1_first_request        태국 LTR(장기 거주) 비자 조건을 알려주세요                     intent → visa_rag → response
+ 26  ❌  B1_first_request        이탈리아 취업비자 신청 절차가 궁금해요                          intent → visa_rag → response
+ 27  ❌  B1_first_request        네덜란드 고숙련 이민자 비자(HSM) 조건은?                      intent → visa_rag → response
+ 28  ❌  B1_first_request        스웨덴 취업비자 신청 방법을 알려주세요                          intent → visa_rag → response
+ 29  ❌  B1_first_request        덴마크 그린카드 비자로 일할 수 있나요?                         intent → visa_rag → response
+ 30  ❌  B1_first_request        노르웨이에서 취업비자를 받으려면 어떻게 해야 하나요?                  intent → visa_rag → response
+ 31  ❌  B1_first_request        아일랜드 취업허가증(Employment Permit) 종류와 조건은?         intent → visa_rag → response
+ 32  ❌  B1_first_request        핀란드에서 일하려면 어떤 비자가 필요한가요?                       intent → visa_rag → response
+ 33  ❌  B1_first_request        남아공 취업비자(Work Permit) 신청 조건을 알려주세요             intent → visa_rag → response
+ 34  ❌  B1_first_request        브라질 디지털 노마드 비자 조건은 무엇인가요?                      intent → visa_rag → response
+ 35  ❌  B1_first_request        인도 취업비자(Employment Visa) 신청 자격을 알려주세요          intent → visa_rag → response
+
+⏳ ChromaDB 반영 대기 3초…
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  Phase B2: ChromaDB 재활용 증명 (15개)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+ 36  ❌  B2_chroma_recall        포르투갈 골든비자 자격 요건 다시 알려줘                         intent → response
+ 37  ✅  B2_chroma_recall        스페인 디지털 노마드 비자 신청 방법이 어떻게 되죠?                  intent → visa_rag → response
+ 38  ✅  B2_chroma_recall        UAE에서 취업비자 받는 조건 한번 더 알려줘요                     intent → visa_rag → response
+ 39  ✅  B2_chroma_recall        말레이시아 MM2H 비자 신청 자격 조건이 뭔가요?                   intent → visa_rag → response
+ 40  ✅  B2_chroma_recall        태국에서 장기 거주 비자 받으려면 어떻게 하나요?                    intent → visa_rag → response
+ 41  ✅  B2_chroma_recall        이탈리아 취업비자 절차를 간략히 설명해줘                         intent → visa_rag → response
+ 42  ✅  B2_chroma_recall        네덜란드 고숙련 비자 조건이 어떻게 되나요?                       intent → visa_rag → response
+ 43  ✅  B2_chroma_recall        스웨덴 취업비자 조건 요약해줘                               intent → visa_rag → response
+ 44  ✅  B2_chroma_recall        덴마크 취업비자로 일할 수 있는 조건 알려줘                       intent → visa_rag → response
+ 45  ✅  B2_chroma_recall        노르웨이 취업비자 신청 요건이 어떻게 되나요?                      intent → visa_rag → response
+ 46  ✅  B2_chroma_recall        아일랜드 취업허가증 종류와 신청 조건은?                         intent → visa_rag → response
+ 47  ✅  B2_chroma_recall        핀란드 취업비자 신청 조건 다시 알려줘                          intent → visa_rag → response
+ 48  ✅  B2_chroma_recall        남아공 취업비자 신청 자격이 어떻게 되나요?                       intent → visa_rag → response
+ 49  ✅  B2_chroma_recall        브라질에서 디지털 노마드 비자 받으려면?                         intent → visa_rag → response
+ 50  ✅  B2_chroma_recall        인도 취업비자 자격 요건을 알려주세요                           intent → visa_rag → response
+
+====================================================================================================
+Phase별 신뢰도
+--------------------------------------------------------------------------------
+  [A] A1_status_change      :  6/ 8 ( 75.0%)  ███████████████░░░░░  Status Change 재검증
+  [A] A2_multi_turn         :  2/ 6 ( 33.3%)  ██████░░░░░░░░░░░░░░  Multi-turn 재검증
+  [A] A3_conflicting        :  0/ 6 (  0.0%)  ░░░░░░░░░░░░░░░░░░░░  Conflicting 재검증
+  [B] B1_first_request      :  0/15 (  0.0%)  ░░░░░░░░░░░░░░░░░░░░  ChromaDB 첫 저장(웹검색)
+  [B] B2_chroma_recall      : 14/15 ( 93.3%)  ██████████████████░░  ChromaDB 재활용(RAG 재검색 증명)
+
+ChromaDB 학습·재활용 상세 분석
+--------------------------------------------------------------------------------
+  B1 (첫 요청):  web_search_tool 실행 = 0/15
+  B1 (첫 요청):  knowledge_writer 실행(학습 저장) = 0/15
+  B2 (재요청):   visa_rag_search hit = 14/15
+  B2 (재요청):   RAG only (웹검색 없음) = 14/15 ← 핵심 지표
+
+  ChromaDB 재활용률: 93.3% (목표: knowledge_writer 실행 수 이상)
+--------------------------------------------------------------------------------
+전체 신뢰도: 22/50 (44.0%)
+================================================================================
+
+총 소요 시간: 358초
