@@ -1,9 +1,9 @@
-.PHONY: up down build logs ingest dev-api setup
+.PHONY: up down build logs ingest dev-api dev-web setup
 
-# 고객 UI = http://localhost:8000/ (FastAPI 가 서빙하는 SPA: api/static/app.html)
+# 고객 UI = http://localhost:3000/ (Express web), API = http://localhost:8000 (FastAPI)
 
 # ── Docker Compose ────────────────────────────────────────────────────────
-# up/up-d: api(:8000, SPA 서빙) + vectordb(:8002) 스택을 빌드·기동
+# up/up-d: web(:3000, SPA) + api(:8000, JSON/SSE API) + vectordb(:8002) 스택을 빌드·기동
 up:
 	docker compose up --build
 
@@ -25,10 +25,15 @@ ingest:
 setup:
 	cp -n .env.example .env || true
 	pip install -r api/requirements.txt
-	@echo "\n.env 파일에 API 키를 입력한 후 make dev-api 를 실행하세요. (고객 UI = http://localhost:8000/)"
+	cd web && npm install
+	@echo "\n.env 파일에 API 키를 입력한 후 make dev-api(:8000) + make dev-web(:3000) 을 실행하세요. (고객 UI = http://localhost:3000/)"
 
 dev-api:
 	cd api && uvicorn main:app --reload --port 8000
+
+# dev-web: Express 프론트 로컬 실행(:3000). API_BASE_URL 로 FastAPI(:8000) 직접 호출.
+dev-web:
+	cd web && npm install && API_BASE_URL=http://localhost:8000 PORT=3000 node server.js
 
 # ── 헬스체크 ─────────────────────────────────────────────────────────────
 health:

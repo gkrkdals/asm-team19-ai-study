@@ -63,6 +63,7 @@
   <div id="empty" class="empty">아직 실행된 세션이 없습니다. 고객 화면(:8000/)에서 질문하면 여기에 실시간으로 나타납니다.</div>
 </div>
 <script>
+var API_BASE=(window.__API_BASE__||'http://localhost:8000').replace(/\/+$/,'');
 const $=(id)=>document.getElementById(id);
 const esc=(s)=>String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 // 토폴로지 노드 총수(진행 바 근사용). 6~8개 사이라 8 기준으로 근사.
@@ -122,10 +123,10 @@ function handle(evt){
 
 async function init(){
   try{
-    const r=await fetch("/trace/sessions"); const d=await r.json();
+    const r=await fetch(API_BASE+"/trace/sessions"); const d=await r.json();
     (d.sessions||[]).forEach(bootstrap); render();
   }catch(_){}
-  const es=new EventSource("/trace/live");   // 세션 필터 없음 → 전체 수신
+  const es=new EventSource(API_BASE+"/trace/live");   // 세션 필터 없음 → 전체 수신
   es.onmessage=(m)=>{ try{ handle(JSON.parse(m.data)); }catch(_){} };
   es.onerror=()=>{ $("livePill").textContent="🟡 재연결 중…"; $("livePill").className="pill"; };
 }

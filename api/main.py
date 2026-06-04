@@ -42,6 +42,11 @@ from routers.workflow import router as workflow_router
 app.include_router(workflow_router)
 
 
+@app.get("/")
+def root():
+    return {"service": "VisaGuide AI API", "docs": "/docs"}
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}

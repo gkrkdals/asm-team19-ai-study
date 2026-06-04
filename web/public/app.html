@@ -305,6 +305,7 @@
 
 <script>
 (function(){
+  var API_BASE=(window.__API_BASE__||'http://localhost:8000').replace(/\/+$/,'');
   var $=function(s){return document.querySelector(s);};
   var stream=$('#stream'), convlist=$('#convlist'), search=$('#search');
   var activeTitle=$('#activeTitle'), activeTag=$('#activeTag');
@@ -326,7 +327,7 @@
   }
   function md(t){ try{ return window.marked? fixEmphasis(marked.parse(t||'')) : esc(t).replace(/\n/g,'<br>'); }catch(e){ return esc(t); } }
   function api(method,path,body){
-    return fetch(path,{method:method, headers:body?{'Content-Type':'application/json'}:undefined, body:body?JSON.stringify(body):undefined})
+    return fetch(API_BASE+path,{method:method, headers:body?{'Content-Type':'application/json'}:undefined, body:body?JSON.stringify(body):undefined})
       .then(function(r){ if(!r.ok) throw new Error(path+' '+r.status); var ct=r.headers.get('content-type')||''; return ct.indexOf('json')>=0?r.json():r.text(); });
   }
   function relTime(iso){ if(!iso) return ''; try{ var s=(Date.now()-new Date(iso).getTime())/1000; if(s<60)return'방금'; if(s<3600)return Math.floor(s/60)+'분 전'; if(s<86400)return Math.floor(s/3600)+'시간 전'; var d=Math.floor(s/86400); if(d===1)return'어제'; if(d<7)return d+'일 전'; return Math.floor(d/7)+'주 전'; }catch(e){return'';} }
@@ -446,7 +447,7 @@
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
     var acc='', finalResp=null, doneSlots=null, liveSlots=null;
-    fetch('/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
+    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
         var reader=resp.body.getReader(), dec=new TextDecoder(), buf='';

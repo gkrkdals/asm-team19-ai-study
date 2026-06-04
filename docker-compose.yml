@@ -28,7 +28,25 @@ services:
     depends_on:
       vectordb:
         condition: service_healthy
-    # 고객 UI = http://localhost:8000/ (FastAPI 가 서빙하는 SPA: api/static/app.html)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # api = http://localhost:8000 (순수 JSON/SSE API)
+
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    environment:
+      # ⚠️ 브라우저에 주입되는 주소이므로 host에서 접근 가능한 localhost:8000 이어야 한다(컨테이너명 api:8000 아님)
+      - API_BASE_URL=http://localhost:8000
+      - PORT=3000
+    depends_on:
+      api:
+        condition: service_healthy
+    # 고객 UI = http://localhost:3000/
 
 volumes:
   chroma_data:

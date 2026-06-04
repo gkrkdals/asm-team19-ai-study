@@ -218,13 +218,17 @@
 </div></div>
 
 <script>
+var API_BASE=(window.__API_BASE__||'http://localhost:8000').replace(/\/+$/,'');
+// 상대 경로(백엔드가 토폴로지로 돌려주는 paths)를 API_BASE 절대 URL 로 보정한다.
+// (Express 가 화면을 서빙하고 브라우저가 FastAPI 를 CORS 로 직접 호출하기 때문)
+function absolutize(p){ return /^https?:\/\//.test(p) ? p : API_BASE + p; }
 const SAMPLES = [
   "캐나다에서 소프트웨어 개발자로 취업하고 싶어요",
   "남아공에서 취업하고 싶어요",
   "미국 관광 비자로 입국 후 체류 연장이 가능한가요?",
   "일본 유학 비자 받으려면 어떻게 해야 하나요?",
 ];
-let PATHS = { topology:"/graph/topology", stream:"/chat/stream", live:"/trace/live", run:"/trace/run" };
+let PATHS = { topology:API_BASE+"/graph/topology", stream:API_BASE+"/chat/stream", live:API_BASE+"/trace/live", run:API_BASE+"/trace/run" };
 const $ = (id)=>document.getElementById(id);
 const esc = (s)=>String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
@@ -257,7 +261,8 @@ function setLive(t,cls){ const p=$("livePill"); p.textContent=t; p.className="pi
 async function loadTopology(){
   const r = await fetch(PATHS.topology);
   const topo = await r.json();
-  if (topo.paths) PATHS = topo.paths;
+  // 백엔드 paths 는 동일 출처 기준 상대경로 → API_BASE 로 절대화해서 채택
+  if (topo.paths) { PATHS = {}; for (const k in topo.paths) PATHS[k] = absolutize(topo.paths[k]); }
   TOPO = topo; META = {};
   topo.nodes.forEach(n=>META[n.id]=n);
   layoutAndRender(topo);
