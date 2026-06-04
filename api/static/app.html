@@ -476,10 +476,10 @@
     state.busy=false; sendBtn.disabled=false;
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'assistant',content:finalText}).catch(function(){});
     var hist=state.messages.slice(-6).map(function(m){ return {role:m.role, content:m.content}; });
+    function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
     api('POST','/chat/followups',{history:hist}).then(function(d){
-      var sug=(d&&d.suggestions)||[]; renderFollowups(sug);
-      api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{steps:[],followups:sug,slots:slots||null}).catch(function(){});
-    }).catch(function(){});
+      var sug=(d&&d.suggestions)||[]; renderFollowups(sug); saveLastRun(sug);
+    }).catch(function(){ saveLastRun([]); });
     refreshSessions().then(function(){
       var cur=state.sessions.filter(function(s){return s.id===state.sid;})[0];
       if(cur){

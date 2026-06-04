@@ -46,6 +46,7 @@ class LastRunReq(BaseModel):
     steps: list = []
     total_ms: Optional[int] = None
     followups: Optional[List[str]] = None   # AI 동적 생성 후속 질문 칩(새로고침 보존)
+    slots: Optional[dict] = None   # 파싱 슬롯(country/purpose/duration/profession) — 요약 카드 복원용
 
 
 @router.get("")
@@ -99,6 +100,6 @@ def add_message(sid: str, req: MessageReq):
 
 @router.put("/{sid}/last_run")
 def put_last_run(sid: str, req: LastRunReq):
-    run = {"steps": req.steps, "total_ms": req.total_ms, "followups": req.followups or []}
+    run = {"steps": req.steps, "total_ms": req.total_ms, "followups": req.followups or [], "slots": req.slots}
     store.set_last_run(sid, run)
     return {"id": sid, "saved": True}
