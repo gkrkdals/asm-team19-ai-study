@@ -142,6 +142,7 @@ async def _iter_events(req: ChatRequest):
     final_response = None
     streamed_tokens = ""
     step = 0
+    slots = {"country": None, "purpose": None, "duration": None, "profession": None}
     try:
         # 멀티모드 스트리밍:
         #  - "updates" : 노드 종료 시 State 델타(노드 이벤트)
@@ -171,6 +172,10 @@ async def _iter_events(req: ChatRequest):
                 step += 1
                 if update and update.get("final_response"):
                     final_response = update["final_response"]
+                if update:
+                    for _k in ("country", "purpose", "duration", "profession"):
+                        if update.get(_k):
+                            slots[_k] = update[_k]
                 meta = describe_node(node)
                 yield {
                     "type": "node",
@@ -203,6 +208,7 @@ async def _iter_events(req: ChatRequest):
         "run_id": run_id,
         "session_id": sid,
         "final_response": final_response,
+        "slots": slots,
         "total_ms": round((time.perf_counter() - t0) * 1000),
     }
 

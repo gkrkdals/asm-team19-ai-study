@@ -118,7 +118,7 @@
 
   /* official guidance card */
   .doc{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); overflow:hidden; max-width:100%;}
-  .doc-band{position:relative; padding:18px 20px 17px; background:repeating-radial-gradient(circle at 12% 80%, transparent 0 8px, rgba(255,255,255,.025) 8px 9px), linear-gradient(180deg,var(--navy),var(--navy-2)); color:#fff;}
+  .doc-band{position:relative; padding:18px 20px 22px; min-height:132px; background:repeating-radial-gradient(circle at 12% 80%, transparent 0 8px, rgba(255,255,255,.025) 8px 9px), linear-gradient(180deg,var(--navy),var(--navy-2)); color:#fff;}
   .doc-eyebrow{font-family:var(--grotesk); font-size:10.5px; font-weight:600; letter-spacing:.22em; color:#9DB4FF;}
   .doc-title{font-weight:700; font-size:22px; letter-spacing:-.01em; margin:6px 0 11px; color:#fff; max-width:74%; line-height:1.3;}
   .doc-tags{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
@@ -127,6 +127,22 @@
   .path-tag{font-size:12px; color:#C5D0EC;}
   .seal{position:absolute; top:13px; right:13px; width:106px;height:106px; color:#E9EEF8; opacity:.96; transform:rotate(-9deg); animation:stamp .5s cubic-bezier(.2,1.1,.4,1) .35s both; filter:drop-shadow(0 1px 1px rgba(0,0,0,.28));}
   .seal .star{fill:#FF6B5E;}
+
+  /* ── 입력 기록 카드 (질문 파악 후 답변 위에 표시) ── */
+  .record{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow-sm); overflow:hidden; margin-bottom:14px;}
+  .record-head{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 15px; border-bottom:1px dashed var(--line); background:linear-gradient(180deg,#F7F9FD,transparent);}
+  .record-head .t{font-size:12.5px; color:var(--muted); display:flex; align-items:center; gap:8px;}
+  .record-head .t svg{width:15px;height:15px;color:var(--navy); flex:0 0 auto;}
+  .step-pill{font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:var(--azure-ink); background:var(--azure-soft); border:1px solid #CFDBFB; padding:3px 9px; border-radius:6px; white-space:nowrap;}
+  .record-row{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-2);}
+  .field{background:var(--surface); padding:12px 15px; display:flex; gap:11px; align-items:center;}
+  .field .chk{width:24px;height:24px;border-radius:6px;flex:0 0 auto; display:grid; place-items:center; border:1.5px solid var(--line); background:#F4F6FB; color:var(--muted); font-family:var(--mono); font-size:11px;}
+  .field .chk svg{width:14px;height:14px;display:none;}
+  .field .label{font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase;}
+  .field .value{font-family:var(--grotesk); font-weight:600; font-size:15.5px; color:var(--ink); line-height:1.25; margin-top:1px;}
+  .field .value .empty{font-family:var(--body); font-weight:400; font-size:13px; color:var(--muted);}
+  .field.set .chk{border-color:var(--go); background:var(--go); color:#fff;}
+  .field.set .chk .num{display:none;} .field.set .chk svg{display:block;}
 
   /* doc body = backend markdown rendered to match prototype sections */
   .doc-body{padding:6px 20px 2px; counter-reset:vgsec;}
@@ -319,6 +335,25 @@
   var GREETING='<div class="msg"><div class="av live">V</div><div class="bubble-a">안녕하세요, <b>비자 안내 데스크</b>예요. 🛂 어디로 떠나시는지부터 편하게 말씀해 주세요. <b>어느 나라</b>에서 · <b>얼마나</b> · <b>무슨 목적</b>인지 알려주시면 맞는 비자를 함께 찾아볼게요.</div></div>';
   var TRACE_STRIP=function(sid){ return '<div class="doc-foot"><a class="trace-strip" href="/'+encodeURIComponent(sid)+'/trace" target="_blank" rel="noopener"><span class="ts-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="ts-main"><span class="ts-title">이 안내가 만들어진 처리 경로 보기</span><span class="ts-path">의도 분석 <span class="a">→</span> 비자 RAG 검색 <span class="a">→</span> 응답 정리</span></span><span class="ts-arr">↗</span></a><div class="disclaimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg><span>이 안내는 <b>참고용</b>이에요. 신청 전 공식 기관(대사관·이민국)에서 최신 요건을 꼭 확인해 주세요.</span></div></div>'; };
 
+  var COUNTRY_KO={US:'🇺🇸 미국',JP:'🇯🇵 일본',GB:'🇬🇧 영국',UK:'🇬🇧 영국',CA:'🇨🇦 캐나다',AU:'🇦🇺 호주',DE:'🇩🇪 독일'};
+  var PURPOSE_KO={employment:'취업',work:'취업',job:'취업',study:'유학',student:'유학',education:'유학',travel:'여행',tourism:'여행',tour:'여행',immigration:'이민',settlement:'정착',working_holiday:'워킹홀리데이',workingholiday:'워킹홀리데이',business:'사업',long_term:'장기체류',longterm:'장기체류'};
+  var CHK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function _recField(label, val){
+    var set=!!(val&&(''+val).trim());
+    return '<div class="field'+(set?' set':'')+'"><div class="chk"><span class="num">·</span>'+CHK_SVG+'</div><div style="min-width:0"><div class="label">'+label+'</div><div class="value">'+(set?esc(val):'<span class="empty">미파악</span>')+'</div></div></div>';
+  }
+  function recordHtml(slots){
+    if(!slots) return '';
+    var c=slots.country?(COUNTRY_KO[(''+slots.country).toUpperCase()]||slots.country):'';
+    var d=slots.duration?slots.duration:'';
+    var p=slots.purpose?(PURPOSE_KO[(''+slots.purpose).toLowerCase()]||slots.purpose):'';
+    if(!c && !p) return '';
+    var n=[c,d,p].filter(function(x){return x&&(''+x).trim();}).length;
+    return '<section class="record"><div class="record-head"><div class="t">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke-linecap="round"/></svg> 말씀해 주신 내용을 이렇게 확인했어요</div>'+
+      '<span class="step-pill">STEP '+n+' / 3</span></div>'+
+      '<div class="record-row">'+_recField('Country',c)+_recField('Duration',d)+_recField('Purpose',p)+'</div></section>';
+  }
   function docCardHtml(content){
     var tags=(state.meta.tags||[]).filter(Boolean);
     var tagHtml=tags.length? tags.map(function(t){ return '<span class="path-tag">'+esc(t)+'</span>'; }).join('') : '';
@@ -331,7 +366,7 @@
   }
   function msgHtml(m){
     if(m.role==='user') return '<div class="msg user"><div class="av">나</div><div class="bubble-u">'+esc(m.content)+'</div></div>';
-    return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+docCardHtml(m.content)+'</div></div>';
+    return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+(m.slots?recordHtml(m.slots):'')+docCardHtml(m.content)+'</div></div>';
   }
   function renderStream(){
     stream.innerHTML = state.messages.length ? state.messages.map(msgHtml).join('') : GREETING;
@@ -362,6 +397,8 @@
     return api('GET','/sessions/'+encodeURIComponent(sid)).then(function(full){
       state.meta={title:full.title, description:full.description, tags:full.tags||[], last_run:full.last_run};
       state.messages=(full.messages||[]).map(function(m){ return {role:m.role, content:m.content}; });
+      var lr=full.last_run||{};
+      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ state.messages[i].slots=lr.slots; break; } } }
       setSid(sid); renderConv(); setHeader(); renderStream();
       var last=state.messages[state.messages.length-1];
       var fu=(full.last_run&&full.last_run.followups)||[];
@@ -398,7 +435,7 @@
     var live=liveNode();
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
-    var acc='', finalResp=null;
+    var acc='', finalResp=null, doneSlots=null;
     fetch('/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
@@ -409,27 +446,28 @@
           var parts=buf.split('\n\n'); buf=parts.pop();
           for(var i=0;i<parts.length;i++){ var lines=parts[i].split('\n'); for(var j=0;j<lines.length;j++){ var ln=lines[j]; if(ln.indexOf('data:')===0){ try{ var evt=JSON.parse(ln.slice(5).trim());
             if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc); }
-            else if(evt.type==='done'){ finalResp=evt.final_response||acc; }
+            else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; }
           }catch(e){} } } }
           return pump();
         }); })();
       })
-      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.'); })
+      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots); })
       .catch(function(){
         api('POST','/chat/',{message:text,session_id:state.sid,history:history})
           .then(function(d){ finishAnswer(live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.'); })
           .catch(function(){ finishAnswer(live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
       });
   }
-  function finishAnswer(live, finalText){
+  function finishAnswer(live, finalText, slots){
     live.remove();
-    state.messages.push({role:'assistant', content:finalText}); renderStream();
+    var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots;
+    state.messages.push(amsg); renderStream();
     state.busy=false; sendBtn.disabled=false;
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'assistant',content:finalText}).catch(function(){});
     var hist=state.messages.slice(-6).map(function(m){ return {role:m.role, content:m.content}; });
     api('POST','/chat/followups',{history:hist}).then(function(d){
       var sug=(d&&d.suggestions)||[]; renderFollowups(sug);
-      api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{steps:[],followups:sug}).catch(function(){});
+      api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{steps:[],followups:sug,slots:slots||null}).catch(function(){});
     }).catch(function(){});
     refreshSessions().then(function(){
       var cur=state.sessions.filter(function(s){return s.id===state.sid;})[0];
