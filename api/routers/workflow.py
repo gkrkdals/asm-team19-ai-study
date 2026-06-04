@@ -55,6 +55,7 @@ router = APIRouter(tags=["workflow"])
 _STATIC = Path(__file__).resolve().parent.parent / "static"
 _DASHBOARD_HTML = _STATIC / "trace.html"        # 세션별 상세 트레이스
 _HUB_HTML = _STATIC / "trace_hub.html"          # 통합 병렬 허브
+_APP_HTML = _STATIC / "app.html"                # 고객용 메인 SPA(하네스 디자인 100% 일치)
 
 # 백그라운드 실행 태스크가 GC 되지 않도록 참조 유지
 _bg_tasks: set[asyncio.Task] = set()
@@ -274,6 +275,12 @@ def _read_html(path: Path) -> HTMLResponse:
         return HTMLResponse(f"<h1>{path.name} 을 찾을 수 없습니다.</h1>", status_code=500)
     # 브라우저가 옛 대시보드를 캐시하지 않도록(실시간 연동 보장)
     return HTMLResponse(html, headers={"Cache-Control": "no-store"})
+
+
+# ── GET / : 고객용 메인 SPA(하네스 프로토타입 디자인, 백엔드 동일 출처) ──────
+@router.get("/", response_class=HTMLResponse)
+def app_spa() -> HTMLResponse:
+    return _read_html(_APP_HTML)
 
 
 # ── GET /trace : 통합 병렬 허브(모든 세션을 간단 카드 + 상세 링크로) ────────
