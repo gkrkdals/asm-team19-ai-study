@@ -24,6 +24,12 @@ function sendHtml(res, file) {
 app.get('/healthz', (_req, res) => res.json({ status: 'ok', api_base: API_BASE }));
 app.get('/', (_req, res) => sendHtml(res, 'app.html'));
 app.get('/trace', (_req, res) => sendHtml(res, 'trace_hub.html'));
+app.get('/analytics', (_req, res) => sendHtml(res, 'analytics.html'));
+// 신뢰도 분석 데이터(JSON) — 캐시 없이 항상 최신
+app.get('/analytics_data.json', (_req, res) => {
+  res.set('Cache-Control', 'no-store');
+  res.sendFile(path.join(PUBLIC, 'analytics_data.json'));
+});
 app.get('/:sid/trace', (_req, res) => sendHtml(res, 'trace.html'));
 
 app.listen(PORT, () => console.log(`[web] listening on :${PORT} → API_BASE=${API_BASE}`));

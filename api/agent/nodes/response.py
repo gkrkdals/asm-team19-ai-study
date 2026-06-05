@@ -47,6 +47,20 @@ async def response_formatter(state: AgentState) -> dict:
         context_parts.append("[교차 예외규칙 — 반드시 검토]\n" + extra_context)
     context_section = ("\n\n참고 정보:\n" + "\n\n".join(context_parts)) if context_parts else ""
 
+    # 처리 기간·수수료 섹션: 검색 결과에 관련 데이터가 있을 때만 포함
+    fee_keywords = ["수수료", "fee", "처리 기간", "processing time", "weeks", "days", "CAD", "USD", "EUR", "AUD", "GBP"]
+    has_fee_info = search_results and any(kw.lower() in search_results.lower() for kw in fee_keywords)
+    fee_section = (
+        "\n\n## 처리 기간 및 수수료\n(참고 자료에 명시된 수치만 기재)"
+        if has_fee_info else ""
+    )
+
+    # URL 정책: 검색 결과에 실제 등장한 URL만 인용 — 모델이 URL을 생성하면 DNS 오류(NXDOMAIN) 발생
+    if search_results and ("http://" in search_results or "https://" in search_results):
+        url_section = "\n\n## 공식 참고 링크\n(위 참고 자료에 포함된 URL만 그대로 인용. 없으면 이 섹션 생략)"
+    else:
+        url_section = ""  # URL 정보 없으면 섹션 자체를 제거
+
     prompt = f"""{task}
 
 사용자 질문: {last_msg}{context_section}
@@ -60,19 +74,15 @@ async def response_formatter(state: AgentState) -> dict:
 (핵심 요건 목록)
 
 ## 필요 서류
-(주요 서류 목록)
-
-## 처리 기간 및 수수료
-(알 경우 명시, 모를 경우 '공식 사이트 확인 필요' 표기)
+(주요 서류 목록){fee_section}
 
 ## 주의사항
-(놓치기 쉬운 사항)
-
-## 공식 참고 링크
-(관련 공식 URL)
+(놓치기 쉬운 사항){url_section}
 
 ---
-⚠️ 이 정보는 참고용이며, 실제 신청 시 해당 국가 공식 기관(대사관·이민국)에서 최신 정보를 확인하세요."""
+⚠️ 이 정보는 참고용이며, 실제 신청 시 해당 국가 공식 기관(대사관·이민국)에서 최신 정보를 확인하세요.
+
+[URL 규칙] URL은 위 참고 자료에 실제로 포함된 것만 사용하세요. 추측하거나 만들어내지 마세요."""
 
     history = list(state["messages"][:-1][-6:])
     messages = [SystemMessage(content=SYSTEM_PROMPT)] + history + [HumanMessage(content=prompt)]

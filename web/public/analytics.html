@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VisaGuide AI · 신뢰도 분석</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0c111c; --panel:#141b29; --panel2:#1a2336; --line:#243049;
+    --ink:#e7edf8; --muted:#8da0c0; --dim:#5d6e8e;
+    --accent:#4f9dff; --ok:#39d98a; --warn:#e2a23c; --bad:#ff6b6b;
+    --mono:"Space Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard",system-ui,sans-serif; line-height:1.6;}
+  a{color:var(--accent); text-decoration:none;}
+  .wrap{max-width:1100px; margin:0 auto; padding:28px 20px 80px;}
+  header.top{display:flex; align-items:center; gap:14px; margin-bottom:6px; flex-wrap:wrap;}
+  header.top h1{font-size:21px; margin:0; font-weight:800;}
+  .pill{font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:20px; border:1px solid var(--line); color:var(--muted);}
+  .sub{color:var(--muted); font-size:13px; margin:0 0 22px;}
+  .nav{display:flex; gap:10px; margin:0 0 24px; flex-wrap:wrap;}
+  .nav a{font-size:12.5px; padding:7px 13px; border:1px solid var(--line); border-radius:9px; background:var(--panel); color:#cbd6f2;}
+  .nav a:hover{border-color:var(--accent);}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-bottom:26px;}
+  .kpi{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 18px;}
+  .kpi .k{font-size:11.5px; color:var(--muted); font-family:var(--mono); text-transform:uppercase; letter-spacing:.05em;}
+  .kpi .v{font-size:30px; font-weight:800; margin-top:4px;}
+  .kpi .d{font-size:12px; color:var(--dim); margin-top:3px;}
+  .v.ok{color:var(--ok);} .v.warn{color:var(--warn);} .v.bad{color:var(--bad);}
+  section.card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:22px;}
+  section.card h2{font-size:15px; margin:0 0 4px; display:flex; align-items:center; gap:8px;}
+  section.card .hint{font-size:12.5px; color:var(--muted); margin:0 0 16px;}
+  .chartbox{position:relative; height:320px;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th,td{padding:9px 10px; text-align:left; border-bottom:1px solid var(--line);}
+  th{font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:600;}
+  td.num{font-family:var(--mono); text-align:right;}
+  .bar{display:inline-block; height:8px; border-radius:5px; background:var(--accent); vertical-align:middle; margin-right:7px;}
+  .tag{display:inline-block; font-size:10.5px; font-family:var(--mono); padding:2px 7px; border-radius:5px;}
+  .tag.up{background:rgba(57,217,138,.14); color:var(--ok);}
+  .tag.down{background:rgba(255,107,107,.14); color:var(--bad);}
+  .tag.flat{background:rgba(141,160,192,.14); color:var(--muted);}
+  .note{background:var(--panel2); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:11px 14px; font-size:12.5px; color:#cbd6f2; margin:9px 0;}
+  .loading{color:var(--muted); padding:40px; text-align:center;}
+  .footnote{font-size:11.5px; color:var(--dim); margin-top:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>📊 신뢰도 분석</h1>
+    <span class="pill" id="genpill">loading…</span>
+  </header>
+  <p class="sub">VisaGuide AI 라우팅 신뢰도의 라운드별 변화와 저신뢰 영역 개선 추이를 시각화합니다.</p>
+  <nav class="nav">
+    <a href="/">← 고객 화면</a>
+    <a href="/trace" target="_blank">워크플로우 트레이스 ↗</a>
+    <a href="#evolution">저신뢰영역 개선 추이</a>
+    <a href="#rounds">라운드별 상세</a>
+    <a href="#v70">v70 예상-실측 대조</a>
+  </nav>
+
+  <div id="kpis" class="grid"></div>
+
+  <section class="card" id="evolution">
+    <h2>🎯 저신뢰 영역 개선 추이</h2>
+    <p class="hint">v180에서 취약했던 <b>신분변경 · 멀티턴 · 충돌</b> 영역이 라운드를 거치며 어떻게 변화했는지.</p>
+    <div class="chartbox"><canvas id="evoChart"></canvas></div>
+    <div id="evoNotes"></div>
+  </section>
+
+  <section class="card">
+    <h2>📈 라운드별 전체 신뢰도</h2>
+    <p class="hint">각 검증 라운드의 전체 일치/통과율.</p>
+    <div class="chartbox"><canvas id="overallChart"></canvas></div>
+    <p class="footnote" id="overallFoot"></p>
+  </section>
+
+  <section class="card" id="rounds">
+    <h2>🗂 라운드별 상세</h2>
+    <p class="hint">각 라운드의 측정 범위·전체율·세부 카테고리.</p>
+    <div id="roundsTable"></div>
+  </section>
+
+  <section class="card" id="v70">
+    <h2>🔬 Round 11 · 예상–실측 대조 (v70)</h2>
+    <p class="hint">각 시나리오의 <b>예상 분기</b>를 사전 기록한 뒤 실제 라우팅과 대조한 결과.</p>
+    <div id="v70Box" class="loading">v70 검증 결과 대기 중… (검증 완료 후 자동 표시)</div>
+  </section>
+</div>
+
+<script>
+const C = {accent:'#4f9dff', ok:'#39d98a', warn:'#e2a23c', bad:'#ff6b6b', muted:'#8da0c0', line:'#243049', ink:'#e7edf8'};
+Chart.defaults.color = C.muted;
+Chart.defaults.borderColor = C.line;
+Chart.defaults.font.family = 'Pretendard, system-ui, sans-serif';
+
+function pctClass(p){ return p>=85?'ok':p>=60?'warn':'bad'; }
+function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+
+fetch('/analytics_data.json?v='+Date.now()).then(r=>r.json()).then(render).catch(e=>{
+  document.getElementById('kpis').innerHTML='<div class="kpi"><div class="k">오류</div><div class="v bad">데이터 없음</div><div class="d">'+esc(e.message)+'</div></div>';
+});
+
+function render(data){
+  document.getElementById('genpill').textContent = 'generated ' + (data.generated||'').replace('T',' ');
+
+  // ── KPI: 최신 라운드 + 핵심 개선 ──
+  const rounds = data.rounds||[];
+  const latest = rounds[rounds.length-1]||{};
+  const evo = data.metric_evolution||{};
+  function lastPct(arr){ const a=(arr||[]).filter(x=>x.pct!=null); return a.length?a[a.length-1].pct:null; }
+  function firstPct(arr){ const a=(arr||[]).filter(x=>x.pct!=null); return a.length?a[0].pct:null; }
+  const kpis = [
+    {k:'최신 라운드', v:latest.overall_pct!=null?latest.overall_pct+'%':'—', d:latest.label||'', cls:pctClass(latest.overall_pct||0)},
+    {k:'신분변경(status_change)', v:fmt(lastPct(evo.status_change)), d:'시작 '+fmt(firstPct(evo.status_change)), cls:pctClass(lastPct(evo.status_change)||0)},
+    {k:'멀티턴(multi_turn)', v:fmt(lastPct(evo.multi_turn)), d:'시작 '+fmt(firstPct(evo.multi_turn)), cls:pctClass(lastPct(evo.multi_turn)||0)},
+    {k:'충돌(conflicting)', v:fmt(lastPct(evo.conflicting)), d:'시작 '+fmt(firstPct(evo.conflicting)), cls:pctClass(lastPct(evo.conflicting)||0)},
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(x=>
+    '<div class="kpi"><div class="k">'+esc(x.k)+'</div><div class="v '+x.cls+'">'+esc(x.v)+'</div><div class="d">'+esc(x.d)+'</div></div>').join('');
+  function fmt(p){ return p==null?'—':p+'%'; }
+
+  // ── 저신뢰영역 개선 추이 (line) ──
+  const evoRounds = unionRounds(evo);
+  const evoDatasets = [
+    mkLine('신분변경', evo.status_change, evoRounds, C.bad),
+    mkLine('멀티턴', evo.multi_turn, evoRounds, C.warn),
+    mkLine('충돌', evo.conflicting, evoRounds, C.accent),
+  ];
+  new Chart(document.getElementById('evoChart'), {
+    type:'line',
+    data:{ labels:evoRounds.map(r=>r.label), datasets:evoDatasets },
+    options:{ responsive:true, maintainAspectRatio:false,
+      scales:{ y:{ min:0, max:100, ticks:{callback:v=>v+'%'} } },
+      plugins:{ legend:{position:'top'} } }
+  });
+  // evo notes
+  const notes = data.notes||{};
+  document.getElementById('evoNotes').innerHTML =
+    ['status_change','multi_turn','conflicting'].filter(k=>notes[k]).map(k=>'<div class="note">'+esc(notes[k])+'</div>').join('')
+    + (notes.root_fix?'<div class="note" style="border-color:#39d98a">🔧 핵심 수정: '+esc(notes.root_fix)+'</div>':'');
+
+  // ── 라운드별 전체율 (bar) ──
+  new Chart(document.getElementById('overallChart'), {
+    type:'bar',
+    data:{ labels:rounds.map(r=>r.label),
+      datasets:[{ label:'전체 신뢰도(%)', data:rounds.map(r=>r.overall_pct),
+        backgroundColor:rounds.map(r=>r.overall_pct>=85?C.ok:r.overall_pct>=60?C.warn:C.bad), borderRadius:6 }] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      scales:{ y:{min:0,max:100,ticks:{callback:v=>v+'%'}} }, plugins:{legend:{display:false}} }
+  });
+  document.getElementById('overallFoot').textContent =
+    '※ Round 10a(44%)는 B1(신규국가 첫요청)이 0%로 잡힌 영향 — 해당 국가들이 이미 ChromaDB에 학습돼 RAG로 직행(정상)했기 때문이며, 결함이 아닙니다.';
+
+  // ── 라운드 상세 테이블 ──
+  let html = '<table><thead><tr><th>라운드</th><th>날짜</th><th>범위</th><th>전체</th><th>세부 카테고리</th></tr></thead><tbody>';
+  rounds.forEach(r=>{
+    const cats = Object.entries(r.categories||{}).map(([k,v])=>
+      '<span class="tag '+(v>=85?'up':v>=50?'flat':'down')+'">'+esc(k)+' '+(v==null?'—':v+'%')+'</span>').join(' ');
+    html += '<tr><td><b>'+esc(r.label)+'</b><br><span style="color:var(--dim);font-size:11px">'+esc(r.desc||'')+'</span></td>'+
+      '<td class="num">'+esc(r.date||'')+'</td>'+
+      '<td class="num">'+esc(r.passed)+'/'+esc(r.total)+'</td>'+
+      '<td class="num"><b class="'+( ({ok:'',}) , 'v') +'" style="color:'+(r.overall_pct>=85?C.ok:r.overall_pct>=60?C.warn:C.bad)+'">'+esc(r.overall_pct)+'%</b></td>'+
+      '<td>'+cats+'</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('roundsTable').innerHTML = html;
+
+  // ── v70 상세 (있으면) ──
+  const r11 = rounds.find(r=>r.id==='R11');
+  if(r11){
+    const cats = r11.categories||{};
+    let v = '<table><thead><tr><th>그룹</th><th>설명</th><th>일치율</th><th></th></tr></thead><tbody>';
+    const labels = {abc_basic:'A/B/C 기본 라우팅', exception_special:'예외·특수상황(저신뢰)', followup_chain:'후속질문 연계(10턴+)'};
+    Object.entries(cats).forEach(([k,val])=>{
+      v += '<tr><td><b>'+esc(labels[k]||k)+'</b></td><td style="color:var(--muted)">'+esc(k)+'</td>'+
+        '<td class="num" style="color:'+(val>=85?C.ok:val>=60?C.warn:C.bad)+'"><b>'+esc(val)+'%</b></td>'+
+        '<td><span class="bar" style="width:'+(val||0)+'px;background:'+(val>=85?C.ok:val>=60?C.warn:C.bad)+'"></span></td></tr>';
+    });
+    v += '</tbody></table><p class="footnote">전체 '+esc(r11.passed)+'/'+esc(r11.total)+' 턴 예상-실측 일치 ('+esc(r11.overall_pct)+'%). 예상 분기는 시나리오 코드에 사전 기록 후 대조.</p>';
+    document.getElementById('v70Box').className=''; document.getElementById('v70Box').innerHTML = v;
+  }
+}
+
+function unionRounds(evo){
+  const seen = {}; const out = [];
+  ['status_change','multi_turn','conflicting'].forEach(k=>(evo[k]||[]).forEach(x=>{
+    if(!seen[x.round]){ seen[x.round]=1; out.push({round:x.round,label:x.label}); }
+  }));
+  // 정렬: R9, R10a, R10b, R11
+  const order = {R9:0,R10a:1,R10b:2,R11:3};
+  out.sort((a,b)=>(order[a.round]??9)-(order[b.round]??9));
+  return out;
+}
+function mkLine(label, series, evoRounds, color){
+  const map = {}; (series||[]).forEach(x=>map[x.round]=x.pct);
+  return { label, data:evoRounds.map(r=>map[r.round]??null), borderColor:color, backgroundColor:color,
+           tension:.25, spanGaps:true, pointRadius:5, pointHoverRadius:7, borderWidth:2.5 };
+}
+</script>
+</body>
+</html>
