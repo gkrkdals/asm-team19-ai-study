@@ -500,6 +500,22 @@ function handleEvent(evt){
     const b=$("answerBody"); b.style.whiteSpace="pre-wrap"; b.textContent=answerAcc;
   } else if(evt.type==="done"){
     if(prevExec){ setNode(prevExec,"done"); flowEdge(prevExec,"__end__"); EXEC_SEQ.push("__end__"); }
+    // ── END 노드 녹색 처리 ────────────────────────────────────────────────
+    // __end__ 노드가 그래프에 있으면 done(녹색)으로 표시, 없으면 동적으로 생성
+    var endEl = document.getElementById("gnode-__end__");
+    if(!endEl){
+      // 토폴로지에 없을 때: 그래프 래퍼에 END 노드 시각 요소 동적 추가
+      var wrap = document.querySelector(".graph-wrap") || document.querySelector("[id*='graph']");
+      if(wrap){
+        endEl = document.createElement("div");
+        endEl.id = "gnode-__end__";
+        endEl.className = "gnode";
+        endEl.style.cssText = "right:16px; bottom:16px; min-width:72px; padding:7px 12px; text-align:center;";
+        endEl.innerHTML = '<div class="r1"><span class="ico">🏁</span><span class="nm">END</span><span class="dot"></span></div>';
+        wrap.appendChild(endEl);
+      }
+    }
+    if(endEl){ endEl.classList.remove("active","skipped"); endEl.classList.add("done"); }
     EXEC_DONE=true;
     const finalText = evt.final_response || answerAcc;
     if(finalText){ $("answer").style.display=""; const b=$("answerBody"); b.style.whiteSpace=""; b.innerHTML=md(finalText); }

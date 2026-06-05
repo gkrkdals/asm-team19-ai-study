@@ -75,24 +75,54 @@ async def intent_classifier(state: AgentState) -> dict:
     # 예: "아니 유학만 하고 싶어" → 이전 취업 의도 무효화, 유학이 최신 신호
     # 예: "관광이 아니라 취업" → 관광 무효, 취업만 유효
     _NEGATION_RE = re.compile(r"(아니|사실은|그게 아니라|아니였|다시 생각해보니|아 미안|실수했)", re.IGNORECASE)
-    if _NEGATION_RE.search(last_message):
-        # 이전 대화 컨텍스트 무시 신호 → state 필드 부분 리셋
-        logger.info("intent: negation/override detected, prioritize current message signals only")
-        # 다음 명령어: prompt 에 '이전 대화 무시, 현재 메시지만 사용' 추가 (LLM 레벨)
+    # "X가 아니라 Y" 충돌 패턴 — Y(긍정 측) 목적 추출
+    _CONFLICT_RE = re.compile(
+        r"(?:관광|여행|유학|취업|이민|워킹홀리데이|장기체류|단기)[이가]?\s*아니[라고]?\s*"
+        r"(취업|유학|여행|관광|이민|워킹홀리데이|장기체류|장기\s*거주|이민)", re.IGNORECASE
+    )
+    conflict_match = _CONFLICT_RE.search(last_message)
+    negation_match = _NEGATION_RE.search(last_message)
+    if negation_match:
+        logger.info("intent: negation/override detected — preserve country, replace purpose only")
 
     for kw, exc_type in EXCEPTION_KEYWORDS.items():
         if kw.lower() in _msg_lower:
             detected_exception = exc_type
             break
 
-    # ③ 수정 신호 적용: 메시지에 "아니", "사실은" 등이 있으면 이전 대화 무시하고 현재만 추출
-    override_flag = _NEGATION_RE.search(last_message) if "_NEGATION_RE" in locals() else False
-    context_instruction = (
-        "최신 사용자 메시지만 해석하세요. 이전 대화는 무시합니다(사용자가 정정/취소했으므로)."
-        if override_flag
-        else "최신 사용자 메시지가 국가만 바꾸고(예: '그럼 영국은?') 목적/직업을 생략했다면, "
-             "이전 대화의 목적/직업을 이어받아 채우세요."
-    )
+    # 대화 깊이 계산: 5회 이상이면 "깊은 대화" — 축적된 컨텍스트 더 강하게 유지
+    turn_count = len([m for m in state.get("messages", []) if hasattr(m, "type") and m.type == "human"])
+    is_deep_turn = turn_count >= 5
+
+    # ③ 수정 신호 적용 전략:
+    #   - 부정(아니/사실은): 국가는 유지, 목적/예외만 교체 (핵심 수정)
+    #   - 충돌(X가 아니라 Y): Y를 새 목적으로 채택, 국가 유지
+    #   - 깊은 대화(5회+): 이전에 확정된 국가·목적·직업을 명시적으로 보존
+    override_flag = bool(negation_match)
+    if conflict_match:
+        context_instruction = (
+            f"사용자가 목적을 수정했습니다. "
+            f"이전 목적은 무효이며 새 목적은 '{conflict_match.group(1)}'입니다. "
+            f"국가는 이전 대화에서 확정된 것({state.get('country') or '미파악'})을 유지하세요."
+        )
+    elif override_flag:
+        context_instruction = (
+            f"사용자가 의도를 수정했습니다(부정 신호 감지). "
+            f"새 목적/의도를 우선하세요. "
+            f"단, 국가 정보({state.get('country') or '미파악'})는 현재 메시지에 다른 국가가 명시되지 않는 한 유지하세요."
+        )
+    elif is_deep_turn:
+        context_instruction = (
+            f"깊은 대화 중({turn_count}회차)입니다. "
+            f"확정된 정보: 국가={state.get('country') or '미파악'}, 목적={state.get('purpose') or '미파악'}, "
+            f"직업={state.get('profession') or '미파악'}. "
+            f"최신 메시지가 이 중 일부만 변경하려 한다면, 나머지는 그대로 이어받으세요."
+        )
+    else:
+        context_instruction = (
+            "최신 사용자 메시지가 국가만 바꾸고(예: '그럼 영국은?') 목적/직업을 생략했다면, "
+            "이전 대화의 목적/직업을 이어받아 채우세요."
+        )
 
     extraction_prompt = f"""다음 사용자 메시지에서 비자 관련 정보를 추출하세요.
 {context_instruction}

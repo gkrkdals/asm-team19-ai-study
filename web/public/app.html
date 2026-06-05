@@ -66,9 +66,11 @@
   .side-label{font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--s-dim); text-transform:uppercase; padding:4px 18px 7px;}
   .convlist{flex:1; overflow-y:auto; padding:0 8px 8px; display:flex; flex-direction:column; gap:2px;}
   .convlist::-webkit-scrollbar{width:8px;} .convlist::-webkit-scrollbar-thumb{background:rgba(157,180,255,.16); border-radius:8px;}
+  /* .conv 는 div[role=button] — button 안에 button 금지(HTML 명세) 회피 */
   .conv{
-    position:relative; width:100%; text-align:left; cursor:pointer; border:none; background:transparent;
+    position:relative; width:100%; text-align:left; cursor:pointer;
     color:var(--s-text); padding:9px 12px 9px 13px; border-radius:9px; display:flex; flex-direction:column; gap:4px; transition:background .15s ease;
+    user-select:none;
   }
   .conv:hover{background:var(--s-hover);}
   .conv:focus-visible{outline:2px solid #9DB4FF; outline-offset:-2px;}
@@ -79,22 +81,37 @@
   .conv-meta .tag{display:inline-flex; align-items:center; gap:5px;}
   .conv-meta .dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto;}
   .conv-meta .time{margin-left:auto; font-family:var(--mono); font-size:10px;}
-
-  /* delete conversation (hover/focus reveal, 직인 빨강) */
-  .conv-wrap{position:relative;}
-  .conv-del{
-    position:absolute; top:50%; right:7px; transform:translateY(-50%);
-    width:28px;height:28px;border-radius:7px; border:none; cursor:pointer; padding:0;
-    display:grid; place-items:center; background:rgba(14,24,48,.55); color:var(--s-dim);
-    opacity:0; pointer-events:none; transition:opacity .15s ease, background .15s ease, color .15s ease;
-  }
-  .conv-wrap:hover .conv-del, .conv-del:focus-visible{opacity:1; pointer-events:auto;}
-  .conv-wrap:hover .conv-meta .time{visibility:hidden;}
-  .conv-del:hover{background:rgba(210,62,50,.92); color:#fff;}
-  .conv-del:focus-visible{outline:2px solid #9DB4FF; outline-offset:1px;}
-  .conv-del svg{width:15px;height:15px;}
-  /* 터치 기기엔 hover가 없어 삭제 버튼을 상시 노출(우측 여백 확보) */
-  @media (hover:none){ .conv{padding-right:44px;} .conv-del{opacity:.9; pointer-events:auto;} }
+  /* ⋮ 메뉴 버튼 — span으로 (div>button 중첩 금지 회피) */
+  .conv-more{position:absolute; right:8px; top:18px; transform:translateY(-50%); background:none; border:none; color:var(--s-dim); cursor:pointer; padding:4px 8px; border-radius:6px; font-size:18px; line-height:1; display:none; z-index:2;}
+  .conv:hover .conv-more, .conv.active .conv-more{display:inline-flex; align-items:center; justify-content:center;}
+  .conv-more:hover{background:rgba(157,180,255,.18); color:#EAF0FF;}
+  /* 📌 상단 고정 표시 */
+  .conv-pin{font-size:11px; color:#E2A23C; flex:0 0 auto; line-height:1;}
+  .conv.pinned{background:rgba(226,162,60,.07);}
+  .conv.pinned::after{content:""; position:absolute; right:0; top:0; border-width:0 14px 14px 0; border-style:solid; border-color:transparent #E2A23C transparent transparent; opacity:.55;}
+  .conv-title-row{display:flex; align-items:center; gap:5px; min-width:0;}
+  .conv-dropdown{position:fixed; background:#1E2740; border:1px solid rgba(157,180,255,.22); border-radius:10px; padding:5px; min-width:130px; z-index:9999; box-shadow:0 8px 28px rgba(0,0,0,.45); display:none;}
+  .conv-dropdown.open{display:block;}
+  .conv-dd-item{display:flex; align-items:center; gap:8px; width:100%; background:none; border:none; color:#CBD6F2; font-size:13px; padding:8px 10px; border-radius:7px; cursor:pointer; text-align:left;}
+  .conv-dd-item:hover{background:rgba(157,180,255,.14);}
+  .conv-dd-item.danger{color:#FF8A8A;}
+  .conv-dd-item.danger:hover{background:rgba(255,80,80,.12);}
+  /* ── 토스트 알림 ── */
+  .toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(14px); background:#1E2B4A; border:1px solid rgba(157,180,255,.28); color:#EAF0FF; border-radius:12px; padding:10px 20px; font-size:13px; z-index:99999; opacity:0; transition:opacity .22s, transform .22s; pointer-events:none; white-space:nowrap;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .toast.ok{border-color:rgba(80,220,110,.4); color:#A8F0B0;}
+  .toast.err{border-color:rgba(255,90,90,.4); color:#FFB0B0;}
+  /* ── 삭제 확인 모달 ── */
+  .modal-ov{position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:99998; display:none; align-items:center; justify-content:center;}
+  .modal-ov.open{display:flex;}
+  .modal-box{background:#1A2235; border:1px solid rgba(157,180,255,.22); border-radius:16px; padding:24px 28px; max-width:340px; width:90%;}
+  .modal-box p{color:#EAF0FF; font-size:14px; line-height:1.6; margin:0 0 20px;}
+  .modal-btns{display:flex; gap:10px; justify-content:flex-end;}
+  .modal-btn{border:none; border-radius:9px; padding:8px 18px; font-size:13px; cursor:pointer; font-weight:600;}
+  .modal-btn.cancel{background:rgba(157,180,255,.12); color:#CBD6F2;}
+  .modal-btn.cancel:hover{background:rgba(157,180,255,.22);}
+  .modal-btn.del{background:#B83030; color:#fff;}
+  .modal-btn.del:hover{background:#D43535;}
 
   .side-foot{border-top:1px solid var(--s-line); padding:11px 12px 13px; display:flex; flex-direction:column; gap:9px;}
   .side-trace{display:flex; align-items:center; gap:9px; text-decoration:none; color:#CBD6F2; font-size:12.5px; font-weight:500; background:rgba(157,180,255,.08); border:1px solid var(--s-line); border-radius:9px; padding:9px 11px; transition:all .18s ease;}
@@ -214,6 +231,11 @@
 
   .followups{margin-top:15px; padding-left:48px;}
   .followups .lead{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 9px;}
+  /* 인사말 하단 추천 질문 */
+  .suggest{margin-top:16px; padding-left:48px;}
+  .suggest .lead{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 9px; display:flex; align-items:center; gap:8px;}
+  .suggest .reroll{font-family:var(--body); font-size:11px; text-transform:none; letter-spacing:0; color:var(--azure); background:var(--azure-soft); border:1px solid var(--line); border-radius:7px; padding:3px 9px; cursor:pointer;}
+  .suggest .reroll:hover{border-color:var(--azure); color:var(--azure-ink);}
   .chips{display:flex; flex-wrap:wrap; gap:8px;}
   .chip{font-family:var(--body); font-size:13.5px; color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:9px 13px; cursor:pointer; transition:all .18s ease; box-shadow:var(--shadow-sm); display:inline-flex; align-items:center; gap:8px;}
   .chip .pl{font-family:var(--mono); color:var(--azure); font-weight:700;}
@@ -273,6 +295,21 @@
 </style>
 </head>
 <body>
+  <!-- ⋮ 대화 관리 드롭다운 (body 레벨 — z-index 충돌 방지) -->
+  <div class="conv-dropdown" id="conv-dd"></div>
+  <!-- 토스트 알림 -->
+  <div class="toast" id="toast"></div>
+  <!-- 삭제 확인 모달 -->
+  <div class="modal-ov" id="modal-ov">
+    <div class="modal-box">
+      <p id="modal-msg"></p>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" id="modal-cancel">취소</button>
+        <button class="modal-btn del" id="modal-ok">삭제</button>
+      </div>
+    </div>
+  </div>
+
   <aside class="sidebar" id="sidebar">
     <div class="side-brand">
       <div class="logo">V</div>
@@ -289,6 +326,10 @@
       <a class="side-trace" href="/trace" target="_blank" rel="noopener">
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         워크플로우 실시간 보기 <span class="arr">↗</span>
+      </a>
+      <a class="side-trace" href="/analytics" target="_blank" rel="noopener">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        신뢰도 분석 보기 <span class="arr">↗</span>
       </a>
       <div class="side-info"><span class="fl">🇺🇸 🇯🇵 🇬🇧 🇨🇦 🇦🇺 🇩🇪</span> 6개국 정밀 · 그 외 실시간<br>참고용 안내 · 공식 기관에서 최종 확인</div>
     </div>
@@ -327,6 +368,26 @@
   var activeTitle=$('#activeTitle'), activeTag=$('#activeTag');
   var input=$('#input'), form=$('#composer'), sendBtn=$('#send');
   var sidebar=$('#sidebar'), backdrop=$('#backdrop'), menu=$('#menu');
+  // ── 토스트 알림 ──────────────────────────────────────────────────────────
+  // $()는 document.querySelector이므로 id 셀렉터는 반드시 '#' 포함
+  var _toastTimer=null;
+  function toast(msg, type){
+    var el=$('#toast'); if(!el) return; el.textContent=msg; el.className='toast'+(type?' '+type:'');
+    if(_toastTimer) clearTimeout(_toastTimer);
+    requestAnimationFrame(function(){ el.classList.add('show'); });
+    _toastTimer=setTimeout(function(){ el.classList.remove('show'); },2600);
+  }
+  // ── 삭제 확인 모달 ──────────────────────────────────────────────────────
+  var _modalCb=null;
+  function showConfirm(msg, onOk){
+    var msgEl=$('#modal-msg'); if(msgEl) msgEl.textContent=msg;
+    _modalCb=onOk;
+    var ov=$('#modal-ov'); if(ov) ov.classList.add('open');
+  }
+  var _mc=$('#modal-cancel'), _mo=$('#modal-ok'), _mov=$('#modal-ov');
+  if(_mc) _mc.addEventListener('click', function(){ if(_mov) _mov.classList.remove('open'); _modalCb=null; });
+  if(_mo) _mo.addEventListener('click', function(){ if(_mov) _mov.classList.remove('open'); if(_modalCb){ var cb=_modalCb; _modalCb=null; cb(); } });
+  if(_mov) _mov.addEventListener('click', function(e){ if(e.target===_mov){ _mov.classList.remove('open'); _modalCb=null; } });
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var state={sessions:[], sid:null, meta:{}, messages:[], busy:false};
   var TAGDOT={'취업':'#6E8BFF','유학':'#4FC58C','여행':'#E2A23C','워킹홀리데이':'#B69CFF','장기체류':'#5BC0BE','예외상황':'#E2A23C','기타':'#9DB4FF'};
@@ -355,7 +416,35 @@
   function setSid(sid){ state.sid=sid; var u=new URL(location.href); u.searchParams.set('sid',sid); history.replaceState(null,'',u); }
 
   var SEAL='<svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="vgarc" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs><circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="1"/><text font-family="Space Mono" font-size="9" font-weight="700" letter-spacing="1.5" fill="currentColor"><textPath href="#vgarc" startOffset="2%">APPROVED · FOR GUIDANCE · VISAGUIDE · </textPath></text><text x="60" y="55" text-anchor="middle" font-family="Archivo Expanded" font-weight="700" font-size="17" fill="currentColor">VISA</text><text x="60" y="70" text-anchor="middle" font-family="Space Mono" font-weight="700" font-size="8" letter-spacing="3" fill="currentColor">GUIDE</text><text x="60" y="87" text-anchor="middle" font-size="13" class="star">★</text></svg>';
-  var GREETING='<div class="msg"><div class="av live">V</div><div class="bubble-a">안녕하세요, <b>비자 안내 데스크</b>예요. 🛂 어디로 떠나시는지부터 편하게 말씀해 주세요. <b>어느 나라</b>에서 · <b>얼마나</b> · <b>무슨 목적</b>인지 알려주시면 맞는 비자를 함께 찾아볼게요.</div></div>';
+  var GREETING_MSG='<div class="msg"><div class="av live">V</div><div class="bubble-a">안녕하세요, <b>비자 안내 데스크</b>예요. 🛂 어디로 떠나시는지부터 편하게 말씀해 주세요. <b>어느 나라</b>에서 · <b>얼마나</b> · <b>무슨 목적</b>인지 알려주시면 맞는 비자를 함께 찾아볼게요.</div></div>';
+  // 추천 질문 풀 — 이 중 랜덤으로 4개를 인사말 하단에 노출
+  var SUGGEST_POOL=[
+    '캐나다에서 소프트웨어 개발자로 취업하고 싶어요',
+    '일본 유학 비자는 어떻게 신청하나요?',
+    '호주 워킹홀리데이 신청 조건이 궁금해요',
+    '독일 블루카드 자격 요건을 알려주세요',
+    '미국 H-1B 취업 비자 절차가 어떻게 되나요?',
+    '영국 학생 비자 필요 서류가 뭔가요?',
+    '캐나다 영주권(Express Entry) 점수는 어떻게 계산하나요?',
+    '미국 관광 비자로 입국 후 체류 연장이 가능한가요?',
+    '독일에서 유학 후 취업으로 전환할 수 있나요?',
+    '호주 간호사 취업 비자를 받으려면 어떻게 하나요?',
+    '일본에서 1년 어학연수를 하려면 어떤 비자가 필요한가요?',
+    '영국에서 장기 거주(ILR) 하려면 어떤 조건이 필요한가요?',
+    '쉥겐 비자로 영국에 입국할 수 있나요?',
+    '프랑스 디지털 노마드 비자가 있나요?',
+    '캐나다 워킹홀리데이 후 취업 비자 전환이 되나요?'
+  ];
+  function _pickRandom(arr, n){
+    var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a.slice(0, n);
+  }
+  function suggestHtml(){
+    var picks=_pickRandom(SUGGEST_POOL, 4);
+    return '<div class="suggest"><p class="lead">이런 질문은 어떠세요?<button class="reroll" type="button" id="reroll" aria-label="추천 질문 새로고침">🎲 다른 질문</button></p>'+
+      '<div class="chips">'+picks.map(function(q){ return '<button class="chip" data-q="'+esc(q)+'"><span class="pl">+</span>'+esc(q)+'</button>'; }).join('')+'</div></div>';
+  }
+  var GREETING=GREETING_MSG; // 하위호환(기존 참조)
   var TRACE_STRIP=function(sid){ return '<div class="doc-foot"><a class="trace-strip" href="/'+encodeURIComponent(sid)+'/trace" target="_blank" rel="noopener"><span class="ts-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="ts-main"><span class="ts-title">이 안내가 만들어진 처리 경로 보기</span><span class="ts-path">의도 분석 <span class="a">→</span> 비자 RAG 검색 <span class="a">→</span> 응답 정리</span></span><span class="ts-arr">↗</span></a><div class="disclaimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg><span>이 안내는 <b>참고용</b>이에요. 신청 전 공식 기관(대사관·이민국)에서 최신 요건을 꼭 확인해 주세요.</span></div></div>'; };
 
   var COUNTRY_KO={US:'🇺🇸 미국',JP:'🇯🇵 일본',GB:'🇬🇧 영국',UK:'🇬🇧 영국',CA:'🇨🇦 캐나다',AU:'🇦🇺 호주',DE:'🇩🇪 독일'};
@@ -402,23 +491,99 @@
     return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+(m.slots?recordHtml(m.slots):'')+docCardHtml(m.content, m.slots)+'</div></div>';
   }
   function renderStream(){
-    stream.innerHTML = state.messages.length ? state.messages.map(msgHtml).join('') : GREETING;
+    stream.innerHTML = state.messages.length ? state.messages.map(msgHtml).join('') : (GREETING_MSG + suggestHtml());
   }
   function renderConv(){
     convlist.innerHTML = state.sessions.map(function(s){
       var tag=(s.tags&&s.tags[0])||''; var dot=TAGDOT[tag]||'#9DB4FF';
-      var ttl=esc(s.title||'새 대화');
-      return '<div class="conv-wrap">'+
-        '<button class="conv'+(s.id===state.sid?' active':'')+'" data-sid="'+esc(s.id)+'" data-title="'+ttl+'">'+
-          '<span class="conv-title">'+ttl+'</span>'+
-          '<span class="conv-meta">'+(tag?'<span class="tag"><span class="dot" style="background:'+dot+'"></span>'+esc(tag)+'</span>':'<span class="tag" style="color:var(--s-dim)">대화</span>')+
-          '<span class="time">'+relTime(s.updated)+'</span></span></button>'+
-        '<button class="conv-del" data-del="'+esc(s.id)+'" data-title="'+ttl+'" aria-label="대화 삭제" title="대화 삭제">'+
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13M10 11v6M14 11v6" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
-        '</button>'+
-      '</div>';
+      var pinned=!!s.pinned;
+      var pinBadge=pinned?'<span class="conv-pin" title="상단 고정됨">📌</span>':'';
+      // div[role=button] 사용 — button>button 은 HTML 명세 위반으로 DOM이 깨짐
+      return '<div class="conv'+(s.id===state.sid?' active':'')+(pinned?' pinned':'')+'" role="button" tabindex="0" data-sid="'+esc(s.id)+'" data-title="'+esc(s.title||'새 대화')+'" data-pinned="'+(pinned?'1':'0')+'">'+
+        '<span class="conv-title-row">'+pinBadge+'<span class="conv-title">'+esc(s.title||'새 대화')+'</span></span>'+
+        '<span class="conv-meta">'+(tag?'<span class="tag"><span class="dot" style="background:'+dot+'"></span>'+esc(tag)+'</span>':'<span class="tag" style="color:var(--s-dim)">대화</span>')+
+        '<span class="time">'+relTime(s.updated)+'</span></span>'+
+        '<span class="conv-more" data-sid="'+esc(s.id)+'" data-title="'+esc(s.title||'새 대화')+'" data-pinned="'+(pinned?'1':'0')+'" title="대화 관리" aria-label="대화 관리" role="button" tabindex="-1">⋮</span>'+
+        '</div>';
     }).join('');
   }
+  // ── ⋮ 드롭다운 ─────────────────────────────────────────────────────────
+  // 모든 클릭을 단일 document 핸들러에서 처리.
+  // body 리스너를 별도로 추가하면 body → document 버블링 순서 때문에
+  // body에서 _dd=null 이 된 뒤 document 핸들러가 실행돼 액션이 무시된다.
+  var _dd = null;
+  function closeDd(){
+    if(_dd){ _dd.el.classList.remove('open'); _dd=null; }
+  }
+  function openDd(btn){
+    closeDd();
+    var sid=btn.dataset.sid, title=btn.dataset.title, pinned=btn.dataset.pinned==='1';
+    var dd=document.getElementById('conv-dd');
+    dd.innerHTML=
+      '<button class="conv-dd-item" data-action="pin">'+(pinned?'📍 고정 해제':'📌 상단 고정')+'</button>'+
+      '<button class="conv-dd-item" data-action="rename">✏️ 이름 변경</button>'+
+      '<button class="conv-dd-item danger" data-action="del">🗑 삭제</button>';
+    var r=btn.getBoundingClientRect();
+    // 뷰포트 오른쪽 잘림 방지
+    var left=Math.min(r.left-10, window.innerWidth-150);
+    dd.style.left=left+'px'; dd.style.top=(r.bottom+4)+'px';
+    dd.classList.add('open');
+    _dd={el:dd, sid:sid, title:title, pinned:pinned};
+  }
+  function _execDdAction(action, sid, title, pinned){
+    if(action==='pin'){
+      var next=!pinned;   // 토글
+      api('PATCH','/sessions/'+encodeURIComponent(sid),{pinned:next}).then(function(){
+        return refreshSessions();
+      }).then(function(){
+        toast(next?'📌 상단에 고정했습니다':'📍 고정을 해제했습니다', 'ok');
+      }).catch(function(){ toast('고정 변경에 실패했어요', 'err'); });
+    } else if(action==='rename'){
+      var newTitle=prompt('새 대화 이름을 입력하세요', title);
+      if(newTitle&&newTitle.trim()){
+        api('PATCH','/sessions/'+encodeURIComponent(sid),{title:newTitle.trim()}).then(function(){
+          refreshSessions().then(function(){ if(sid===state.sid){ state.meta.title=newTitle.trim(); setHeader(); } });
+          toast('✏️ 이름이 변경됐습니다', 'ok');
+        }).catch(function(){ toast('이름 변경에 실패했어요', 'err'); });
+      }
+    } else if(action==='del'){
+      showConfirm('"'+title+'" 대화를 삭제할까요?\n삭제 후 복구할 수 없습니다.', function(){
+        api('DELETE','/sessions/'+encodeURIComponent(sid)).then(function(){
+          toast('🗑 대화가 삭제됐습니다', 'ok');
+          return refreshSessions();
+        }).then(function(){
+          if(sid===state.sid){
+            var remaining=state.sessions.filter(function(s){return s.id!==sid;});
+            if(remaining.length) loadActive(remaining[0].id);
+            else api('POST','/sessions',{title:'새 대화'}).then(function(ns){ return refreshSessions().then(function(){ return loadActive(ns.id); }); });
+          }
+        }).catch(function(){ toast('삭제에 실패했어요', 'err'); });
+      });
+    }
+  }
+  // 단일 document 핸들러 — ⋮ 버튼 / 드롭다운 아이템 / 바깥 클릭(닫기) 모두 처리
+  document.addEventListener('click', function(e){
+    var moreBtn=e.target.closest('.conv-more');
+    if(moreBtn){
+      e.stopPropagation();
+      // 이미 같은 세션의 드롭다운이 열려 있으면 닫기만
+      if(_dd && _dd.sid===moreBtn.dataset.sid){ closeDd(); return; }
+      openDd(moreBtn);
+      return;
+    }
+    var ddItem=e.target.closest('.conv-dd-item');
+    if(ddItem){
+      e.stopPropagation();
+      if(_dd){
+        var action=ddItem.dataset.action, sid=_dd.sid, title=_dd.title, pinned=_dd.pinned;
+        closeDd();               // 먼저 닫은 뒤 액션 실행
+        _execDdAction(action, sid, title, pinned);
+      }
+      return;
+    }
+    // 그 외 클릭 → 열려 있는 드롭다운 닫기
+    closeDd();
+  });
   function setHeader(){
     activeTitle.textContent = state.meta.title||'새 대화';
     var t=(state.meta.tags&&state.meta.tags.length)? state.meta.tags.join(' · ') : '참고용 안내';
@@ -433,12 +598,17 @@
   }
 
   function loadActive(sid){
+    var prevSid = state.sid;
     return api('GET','/sessions/'+encodeURIComponent(sid)).then(function(full){
       state.meta={title:full.title, description:full.description, tags:full.tags||[], last_run:full.last_run};
       state.messages=(full.messages||[]).map(function(m){ var o={role:m.role, content:m.content}; if(m.is_visa!==undefined) o.is_visa=m.is_visa; if(m.slots) o.slots=m.slots; if(m.is_followup) o.is_followup=m.is_followup; return o; });
       var lr=full.last_run||{};
       if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ if(!state.messages[i].slots) state.messages[i].slots=lr.slots; break; } } }
       setSid(sid); renderConv(); setHeader(); renderStream();
+      // 다른 세션으로 전환 시 토스트 알림
+      if(prevSid && prevSid !== sid){
+        toast('💬 '+(full.title||'새 대화')+'로 전환했습니다');
+      }
       var last=state.messages[state.messages.length-1];
       var fu=(full.last_run&&full.last_run.followups)||[];
       if(last&&last.role==='assistant') renderFollowups(fu);
@@ -446,21 +616,6 @@
     });
   }
   function refreshSessions(){ return api('GET','/sessions').then(function(d){ state.sessions=d.sessions||[]; renderConv(); }); }
-
-  function deleteSession(sid, title){
-    if(!sid) return;
-    if(!confirm('"'+(title||'이 대화')+'" 대화를 삭제할까요?\n삭제한 대화는 복구할 수 없어요.')) return;
-    var wasActive=(sid===state.sid);
-    api('DELETE','/sessions/'+encodeURIComponent(sid)).then(function(){
-      return refreshSessions().then(function(){
-        if(!wasActive) return;                       // 비활성 대화 삭제 → 목록만 갱신
-        if(state.sessions.length) return loadActive(state.sessions[0].id);  // 최신 대화로 전환
-        return api('POST','/sessions',{title:'새 대화'}).then(function(s){   // 남은 게 없으면 새 대화
-          return refreshSessions().then(function(){ return loadActive(s.id); });
-        });
-      });
-    }).catch(function(){ refreshSessions(); });       // 실패(이미 삭제 등) → UI 재동기화
-  }
 
   function boot(){
     api('GET','/sessions').then(function(d){
@@ -488,6 +643,10 @@
 
   function send(text){
     if(state.busy) return; if(!text||!text.trim()) return; text=text.trim();
+    // ── 세션 격리: 전송 시점의 sid를 캡처 ──────────────────────────────────
+    // state.sid는 스트리밍 도중 새 세션 생성 시 바뀔 수 있으므로,
+    // 이 요청의 전체 생명주기는 sentSid에 고정한다.
+    var sentSid = state.sid;
     state.busy=true; sendBtn.disabled=true;
     var ex=document.querySelector('.followups'); if(ex) ex.remove();
     state.messages.push({role:'user', content:text}); renderStream();
@@ -495,10 +654,10 @@
     var uel=stream.querySelectorAll('.msg.user'); uel=uel[uel.length-1]; var uH=uel?uel.getBoundingClientRect().height:0;
     setSpacer(window.innerHeight - headerOffset() - uH - 24);
     anchorLastUser();
-    api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'user',content:text}).catch(function(){});
+    api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
     var acc='', finalResp=null, doneSlots=null, liveSlots=null, doneVisa=null, liveVisa=null, doneFollowup=null, liveFollowup=null;
-    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
+    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:sentSid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
         var reader=resp.body.getReader(), dec=new TextDecoder(), buf='';
@@ -515,24 +674,36 @@
           return pump();
         }); })();
       })
-      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup); })
+      .then(function(){ finishAnswer(sentSid, live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup); })
       .catch(function(){
-        api('POST','/chat/',{message:text,session_id:state.sid,history:history})
-          .then(function(d){ finishAnswer(live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', undefined, undefined, undefined); })
-          .catch(function(){ finishAnswer(live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', undefined, undefined, undefined); });
+        api('POST','/chat/',{message:text,session_id:sentSid,history:history})
+          .then(function(d){ finishAnswer(sentSid, live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', undefined, undefined, undefined); })
+          .catch(function(){ finishAnswer(sentSid, live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', undefined, undefined, undefined); });
       });
   }
-  function finishAnswer(live, finalText, slots, isVisa, isFollowup){
+  function finishAnswer(sentSid, live, finalText, slots, isVisa, isFollowup){
+    var isCurrent = (sentSid === state.sid);
+    // ── 백엔드 저장은 항상 원래 세션(sentSid)에 (비자/팔로업 메타 포함) ─────
+    var saveMsg={role:'assistant',content:finalText}; if(isVisa===false) saveMsg.is_visa=false; if(slots) saveMsg.slots=slots; if(isFollowup) saveMsg.is_followup=true;
+    api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',saveMsg).catch(function(){});
+    function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(sentSid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
+    if(!isCurrent){
+      // 세션이 바뀐 경우: 로딩 스피너만 제거하고 현재 화면(B)은 건드리지 않는다
+      live.remove();
+      state.busy=false; sendBtn.disabled=false;
+      api('POST','/chat/followups',{history:[]}).catch(function(){});
+      saveLastRun([]);
+      refreshSessions();
+      return;
+    }
+    // ── 동일 세션: 정상 UI 업데이트 ────────────────────────────────────
     live.remove();
     var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots; if(isVisa===false) amsg.is_visa=false; if(isFollowup) amsg.is_followup=true;
     state.messages.push(amsg); renderStream();
     var msgs=stream.querySelectorAll('.msg'); var aH=0,uH2=0; var aEl=msgs[msgs.length-1]; var uEl2=msgs[msgs.length-2]; if(aEl)aH=aEl.getBoundingClientRect().height; if(uEl2)uH2=uEl2.getBoundingClientRect().height;
     setSpacer(window.innerHeight - headerOffset() - aH - uH2 - 24);
     state.busy=false; sendBtn.disabled=false;
-    var saveMsg={role:'assistant',content:finalText}; if(isVisa===false) saveMsg.is_visa=false; if(slots) saveMsg.slots=slots; if(isFollowup) saveMsg.is_followup=true;
-    api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',saveMsg).catch(function(){});
     var hist=state.messages.slice(-6).map(function(m){ return {role:m.role, content:m.content}; });
-    function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
     api('POST','/chat/followups',{history:hist}).then(function(d){
       var sug=(d&&d.suggestions)||[]; renderFollowups(sug); saveLastRun(sug);
     }).catch(function(){ saveLastRun([]); });
@@ -549,14 +720,19 @@
   input.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); form.requestSubmit(); } });
   input.addEventListener('input', grow);
   document.addEventListener('click', function(e){
-    var del=e.target.closest('.conv-del'); if(del){ e.preventDefault(); deleteSession(del.dataset.del, del.dataset.title); return; }
+    // 추천 질문 새로고침(🎲) — chip보다 먼저 검사
+    var reroll=e.target.closest('#reroll'); if(reroll){ e.preventDefault(); var sg=document.querySelector('.suggest'); if(sg){ sg.outerHTML=suggestHtml(); } return; }
     var chip=e.target.closest('.chip'); if(chip){ send(chip.dataset.q||chip.textContent.replace(/^\+\s*/,'')); return; }
-    var conv=e.target.closest('.conv'); if(conv){ loadActive(conv.dataset.sid); if(window.innerWidth<=860) closeDrawer(); return; }
+    // ⋮ 버튼·드롭다운 클릭은 conv 전환 로직에서 제외 (사이드바 닫힘 버그 방지)
+    var conv=e.target.closest('.conv');
+    if(conv && !e.target.closest('.conv-more') && !e.target.closest('.conv-dropdown') && !e.target.closest('.conv-dd-item')){
+      loadActive(conv.dataset.sid); if(window.innerWidth<=860) closeDrawer(); return;
+    }
   });
   $('#newchat').addEventListener('click', function(){
     api('POST','/sessions',{title:'새 대화'}).then(function(s){ return refreshSessions().then(function(){ return loadActive(s.id); }); }).then(function(){ input.focus(); if(window.innerWidth<=860) closeDrawer(); }).catch(function(){});
   });
-  search.addEventListener('input', function(){ var q=search.value.trim().toLowerCase(); var els=convlist.querySelectorAll('.conv-wrap'); for(var i=0;i<els.length;i++){ var c=els[i].querySelector('.conv'); els[i].style.display=((c&&c.dataset.title)||'').toLowerCase().indexOf(q)>=0?'':'none'; } });
+  search.addEventListener('input', function(){ var q=search.value.trim().toLowerCase(); var els=convlist.querySelectorAll('.conv'); for(var i=0;i<els.length;i++){ els[i].style.display=(els[i].dataset.title||'').toLowerCase().indexOf(q)>=0?'':'none'; } });
   function openDrawer(){ sidebar.classList.add('open'); backdrop.classList.add('show'); menu.setAttribute('aria-expanded','true'); }
   function closeDrawer(){ sidebar.classList.remove('open'); backdrop.classList.remove('show'); menu.setAttribute('aria-expanded','false'); }
   menu.addEventListener('click', function(){ sidebar.classList.contains('open')?closeDrawer():openDrawer(); });

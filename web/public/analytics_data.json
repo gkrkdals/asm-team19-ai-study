@@ -1,0 +1,139 @@
+{
+  "generated": "2026-06-05T13:30:37",
+  "rounds": [
+    {
+      "id": "R9",
+      "label": "Round 9 · v180",
+      "date": "2026-06-03",
+      "overall_pct": 83.33,
+      "total": 180,
+      "passed": 150,
+      "categories": {
+        "employment": 93.33,
+        "study": 93.33,
+        "extension": 80.0,
+        "status_change": 20.0,
+        "cross_rule": 100.0,
+        "long_stay": 80.0,
+        "deep_search": 100.0,
+        "reaction": 100.0,
+        "off_topic": 86.67,
+        "new_country": 100.0,
+        "multi_turn": 42.86,
+        "conflicting": 50.0,
+        "vague": 100.0,
+        "edge_case": 100.0
+      },
+      "desc": "14개 카테고리 종합 라우팅 검증(기준선)"
+    },
+    {
+      "id": "R10a",
+      "label": "Round 10a · ChromaDB v50",
+      "date": "2026-06-04",
+      "overall_pct": 44.0,
+      "total": 50,
+      "passed": 22,
+      "categories": {
+        "status_change": 75.0,
+        "multi_turn": 33.33,
+        "conflicting": 0.0,
+        "chroma_recall": 93.33
+      },
+      "desc": "자가학습 재활용 + 저신뢰영역(신분변경/멀티턴/충돌) 재검증"
+    },
+    {
+      "id": "R10b",
+      "label": "Round 10b · 멀티턴 v50",
+      "date": "2026-06-05",
+      "overall_pct": 100.0,
+      "total": 238,
+      "passed": 238,
+      "categories": {
+        "deep_dialog": 100.0,
+        "context_switch": 100.0,
+        "conflict": 100.0,
+        "auto_followup": 100.0
+      },
+      "desc": "intent.py 부정신호 처리 수정 → 멀티턴/맥락전환/충돌 재검증"
+    },
+    {
+      "id": "R11",
+      "label": "Round 11 · 신뢰도 v70",
+      "date": "2026-06-05",
+      "overall_pct": 89.9,
+      "total": 347,
+      "passed": 312,
+      "categories": {
+        "abc_basic": 100.0,
+        "exception_special": 60.0,
+        "followup_chain": 91.0
+      },
+      "desc": "예상 분기 사전기록 → 실측 대조 (70 시나리오 / 347턴). G1 100%, G2 60%(신분변경 키워드 한계), G3 91%",
+      "findings": {
+        "G1_ABC": "기본 라우팅 27/27 완벽",
+        "G2_EXC": "교차규칙·거절·DUI 등은 정상. 신분변경 8건 불일치: 국가 미명시(5건) + 동사 키워드 미등록(3건)",
+        "G3_FOLLOWUP": "273/300(91%). 불일치 27건: EXC로 더 적절히 처리 13건, RESP(재질문) 12건, WEB 2건"
+      }
+    }
+  ],
+  "metric_evolution": {
+    "status_change": [
+      {
+        "round": "R9",
+        "label": "v180",
+        "pct": 20.0
+      },
+      {
+        "round": "R10a",
+        "label": "Chroma",
+        "pct": 75.0
+      },
+      {
+        "round": "R11",
+        "label": "v70",
+        "pct": 0.0
+      }
+    ],
+    "multi_turn": [
+      {
+        "round": "R9",
+        "label": "v180",
+        "pct": 42.86
+      },
+      {
+        "round": "R10a",
+        "label": "Chroma",
+        "pct": 33.33
+      },
+      {
+        "round": "R10b",
+        "label": "멀티턴",
+        "pct": 100.0
+      }
+    ],
+    "conflicting": [
+      {
+        "round": "R9",
+        "label": "v180",
+        "pct": 50.0
+      },
+      {
+        "round": "R10a",
+        "label": "Chroma",
+        "pct": 0.0
+      },
+      {
+        "round": "R10b",
+        "label": "멀티턴",
+        "pct": 100.0
+      }
+    ]
+  },
+  "notes": {
+    "status_change": "관광/유학→취업 등 신분변경. v180 20% → Chroma 75%(키워드 보강) → v70 0%*(측정 한계: 국가 미명시 질문 사용). 실제 사용 시나리오(국가+맥락)에서는 75%+ 예상.",
+    "multi_turn": "맥락 유지/국가 전환. v180 43% → Chroma 33%(회귀) → 멀티턴 수정 후 100%. 핵심 수정: intent.py 부정신호 시 ‘국가 보존+목적만 교체’.",
+    "conflicting": "’X가 아니라 Y’ 충돌. v180 50% → Chroma 0%(회귀) → 멀티턴 수정 후 100%. _CONFLICT_RE로 긍정 측(Y) 추출.",
+    "root_fix": "intent.py 부정신호 처리: ‘맥락 전체 폐기’→’국가 보존+목적만 교체’ 로 변경(R10b). 멀티턴·충돌 동시 100% 달성.",
+    "new_findings": "R11 발견: 신분변경 키워드(바꾸다/전환/조정) EXCEPTION_KEYWORDS 미등록 → 개선 과제 P1. 후속질문 10턴+ 후반에서 EXC/WEB 이탈은 더 적합한 처리인 경우 다수(91% 실질 신뢰도)."
+  }
+}

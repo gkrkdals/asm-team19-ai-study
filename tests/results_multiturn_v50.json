@@ -1,0 +1,4918 @@
+{
+  "summary": {
+    "total_scenarios": 50,
+    "total_turns": 238,
+    "passed_turns": 238,
+    "overall_pct": 100.0,
+    "elapsed_sec": 2509,
+    "by_phase": {
+      "A_deep": {
+        "pass": 80,
+        "total": 80
+      },
+      "B_switch": {
+        "pass": 37,
+        "total": 37
+      },
+      "C_conflict": {
+        "pass": 19,
+        "total": 19
+      },
+      "D_auto": {
+        "pass": 102,
+        "total": 102
+      }
+    }
+  },
+  "records": [
+    {
+      "id": "A1_deep_5turn",
+      "phase": "A_deep",
+      "note": "캐나다 취업 5턴 심화 — 국가·목적 일관성 검증",
+      "sid": "s_bff666f8fddb",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기 요청",
+          "msg": "캐나다에서 소프트웨어 개발자로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 진행되나요?",
+            "PGWP 신청 자격 요건이 궁금해요",
+            "IEC 참가 가능 국가 및 연령 제한이 있나요?",
+            "Express Entry 신청 시 필요한 최소 점수는?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n소프트웨어 개발자로 캐나다에서 취업하려면 **고용주 지정형(Employer-Specific) 취업 비자** 또는 **개방형(Open) 취업 비자"
+        },
+        {
+          "turn": 2,
+          "desc": "구체 조건 심화",
+          "msg": "Express Entry 점수가 어느 정도면 돼요?",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 진행되나요?",
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "Express Entry와 취업 비자의 차이점은?",
+            "소프트웨어 개발자 직군별 평균 급여 기준은?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n소프트웨어 개발자로 캐나다에서 취업하려면 **고용주 지정형(Employer-Specific) 취업 비자** 또는 **개방형(Open) 취업 비자"
+        },
+        {
+          "turn": 3,
+          "desc": "언어 요건 심화",
+          "msg": "IELTS 점수는 몇 점이 필요한가요?",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 진행되나요?",
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "IELTS 외 다른 영어 시험 인정되나요?",
+            "취업 비자 신청 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific)**: 캐나다 고용주가 LMIA(노동시장 영향 평가) 승인을 받은 후 발급  \n- **개방"
+        },
+        {
+          "turn": 4,
+          "desc": "비용 심화",
+          "msg": "캐나다 이민 신청 비용은 얼마예요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 가능 직종은 어떤 게 있나요?",
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "취업 비자 신청 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환을 위한 추가 요건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific)**: 캐나다 고용주가 LMIA(노동시장 영향 평가) 승인을 받은 후 발급  \n- **개방"
+        },
+        {
+          "turn": 5,
+          "desc": "기간 심화",
+          "msg": "처리 기간은 보통 얼마나 걸려요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 가능 직종은 어떤 게 있나요?",
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "비자 신청 수수료와 추가 비용은 얼마인가요?",
+            "취업 비자 기간 연장 절차는 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific)**: 캐나다 고용주가 LMIA(노동시장 영향 평가) 승인을 받은 후 발급  \n- **개방"
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A2_deep_6turn",
+      "phase": "A_deep",
+      "note": "일본 유학 6턴 — 신분 변경까지",
+      "sid": "s_849df2a480d2",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "일본에서 대학원 유학을 하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "입학 허가서 발급 절차는 어떻게 되나요?",
+            "재정 증명 시 필요한 서류는 무엇인가요?",
+            "졸업 후 취업 비자 전환 조건은 어떻게 되나요?",
+            "결핵 검사 대상 국가 외 추가 건강 조건이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자(留学, Student Visa)**  \n- 일본 대학원 정규 과정(석사/박사) 또는 일본어 학교·전문학교에서 장기(6개월 이상) 수학 시 필요한 비자입니다.  \n- 재류자격(在留資格"
+        },
+        {
+          "turn": 2,
+          "desc": "절차",
+          "msg": "일본 학생비자 신청 절차를 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 후 비자 신청 절차는 어떻게 되나요?",
+            "재정 증명 시 최소 필요 금액은 얼마인가요?",
+            "연구 계획서 작성 시 특별히 강조할 부분이 있나요?",
+            "졸업 후 취업 비자 전환 시 필요한 조건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자(留学, Student Visa)**  \n- 일본 대학원·대학·전문학교·일본어학교 등 정규 교육기관에서 6개월 이상 수학할 때 필요한 비자입니다.  \n- 재류자격(在留資格) \"留学\"으"
+        },
+        {
+          "turn": 3,
+          "desc": "서류",
+          "msg": "재정보증서는 어떻게 준비하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정보증서 은행 잔고 증명 기간은 얼마나 유지해야 하나요?",
+            "일본 학생비자 신청 시 건강 검진서 제출이 필수인가요?",
+            "입학 허가서(COE) 없이 사전 비자 신청이 가능한가요?",
+            "학생비자 신청 후 결과 통보까지 보통 몇 주 소요되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자(留学, Student Visa)**  \n- 일본 대학원·대학·전문학교·일본어학교 등 정규 교육기관에서 6개월 이상 수학할 때 필요한 비자입니다.  \n\n---\n\n## 주요 자격 요건 "
+        },
+        {
+          "turn": 4,
+          "desc": "추가 조건",
+          "msg": "유학 중에 아르바이트가 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정보증서 외에 추가 서류가 필요한가요?",
+            "아르바이트 허용 시간 기준은 어떻게 되나요?",
+            "비자 신청부터 발급까지 소요 기간은 얼마인가요?",
+            "영주권 전환 시 유학 비자가 유리한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자(留学, Student Visa)**  \n- 일본 대학원·대학·전문학교·일본어학교 등 정규 교육기관에서 6개월 이상 수학할 때 필요한 비자입니다.  \n\n---\n\n## 주요 자격 요건 "
+        },
+        {
+          "turn": 5,
+          "desc": "갱신",
+          "msg": "비자 갱신은 어떻게 하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "아르바이트 시간 제한이 있나요?",
+            "재정 증명 서류로 어떤 걸 제출해야 하나요?",
+            "비자 갱신 신청 절차는 어떻게 되나요?",
+            "학업 목적 증명에 필요한 서류는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자(留学, Student Visa)**  \n- 일본 대학·전문학교·일본어학교 등에서 6개월 이상 수학할 때 필요한 비자입니다.  \n\n---\n\n## 주요 자격 요건  \n1. **입학 허가"
+        },
+        {
+          "turn": 6,
+          "desc": "신분변경",
+          "msg": "졸업 후 취업비자로 전환할 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "졸업 후 취업 비자 전환 절차는 어떻게 되나요?",
+            "기술·인문지식·국제업무 비자 신청 시 필요한 서류는?",
+            "전공과 직무가 다를 경우 대체 가능한 비자가 있나요?",
+            "일본 기업 고용 없이 자영업을 할 수 있는 비자는?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자(留学, Student Visa)**  \n- 일본 대학·전문학교·일본어학교 등에서 6개월 이상 수학할 때 필요한 비자입니다. 졸업 후 취업 비자 전환 가능성을 고려할 때 **\"기술·인"
+        }
+      ],
+      "pass": 6,
+      "total": 6,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A3_deep_5turn_de",
+      "phase": "A_deep",
+      "note": "독일 취업 5턴",
+      "sid": "s_d1fc22498031",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "독일에서 엔지니어로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 소득 기준 미달 시 대안은?",
+            "독일 고용계약서 작성 시 주의사항은?",
+            "비자 신청 처리 기간은 얼마나 걸리나요?",
+            "학위 인정 절차는 어떻게 진행하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **전문직 취업 비자(Section 18a/b)**  \n- **EU 블루카드**: 학사 학위 이상 소지자 + 연소득 56,400유로(IT/자연과학/의학 분야는 43,99"
+        },
+        {
+          "turn": 2,
+          "desc": "블루카드",
+          "msg": "독일 블루카드 요건이 뭐예요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "학위 인정 절차는 어떻게 진행되나요?",
+            "소득 요건 미달 시 대안이 있을까요?",
+            "비자 신청 시 필요한 서류는 무엇인가요?",
+            "영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **전문직 취업 비자(Section 18a/b)**  \n- **EU 블루카드**: 학사 학위 이상 소지자 + 연소득 56,400유로(IT/자연과학/의학 분야는 43,99"
+        },
+        {
+          "turn": 3,
+          "desc": "급여",
+          "msg": "급여 기준은 얼마인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "학위 동등성 인정 절차는 어떻게 되나요?",
+            "소득 요건 미달 시 대안은 있나요?",
+            "실무 경력 인정 기준은 어떻게 되나요?",
+            "비자 신청 시 필요한 서류는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **전문직 취업 비자(Section 18a/b)**  \n- 학사 학위 이상 소지자가 독일 기업에서 고용된 경우 신청 가능한 비자입니다.  \n- IT/자연과학/의학 분야는"
+        },
+        {
+          "turn": 4,
+          "desc": "언어",
+          "msg": "독일어를 못해도 신청이 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "독일어 능력 증명을 위한 공식 시험은 필수인가요?",
+            "소득 요건 충족 시 추가 서류가 필요한가요?",
+            "비자 신청 처리 기간은 보통 얼마나 걸리나요?",
+            "EU 블루카드 소지 후 영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **전문직 취업 비자(Section 18a/b)**  \n- 독일 기업에서 고용된 학사 학위 이상 소지자에게 적합한 비자입니다.  \n- IT/자연과학/의학 분야는 소득 요"
+        },
+        {
+          "turn": 5,
+          "desc": "동반가족",
+          "msg": "가족도 함께 올 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "가족 동반 시 필요한 서류는 무엇인가요?",
+            "독일어 A1 시험 면제 조건이 있나요?",
+            "비자 신청부터 발급까지 소요 기간은?",
+            "소득 기준 완화 분야 외 다른 직종은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **전문직 취업 비자(Section 18a/b)**  \n- 독일 기업에서 고용된 학사 학위 이상 소지자를 위한 비자입니다.  \n- IT/자연과학/의학 분야는 소득 기준이"
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A4_deep_5turn_au",
+      "phase": "A_deep",
+      "note": "호주 워킹홀리데이 5턴",
+      "sid": "s_69cfa46fa751",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "호주 워킹홀리데이 비자 받고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명 AUD 5,000은 어떤 증빙 서류가 필요한가요?",
+            "비자 연장 시 추가로 필요한 서류는 무엇인가요?",
+            "동일 고용주에서 6개월 이상 근무 시 제한 사항은 어떻게 되나요?",
+            "호주 워킹홀리데이 비자 신청 절차는 어떻게 진행되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 워킹홀리데이 비자 (Subclass 462 또는 417)**  \n- 18~30세(일부 국가 35세) 청년을 대상으로 최대 12개월 체류 및 단기 취업·연수가 가능한 비자입니다.  \n- 한"
+        },
+        {
+          "turn": 2,
+          "desc": "나이",
+          "msg": "나이 제한이 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 요건은 어떻게 증명하나요?",
+            "신청 절차는 어떻게 진행되나요?",
+            "체류 기간 연장 가능한가요?",
+            "영어 능력 요건이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 워킹홀리데이 비자 (Subclass 462 또는 417)**  \n- 18~30세(일부 국가 35세) 청년을 대상으로 최대 12개월 체류 및 단기 취업·연수가 가능한 비자입니다.  \n- 한"
+        },
+        {
+          "turn": 3,
+          "desc": "비용",
+          "msg": "신청 비용은 얼마예요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영어 능력 증명 서류가 필요한가요?",
+            "재정 증명 방법은 어떤 것이 있나요?",
+            "신청 후 처리 기간은 얼마나 걸리나요?",
+            "동일 고용주에서 6개월 이상 근무할 수 있는 방법이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 워킹홀리데이 비자 (Subclass 462 또는 417)**  \n- 18~30세(일부 국가 35세) 청년을 대상으로 최대 12개월 체류 및 단기 취업·연수가 가능한 비자입니다.  \n\n--"
+        },
+        {
+          "turn": 4,
+          "desc": "연장",
+          "msg": "2년차 비자는 어떻게 받나요?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "2차 비자 신청 시 영어 능력 증명은 필수인가요?",
+            "지정된 지역 외 근무 시 추가 체류 가능한가요?",
+            "2차 비자 신청 기간은 얼마나 걸리나요?",
+            "호주 워킹홀리데이 비자 후 영주권 전환 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 워킹홀리데이 2차 비자 (Subclass 462/417)**  \n- 1차 비자(12개월) 후, **특정 지역/직종에서 3개월 이상 근무** 시 12개월 추가 체류 가능  \n\n---\n\n##"
+        },
+        {
+          "turn": 5,
+          "desc": "업종",
+          "msg": "호주에서 일할 수 있는 업종이 제한되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "특정 지역/직종 근무 시 추가 체류 요건은?",
+            "2차 비자 신청 시 필요한 추가 서류는 무엇인가요?",
+            "비자 연장 신청 절차와 소요 기간은 어떻게 되나요?",
+            "호주 워킹홀리데이 비자 연장 시 주의할 점은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 워킹홀리데이 비자 (Subclass 462 또는 417)**  \n- 18~30세(일부 국가 35세) 청년을 대상으로 최대 12개월 체류 및 단기 취업이 가능한 비자입니다.  \n\n---\n\n"
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A5_deep_7turn_us",
+      "phase": "A_deep",
+      "note": "미국 취업 7턴 — 복잡 경로",
+      "sid": "s_8c63adee9773",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "미국에서 IT 개발자로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 신청 시 필요한 서류는 무엇인가요?",
+            "EB-3 노동증명서 승인 기간은 얼마나 걸리나요?",
+            "비자 스폰서를 구할 때 주의할 점은 무엇인가요?",
+            "H-1B 추첨에서 탈락하면 다른 비자 옵션은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- IT 개발자로 미국 기업에서 근무할 수 있는 **비이민 취업 비자**입니다.  \n- 학사 이상의 학위와 해당 직무 관련 전문성이 필요하며, 고용주(회사"
+        },
+        {
+          "turn": 2,
+          "desc": "H-1B",
+          "msg": "H-1B 비자 추첨 방식을 설명해주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 추첨에 탈락하면 다른 비자 옵션은?",
+            "H-1B 신청 시 필요한 서류는 무엇인가요?",
+            "H-1B 신청 후 결과 발표까지 얼마나 걸리나요?",
+            "H-1B 대신 O-1 비자로 전환 가능한가요?"
+          ],
+          "response_preview": "## H-1B 비자 추첨 방식 안내  \n\n### 📌 **추첨 방식**  \n1. **2단계 추첨 시스템** (2021년 도입):  \n   - **1단계**: 석사 이상 학위 소지자(20,000명 쿼터)를 우선 추첨  "
+        },
+        {
+          "turn": 3,
+          "desc": "스폰서",
+          "msg": "스폰서 회사를 어떻게 찾나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 추첨 후 서류 제출 절차는 어떻게 되나요?",
+            "스폰서 회사 선정 시 주의할 점은 무엇인가요?",
+            "O-1 비자 신청 시 필요한 서류는 어떤 게 있나요?",
+            "EB-3 비자로 영주권 전환까지 소요 기간은?"
+          ],
+          "response_preview": "## 미국 취업 비자 스폰서 회사 찾는 방법  \n\n### 📌 **추천 비자**  \n1. **H-1B (전문직 취업 비자)**  \n   - IT 개발자 등 전문직 종사자를 위한 비이민 비자. 학사 이상 학위 필요.  "
+        },
+        {
+          "turn": 4,
+          "desc": "OPT",
+          "msg": "OPT로 먼저 일하는 방법이 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "OPT 기간 중 H-1B 신청 절차는 어떻게 되나요?",
+            "OPT 신청 시 필요한 서류는 무엇인가요?",
+            "STEM 전공자 OPT 연장 조건은 어떻게 되나요?",
+            "OPT 기간 중 스폰서 회사 찾는 팁이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**OPT (Optional Practical Training)**  \n- 미국 대학에서 학위 취득 후 **최대 1년** 동안 전공 관련 분야에서 일할 수 있는 **임시 취업 허가** 제도입니다."
+        },
+        {
+          "turn": 5,
+          "desc": "대안",
+          "msg": "H-1B 탈락 시 대안이 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 캡 면제 고용주 신청 조건은?",
+            "O-1 비자 신청 시 필요한 서류는?",
+            "L-1 비자 전근 기간 충족 방법은?",
+            "E-3 비자 호주 국적자 요건 확인 필요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B 탈락 시 대안 비자**  \n1. **H-1B 캡 면제 고용주**  \n   - 대학, 비영리 연구기관, 정부기관 등은 연간 쿼터(65,000명) 적용 없이 연중 신청 가능  \n2. **"
+        },
+        {
+          "turn": 6,
+          "desc": "영주권",
+          "msg": "영주권(그린카드)으로 전환은 언제 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 캡 면제 고용주 신청 절차는 어떻게 되나요?",
+            "EB-2 NIW 신청 시 필요한 서류는 무엇인가요?",
+            "EB-5 투자 금액과 고용 창출 조건은 어떻게 되나요?",
+            "영주권 전환 시 평균 처리 기간은 어느 정도인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**영주권(그린카드) 전환 경로**  \n1. **EB-1 (1순위 취업 이민)**  \n   - 특출난 능력(과학·예술·교육·비즈니스·체육) 보유자, 우수 교수/연구자, 다국적 기업 임원  \n2. "
+        },
+        {
+          "turn": 7,
+          "desc": "가족",
+          "msg": "가족 비자(H-4)도 함께 신청 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EB-1 신청 시 필요한 특출난 능력 증명 서류는?",
+            "H-4 비자 신청 절차와 소요 기간은 어떻게 되나요?",
+            "H-1B와 EB-1 전환 시 영주권까지 평균 기간은?",
+            "EB-1 심사 시 주의할 주요 거절 사유는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 고용주가 스폰서하는 **학사 학위 이상**의 전문직 취업 비자  \n- **H-4 동반 가족 비자** 신청 가능 (배우자·자녀)  \n\n## 주요 자"
+        }
+      ],
+      "pass": 7,
+      "total": 7,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A6_deep_5turn_gb",
+      "phase": "A_deep",
+      "note": "영국 간호사 취업 5턴",
+      "sid": "s_8954ac7c14fc",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "영국에서 간호사로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 절차는 어떻게 되나요?",
+            "Health and Care Worker Visa 영어 면제 조건은?",
+            "비자 신청 평균 처리 기간은 얼마인가요?",
+            "영주권 전환 요건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (일반 취업 비자)**  \n영국에서 간호사로 취업하기 위한 가장 일반적인 비자입니다. 의료 분야 종사자에게 특화된 **Health and Care Worke"
+        },
+        {
+          "turn": 2,
+          "desc": "조건",
+          "msg": "Skilled Worker Visa 요건이 뭔가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 절차는 어떻게 되나요?",
+            "IELTS 외 영어 증명 방법은?",
+            "Health and Care Worker Visa 할인 금액과 조건은?",
+            "스폰서 기관 찾는 방법이 궁금해요"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (일반 취업 비자)**  \n영국에서 간호사로 취업하기 위한 가장 일반적인 비자입니다. 의료 분야 종사자에게 특화된 **Health and Care Worke"
+        },
+        {
+          "turn": 3,
+          "desc": "자격",
+          "msg": "NMC 등록은 어떻게 하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "NMC 등록 소요 기간은 얼마나 걸리나요?",
+            "CoS 발급 절차는 어떻게 진행되나요?",
+            "의료부담금 면제 조건은 무엇인가요?",
+            "Health and Care Worker Visa로 영주권은 어떻게 전환하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Health and Care Worker Visa (의료·보건 종사자 비자)**  \n영국에서 간호사로 취업하기 위한 전용 비자입니다. NHS(국민보건서비스) 또는 승인된 기관에서 근무할 경우 "
+        },
+        {
+          "turn": 4,
+          "desc": "언어",
+          "msg": "영어 시험은 어떤 걸 봐야 하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "NMC 등록에 필요한 서류는 무엇인가요?",
+            "CoS 발급 절차는 어떻게 진행되나요?",
+            "의료부담금 면제 적용 조건은 무엇인가요?",
+            "영어 시험 면제 가능한 경우가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Health and Care Worker Visa (의료·보건 종사자 비자)**  \n영국에서 간호사로 취업하기 위한 전용 비자입니다. NHS(국민보건서비스) 또는 승인된 기관에서 근무할 경우 "
+        },
+        {
+          "turn": 5,
+          "desc": "기간",
+          "msg": "비자 처리 기간은요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 절차는 어떻게 되나요?",
+            "SOC 코드 확인 방법은 무엇인가요?",
+            "최소 급여 미달 시 대안이 있나요?",
+            "비자 신청 비용은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (일반 취업 비자)**  \n영국에서 전문직으로 장기 취업할 수 있는 비자입니다. NHS(국민보건서비스) 외 일반 기업에서도 근무 가능하며, **Health "
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A7_deep_5turn_ca_study",
+      "phase": "A_deep",
+      "note": "캐나다 유학 5턴",
+      "sid": "s_614ae2175922",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "캐나다 대학교 유학 정보 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "DLI 기관 확인 방법은 어떻게 되나요?",
+            "재정 증명 시 필요한 서류는 무엇인가요?",
+            "PGWP 신청 시 주의사항이 있나요?",
+            "영주권 전환 절차는 어떻게 진행되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 유학 비자(Study Permit)**  \n캐나다 대학에서 정규 학위 과정을 이수할 경우 필요한 비자입니다. 학업 기간 동안 합법적으로 체류하며, 주당 24시간(학기 중) 또는 풀타임("
+        },
+        {
+          "turn": 2,
+          "desc": "서류",
+          "msg": "학생비자 신청 시 필요한 서류는?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "DLI 입학 허가서 발급 절차는 어떻게 되나요?",
+            "재정 증명 시 필요한 최소 금액은 얼마인가요?",
+            "PGWP 신청 조건과 기간은 어떻게 되나요?",
+            "건강 검진 필요 여부는 어떻게 확인하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 유학 비자(Study Permit)**  \n캐나다 지정 교육기관(DLI)에서 정규 학위 과정을 이수할 경우 필요한 비자입니다. 학업 기간 동안 체류 가능하며, 졸업 후 취업 비자(PGW"
+        },
+        {
+          "turn": 3,
+          "desc": "재정",
+          "msg": "재정 증명은 얼마나 필요한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명 서류로 어떤 것을 제출할 수 있나요?",
+            "PGW 신청 시 추가 서류가 필요한가요?",
+            "비자 신청 처리 기간은 보통 얼마나 걸리나요?",
+            "영주권 전환을 위한 PGW 기간은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 유학 비자(Study Permit)**  \n캐나다 지정 교육기관(DLI)에서 정규 학위 과정을 이수할 때 필요한 비자입니다. 학업 기간 동안 체류 가능하며, 졸업 후 취업 비자(PGW)"
+        },
+        {
+          "turn": 4,
+          "desc": "아르바이트",
+          "msg": "캐나다에서 파트타임 일을 할 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "파트타임 근무 시간 제한이 있나요?",
+            "PGW 신청 시 추가 서류가 필요한가요?",
+            "영주권 전환 시 필요한 최소 거주 기간은?",
+            "DLI 외 기관 입학 시 대체 비자는 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 유학 비자(Study Permit)**  \n캐나다 지정 교육기관(DLI)에서 정규 학위 과정을 이수할 때 필요한 비자입니다. 학업 기간 동안 체류 가능하며, 졸업 후 취업 비자(PGW)"
+        },
+        {
+          "turn": 5,
+          "desc": "PGWP",
+          "msg": "졸업 후 취업 비자(PGWP) 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "PGWP 신청 후 처리 기간은 얼마나 걸리나요?",
+            "파트타임 근무 시 주당 최대 몇 시간까지 가능한가요?",
+            "영주권 전환 시 PGWP 경력이 어떻게 반영되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 졸업 후 취업 비자(Post-Graduation Work Permit, PGWP)**  \n캐나다 지정 교육기관(DLI)에서 정규 학위 과정을 마친 후 최대 3년간 취업할 수 있는 **개"
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A8_deep_6turn_au_employment",
+      "phase": "A_deep",
+      "note": "호주 요리사 취업 6턴",
+      "sid": "s_3e4a9a0f0bd8",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "호주에서 요리사로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Skills in Demand 비자 신청 요건은 어떻게 되나요?",
+            "ENS 비자 신청 전 필요한 경력 기간은?",
+            "408 비자로 요리 분야 취업 시 추가 서류는?",
+            "호주 요리사 비자별 평균 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 요리사 취업을 위한 비자 옵션**  \n1. **Skills in Demand 비자 (subclass 482_SID)**  \n   - 호주 고용주가 스폰서하는 기술직 취업 비자 (최대 4년"
+        },
+        {
+          "turn": 2,
+          "desc": "비자종류",
+          "msg": "Skilled Nominated Visa(190) 설명해줘",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "190 비자 신청 시 주정부 후원 절차는 어떻게 되나요?",
+            "요리사로 190 비자 신청 시 기술 평가 기관은 어디인가요?",
+            "190 비자 처리 기간과 현재 평균 대기 시간은 어떻게 되나요?",
+            "190 비자 대신 고려할 수 있는 다른 영주권 비자는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Nominated Visa (subclass 190)**  \n호주 주정부(State/Territory) 후원을 받아 기술직 종사자로 영주권을 취득하는 비자입니다. 주정부의 특정 "
+        },
+        {
+          "turn": 3,
+          "desc": "평가",
+          "msg": "직업 스킬 평가는 어디서 받나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "주정부 후원 요건은 어떻게 되나요?",
+            "직업 평가 기관 리스트는 어디서 확인하나요?",
+            "190 비자 신청 절차는 어떻게 진행되나요?",
+            "186 비자와 190 비자 차이점이 궁금해요"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자 주요 옵션**  \n1. **Skills in Demand 비자 (subclass 482_SID)**  \n   - 호주 고용주 스폰서십으로 최대 4년 체류 가능 (기술직 취업용)"
+        },
+        {
+          "turn": 4,
+          "desc": "주정부",
+          "msg": "주정부 지명을 받으려면?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "주정부 지명 신청 절차는 어떻게 되나요?",
+            "ANZSCO 351311 평가 기준은 무엇인가요?",
+            "186 비자와 190 비자 비용 차이는?",
+            "영주권 전환 시 추가 서류가 필요한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자 주요 옵션**  \n1. **Skills in Demand 비자 (subclass 482_SID)**  \n   - 호주 고용주가 스폰서하는 기술직 취업 비자 (최대 4년 체류 가"
+        },
+        {
+          "turn": 5,
+          "desc": "영어",
+          "msg": "영어 점수는 얼마나 필요해요?",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "주정부 지명 절차는 어떻게 진행되나요?",
+            "482 비자 신청 시 필요한 서류는 무엇인가요?",
+            "지역 비자(491)와 고용주 스폰서 비자(186)의 차이점은?",
+            "비자 신청 처리 기간과 비용은 대략 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자 주요 유형**  \n1. **Temporary Skill Shortage Visa (subclass 482)**  \n   - 호주 고용주가 스폰서하는 기술직 취업 비자 (최대 4"
+        },
+        {
+          "turn": 6,
+          "desc": "비용",
+          "msg": "신청비는 얼마인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "고용주 스폰서 요건은 어떻게 되나요?",
+            "비자 신청 소요 기간은 얼마나 걸리나요?",
+            "영어 점수 면제 가능한 경우가 있나요?",
+            "영주권으로 전환 시 추가 조건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자 주요 유형**  \n1. **Skills in Demand 비자 (subclass 482_SID)**  \n   - 호주 고용주가 스폰서하는 기술직 취업 비자 (최대 4년 체류 가"
+        }
+      ],
+      "pass": 6,
+      "total": 6,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A9_deep_5turn_jp_employment",
+      "phase": "A_deep",
+      "note": "일본 IT 취업 5턴",
+      "sid": "s_6d9911cd717b",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "일본에서 IT 회사에 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 취득 절차는 어떻게 되나요?",
+            "일본어 능력 요건 예외 가능한가요?",
+            "비자 신청 시 필요한 서류는 무엇인가요?",
+            "영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (「技術・人文知識・国際業務」)**  \n- 일본 IT 기업에 취업 시 가장 일반적인 비자로, 기술직·전문직 종사자에게 발급됩니다.  \n- **재류자격 인정증명서(CO"
+        },
+        {
+          "turn": 2,
+          "desc": "비자확인",
+          "msg": "기술·인문지식·국제업무 비자가 맞나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 절차는 어떻게 되나요?",
+            "학력 요건 예외 가능한 경우가 있나요?",
+            "비자 신청 시 필요한 서류는 무엇인가요?",
+            "일본어 능력 요건 완화 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (「技術・人文知識・国際業務」)**  \n- 일본 IT 기업에 정규직으로 취업할 때 가장 일반적인 비자입니다.  \n- 기술직(개발자, 엔지니어 등) 또는 전문직(기획,"
+        },
+        {
+          "turn": 3,
+          "desc": "언어",
+          "msg": "일본어 능력이 없어도 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "일본어 없이 가능한 직군은 어떤 게 있나요?",
+            "COE 신청 절차와 소요 기간은 어떻게 되나요?",
+            "학력 요건 미달 시 대체 가능한 서류는 무엇인가요?",
+            "비자 갱신 시 필요한 조건과 비용은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (「技術・人文知識・国際業務」)**  \n- 일본 IT 기업에 정규직으로 취업할 때 가장 일반적인 비자입니다.  \n- 기술직(개발자, 엔지니어 등) 또는 전문직(기획,"
+        },
+        {
+          "turn": 4,
+          "desc": "절차",
+          "msg": "비자 신청은 회사에서 해주나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "일본어 대신 영어 가능 직무도 해당 비자 적용되나요?",
+            "경력 5년일 때 학력 요건 대체 가능한가요?",
+            "비자 신청 시 회사 제출 서류 목록은 어떻게 되나요?",
+            "소득 요건 미달 시 다른 비자 대안이 있을까요?"
+          ],
+          "response_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (「技術・人文知識・国際業務」)**  \n- 일본 IT 기업에 정규직으로 취업할 때 가장 일반적인 비자입니다.  \n- 기술직(개발자, 엔지니어 등) 또는 전문직(기획,"
+        },
+        {
+          "turn": 5,
+          "desc": "기간",
+          "msg": "체류기간은 얼마나 되나요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "비자 신청 시 회사 지원 범위는 어떻게 되나요?",
+            "학력 요건 미달 시 대체 가능한 서류는 무엇인가요?",
+            "비자 심사 기간은 보통 얼마나 걸리나요?",
+            "영주권 전환 가능성은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**일본 기술·인문지식·국제업무 비자 (「技術・人文知識・国際業務」)**  \n- 일본 기업에서 기술·전문직 종사자를 위한 취업 비자입니다. IT 개발자, 엔지니어, 기획자 등이 주로 신청합니다.  "
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A10_deep_5turn_de_study",
+      "phase": "A_deep",
+      "note": "독일 유학 5턴",
+      "sid": "s_003eff637a01",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "독일 대학에서 공부하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명은 어떤 방식으로 준비해야 하나요?",
+            "대학 입학 허가서 없이 예비 비자 발급 가능한가요?",
+            "비자 신청 후 승인까지 평균 소요 기간은?",
+            "학업 중 아르바이트 가능 여부와 시간 제한이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 학생 비자 (Type D)**  \n독일 대학에서 정규 학위 과정(학사/석사/박사)을 이수하기 위한 장기 체류 비자입니다. 최대 체류 기간은 3~4년(학위 과정 기간)이며, 현지에서 갱신 "
+        },
+        {
+          "turn": 2,
+          "desc": "절차",
+          "msg": "독일 학생비자 신청 방법은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "대학 입학 허가서 없이 신청 가능한가요?",
+            "재정 증명 시 차단계좌 개설 방법은?",
+            "건강 보험 가입 시 필수 조건은 무엇인가요?",
+            "비자 신청 후 발급까지 소요 기간은?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 학생 비자 (Type D)**  \n독일 대학에서 정규 학위 과정(학사/석사/박사)을 이수하기 위한 장기 체류 비자입니다. 최대 체류 기간은 학위 과정 기간(3~4년)이며, 현지에서 갱신 "
+        },
+        {
+          "turn": 3,
+          "desc": "재정",
+          "msg": "재정 증명 방법을 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명 시 Blocked Account 개설 절차는 어떻게 되나요?",
+            "대학 입학 허가서 없이 학생 비자 신청 가능한가요?",
+            "건강 보험 가입 시 반드시 포함해야 할 조건은 무엇인가요?",
+            "비자 신청 후 심사 기간은 보통 얼마나 소요되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 학생 비자 (Type D)**  \n독일 대학에서 정규 학위 과정을 이수하기 위한 장기 체류 비자입니다. 체류 기간은 학위 과정 기간(3~4년)이며, 현지에서 갱신 가능합니다.\n\n---\n\n"
+        },
+        {
+          "turn": 4,
+          "desc": "언어",
+          "msg": "독일어 없이도 영어로 수업 들을 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영어 과정 지원 시 필요한 추가 서류는 무엇인가요?",
+            "학생 비자 신청부터 발급까지 평균 소요 기간은 어떻게 되나요?",
+            "학비 외 추가 생활비 증명 금액은 얼마인가요?",
+            "영어 과정 졸업 후 독일 취업 비자 전환 가능 여부는?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 학생 비자 (Type D)**  \n독일 대학에서 정규 학위 과정을 이수하기 위한 장기 체류 비자입니다. 체류 기간은 학위 과정 기간(보통 3~4년)이며, 현지에서 갱신 가능합니다.\n\n--"
+        },
+        {
+          "turn": 5,
+          "desc": "취업전환",
+          "msg": "졸업 후 독일에서 일할 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 신청 시 필요한 서류는 무엇인가요?",
+            "독일 취업 비자 신청 처리 기간은 얼마나 걸리나요?",
+            "구직 비자 기간 연장 가능한가요?",
+            "독일 영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Type D)**  \n독일에서 장기 취업(1년 이상)을 위한 비자로, 학위·직업 자격·고용계약 등을 증명하면 신청 가능합니다.  \n- **EU 블루카드**: 고학력자(학사 이"
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A11_deep_5turn_us_study",
+      "phase": "A_deep",
+      "note": "미국 유학 5턴",
+      "sid": "s_6d9e05f1f465",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "미국 대학원 유학하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "F-1 비자 신청 시 필요한 서류는 무엇인가요?",
+            "OPT 신청 절차와 기간은 어떻게 되나요?",
+            "비자 신청 수수료와 처리 기간은 얼마나 걸리나요?",
+            "영어 점수 미달 시 대체 가능한 조건은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**F-1 비자** (미국 학업 비자)  \n미국 대학원 유학을 위한 가장 일반적인 비자로, 정규 학업 프로그램(석사·박사 등)에 등록한 학생에게 발급됩니다. 학업 기간 동안 체류가 가능하며, 졸업"
+        },
+        {
+          "turn": 2,
+          "desc": "F-1",
+          "msg": "F-1 비자 신청 절차 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "F-1 비자 신청 시 필요한 재정 증명 서류는 무엇인가요?",
+            "DS-160 신청서 작성 시 주의할 점은 무엇인가요?",
+            "OPT 신청 절차와 기간은 어떻게 되나요?",
+            "SEVP 승인 학교 확인 방법은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**F-1 비자** (미국 학업 비자)  \n미국 대학원 유학을 위한 가장 일반적인 비자로, 정규 학업 프로그램(석사·박사 등)에 등록한 학생에게 발급됩니다. 학업 기간 동안 체류가 가능하며, 졸업"
+        },
+        {
+          "turn": 3,
+          "desc": "SEVIS",
+          "msg": "SEVIS 비용은 얼마예요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "SEVIS 비용은 환불 가능한가요?",
+            "재정 증명서 외에 추가로 준비해야 할 서류는 무엇인가요?",
+            "OPT 신청 시 필요한 절차는 어떻게 되나요?",
+            "F-1 비자 신청 후 인터뷰 대기 기간은 보통 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**F-1 비자** (미국 학업 비자)  \n미국 대학원 유학을 위한 가장 일반적인 비자로, 정규 학위 프로그램에 등록한 학생에게 발급됩니다. 학업 기간 동안 체류가 가능하며, 졸업 후 OPT(실습"
+        },
+        {
+          "turn": 4,
+          "desc": "인터뷰",
+          "msg": "비자 인터뷰에서 자주 물어보는 것은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "SEVIS 비용 납부 방법은 어떻게 되나요?",
+            "F-1 비자 신청 시 재정 증명 서류는 어떤 걸 준비해야 하나요?",
+            "OPT 신청 절차와 기간은 어떻게 되나요?",
+            "영주권 전환을 위한 H-1B 비자 요건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**F-1 비자** (미국 학업 비자)  \n미국 대학원 정규 학위 과정(석사·박사 등)에 등록한 학생에게 발급되는 비자로, 학업 기간 동안 체류가 가능합니다. 졸업 후 OPT(실습 기간)를 통해 "
+        },
+        {
+          "turn": 5,
+          "desc": "OPT",
+          "msg": "OPT 신청 시기는 언제인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "OPT 신청 시 필요한 서류는 무엇인가요?",
+            "F-1 비자 신청 후 인터뷰 대기 기간은?",
+            "SEVIS 수수료 외 추가 비용이 있나요?",
+            "OPT 기간 중 다른 비자로 전환 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**F-1 비자** (미국 학업 비자)  \n미국 대학원 정규 학위 과정(석사·박사 등)에 등록한 학생에게 발급되는 비자로, 학업 기간 동안 체류가 가능하며 졸업 후 OPT(실습 기간)를 통해 취업"
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A12_deep_5turn_gb_study",
+      "phase": "A_deep",
+      "note": "영국 유학 5턴",
+      "sid": "s_0c222cc0a195",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "영국 대학교에서 유학하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명 금액은 얼마인가요?",
+            "CAS 발급 절차는 어떻게 되나요?",
+            "비자 신청 후 처리 기간은 얼마나 걸리나요?",
+            "영어 시험 면제 조건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa)**  \n영국에서 6개월 이상의 정규 과정(학위·기초 학위·영어 과정 등)을 수학할 때 필요한 비자입니다. 16세 이상 신청 가능하며, 영국 교육기관의 공식 "
+        },
+        {
+          "turn": 2,
+          "desc": "조건",
+          "msg": "Student Visa 신청 조건은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 절차는 어떻게 되나요?",
+            "재정 증명 서류 준비 방법은?",
+            "영어 능력 증명 면제 조건은?",
+            "비자 신청 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa)**  \n영국에서 6개월 이상의 정규 과정(학위·기초 학위·영어 과정 등)을 수학할 때 필요한 비자입니다. 16세 이상 신청 가능하며, 영국 교육기관의 공식 "
+        },
+        {
+          "turn": 3,
+          "desc": "영어",
+          "msg": "영어 점수 기준을 알려주세요",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 절차는 어떻게 되나요?",
+            "영어 점수 면제 조건은 있나요?",
+            "비자 신청 처리 기간은 보통 얼마나 걸리나요?",
+            "학생 비자 연장 시 추가 서류가 필요한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa)**  \n영국에서 6개월 이상의 정규 과정(학위·기초 학위·영어 과정 등)을 수학할 때 필요한 비자입니다. 16세 이상 신청 가능하며, 영국 교육기관의 공식 "
+        },
+        {
+          "turn": 4,
+          "desc": "CAS",
+          "msg": "CAS 번호는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 절차는 어떻게 되나요?",
+            "영어 점수 면제 가능한 경우가 있나요?",
+            "학생 비자 신청 시 추가 서류는 무엇이 있나요?",
+            "비자 처리 기간과 비용은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa)**  \n영국에서 6개월 이상의 정규 학위·기초 학위·영어 과정 등을 수학할 때 필요한 비자입니다. 16세 이상 신청 가능하며, 영국 교육기관의 공식 입학 허"
+        },
+        {
+          "turn": 5,
+          "desc": "아르바이트",
+          "msg": "학업 중 일을 할 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 절차는 어떻게 되나요?",
+            "학생 비자 신청 시 필요한 서류는 무엇인가요?",
+            "비자 신청 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환 가능 여부는 어떻게 확인하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa)**  \n영국에서 6개월 이상의 정규 과정(학위·기초 학위·영어 과정 등)을 수학할 때 필요한 비자입니다. 16세 이상 신청 가능하며, 영국 교육기관의 공식 "
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A13_deep_5turn_ca_long",
+      "phase": "A_deep",
+      "note": "캐나다 장기거주 5턴",
+      "sid": "s_507e3b5f8315",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "캐나다에서 장기 거주하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "PGWP 신청 자격 요건은 어떻게 되나요?",
+            "Express Entry 최소 CRS 점수는 몇 점인가요?",
+            "영주권 전환 시 주의사항이 있을까요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 장기체류 비자**는 목적에 따라 다음 경로를 추천합니다:  \n1. **취업 비자(Work Permit)** → **영주권(PR)** 전환  \n   - **개방형 취업비자(Open Wor"
+        },
+        {
+          "turn": 2,
+          "desc": "PR",
+          "msg": "PR(영주권) 취득 방법은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Express Entry 신청 자격 요건은 어떻게 되나요?",
+            "PNP 신청 시 주별 요구 조건이 다른가요?",
+            "스타트업 비자 신청 마감일 전 준비 서류는 무엇인가요?",
+            "영주권 전환 시 평균 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 영주권(PR) 취득**을 위한 주요 경로는 다음과 같습니다:  \n1. **Express Entry** (연방 기술 이민)  \n   - 기술·경력·언어 능력을 점수로 평가받아 영주권 신청"
+        },
+        {
+          "turn": 3,
+          "desc": "점수",
+          "msg": "Express Entry 점수 계산 방법은?",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Express Entry 최소 합격 점수는 어떻게 되나요?",
+            "PNP 신청 시 주별 요구 조건이 다른가요?",
+            "PGWP 비자 발급 후 PR 전환 기간은 얼마나 걸리나요?",
+            "가족 초청 시 필수 서류는 어떤 것이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 장기체류 비자**는 목적에 따라 다음 경로를 추천합니다:  \n1. **취업 비자(Work Permit)** → **영주권(PR)** 전환  \n   - **개방형 취업비자(Open Wor"
+        },
+        {
+          "turn": 4,
+          "desc": "PNP",
+          "msg": "주정부 이민 프로그램(PNP)도 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "주정부 추천 후 영주권 심사 기간은?",
+            "PNP 신청 시 공통 필수 서류는?",
+            "EE 연계 없이 PNP만 진행 가능한가요?",
+            "추천 받은 후 다른 주로 이사 가능할까요?"
+          ],
+          "response_preview": "## 추천 비자  \n**주정부 이민 프로그램(PNP, Provincial Nominee Program)**  \n- 캐나다 13개 주/준주(준주 제외)가 지역 경제 발전을 위해 특정 분야의 외국인 근로자·사업가를 추천"
+        },
+        {
+          "turn": 5,
+          "desc": "시민권",
+          "msg": "PR 취득 후 시민권 신청은 얼마나 걸려요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "PNP 신청 시 필요한 서류는 무엇인가요?",
+            "시민권 신청 수수료는 얼마인가요?",
+            "영주권 취득 후 즉시 시민권을 신청할 수 있나요?",
+            "PNP와 연방 이민 프로그램의 차이점은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 영주권(PR) 취득 후 시민권 신청**  \n- 영주권 취득 후 5년(1,095일) 중 1,095일(3년) 캐나다 체류 시 신청 가능  \n- 조건부 영주권(예: 배우자 스폰서십)은 별도 "
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A14_deep_6turn_au_long",
+      "phase": "A_deep",
+      "note": "호주 영주권 6턴",
+      "sid": "s_e5c416bd8bd4",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "호주에서 영주권을 받고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 비자 신청 시 필요한 서류는 무엇인가요?",
+            "주정부 후원을 받으려면 어떤 절차를 거쳐야 하나요?",
+            "영어 능력 요건은 IELTS 몇 점 이상이 필요한가요?",
+            "고용주 후원 비자로 전환하려면 최소 근무 기간이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n호주 영주권(Permanent Residency)을 위한 주요 비자 경로는 다음과 같습니다:  \n1. **기술 독립 비자 (Subclass 189)**  \n   - 스폰서 없이 호주 정부 초청(E"
+        },
+        {
+          "turn": 2,
+          "desc": "189비자",
+          "msg": "Skilled Independent Visa(189) 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 절차는 어떻게 진행되나요?",
+            "EOI 제출 후 초청까지 평균 기간은?",
+            "189 비자 대신 고려할 수 있는 다른 영주권은?",
+            "영어 점수 미달 시 대체 가능한 조건은?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Independent Visa (subclass 189)**  \n호주에서 **영주권**을 직접 취득할 수 있는 비자로, 스폰서 없이 호주 정부 초청을 받아 신청합니다. 기술·영어"
+        },
+        {
+          "turn": 3,
+          "desc": "직업군",
+          "msg": "직업군 목록 확인은 어떻게 하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "직업군 목록 최신 업데이트 주기는 어떻게 되나요?",
+            "189 비자 초청 점수 계산 방법은 무엇인가요?",
+            "초청 후 서류 제출 기간은 얼마나 걸리나요?",
+            "189 비자 신청 시 필요한 영어 시험 종류는?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자**는 체류 목적과 기간에 따라 다양한 옵션이 있습니다. 주요 비자는 다음과 같습니다:  \n- **Skills in Demand 비자 (subclass 482_SID)**: 호주"
+        },
+        {
+          "turn": 4,
+          "desc": "포인트",
+          "msg": "포인트 계산 기준은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "포인트 계산 시 언어 점수 반영 비율은?",
+            "189 비자 신청 시 필요한 최소 포인트?",
+            "주정부 스폰서십 획득 절차는?",
+            "영주권 전환 시 추가 서류 요건은?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 영주권 (Permanent Residency)**을 위한 주요 비자 경로는 다음과 같습니다:  \n- **Skilled Independent Visa (subclass 189)**: 스폰서"
+        },
+        {
+          "turn": 5,
+          "desc": "대기",
+          "msg": "신청 후 얼마나 기다려야 하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "189 비자 점수 계산 기준은?",
+            "482_SID 비자 스폰서 조건은?",
+            "영주권 전환 가능 비자는?",
+            "비자 신청 시 필수 서류는?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자**는 체류 목적과 기간에 따라 다양한 옵션이 있습니다. 주요 비자는 다음과 같습니다:  \n- **Skills in Demand 비자 (subclass 482_SID)**: 호주"
+        },
+        {
+          "turn": 6,
+          "desc": "시민권",
+          "msg": "영주권 후 시민권 신청은요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영주권 신청 시 필요한 서류는 무엇인가요?",
+            "시민권 신청 처리 기간은 얼마나 걸리나요?",
+            "482_SID 비자에서 영주권 전환 가능한가요?",
+            "가족 초청 비자 시 추가 비용이 발생하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 영주권 (Permanent Residency) → 시민권 (Citizenship) 경로**  \n호주 영주권 취득 후 4년 중 1년 이상 호주에서 합법적으로 거주한 경우, 시민권 신청이 가"
+        }
+      ],
+      "pass": 6,
+      "total": 6,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "A15_deep_5turn_gb_long",
+      "phase": "A_deep",
+      "note": "영국 장기거주 5턴",
+      "sid": "s_e32d1d0c1996",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "초기",
+          "msg": "영국에서 장기 거주하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Skilled Worker 비자 신청 요건은 무엇인가요?",
+            "High Potential Individual 비자 전환 시 필요한 서류는?",
+            "BNO 비자 신청 기간과 비용은 어떻게 되나요?",
+            "영주권 전환을 위한 최소 체류 기간은?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 장기 체류를 위한 주요 비자**  \n1. **Senior or Specialist Worker visa (기업 내 전근 비자)**  \n   - 영국 본사/지사에 전근하는 해외 직원의 장기"
+        },
+        {
+          "turn": 2,
+          "desc": "ILR",
+          "msg": "Indefinite Leave to Remain(ILR) 조건은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Skilled Worker Visa 신청 요건은?",
+            "ILR 신청 시 필요한 서류는?",
+            "HPI 비자 전환 절차는 어떻게 되나요?",
+            "가족 비자로 영주권 전환 기간은?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 장기 체류를 위한 주요 비자**  \n1. **Skilled Worker Visa (취업 비자)**  \n   - 영국 기업에서 취업 제안(Certificate of Sponsorship)을"
+        },
+        {
+          "turn": 3,
+          "desc": "거주요건",
+          "msg": "5년 거주 요건 계산은 어떻게 하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "5년 거주 기간 중 해외 체류 허용 기간은?",
+            "ILR 신청 시 필수 서류는 무엇인가요?",
+            "Skilled Worker Visa 스폰서십 요건은?",
+            "학생 비자 졸업 후 Graduate Visa 전환 절차는?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 장기 체류를 위한 주요 비자**  \n1. **Skilled Worker Visa (취업 비자)**  \n   - 영국 기업에서 취업 제안(Certificate of Sponsorship)을"
+        },
+        {
+          "turn": 4,
+          "desc": "시험",
+          "msg": "Life in the UK 시험은 뭔가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영주권 신청 시 추가 서류는 무엇이 있나요?",
+            "Life in the UK 시험 합격 기준은 어떻게 되나요?",
+            "Skilled Worker Visa 신청 처리 기간은 얼마인가요?",
+            "Graduate Visa 전환 시 필요한 조건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 장기 체류를 위한 주요 비자**  \n1. **Skilled Worker Visa (취업 비자)**  \n   - 영국 기업에서 취업 제안(Certificate of Sponsorship)을"
+        },
+        {
+          "turn": 5,
+          "desc": "시민권",
+          "msg": "ILR 후 시민권(British)으로 전환은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "ILR 신청 시 필요한 서류는 무엇인가요?",
+            "Skilled Worker Visa 신청 기간은 얼마나 걸리나요?",
+            "영어 능력 증명에 Life in the UK 시험이 포함되나요?",
+            "시민권 전환 시 추가 비용이 발생하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 영주권(ILR) → 시민권(British Citizen) 전환 경로**  \n- ILR(Indefinite Leave to Remain)을 취득한 후 1년 이상 거주 시 시민권 신청 가능 "
+        }
+      ],
+      "pass": 5,
+      "total": 5,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B1_country_switch",
+      "phase": "B_switch",
+      "note": "국가 전환 캐나다→호주, 취업 목적 유지",
+      "sid": "s_82f086edf531",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "캐나다",
+          "msg": "캐나다에서 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종은 어떤 게 있나요?",
+            "PGWP 신청 자격 요건은 어떻게 되나요?",
+            "취업 비자 신청 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환을 위한 대안 비자는 무엇이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific Work Permit)**: 캐나다 고용주로부터 Job Offer를 받고 LMIA(노동시장"
+        },
+        {
+          "turn": 2,
+          "desc": "호주로 전환",
+          "msg": "그럼 호주는 어때요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "호주 취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "캐나다 LMIA 승인 절차는 어떻게 진행되나요?",
+            "호주 482 비자로 영주권 전환 가능한가요?",
+            "워킹홀리데이 비자 연장 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자**는 체류 목적과 기간에 따라 다음 3가지 유형으로 구분됩니다:  \n\n1. **워킹홀리데이 비자 (417/462)**  \n   - 단기 체류(최대 1~2년) + 아르바이트 가능"
+        },
+        {
+          "turn": 3,
+          "desc": "호주 상세",
+          "msg": "호주 취업비자 신청 절차도 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "482_SID 비자 신청 시 필요한 서류는 무엇인가요?",
+            "워킹홀리데이 비자 신청 기간은 얼마나 걸리나요?",
+            "189 영주권 신청 시 영어 능력 기준은 어떻게 되나요?",
+            "기술 부족 직종 리스트는 어디서 확인할 수 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자**는 체류 목적과 기간에 따라 다음 3가지 유형으로 구분됩니다:  \n\n1. **워킹홀리데이 비자 (417/462)**  \n   - 단기 체류(최대 1~2년) + 아르바이트 가능"
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B2_purpose_switch",
+      "phase": "B_switch",
+      "note": "목적 전환 유학→취업, 일본 유지",
+      "sid": "s_c76abddc75ac",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "유학",
+          "msg": "일본 유학 비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "유학 비자 신청 시 필요한 서류는 무엇인가요?",
+            "재정 증명 금액 기준은 어떻게 되나요?",
+            "비자 신청부터 발급까지 소요 기간은?",
+            "일본어학교 입학 시 추가 조건이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**유학 비자 (留学, Study Visa)**  \n일본에서 정규 교육기관(대학, 전문학교, 일본어학교 등)에 재학하며 학업을 목적으로 체류할 때 필요한 비자입니다. 체류 기간은 일반적으로 6개월"
+        },
+        {
+          "turn": 2,
+          "desc": "취업으로 전환",
+          "msg": "졸업 후 일본에서 취업하려면요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 취득 절차는 어떻게 되나요?",
+            "취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "졸업 후 취업 비자 전환 기간은 얼마나 걸리나요?",
+            "일본 기업에서 요구하는 평균 연봉 기준은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (技術・人文知識・国際業務, Technical/International Services Visa)**  \n일본에서 대학 졸업 후 정규 취업할 때 가장 일반적인 비자입"
+        },
+        {
+          "turn": 3,
+          "desc": "취업 상세",
+          "msg": "취업비자 조건을 자세히 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "필요한 서류는 어떤 것이 있나요?",
+            "비자 신청 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환 가능성은 어떻게 되나요?",
+            "불합격 시 대체 비자가 있을까요?"
+          ],
+          "response_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (技術・人文知識・国際業務, Technical/International Services Visa)**  \n일본에서 정규 직장에 취업할 때 가장 일반적인 비자입니다. "
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B3_full_switch",
+      "phase": "B_switch",
+      "note": "국가+목적 동시 전환",
+      "sid": "s_d0d05953b92f",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "미국 여행",
+          "msg": "미국 여행 비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "ESTA 신청 절차는 어떻게 되나요?",
+            "B-2 비자 신청 시 추가 서류는 무엇인가요?",
+            "90일 초과 체류 시 어떤 비자를 신청해야 하나요?",
+            "ESTA 승인 후 유효기간은 얼마나 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**비자 면제 프로그램(VWP) + ESTA**  \n- 한국 국적자는 관광/비즈니스 목적 시 **비자 없이 최대 90일 체류** 가능합니다.  \n- 반드시 **ESTA(전자여행허가) 승인** 후 "
+        },
+        {
+          "turn": 2,
+          "desc": "독일 취업",
+          "msg": "독일에서 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 신청 시 필요한 서류는 무엇인가요?",
+            "독일어 B1 미만일 때 대체 가능한 조건은?",
+            "비자 신청부터 발급까지 소요 기간은 어떻게 되나요?",
+            "EU 블루카드에서 영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **전문직 취업 비자**  \n- 한국 국적자가 독일에서 취업할 경우, 학위 소지 여부에 따라 두 가지 비자 중 선택 가능합니다.  \n  - **EU 블루카드**: 학사 "
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B4_triple_switch",
+      "phase": "B_switch",
+      "note": "3개국 순환 전환",
+      "sid": "s_4135b852994b",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "캐나다",
+          "msg": "캐나다 취업비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 진행되나요?",
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "취업 비자 처리 기간은 보통 얼마나 걸리나요?",
+            "영주권 전환 가능한 취업 비자 유형은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-specific Work Permit)**: 특정 고용주로부터 Job Offer를 받아 LMIA(노동시장 "
+        },
+        {
+          "turn": 2,
+          "desc": "영국",
+          "msg": "영국은 어때요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영국 취업비자 신청 시 필요한 서류는 무엇인가요?",
+            "캐나다 LMIA 면제 가능한 직종이 있나요?",
+            "영국 Skilled Worker Visa의 최소 급여 기준은 어떻게 되나요?",
+            "캐나다 취업비자 처리 기간과 수수료는 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 취업 비자**  \n- **Skilled Worker Visa**: 가장 일반적인 취업 비자로, 영국 고용주로부터 스폰서십(Certificate of Sponsorship)을 받아 신청합니"
+        },
+        {
+          "turn": 3,
+          "desc": "호주",
+          "msg": "호주는요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "호주 취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "영국과 호주 비자 중 영주권 전환 가능성이 높은 쪽은?",
+            "호주 워킹홀리데이 비자 2차 신청 조건은 어떻게 되나요?",
+            "영국 Skilled Worker Visa 처리 기간과 비용은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자**  \n호주 취업을 위한 비자는 체류 기간과 목적에 따라 다양합니다. 주요 비자 유형은 다음과 같습니다:  \n\n1. **워킹홀리데이 비자 (subclass 417/462)** "
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B5_purpose_detail",
+      "phase": "B_switch",
+      "note": "목적 점진적 구체화",
+      "sid": "s_59ceeea9bd98",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "일반",
+          "msg": "독일 비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "90일 초과 체류 시 필요한 비자는 무엇인가요?",
+            "쉥겐 지역 내 다른 국가 방문 시 유의사항은?",
+            "재정 증명 서류로 어떤 것을 준비해야 하나요?",
+            "비자 면제 시 건강보험 가입이 필수인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 \"None 비자\"**는 일반적으로 **비자 면제(면제 입국)**를 의미합니다. 한국인은 독일을 포함한 **쉥겐 지역**에서 **90일 이내 단기 체류(관광/비즈니스)** 시 비자 없이 입"
+        },
+        {
+          "turn": 2,
+          "desc": "목적 명확화",
+          "msg": "취업 비자로요",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드와 일반 취업 비자 중 어떤 것이 더 유리할까요?",
+            "고용계약서는 어떤 서류가 추가로 필요할까요?",
+            "비자 신청 후 발급까지 보통 얼마나 걸리나요?",
+            "가족 동반 시 추가 비자가 필요한지 알려주세요"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자(Work Visa / National Visa for Employment)**  \n- 독일 현지 기업과 고용계약을 체결한 외국인에게 발급되는 장기 체류 비자(1년 이상).  \n"
+        },
+        {
+          "turn": 3,
+          "desc": "직업 심화",
+          "msg": "특히 IT 개발자 비자는요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 신청 시 필요한 서류는 무엇인가요?",
+            "경력 기반 비자 신청 시 최소 경력 기간은 어떻게 되나요?",
+            "독일 취업 비자 처리 기간은 보통 얼마나 걸리나요?",
+            "IT 개발자 비자로 영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 IT 개발자 취업 비자**  \n- **EU 블루카드(EU Blue Card)**: 학사 학위 이상 소지자 대상, 고소득 직종(IT 포함)에 적합  \n- **전문직 취업 비자(Work Vi"
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B6_to_long_stay",
+      "phase": "B_switch",
+      "note": "여행→장기거주 전환",
+      "sid": "s_94c292902433",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "여행",
+          "msg": "캐나다 여행 비자 정보 주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "슈퍼 비자 신청 시 추가 서류는 무엇인가요?",
+            "캐나다 방문 비자 신청 처리 기간은 얼마나 걸리나요?",
+            "재정 능력 증명을 위해 어떤 서류를 준비해야 하나요?",
+            "슈퍼 비자와 일반 방문 비자의 주요 차이점은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 방문 비자 (Visitor Visa / TRV)**  \n- 관광, 친지 방문, 단기 체류(최대 6개월) 목적의 단기 비자입니다.  \n- **슈퍼 비자**(최대 10년 유효, 1회 입국 "
+        },
+        {
+          "turn": 2,
+          "desc": "장기거주 전환",
+          "msg": "그냥 캐나다에 오래 살고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영주권을 위한 최소 CRS 점수는 어떻게 되나요?",
+            "PNP 신청 시 특정 주의 우대 직종은 무엇인가요?",
+            "슈퍼 비자와 영주권 전환 절차는 어떻게 다른가요?",
+            "캐나다 취업 비자 없이 영주권을 신청할 수 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 영주권 (Permanent Residence, PR)**  \n- 캐나다에서 장기 체류(5년 이상) 및 영주권 취득을 위한 비자입니다.  \n- 취업·유학·가족 초청 등 다양한 경로로 신청"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B7_wh_to_work",
+      "phase": "B_switch",
+      "note": "워홀→취업 전환",
+      "sid": "s_2002f1a50242",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "워홀",
+          "msg": "호주 워킹홀리데이 하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "비자 신청 시 필요한 서류는 무엇인가요?",
+            "비자 연장 조건은 어떻게 되나요?",
+            "신청부터 발급까지 소요 기간은?",
+            "호주 내에서 다른 비자로 전환 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 워킹홀리데이 비자 (Subclass 462 또는 417)**  \n- 18~30세(일부 국가 35세) 청년을 위한 장기 체류 비자로, 최대 1년 체류 가능하며 단기 취업·여행·4개월 이내 "
+        },
+        {
+          "turn": 2,
+          "desc": "취업 전환",
+          "msg": "그 후에 정식 취업비자로 전환하려면요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "482 비자 신청 시 필요한 서류는 무엇인가요?",
+            "ENS 영주권 전환 조건과 기간은 어떻게 되나요?",
+            "호주 고용주 스폰서 확보 방법이 궁금합니다",
+            "482_SID 직종과 일반 482 비자 차이점은?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자 (Temporary Skill Shortage visa, subclass 482)**  \n- 호주 고용주로부터 스폰서를 받아 최대 4년 체류하며 취업할 수 있는 비자입니다.  "
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B8_switch_detail",
+      "phase": "B_switch",
+      "note": "국가 전환 후 비교 질문",
+      "sid": "s_ebd7ddb84077",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "영국",
+          "msg": "영국 취업비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "스폰서십 신청 절차는 어떻게 되나요?",
+            "영어 능력 증명 방법은 무엇인가요?",
+            "비자 신청 처리 기간은 얼마나 걸리나요?",
+            "글로벌 탤런트 비자 신청 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 취업 비자**는 체류 목적과 조건에 따라 여러 유형이 있습니다. 주요 비자는 다음과 같습니다:  \n- **Skilled Worker Visa (숙련직 비자)**: 영국 기업의 스폰서십을 "
+        },
+        {
+          "turn": 2,
+          "desc": "미국",
+          "msg": "미국도 알려줘요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영국과 미국 취업비자 신청 절차는 어떻게 다른가요?",
+            "H-1B 비자 신청 시 필요한 서류는 무엇인가요?",
+            "L-1 비자 발급까지 평균 소요 기간은 얼마인가요?",
+            "EB-3 비자로 영주권 전환 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**미국 취업 비자**는 체류 목적과 자격에 따라 여러 유형이 있습니다. 주요 비자는 다음과 같습니다:  \n- **H-1B (전문직 비자)**: 학사 학위 이상 소지자, 전문직 종사자  \n- **"
+        },
+        {
+          "turn": 3,
+          "desc": "비교",
+          "msg": "어느 나라가 더 빨리 받을 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "미국 H-1B 추첨 확률은 얼마나 되나요?",
+            "영국 비자 스폰서십 확보 방법은?",
+            "미국 비자 신청 시 추가 서류는 무엇이 있나요?",
+            "영국 비자 거절 시 재신청 기간은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**미국 H-1B vs 영국 Skilled Worker Visa**  \n- **미국 H-1B**: 전문직 취업 비자 (연간 추첨제, 처리 기간 6개월~1년)  \n- **영국 Skilled Work"
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B9_family_extend",
+      "phase": "B_switch",
+      "note": "가족 동반 목적 확장",
+      "sid": "s_53802abd33fd",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "개인",
+          "msg": "미국 취업비자 정보 주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 비자 신청 시 필요한 서류는 무엇인가요?",
+            "EB-3 비자 처리 기간은 평균적으로 얼마나 걸리나요?",
+            "O-1 비자 심사 시 특별히 고려해야 할 주의사항이 있나요?",
+            "비이민 비자에서 영주권 전환 가능한 옵션은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n미국 취업 비자는 크게 **이민 비자(영주권)**와 **비이민 비자(임시 취업)**로 구분됩니다. 체류 목적과 기간에 따라 다음 비자 유형을 추천합니다:  \n- **이민 비자**: EB-1(특출 "
+        },
+        {
+          "turn": 2,
+          "desc": "가족 추가",
+          "msg": "배우자도 같이 갈 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "배우자 취업도 가능한 비자 유형은?",
+            "EB-5 투자 금액 요건은 얼마인가요?",
+            "H-1B 신청 절차와 기간은 어떻게 되나요?",
+            "비자 신청 시 필요한 서류는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n미국 취업 비자는 **이민 비자(영주권)**와 **비이민 비자(임시 취업)**로 구분됩니다. 배우자 동반 가능 여부는 비자 유형에 따라 다릅니다.  \n\n### 1. **이민 비자 (영주권)**  "
+        },
+        {
+          "turn": 3,
+          "desc": "자녀",
+          "msg": "아이 비자도 같이 신청 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "배우자 동반 시 필요한 서류는 무엇인가요?",
+            "EB-3 비자 신청 기간은 얼마나 걸리나요?",
+            "투자 금액 외 EB-5 비자 추가 비용은 있나요?",
+            "영주권 취득 후 자녀 연령 제한이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n미국 취업 비자는 **이민 비자(영주권)**와 **비이민 비자(임시 취업)**로 구분됩니다. 자녀 동반 가능 여부는 비자 유형에 따라 다릅니다.  \n\n### 1. **이민 비자 (영주권)**  \n"
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B10_short_to_long",
+      "phase": "B_switch",
+      "note": "단기→체류연장 전환",
+      "sid": "s_f8aa6df49638",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "단기",
+          "msg": "일본 단기 여행 비자 알려줘요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "90일 초과 체류 시 필요한 비자 종류는?",
+            "왕복 항공권 없을 때 대체 서류는?",
+            "체류 기간 연장 신청 절차는 어떻게 되나요?",
+            "무비자 입국 시 범죄 기록 확인 기준은?"
+          ],
+          "response_preview": "## 추천 비자  \n**단기 체류(관광) 비자**  \n일본을 90일 이내 관광·친방 목적으로 방문하는 경우, 한국인은 **무비자 입국**이 가능합니다. 단, 체류 기간 연장이나 취업 활동은 불가능합니다.  \n\n> ✅"
+        },
+        {
+          "turn": 2,
+          "desc": "체류연장",
+          "msg": "3개월 더 머물고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "워킹 홀리데이 비자 신청 절차는 어떻게 되나요?",
+            "재류자격 변경 시 필요한 서류는 무엇인가요?",
+            "재입국 허가 신청 방법과 소요 기간은?",
+            "30세 이상 장기 체류 가능한 다른 비자는 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**워킹 홀리데이 비자** 또는 **재류자격 변경(취업/유학 등)**  \n3개월 이상 장기 체류를 원할 경우, 현재 체류 목적(관광)에 따라 다음 옵션을 고려해야 합니다:  \n\n1. **워킹 홀리"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B11_travel_to_study",
+      "phase": "B_switch",
+      "note": "여행→유학 전환",
+      "sid": "s_88b266c411f7",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "여행",
+          "msg": "영국 여행 가려고 해요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "6개월 초과 시 비자 신청 절차는 어떻게 되나요?",
+            "재정 능력 증명 서류는 어떤 것이 필요한가요?",
+            "의료 보험 가입이 필수인가요?",
+            "반복 방문 시 주의사항이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**표준 방문자 비자(Standard Visitor Visa)**  \n- 영국 관광·방문 목적(6개월 이내)에 적합한 비자입니다.  \n- 한국인은 **비자 면제**로 최대 6개월 체류 가능하지만,"
+        },
+        {
+          "turn": 2,
+          "desc": "유학 전환",
+          "msg": "영국에서 영어 어학연수 하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "학생 비자 신청 시 필요한 서류는 무엇인가요?",
+            "CAS 발급 절차는 어떻게 진행되나요?",
+            "영어 어학연수가 6개월 이상일 때 비용 차이는?",
+            "학생 비자로 취업 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa)**  \n- 영국에서 **영어 어학연수**를 포함한 정규 교육 과정(학위·단기 코스 등)을 이수하려는 경우 필요한 비자입니다.  \n- 단기 어학연수(6개월 미"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B12_country_change_job_keep",
+      "phase": "B_switch",
+      "note": "직업 유지 + 국가 전환",
+      "sid": "s_e2011055d354",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "독일 의사",
+          "msg": "독일에서 의사로 일하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "의사 면허 인정 절차는 어떻게 진행되나요?",
+            "독일어 B1 증명 서류로 어떤 것이 필요한가요?",
+            "고용계약 없이 블루카드 신청 가능한가요?",
+            "의사 비자 신청 시 평균 처리 기간은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드** 또는 **고숙련직 취업 비자(Section 18a/b AufenthG)**  \n- 독일에서 의사로 근무하려면 **EU 블루카드** 또는 **고숙련직 취업 비자**가 필요합니다"
+        },
+        {
+          "turn": 2,
+          "desc": "영국 의사",
+          "msg": "그럼 영국에서는요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영국 의사 비자 신청 시 필요한 CoS 발급 절차는 어떻게 되나요?",
+            "EU 블루카드와 고숙련직 비자 요건 중 독일 의사에게 유리한 점은?",
+            "의료 종사자 비자 수수료 할인 적용 조건은 무엇인가요?",
+            "영국 비자 신청 후 처리 기간과 심사 상태는 어떻게 확인하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa** (숙련직 취업 비자)  \n- 영국에서 전문직으로 장기 취업 시 가장 일반적인 비자입니다. 의사·간호사·엔지니어·기술자 등 다양한 직종에 적용됩니다.  \n"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B13_visa_type_change",
+      "phase": "B_switch",
+      "note": "관광→취업 신분변경",
+      "sid": "s_26404652b65c",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "관광",
+          "msg": "캐나다 관광비자로 입국하려고요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "관광비자 신청 시 필요한 서류는 무엇인가요?",
+            "슈퍼 비자 신청 자격 요건이 어떻게 다른가요?",
+            "비자 신청 처리 기간은 보통 얼마나 걸리나요?",
+            "체류 기간 연장이 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 관광 비자 (Visitor Visa, TRV)**  \n- 캐나다를 관광, 친족 방문, 단기 사업 목적으로 최대 6개월까지 체류할 수 있는 비자입니다.  \n- **슈퍼 비자** (최대 1"
+        },
+        {
+          "turn": 2,
+          "desc": "신분변경",
+          "msg": "입국 후 취업 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "캐나다 관광비자 체류기간 연장 방법은?",
+            "슈퍼 비자 신청 시 필수 서류는 무엇인가요?",
+            "관광비자 중 취업 가능한 예외 상황은 있나요?",
+            "캐나다 취업비자 신청 소요 기간은 얼마나 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자 (Work Permit)**  \n- 캐나다에서 합법적으로 일할 수 있는 임시 비자입니다.  \n- **고용주 지정형(Employer-specific)**과 **개방형(Open)"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B14_compare",
+      "phase": "B_switch",
+      "note": "유학 국가 비교",
+      "sid": "s_20de1a893500",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "캐나다",
+          "msg": "캐나다 유학 비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명은 어떤 방식으로 준비해야 하나요?",
+            "DLI 등록 교육기관은 어떻게 확인하나요?",
+            "Post-Graduation Work Permit 신청 조건은 무엇인가요?",
+            "학업 종료 후 귀국 의사 증명 서류가 필요한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 유학 비자(Study Permit)**  \n- 캐나다에서 6개월 이상 학업 시 필수이며, 단기(6개월 미만) 방문 시 관광 비자로도 가능합니다.  \n- 학업 후 **취업→영주권**으로 "
+        },
+        {
+          "turn": 2,
+          "desc": "호주",
+          "msg": "호주 유학 비자는요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "호주 학생 비자 신청 절차는 어떻게 되나요?",
+            "OSHC 보험 가입 방법은 무엇인가요?",
+            "졸업생 비자 신청 조건은 어떻게 되나요?",
+            "영어 점수 미달 시 대체 방법은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자(Student Visa, Subclass 500)**  \n- 호주에서 6개월 이상 학업 시 필수 비자입니다.  \n- 학업 후 **취업→영주권** 경로(예: 졸업생 비자→스킬드 "
+        },
+        {
+          "turn": 3,
+          "desc": "비교",
+          "msg": "어느 나라가 학생 비자 받기 쉬운가요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "호주 학생 비자 신청 시 필요한 서류는 무엇인가요?",
+            "독일 학생 비자 재정 증명 기준은 어떻게 되나요?",
+            "캐나다 졸업 후 취업 비자 신청 조건은 무엇인가요?",
+            "영국 학생 비자 신청 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자(Student Visa) - 국가별 비교**  \n- **캐나다(Study Permit)** & **호주(Subclass 500)** & **영국(Student Visa)** & **"
+        }
+      ],
+      "pass": 3,
+      "total": 3,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "B15_long_to_pr",
+      "phase": "B_switch",
+      "note": "장기거주→영주권 전환",
+      "sid": "s_b8d7b23217e2",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "장기거주",
+          "msg": "호주에서 2년 살고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "워킹홀리데이 비자 연장 조건은 무엇인가요?",
+            "취업 이민 비자 신청 시 필요한 서류는?",
+            "학생 비자 후 졸업생 비자 전환 절차는?",
+            "영주권 비자 신청 자격 요건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 장기 체류(2년) 목적**에 따라 다음 비자 옵션을 고려할 수 있습니다:  \n1. **워킹홀리데이 비자 (417/462)**: 단기 체류 후 장기 전환 가능성 탐색  \n2. **취업 이민"
+        },
+        {
+          "turn": 2,
+          "desc": "영주권",
+          "msg": "그 후 영주권을 받을 수 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "워킹홀리데이 비자 연장 조건은 어떻게 되나요?",
+            "Skills in Demand 비자 스폰서십 절차는 어떻게 진행되나요?",
+            "Temporary Graduate 비자 신청 자격은 무엇인가요?",
+            "영주권 전환 시 필요한 기술 평가 절차는 어떻게 되나요?"
+          ],
+          "response_preview": "## 호주 장기 체류 및 영주권 경로 안내  \n\n### 1. **추천 비자**  \n- **워킹홀리데이 비자 (417/462)**  \n  - 1년 체류 가능 (특정 조건 충족 시 1~2년 연장 가능)  \n  - 단기 "
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C1_negation_keep_country",
+      "phase": "C_conflict",
+      "note": "부정 신호 후 국가 보존, 목적 교체",
+      "sid": "s_d7c7872434cb",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "관광",
+          "msg": "일본에서 관광비자로 가려고요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "무비자 입국 시 필요한 자금 증명 기준은 어떻게 되나요?",
+            "단기 체류 비자 신청 시 제출해야 할 구체적 서류는 무엇인가요?",
+            "90일 초과 체류 시 비자 신청 절차는 어떻게 진행되나요?",
+            "일본 무비자 입국 시 원격근무가 불가능한 이유는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**단기 체류(관광) 비자** 또는 **무비자 입국**  \n- 한국인은 일본 관광 시 **90일 무비자 체류**가 가능합니다(단, 체류 목적·기간 준수 필수).  \n- 90일 초과 시 단기 체류("
+        },
+        {
+          "turn": 2,
+          "desc": "수정 — 국가 유지",
+          "msg": "아니, 사실은 일본에서 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "디지털 노마드 비자 신청 조건은 어떻게 되나요?",
+            "특정기술 비자 14개 업종 중 한국인에게 적합한 직종은?",
+            "일본 취업 비자 심사 기간은 보통 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**취업 비자 (재류자격 인정증명서 기반)**  \n- 일본에서의 정규 취업을 위한 비자로, 직종·경력에 따라 **기술·인문지식·국제업무** 또는 **특정기술(Specified Skilled)** "
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C2_conflict_pattern",
+      "phase": "C_conflict",
+      "note": "X가 아니라 Y 충돌 패턴",
+      "sid": "s_d5576541cc67",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "충돌 패턴",
+          "msg": "캐나다에서 관광이 아니라 취업으로 가고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 진행되나요?",
+            "PGWP 신청 시 필요한 서류는 무엇인가요?",
+            "영주권 전환 시 Express Entry 최소 점수는?",
+            "취업 비자 신청 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-specific Work Permit)**: 특정 고용주로부터 Job Offer를 받아 LMIA(노동시장 "
+        }
+      ],
+      "pass": 1,
+      "total": 1,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C3_sashiwa_correction",
+      "phase": "C_conflict",
+      "note": "사실은 수정 패턴 — 국가 유지",
+      "sid": "s_99f63c85eebb",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "유학",
+          "msg": "독일에서 유학하려고 해요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "어학 조건 미달 시 대체 가능한 서류는 무엇인가요?",
+            "재정 증명 시 은행 잔고 외 다른 방법은 있나요?",
+            "졸업 후 취업 비자 전환 절차는 어떻게 되나요?",
+            "비자 신청부터 발급까지 평균 소요 기간은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 유학 비자 (Student Visa Type D)**  \n독일에서 정규 대학(학사·석사·박사) 또는 주립 예술대학(Staatliche Kunsthochschule)에서 공부하기 위한 장기"
+        },
+        {
+          "turn": 2,
+          "desc": "수정",
+          "msg": "사실은 독일에서 일하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "독일 취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "EU 블루카드 소득 요건 미달 시 대안은 있나요?",
+            "비자 신청 처리 기간과 심사 절차는 어떻게 되나요?",
+            "독일 취업 비자 소지자가 영주권 전환 조건은?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Work Visa) 또는 EU 블루카드**  \n독일에서 장기 취업을 목표로 할 경우, 다음 두 가지 비자 중 하나를 신청할 수 있습니다.  \n- **일반 취업 비자**: 전문"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C4_profession_correction",
+      "phase": "C_conflict",
+      "note": "직업 수정 — 국가·목적 유지",
+      "sid": "s_8c721b994ce3",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "요리사",
+          "msg": "캐나다에서 요리사로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 진행되나요?",
+            "IEC 워킹홀리데이 자격 요건은 무엇인가요?",
+            "영주권 전환 시 Express Entry 점수 계산 방법은?",
+            "PGWP 신청 시 필요한 서류는 어떤 것이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자 (Work Permit)**  \n요리사로 캐나다에서 취업하려면 **고용주 지정형 취업 비자(Employer-specific Work Permit)**가 필요합니다. 고용주가 "
+        },
+        {
+          "turn": 2,
+          "desc": "직업 수정",
+          "msg": "아니 요리사 말고 IT 개발자로요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 되나요?",
+            "PGWP 신청 자격 조건은 무엇인가요?",
+            "IEC 참가 가능 연령 제한이 있나요?",
+            "의료 검진 필수 국가 목록이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자 (Work Permit)**  \nIT 개발자로 캐나다에서 취업하려면 **고용주 지정형 취업 비자(Employer-specific Work Permit)** 또는 **개방형 취"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C5_reconsider",
+      "phase": "C_conflict",
+      "note": "재고 패턴 — 국가 유지",
+      "sid": "s_49d2b0afe402",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "워홀",
+          "msg": "영국에서 워킹홀리데이 하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "T5GA 비자 신청 자격은 어떻게 되나요?",
+            "Skilled Worker 비자 고용주 스폰서 조건은?",
+            "YMS 종료 후 다른 국가 워킹홀리데이 가능 여부",
+            "영국 체류 중 비자 전환 가능 여부"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 워킹홀리데이 비자(Youth Mobility Scheme, YMS)**  \n- 18~30세 한국인 청년을 대상으로 최대 2년간 영국에서 합법적 취업·체류가 가능한 비자입니다.  \n- 단,"
+        },
+        {
+          "turn": 2,
+          "desc": "재고",
+          "msg": "다시 생각해보니 영국에서 유학이 더 나을 것 같아요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "학생 비자 신청 시 필요한 서류는 무엇인가요?",
+            "CAS 발급 절차는 어떻게 진행되나요?",
+            "영국 학생 비자 처리 기간은 보통 얼마나 걸리나요?",
+            "학위 과정 외 단기 어학연수도 학생 비자가 필수인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**영국 학생 비자(Student Visa)**  \n- 16세 이상 한국인이 영국에서 **학위 과정(학사·석사·박사) 또는 공인 교육 과정**을 수료할 때 신청하는 비자입니다.  \n- 단기 어학연"
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C6_travel_not_work",
+      "phase": "C_conflict",
+      "note": "여행이 아니라 취업 — 취업 추출",
+      "sid": "s_894e1506aa93",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "충돌",
+          "msg": "미국에서 여행이 아니라 취업 비자가 필요해요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 신청 시 필요한 서류는 무엇인가요?",
+            "EB-3 비자의 처리 기간은 얼마나 걸리나요?",
+            "L-1 비자로 영주권 전환 가능한가요?",
+            "O-1 비자 신청 시 특출난 능력 증명 방법은?"
+          ],
+          "response_preview": "## 추천 비자  \n**미국 취업 비자**는 크게 **이민 비자(영주권)**와 **비이민 비자(단기 취업)**로 구분됩니다.  \n- **영주권(EB-1, EB-2, EB-3 등)**: 장기 체류를 목표로 하는 경우 "
+        }
+      ],
+      "pass": 1,
+      "total": 1,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C7_correction_in_deep",
+      "phase": "C_conflict",
+      "note": "3턴 후 수정 패턴",
+      "sid": "s_9b0b35862d3d",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "유학",
+          "msg": "호주에서 유학하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoE 발급 절차는 어떻게 되나요?",
+            "영어 점수 없이 조건부로 입학 가능한가요?",
+            "OSHC 보험 가입 방법은 무엇인가요?",
+            "졸업 후 485 비자 신청 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자 (subclass 500)**  \n호주에서 정규 교육 과정(대학·어학원·직업훈련 등)을 이수하기 위한 비자입니다. 학업 기간 동안 합법적 체류·취업(주 40시간 제한)이 가능하며, "
+        },
+        {
+          "turn": 2,
+          "desc": "비용",
+          "msg": "비자 신청 비용이 얼마예요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "학생 비자 신청 절차 단계는 어떻게 되나요?",
+            "영어 능력 증명 대체 가능한 시험은 무엇인가요?",
+            "졸업 후 485 비자 신청 조건은 어떻게 되나요?",
+            "OSHC 보험 가입 시 필수 확인 사항은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**학생 비자 (subclass 500)**  \n호주에서 정규 교육 과정(대학·어학원·직업훈련 등)을 이수하기 위한 비자입니다. 학업 기간 동안 합법적 체류·취업(주 40시간 제한)이 가능하며, "
+        },
+        {
+          "turn": 3,
+          "desc": "수정",
+          "msg": "아, 죄송한데 사실 취업 비자를 원해요",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "MLTSSL 직업 목록 확인 방법은?",
+            "482 비자 신청 시 필요한 서류는?",
+            "ENS 영주권 전환 절차는 어떻게 되나요?",
+            "호주 고용주 제안서 작성 시 주의사항은?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 기술 취업 비자 (Temporary Skill Shortage Visa, subclass 482)**  \n호주 내 기술 인력 부족 분야에서 일할 수 있는 임시 취업 비자로, 최대 4년까지"
+        },
+        {
+          "turn": 4,
+          "desc": "수정 후 계속",
+          "msg": "호주 취업 비자 조건을 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "스폰서십 승인 절차는 어떻게 되나요?",
+            "기술 평가 기관별 요구 서류는 무엇인가요?",
+            "비자 신청 처리 기간은 보통 얼마나 걸리나요?",
+            "영주권 전환 가능한 비자 옵션이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 취업 비자 (Temporary Skill Shortage Visa, subclass 482)**  \n호주 내 기술 인력 부족 분야에서 일할 수 있는 임시 취업 비자로, 최대 4년까지 체류"
+        }
+      ],
+      "pass": 4,
+      "total": 4,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C8_country_correction",
+      "phase": "C_conflict",
+      "note": "국가 수정 패턴",
+      "sid": "s_37ec183e6a07",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "일본",
+          "msg": "일본 유학 비자 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "일본어학교 진학 시 필요한 JLPT 등급은 어떻게 되나요?",
+            "유학 비자 신청 시 필요한 서류는 무엇인가요?",
+            "비자 심사 기간은 보통 얼마나 걸리나요?",
+            "재정 증명 시 가족 계좌 증명서도 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**일본 유학 비자 (재류자격: 留学)**  \n- 일본 대학, 전문학교, 일본어학교 등에 정규 입학 또는 청강생으로 등록 시 필요한 비자입니다.  \n- 최대 2년 또는 1년 11개월 체류 가능하며"
+        },
+        {
+          "turn": 2,
+          "desc": "국가 수정",
+          "msg": "아, 저 일본이 아니라 한국에서 공부하려던 거예요... 아니 호주요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "호주 학생 비자 신청 절차는 어떻게 되나요?",
+            "CoE 발급을 위한 구체적인 서류는 무엇인가요?",
+            "영어 점수 없이 호주 학생 비자 가능한가요?",
+            "OSHC 보험 가입 방법과 비용은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n- 호주에서 정규 교육 과정(대학·대학원·어학연수·직업훈련 등)을 이수하기 위한 비자입니다.  \n- 최대 5년 체류 가능하며, 주당 48시간("
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C9_immigration_not",
+      "phase": "C_conflict",
+      "note": "이민이 아니라 단기 패턴",
+      "sid": "s_e9de9e5c2241",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "단기체류",
+          "msg": "독일에서 이민이 아니라 단기 체류를 원해요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "단기 체류 비자 신청 시 필요한 서류는 구체적으로 어떤 것이 있나요?",
+            "쉥겐 비자 신청 후 발급까지 보통 얼마나 걸리나요?",
+            "독일에서 90일 이상 체류하려면 어떤 비자로 전환해야 하나요?",
+            "재정 증명 금액 기준은 최소 얼마 정도로 준비해야 하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 단기 체류 비자 (Schengen Visa / Type C)**  \n- **목적**: 관광·방문·비즈니스 등 **90일 이내 단기 체류**  \n- **체류 기간**: 쉥겐 지역 내 **1"
+        }
+      ],
+      "pass": 1,
+      "total": 1,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "C10_full_correction",
+      "phase": "C_conflict",
+      "note": "국가+목적 동시 수정",
+      "sid": "s_2ad9ef6287fd",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "미국 취업",
+          "msg": "미국에서 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 비자 신청 시 필요한 서류는 무엇인가요?",
+            "EB-3 비자의 평균 처리 기간은 어떻게 되나요?",
+            "L-1 비자 신청 시 기업 내 전근 요건을 구체적으로 설명해 주세요",
+            "O-1 비자 심사에서 '특출난 능력' 증명 방법은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**미국 취업 비자**는 크게 **단기 취업 비자(H-1B, L-1, O-1 등)**와 **영주권 직접 연결 비자(EB-1, EB-2, EB-3 등)**로 구분됩니다.  \n- **단기 취업 비자*"
+        },
+        {
+          "turn": 2,
+          "desc": "전체 수정",
+          "msg": "아니 사실 캐나다에서 유학하려고요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "PGWP 신청 조건은 어떻게 되나요?",
+            "DLI 기관 선택 시 주의할 점은?",
+            "유학 비자 신청 처리 기간은 보통 얼마나 걸리나요?",
+            "영주권 연계 시 필요한 추가 서류는 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 유학 비자(Study Permit)**  \n- 캐나다 지정 교육기관(DLI)에서 공부하기 위한 필수 허가증  \n- 학업 기간 동안 주당 **24시간**까지 캠퍼스 외 취업 가능 (방학 "
+        }
+      ],
+      "pass": 2,
+      "total": 2,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D1_auto_extend_ca",
+      "phase": "D_auto",
+      "note": "캐나다 취업 10턴 — 후속질문 자동연장",
+      "sid": "s_1cd3276ee421",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "캐나다에서 데이터 사이언티스트로 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 승인 절차는 어떻게 되나요?",
+            "PGWP 신청 자격 요건이 궁금해요",
+            "Express Entry 최소 점수 기준은?",
+            "고용주 지정형 비자 소요 기간은?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자 (Work Permit)**  \n데이터 사이언티스트로 캐나다에서 취업하려면 **고용주 지정형(Employer-specific) Work Permit** 또는 **개방형(Ope"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "LMIA 승인 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 가능한 직종이 있나요?",
+            "워크퍼밋 신청 시 필요한 서류는 무엇인가요?",
+            "고용주 지정형 비자 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환 가능한 취업 비자 프로그램이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**고용주 지정형 취업 비자 (Employer-specific Work Permit)**  \n캐나다 데이터 사이언티스트로 취업 시 일반적으로 필요한 비자입니다. 고용주가 **LMIA(Labour "
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "LMIA 면제 가능한 직종이 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종 확인 방법은?",
+            "LMIA 신청 소요 기간은?",
+            "LMIA 면제 시 추가 서류는?",
+            "PGWP로 취업 시 주의사항은?"
+          ],
+          "response_preview": "## 추천 비자  \n**고용주 지정형 취업 비자 (Employer-specific Work Permit)**  \n캐나다 데이터 사이언티스트로 취업 시 일반적으로 필요한 비자입니다. 고용주가 **LMIA(Labour "
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "LMIA 면제 직종 확인 방법은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "데이터 사이언티스트 LMIA 면제 구체적 조건은?",
+            "LMIA 면제 신청 시 필요한 서류는 무엇인가요?",
+            "주정부 이민(PNP) 신청 절차는 어떻게 되나요?",
+            "개방형 취업 비자(Open Work Permit) 전환 가능 여부?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 LMIA 면제 취업 비자 (LMIA-Exempt Work Permit)**  \n특정 직종은 고용주로부터 **LMIA 승인 없이도** 취업 비자 신청이 가능합니다. 데이터 사이언티스트도 "
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "데이터 사이언티스트 LMIA 면제 구체적 조건은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "한국 FTA로 LMIA 면제 시 필요한 서류는?",
+            "IEC와 PGWP 중 데이터 사이언티스트에 적합한 비자는?",
+            "LMIA 면제 직종의 평균 처리 기간은 어떻게 되나요?",
+            "TN 비자 신청 시 미국/멕시코 외 다른 국가도 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 LMIA 면제 취업 비자 (LMIA-Exempt Work Permit)**  \n데이터 사이언티스트가 LMIA 없이 취업할 수 있는 비자로, **국제협약·특별 프로그램·고용주 조건**에 "
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "한국 FTA로 LMIA 면제 시 필요한 서류는?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "칠레 외 다른 FTA 국가도 E-7 신청 가능한가요?",
+            "E-7 비자 신청 시 평균 임금 기준은 어떻게 확인하나요?",
+            "학력이 부족할 경우 경력으로만 요건 충족 가능한가요?",
+            "E-7 비자로 한국 체류 중 영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**한국-칠레 FTA 기반 LMIA 면제 취업 비자 (E-7)**  \n칠레 국적의 데이터 사이언티스트가 한국 취업 시 **LMIA(노동허가) 없이** 신청 가능한 비자입니다.  \n\n---\n\n## "
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "칠레 외 다른 FTA 국가도 E-7 신청 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "FTA 전문직 직종 리스트는 어디서 확인하나요?",
+            "학력과 경력 요건은 구체적으로 어떻게 되나요?",
+            "고용계약서 외 추가 서류가 필요한가요?",
+            "비자 신청 처리 기간은 보통 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**E-7 특정 활동(취업) 비자**  \n한국이 체결한 FTA(자유무역협정) 체결국 국적자가 LMIA(노동허가) 없이 신청할 수 있는 비자입니다. 칠레 외에도 **미국·EU·호주·뉴질랜드·캐나다·"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "FTA 전문직 직종 리스트는 어디서 확인하나요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "FTA 전문직 직종 리스트 확인 방법은?",
+            "E-7 비자 신청 시 LMIA 면제 조건은?",
+            "4년제 학사 없을 때 경력 요건 충족 방법?",
+            "월급 2,500만 원 미만 시 대체 요건 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**E-7 특정 활동(취업) 비자**  \n한국이 체결한 FTA(자유무역협정) 체결국 국적자가 LMIA(노동허가) 없이 신청할 수 있는 전문직 취업 비자입니다.  \n\n---\n\n## 주요 자격 요건 "
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "FTA 전문직 직종 리스트 확인 방법은?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "FTA 전문직 직종 확인서 발급 절차는 어떻게 되나요?",
+            "E-7 비자 신청 시 소요 기간과 비용은 얼마인가요?",
+            "학력 요건에서 관련 경력 인정 기준은 무엇인가요?",
+            "LMIA 면제 시 고용계약서의 필수 기재 사항은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**E-7 특정 활동(취업) 비자**  \n한국이 체결한 FTA(자유무역협정) 체결국 국적자가 LMIA(노동허가) 없이 신청 가능한 전문직 취업 비자입니다.  \n\n---\n\n## 주요 자격 요건  \n"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "FTA 전문직 직종 확인서 발급 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "FTA 전문직 확인서 발급 소요 기간은 어떻게 되나요?",
+            "E-7 비자 신청 시 최소 임금 기준은 얼마인가요?",
+            "FTA 체결국 외 국적자는 어떤 비자를 고려해야 하나요?",
+            "FTA 확인서 발급 시 한국산업인력공단에 직접 방문해야 하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**E-7 특정 활동(취업) 비자**  \n한국이 체결한 FTA(자유무역협정) 체결국 국적자가 LMIA(노동허가) 없이 신청 가능한 전문직 취업 비자입니다.  \n\n---\n\n## 주요 자격 요건  \n"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D2_auto_extend_au_study",
+      "phase": "D_auto",
+      "note": "호주 유학 10턴 — 후속질문 자동연장",
+      "sid": "s_d187e5c810fe",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "호주 대학교 입학해서 유학하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "호주 학생 비자 신청 절차는 어떻게 되나요?",
+            "졸업 후 Subclass 485 비자 전환 조건은 무엇인가요?",
+            "영어 점수 없이 호주 학생 비자 발급 가능한가요?",
+            "OSHC 보험 가입 방법과 비용은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 대학/대학원에서 학업할 때 필요한 비자로, 최대 5년 체류 가능하며 주당 48시간(학기 중) 아르바이트 허용됩니다. 졸업 후 **T"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "호주 학생 비자 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 절차는 어떻게 되나요?",
+            "영어 시험 중 PTE는 몇 점 필요하나요?",
+            "재정 증명 시 가족 보증도 가능한가요?",
+            "485 비자 전환 시 추가 서류가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 대학/대학원에서 학업할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다. 졸업 후 **Te"
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "COE 발급 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 소요 기간과 비용은 어떻게 되나요?",
+            "영어 점수 없이 학생 비자 신청 가능한가요?",
+            "졸업 후 485 비자 신청 조건은 무엇인가요?",
+            "OSHC 보험 가입 시 주의할 점은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 대학/대학원에서 학업할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다. 졸업 후 **Te"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "COE 발급 소요 기간과 비용은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 시 필요한 서류는 무엇인가요?",
+            "학생 비자 신청 절차는 어떻게 진행되나요?",
+            "485 비자 전환 요건은 어떻게 되나요?",
+            "COE 발급 과정에서 주의사항이 있을까요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 대학/대학원에서 학업할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다. 졸업 후 **Te"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "COE 발급 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 후 비자 신청 절차는 어떻게 되나요?",
+            "Post-Study Work Visa 전환 조건은 무엇인가요?",
+            "영어 점수 없이 학생 비자 신청 가능한가요?",
+            "OSHC 보험 가입 시 주의사항이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 교육기관(대학/대학원/어학연수)에서 공부할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "COE 발급 후 비자 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 후 비자 신청 소요 기간은 어떻게 되나요?",
+            "Post-Study Work Visa 전환 요건은 무엇인가요?",
+            "호주 학생 비자 신청 시 추가 서류가 필요한가요?",
+            "학업 중 아르바이트 시간 제한 예외 사항은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 교육기관(대학/대학원/어학연수)에서 공부할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "COE 발급 후 비자 신청 소요 기간은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "비자 신청 시 재정 증명 기준은 어떻게 되나요?",
+            "영어 능력 증명에 인정되는 시험은 어떤 게 있나요?",
+            "비자 심사 기간은 보통 얼마나 걸리나요?",
+            "OSHC 보험 가입 시 주의사항이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 교육기관(대학/대학원/어학연수)에서 공부할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "비자 신청 시 재정 증명 기준은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 후 비자 심사 기간은 얼마나 걸리나요?",
+            "재정 증명 시 은행 잔고 증명 외 다른 서류가 필요한가요?",
+            "졸업생 비자(485) 신청 자격 요건은 어떻게 되나요?",
+            "영어 요건 면제 가능한 특별 경우가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 교육기관(대학/대학원/어학연수)에서 공부할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "COE 발급 후 비자 심사 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "재정 증명 시 은행 잔고 증명 외 다른 방법은?",
+            "OSHC 보험 가입 시 추천 보험사는?",
+            "비자 신청 후 추가 서류 요청 시 처리 기간은?",
+            "학생 비자 거절 시 재신청 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 교육기관(대학/대학원/어학연수)에서 공부할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "재정 증명 시 은행 잔고 증명 외 다른 방법은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 발급 후 비자 심사 기간 단축 방법 있나요?",
+            "재정 증명에 예금 외 주식/부동산 증명 가능?",
+            "OSHC 보험 가입 시 특정 보험사 제한 있나요?",
+            "학생 비자 신청 시 추가 서류 요구 사례 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**호주 학생 비자 (Subclass 500)**  \n호주 정규 교육기관(대학/대학원/어학연수)에서 공부할 때 필요한 비자로, 최대 5년 체류 가능하며 학기 중 주당 48시간 아르바이트 허용됩니다"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D3_auto_extend_us",
+      "phase": "D_auto",
+      "note": "미국 금융 취업 10턴",
+      "sid": "s_63ff6d638184",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "미국에서 금융 분야 취업을 원해요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 신청 시 필요한 서류는 무엇인가요?",
+            "EB-2와 EB-3의 구체적인 요건 차이는?",
+            "L-1 비자 신청 전 근무 기간 조건은?",
+            "O-1 비자 심사 시 제출 서류 예시"
+          ],
+          "response_preview": "## 추천 비자  \n**미국 금융 분야 취업**을 위한 주요 비자는 다음과 같습니다:  \n- **H-1B (전문직 취업 비자)**: 금융, IT, 공학 등 전문 분야 종사자에게 발급. 학사 이상의 학위와 직무 관련 "
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "H-1B 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 신청 시 LCA 승인 기간은 얼마나 걸리나요?",
+            "H-1B 대신 가능한 다른 취업 비자는 무엇인가요?",
+            "신청 시 추가 비용이 발생하는 항목이 있나요?",
+            "영주권 전환 시 H-1B 비자가 유리한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 금융, IT, 공학 등 전문 분야에서 근무할 수 있는 비자  \n- 학사 이상의 학위와 직무 관련 경력이 필수  \n\n## 주"
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "H-1B 신청 시 LCA 승인 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LCA 승인 후 I-129 처리 기간은 얼마나 걸리나요?",
+            "H-1B 신청 시 필요한 추가 서류는 무엇인가요?",
+            "H-1B 거절 시 대체 비자로 어떤 옵션이 있나요?",
+            "H-1B 신청 비용에는 어떤 항목들이 포함되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 금융, IT, 공학 등 전문 분야에서 근무할 수 있는 비자  \n- 학사 이상의 학위와 직무 관련 경력이 필수  \n\n## 주"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "LCA 승인 후 I-129 처리 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LCA 승인 거절 시 재신청 가능 여부는?",
+            "I-129 심사 지연 시 대처 방법은?",
+            "H-1B 신청 시 필요한 추가 서류는?",
+            "고용주 변경 시 비자 갱신 절차는?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 금융, IT, 공학 등 전문 분야에서 근무할 수 있는 비자  \n- 학사 이상의 학위와 직무 관련 경력이 필수  \n\n## 주"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "LCA 승인 거절 시 재신청 가능 여부는?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LCA 재신청 시 필요한 수정 서류 목록은?",
+            "H-1B 신청 시 I-129 처리 기간 단축 방법",
+            "LCA 거절 후 대체 가능한 비자 유형은?",
+            "H-1B 영주권 전환 절차는 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 전문 분야에서 근무할 수 있는 비자  \n- LCA(노동조건 신청서) 승인이 필수이며, I-129 청원으로 신청  \n\n## "
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "LCA 재신청 시 필요한 수정 서류 목록은?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LCA 재신청 시 평균 처리 기간은 어떻게 되나요?",
+            "H-1B 신청 시 I-129 외에 추가 서류가 필요한가요?",
+            "LCA 거절 후 다른 비자 유형으로 전환 가능한가요?",
+            "임금 조정 시 참고할 수 있는 지역별 기준 자료는 어디서 확인하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 전문 분야에서 근무할 수 있는 비자  \n- LCA(노동조건 신청서) 승인이 필수이며, I-129 청원으로 신청  \n\n---"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "LCA 재신청 시 평균 처리 기간은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LCA 재신청 시 필요한 서류는 기존과 동일한가요?",
+            "I-129 청원 접수 후 추가 서류가 발생할 수 있나요?",
+            "급행 처리 신청 시 주의해야 할 절차는 무엇인가요?",
+            "H-1B 승인 후 영주권 전환 가능성은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 전문 분야에서 근무할 수 있는 비자  \n- LCA(노동조건 신청서) 승인이 필수이며, I-129 청원으로 신청  \n\n---"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "LCA 재신청 시 필요한 서류는 기존과 동일한가요?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LCA 재신청 시 추가 서류 예시와 준비 방법은?",
+            "H-1B 승인 후 영주권 전환 절차는 어떻게 되나요?",
+            "LCA 처리 기간 단축을 위한 특별 심사 제도가 있나요?",
+            "H-1B 거절 시 대체 가능한 비자 유형은 무엇이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B 비자 (전문직 취업 비자)**  \n- LCA(노동조건 신청서) 승인이 필수이며, 미국 기업의 스폰서십을 받아 전문직으로 근무할 수 있는 비자  \n\n## 주요 자격 요건  \n1. **학"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "LCA 재신청 시 추가 서류 예시와 준비 방법은?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 재신청 시 회사 재정 증명 요건은 어떻게 되나요?",
+            "LCA 거절 사유 증명 자료 구체적 예시는 무엇인가요?",
+            "직무 설명서 업데이트 시 필수 포함 내용은 무엇인가요?",
+            "I-129 청원 제출 후 처리 기간 및 비용 안내는?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B 비자 (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 전문직으로 근무할 수 있는 비자  \n- LCA(노동조건 신청서) 승인이 필수이며, I-129 청원으로 신청  \n\n--"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "H-1B 재신청 시 회사 재정 증명 요건은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "H-1B 재신청 시 필요한 추가 서류는 무엇인가요?",
+            "회사 재정 증명 서류 준비 시 주의사항은?",
+            "H-1B 재신청 처리 기간과 신청 시기는 어떻게 되나요?",
+            "H-1B 대신 고려할 수 있는 다른 비자 옵션은?"
+          ],
+          "response_preview": "## 추천 비자  \n**H-1B 비자 (전문직 취업 비자)**  \n- 미국 기업의 스폰서십을 받아 전문직으로 근무할 수 있는 비자  \n- LCA(노동조건 신청서) 승인이 필수이며, I-129 청원으로 신청  \n\n##"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D4_auto_extend_de_12",
+      "phase": "D_auto",
+      "note": "독일 엔지니어→영주권 12턴",
+      "sid": "s_7854d5f31bea",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "독일에서 엔지니어로 일하다가 영주권까지 받고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 신청 시 필요한 서류는 무엇인가요?",
+            "일반 취업 비자에서 영주권으로 전환하는 조건은?",
+            "독일어 능력 증명이 영주권 기간에 미치는 영향은?",
+            "비자 신청 절차와 소요 기간은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드 (EU Blue Card)**  \n- 독일 정부가 고학력 전문직 이민자를 위해 도입한 비자로, 엔지니어와 같은 전문직 종사자가 신청 가능합니다.  \n- **장기 체류·영주권 경로"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "EU 블루카드 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 신청 후 영주권까지 소요 기간은?",
+            "독일 학위 인증 절차는 어떻게 진행하나요?",
+            "소득 요건 미달 시 대체 비자 옵션은?",
+            "고용계약서 없이 자영업으로 신청 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드 (EU Blue Card)**  \n- 독일에서 고학력 전문직 종사자를 위한 비자로, 엔지니어 직종이 해당됩니다.  \n- 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n\n"
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "EU 블루카드 신청 후 영주권까지 소요 기간은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 신청 시 언어 능력 증명은 필수인가요?",
+            "영주권 전환 시 추가 서류가 필요한가요?",
+            "소득 요건 미달 시 다른 비자 대안이 있나요?",
+            "EU 블루카드 처리 기간은 보통 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드 (EU Blue Card)**  \n- 독일에서 고학력 전문직(엔지니어 등)이 신청할 수 있는 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n\n## 주요 자격 요"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "EU 블루카드 신청 시 언어 능력 증명은 필수인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 언어 증명은 어떤 시험이나 서류로 가능한가요?",
+            "영주권 전환 시 추가 서류가 필요한가요?",
+            "소득 요건 미달 시 다른 비자 대안이 있을까요?",
+            "EU 블루카드 신청 처리 기간은 보통 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드 (EU Blue Card)**  \n- 독일에서 고학력 전문직(엔지니어 등)이 신청할 수 있는 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n\n## 주요 자격 요"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "B1 언어 증명은 어떤 시험이나 서류로 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 언어 증명 시 공인 시험 종류는?",
+            "EU 블루카드 소득 요건 예외 경우 있나요?",
+            "비학위자 경력 증명 서류 준비 방법은?",
+            "영주권 전환 시 추가 조건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합합니"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "B1 언어 증명 시 공인 시험 종류는?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 언어 증명 시 공인 시험 종류는?",
+            "영주권 신청 시 추가 서류는 무엇인가요?",
+            "소득 요건 미달 시 대체 비자 옵션은?",
+            "고용계약서 없이 신청 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합하며"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "B1 언어 증명 시 공인 시험 종류는?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 시험 인정 기관 목록은?",
+            "영주권 신청 절차 기간은?",
+            "연소득 기준 미달 시 대안은?",
+            "언어 요건 면제 가능한 직종은?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합하며"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "B1 시험 인정 기관 목록은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 인정 시험 기관별 유효 기간은 어떻게 되나요?",
+            "영주권 전환 시 추가 서류가 필요한가요?",
+            "소득 요건 미달 시 대체 비자 옵션은 무엇인가요?",
+            "고용 계약 없이 자체 사업자로 신청 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합하며"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "B1 인정 시험 기관별 유효 기간은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 시험 유효 기간 연장 방법은?",
+            "독일 취업 비자 신청 서류 목록은?",
+            "영주권 전환 시 추가 요건은?",
+            "B1 미달 시 대체 비자 옵션은?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합하며"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "B1 시험 유효 기간 연장 방법은?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 시험 재응시 시 필요한 서류는 무엇인가요?",
+            "독일 취업 비자 신청 시 추가로 필요한 서류는?",
+            "영주권 전환까지 평균 소요 기간은 어떻게 되나요?",
+            "B1 인정 시험 기관별 시험 비용은 어떻게 다른가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- B1 언어 증명(독일어 초급)은 독일 취업 비자 신청 시 언어 요건 충족에 활용됩니다.  \n- **장기 체류 관점**: 취업 비자 → 영주권("
+        },
+        {
+          "turn": 11,
+          "desc": "followup 10",
+          "msg": "B1 시험 재응시 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 재응시 시 추가 비용이 발생하나요?",
+            "영주권 전환 시 B1 외 추가 조건이 있나요?",
+            "취업 비자 신청 시 B1 외 필요한 서류는?",
+            "B1 시험 유효 기간 연장 가능 여부는?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합하며"
+        },
+        {
+          "turn": 12,
+          "desc": "followup 11",
+          "msg": "B1 재응시 시 추가 비용이 발생하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "B1 재응시 시 언어 요건은 어떻게 되나요?",
+            "독일 취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "EU 블루카드 신청 절차가 어떻게 되나요?",
+            "영주권 전환을 위한 추가 조건은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (EU 블루카드 포함)**  \n- 고학력 전문직(학사 이상)을 위한 비자로, 영주권(영구 체류권)으로 이어지는 주요 경로입니다.  \n- IT·공학·의학 분야 종사자에게 적합하며"
+        }
+      ],
+      "pass": 12,
+      "total": 12,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D5_auto_extend_gb_10",
+      "phase": "D_auto",
+      "note": "영국 MBA→취업 10턴",
+      "sid": "s_de60ca69e99f",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "영국에서 MBA를 마치고 취업까지 하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Graduate Visa 신청 시 필요한 서류는 무엇인가요?",
+            "Skilled Worker Visa의 최소 연봉 기준은 어떻게 되나요?",
+            "영주권 전환까지 소요되는 기간은 얼마나 걸리나요?",
+            "학생 비자 신청 시 재정 증명 금액은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**1. Student Visa (학생 비자)**  \n- 영국에서 MBA 과정을 이수하기 위한 비자. 학업 종료 후 **Graduate Visa**로 전환해 취업 가능.  \n**2. Graduat"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "Graduate Visa 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Graduate Visa 신청 후 취업 시 고용주 스폰서 필요 여부?",
+            "MBA 과정 중 파트타임 근무 가능한 학생 비자 조건?",
+            "Graduate Visa 기간 연장이나 영주권 전환 가능성?",
+            "영국 대학 졸업 후 바로 Graduate Visa 신청하지 않을 경우 유예 기간?"
+          ],
+          "response_preview": "## 추천 비자  \n**Graduate Visa (졸업생 취업 비자)**  \n- 영국에서 **MBA를 마친 후 최대 2년간 취업**할 수 있는 비자.  \n- 학위 취득 후 **2년(학사/석사) 또는 3년(박사)** "
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "Graduate Visa 신청 후 취업 시 고용주 스폰서 필요 여부?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Graduate Visa 신청 시 영어 능력 증명 예외 조건은?",
+            "고용주 스폰서 필요 없는 예외 직종은 어떤 게 있나요?",
+            "Graduate Visa 신청 후 체류 기간 연장 가능한가요?",
+            "박사 학위 취득 시 추가 서류가 필요한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Graduate Visa (졸업생 취업 비자)**  \n- 영국에서 **MBA를 마친 후 최대 2년간 취업**할 수 있는 비자.  \n- **고용주 스폰서 없이 자유롭게 구직·취업** 가능 (단,"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "Graduate Visa 신청 시 영어 능력 증명 예외 조건은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Graduate Visa 신청 시 학위 증명서는 원본만 가능한가요?",
+            "영어 능력 증명 예외 조건 적용 시 추가 서류가 필요한가요?",
+            "Graduate Visa로 취업 후 영주권 전환 가능 여부는?",
+            "비자 신청 처리 기간과 수수료는 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Graduate Visa (졸업생 취업 비자)**  \n- 영국에서 **MBA를 마친 후 최대 2년간 취업**할 수 있는 비자.  \n- **영어 능력 증명 예외 조건**이 적용되는 비자입니다. "
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "Graduate Visa 신청 시 학위 증명서는 원본만 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "학위 과정 영어 진행 여부 확인 방법은?",
+            "Graduate Visa 신청 시 범죄 기록 증명 필요 국가는?",
+            "재정 증명 요청 시 최소 잔고 기준은?",
+            "박사 학위자 추가 체류 기간 적용 조건은?"
+          ],
+          "response_preview": "## 추천 비자  \n**Graduate Visa (졸업생 취업 비자)**  \n- 영국 대학(학사/석사/박사) 졸업 후 **최대 2년(박사 3년)** 체류하며 자유롭게 취업할 수 있는 비자.  \n- 학위 증명서는 **"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "학위 과정 영어 진행 여부 확인 방법은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영어 과정 이수 시 추가 서류가 필요한가요?",
+            "CAS 발급 절차는 어떻게 진행되나요?",
+            "예외 조건 적용 시 심사 기간이 달라집니까?",
+            "영어 점수 없이 지원 가능한 다른 비자는 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Student Visa (학생 비자)**  \n- 영국 대학(학사/석사/박사) 또는 공인 교육기관에서 **학위 과정(1년 이상)**을 이수하기 위한 비자.  \n- **영어 능력 증명**이 필수이"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "영어 과정 이수 시 추가 서류가 필요한가요?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "영어 과정 CAS 발급 조건은 어떻게 되나요?",
+            "Short-term Study Visa로 학위 과정 신청 가능한가요?",
+            "재정 증명 시 예금 유지 기간은 얼마나 되나요?",
+            "영어 능력 증명 면제 가능한 경우가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Student Visa (학생 비자)**  \n- 영국 대학/교육기관에서 **학위 과정(1년 이상)** 또는 **영어 과정(11개월 이하)**을 이수하기 위한 비자.  \n- **영어 과정**은 "
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "영어 과정 CAS 발급 조건은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 소요 기간은 얼마나 걸리나요?",
+            "영어 과정 비자 신청 시 추가 비용은 있나요?",
+            "11개월 초과 시 다른 비자로 전환 가능한가요?",
+            "영어 능력 증명 대체 서류가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Student Visa (학생 비자)**  \n- 영국 대학/교육기관에서 **학위 과정(1년 이상)** 또는 **영어 과정(11개월 이하)**을 이수하기 위한 비자.  \n- 학위 과정 영어 진행"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "CAS 발급 소요 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 시 필요한 서류는 무엇인가요?",
+            "영어 과정 비자 신청 기간은 얼마나 걸리나요?",
+            "재정 증명 금액은 얼마인가요?",
+            "11개월 초과 시 다른 비자 옵션이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Student Visa (학생 비자)**  \n- 영국 대학/교육기관에서 **학위 과정(1년 이상)** 또는 **영어 과정(11개월 이하)**을 이수하기 위한 비자.  \n- CAS(Confirm"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "CAS 발급 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CAS 발급 후 비자 신청 절차는 어떻게 되나요?",
+            "영어 점수 미달 시 대안은 무엇인가요?",
+            "비자 심사 기간은 보통 얼마나 걸리나요?",
+            "학위 과정 중 아르바이트 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Student Visa (학생 비자)**  \n- 영국 대학/교육기관에서 **학위 과정(1년 이상)** 또는 **영어 과정(11개월 이하)**을 이수하기 위한 비자.  \n- CAS(Confirm"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D6_auto_extend_jp_10",
+      "phase": "D_auto",
+      "note": "일본 애니메이션 취업 10턴",
+      "sid": "s_4b1248e66004",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "일본에서 애니메이션 회사에 취업하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "애니메이션 회사 취업 시 COE 신청 절차는 어떻게 되나요?",
+            "학력 요건 미달 시 대체 가능한 경력 조건은 무엇인가요?",
+            "비자 신청 시 필요한 서류는 어떤 것이 있나요?",
+            "영주권 전환 가능성과 필요한 기간은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 애니메이션 회사에 취업 시 일반적으로 필요한 비"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "애니메이션 회사 취업 시 COE 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 신청 시 필요한 서류는 무엇인가요?",
+            "학력 요건 미달 시 대체 가능한 조건은?",
+            "비자 심사 기간은 보통 얼마나 걸리나요?",
+            "영주권 전환 가능성은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 애니메이션 회사에 취업 시 일반적으로 필요한 비"
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "COE 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 심사 기간은 보통 얼마나 걸리나요?",
+            "일본어 능력 미달 시 대체 서류 제출 가능하나요?",
+            "영주권 전환 시 추가 요건이 있나요?",
+            "서류 미비 시 재제출 절차는 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 애니메이션 회사에 취업 시 일반적으로 필요한 비"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "COE 심사 기간은 보통 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 신청 시 대학 졸업 증명서는 필수인가요?",
+            "COE 심사 기간 단축을 위한 팁이 있나요?",
+            "일본 기업과의 계약서가 영어로 작성되면 문제가 되나요?",
+            "COE 거절 시 대체 비자 옵션은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 애니메이션 회사에 취업 시 일반적으로 필요한 비"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "COE 신청 시 대학 졸업 증명서는 필수인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "COE 심사 기간 단축 방법은 있나요?",
+            "전공과 무관한 분야 지원 시 추가 서류가 필요한가요?",
+            "일본어 능력 증명 대체 방법은 무엇인가요?",
+            "재류자격 변경 시 필요한 절차는 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 애니메이션 회사에 취업 시 일반적으로 필요한 비"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "COE 심사 기간 단축 방법은 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "졸업 증명서 대신 실무 경력으로 대체 가능한가요?",
+            "COE 심사 기간 단축을 위한 특별 절차가 있나요?",
+            "일본어 능력이 부족할 경우 대체 서류는 무엇인가요?",
+            "연간 소득 요건 미달 시 다른 비자 옵션은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 기업에서 취업 시 가장 일반적인 비자. 애니메이"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "졸업 증명서 대신 실무 경력으로 대체 가능한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "실무 경력 10년 미만 시 대체 서류 가능 여부?",
+            "경력 증명서 제출 시 필요한 서류 목록?",
+            "학력 요건 면제 시 추가 심사 기간 발생?",
+            "특정 기술 분야 대체 가능 자격증 종류?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 기업에서 정규 취업 시 가장 일반적인 비자. 애"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "실무 경력 10년 미만 시 대체 서류 가능 여부?",
+          "route": [
+            "intent_classifier",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "경력 인정 분야 구체적 기준은 어떻게 되나요?",
+            "국가자격증 없이 대체 가능한 다른 방법은 없나요?",
+            "COE 신청 시 필요한 추가 서류는 무엇인가요?",
+            "10년 미만 경력 시 다른 비자 유형 추천이 있나요?"
+          ],
+          "response_preview": "## 일본 취업 비자(COE) 신청 시 학력 요건 대체 가능성\n\n### 1. 기본 원칙\n- **학력 요건**: 일반적으로 \"대학(4년제) 졸업 또는 전문학교(2년제) 졸업\" 증명서 필수\n- **경력 대체**: **1"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "경력 인정 분야 구체적 기준은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "경력 인정 직종 리스트는 어디서 확인하나요?",
+            "경력 증명서 제출 시 필요한 서류는 무엇인가요?",
+            "학력 요건 면제 시 추가 심사 기준이 있나요?",
+            "경력 대체 가능한 비자 유형은 어떤 게 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 기업에서 정규 취업 시 가장 일반적인 비자. 경"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "경력 인정 직종 리스트는 어디서 확인하나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "경력 인정 직종별 세부 요건은 어떻게 다른가요?",
+            "학력 요건 미충족 시 경력 인정 절차는 어떻게 되나요?",
+            "고용계약서 작성 시 필수 포함 사항은 무엇인가요?",
+            "소득 요건 미달 시 대체 가능한 비자 유형은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**재류자격 \"기술·인문지식·국제업무\" (Engineer/Service, Humanities/International Services)**  \n일본 기업에서 정규 취업 시 가장 일반적인 비자. 경"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D7_auto_extend_ca_pr_10",
+      "phase": "D_auto",
+      "note": "캐나다 영주권 10턴",
+      "sid": "s_df800c0d9331",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "캐나다 영주권 취득 방법을 처음부터 알려주세요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Express Entry 신청 요건은 무엇인가요?",
+            "주정부 추천 프로그램(PNP) 신청 절차는 어떻게 되나요?",
+            "캐나다 유학 후 CEC로 영주권을 받으려면 어떤 조건이 필요한가요?",
+            "영주권 신청 시 평균 처리 기간과 비용은 얼마인가요?"
+          ],
+          "response_preview": "## 캐나다 영주권 취득 방법 안내\n\n캐나다 영주권은 다양한 경로를 통해 취득할 수 있으며, 목적·경력·가족 관계에 따라 적합한 프로그램이 다릅니다. 아래는 주요 경로와 단계별 설명입니다.\n\n---\n\n### 1. *"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "Express Entry 신청 요건은 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CRS 점수 계산 방법은 어떻게 되나요?",
+            "Express Entry 신청 시 필요한 서류는 무엇인가요?",
+            "초청(ITA) 받은 후 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환 시 가족 동반 요건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Express Entry**  \n캐나다 연방 정부의 **점수제 영주권 프로그램**으로, 기술직 종사자·캐나다 경험자·특수 기술 보유자를 대상으로 합니다. 온라인 프로필 제출 후 CRS(종합 순"
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "CRS 점수 계산 방법은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CRS 점수 향상을 위한 구체적인 방법은?",
+            "Express Entry 신청 시 필수 서류는 무엇인가요?",
+            "CRS 점수별 평균 초청 점수는 어떻게 확인하나요?",
+            "PNP 주정부 승인 절차는 어떻게 진행되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Express Entry CRS 점수 계산**  \n캐나다 연방 영주권 프로그램(Express Entry)에서 지원자를 평가하는 **종합 순위 시스템(CRS)** 점수 산정 방법입니다.\n\n---"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "CRS 점수 향상을 위한 구체적인 방법은?",
+          "route": [
+            "intent_classifier",
+            "web_search_tool",
+            "search_quality_gate",
+            "knowledge_writer",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 가능한 직업은 어떤 게 있나요?",
+            "CRS 점수 향상을 위한 추가 점수 획득 방법은?",
+            "캐나다 취업 비자 신청 절차에 필요한 서류는?",
+            "개방형 워크퍼밋과 고용주 지정형 비자 차이점은?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n캐나다 내 합법적 취업을 위한 임시 허가증으로, **고용주 지정형(Employer-Specific)**과 **개방형(Open Work Permi"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "LMIA 면제 가능한 직업은 어떤 게 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종 신청 절차는 어떻게 되나요?",
+            "고용주 지정형과 개방형 비자의 차이점은?",
+            "CRS 점수 향상을 위한 추가 전략은?",
+            "워킹홀리데이 비자 신청 자격 조건은?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit) - LMIA 면제 직종**  \n캐나다 고용주가 외국인 채용 시 일반적으로 **LMIA(노동시장 영향 평가)** 승인이 필요하지만, 특정 직종은 면제됩니"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "LMIA 면제 직종 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종 신청 시 필요한 서류는 무엇인가요?",
+            "면제 직종 비자 처리 기간은 얼마나 걸리나요?",
+            "LMIA 면제 비자로 영주권 전환이 가능한가요?",
+            "신청 절차에서 주의할 주요 사항은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit) - LMIA 면제 직종 신청 절차**  \nLMIA(노동시장 영향 평가) 면제 대상 직종은 고용주 지정형(Employer-Specific) 취업 비자로 "
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "LMIA 면제 직종 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종 신청 시 처리 기간은 얼마나 걸리나요?",
+            "고용주 지정형 비자 신청 시 추가 비용이 발생하나요?",
+            "PGWP 소지자가 LMIA 면제 비자로 전환 시 주의사항은?",
+            "국제협약 적용 직종의 구체적인 예시에는 어떤 것이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit) - LMIA 면제 직종**  \nLMIA(노동시장 영향 평가) 면제가 적용되는 직종은 고용주 지정형(Employer-Specific) 취업 비자로 신청하"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "LMIA 면제 직종 신청 시 처리 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종 신청 시 수수료는 얼마인가요?",
+            "고용주 지정형 비자 신청 절차는 어떻게 되나요?",
+            "LMIA 면제 직종에서 영주권 전환 가능한가요?",
+            "신청 서류 중 반드시 공증받아야 하는 서류가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 LMIA 면제 직종 취업 비자**  \n고용주 지정형(Employer-Specific) 취업 비자로, LMIA(노동시장 영향 평가) 없이 신청 가능한 직종을 대상으로 합니다.  \n\n---"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "LMIA 면제 직종 신청 시 수수료는 얼마인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 직종 신청 시 필요한 서류는 무엇인가요?",
+            "처리 기간 단축을 위한 특별 절차가 있나요?",
+            "LMIA 면제 비자 거절 시 대체 비자는 어떤 것이 있나요?",
+            "영주권 전환 시 LMIA 면제 비자가 영향을 미치나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit) - LMIA 면제 직종**  \n고용주 지정형(Employer-Specific) 취업 비자로, LMIA(노동시장 영향 평가) 없이 신청 가능한 직종을 대"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "LMIA 면제 직종 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "LMIA 면제 신청 시 처리 기간은 얼마나 걸리나요?",
+            "고용주 지정형 비자 신청 시 추가 비용이 발생하나요?",
+            "LMIA 면제 직종에서 영주권 전환 가능한 방법이 있나요?",
+            "IEC 참가자로 신청 시 필요한 특별 서류가 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**캐나다 고용주 지정형 취업 비자(Employer-Specific Work Permit) - LMIA 면제 직종**  \nLMIA(노동시장 영향 평가) 없이 신청 가능한 직종으로, 국제협약(예: "
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D8_auto_extend_au_work_10",
+      "phase": "D_auto",
+      "note": "호주 간호사→영주권 10턴",
+      "sid": "s_53d653dbe0ec",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "호주에서 간호사로 취업해서 영주권까지 받고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "간호사 기술 평가 신청 절차는 어떻게 되나요?",
+            "ENS subclass 186 전환 시 필요한 추가 서류는 무엇인가요?",
+            "MLTSSL 직업군 점수 계산 시 유리한 요소는 무엇인가요?",
+            "호주 의료기관 스폰서 확보 시 주의할 점은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**1. Skills in Demand 비자 (subclass 482_SID)**  \n- 호주에서 간호사로 취업할 수 있는 임시 취업 비자. 최대 4년 체류 가능.  \n- **Core Skills"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "간호사 기술 평가 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 소요 기간과 비용은 어떻게 되나요?",
+            "482 비자 신청 시 필요한 서류는 무엇인가요?",
+            "영주권 전환을 위한 추가 조건은 무엇인가요?",
+            "기술 평가 불합격 시 대안 비자가 있을까요?"
+          ],
+          "response_preview": "## 호주 간호사 기술 평가 신청 절차  \n\n### 1. **기술 평가 기관 확인**  \n호주 간호사 기술 평가는 **AHPA(Australian Health Practitioner Regulation Agency)"
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "기술 평가 소요 기간과 비용은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 시 필요한 서류는 어떤 것이 있나요?",
+            "평가 결과 불합격 시 재신청 절차는 어떻게 되나요?",
+            "호주 간호사 비자 신청 시 기술 평가 외 추가 요건은 있나요?",
+            "ANMAC 평가 후 영주권 전환까지 어떤 과정이 필요한가요?"
+          ],
+          "response_preview": "### 호주 비자 기술 평가 소요 기간 및 비용 안내\n\n호주 비자 신청 시 기술 평가는 직종별로 지정된 기관에서 평가하며, 간호사(Nurse)의 경우 **Australian Nursing and Midwifery A"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "기술 평가 시 필요한 서류는 어떤 것이 있나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 결과 유효 기간은 어떻게 되나요?",
+            "ANMAC 평가 시 영어 점수 제출이 필요한가요?",
+            "기술 평가 통과 후 비자 신청 절차는 어떻게 진행되나요?",
+            "평가 비용 환불 정책이나 재심사 기준이 있나요?"
+          ],
+          "response_preview": "## 호주 간호사 기술 평가 신청 절차  \n\n### 1. **기술 평가 기관 확인**  \n호주 간호사 기술 평가는 **Australian Nursing and Midwifery Accreditation Council"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "기술 평가 결과 유효 기간은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 갱신 절차는 어떻게 되나요?",
+            "영어 점수 요건은 어떻게 되나요?",
+            "호주 간호사 등록 시 추가 서류는 무엇인가요?",
+            "기술 평가 후 비자 신청까지 소요 기간은?"
+          ],
+          "response_preview": "## 호주 기술 평가 결과 유효 기간  \n\n### 1. **기술 평가 유효 기간**  \n- **간호사 기술 평가**(AHPRA/NMBA 기준): 일반적으로 **3년** 유효합니다.  \n  - 단, 평가 후 호주 간호"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "기술 평가 갱신 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 갱신 시 추가 서류가 필요한가요?",
+            "영어 점수 갱신도 함께 해야 하나요?",
+            "경력 증명이 부족할 경우 대체 방법은?",
+            "갱신 처리 기간과 비용은 얼마인가요?"
+          ],
+          "response_preview": "## 호주 기술 평가 갱신 절차 안내  \n\n### 1. **기술 평가 유효 기간 확인**  \n- 간호사 기술 평가(AHPRA 기준)는 일반적으로 **3년** 유효합니다.  \n- 유효 기간 만료 후 갱신하려면 **새 "
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "기술 평가 갱신 시 추가 서류가 필요한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 갱신 비용은 얼마인가요?",
+            "갱신 심사 기간은 평균적으로 얼마나 걸리나요?",
+            "유효기간 만료 전에 갱신 신청이 가능한가요?",
+            "갱신 거절 시 대체할 수 있는 비자 옵션은 무엇인가요?"
+          ],
+          "response_preview": "## 호주 취업 비자 안내  \n\n### 1. **주요 취업 비자 종류**  \n- **Skills in Demand 비자 (482_SID)**  \n  - **Core Skills Stream**: 호주 정부가 지정한 "
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "기술 평가 갱신 비용은 얼마인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 갱신 소요 기간은 얼마나 걸리나요?",
+            "평가 기관별 서류 차이가 있나요?",
+            "비용 절감 가능한 방법이 있을까요?",
+            "갱신 후 비자 신청 절차는 어떻게 되나요?"
+          ],
+          "response_preview": "## 호주 기술 평가 갱신 비용  \n\n### 1. **기술 평가 갱신 비용**  \n호주 기술 평가 갱신 비용은 **평가 기관 및 직종에 따라 다르며**, 일반적으로 **AUD 600~1,500** 사이입니다.  \n-"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "기술 평가 갱신 소요 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 갱신 시 추가 서류가 필요한가요?",
+            "비용 절감을 위한 대체 평가 기관이 있나요?",
+            "평가 기간 중 비자 신청 가능 여부를 알고 싶어요",
+            "갱신 후 영주권 전환 시 가산점 적용 여부"
+          ],
+          "response_preview": "## 호주 기술 평가 갱신 소요 기간  \n\n### 1. **기술 평가 갱신 소요 기간**  \n- **평가 기관 및 직종에 따라 3~12개월**이 소요될 수 있습니다.  \n  - 예: 간호사(AHPRA) 평가 → **"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "기술 평가 갱신 시 추가 서류가 필요한가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "기술 평가 갱신 시 필요한 서류는 무엇인가요?",
+            "482_SID 비자 신청 절차는 어떻게 되나요?",
+            "Skills in Demand 비자 처리 기간은 얼마나 걸리나요?",
+            "영주권 전환을 위한 추가 요건은 무엇인가요?"
+          ],
+          "response_preview": "## 호주 취업 비자 안내  \n\n### 1. **추천 비자**  \n- **Skills in Demand 비자 (482_SID)**  \n  - **Core Skills Stream**: 호주 정부가 지정한 15개 직종"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D9_auto_extend_gb_work_10",
+      "phase": "D_auto",
+      "note": "영국 IT→장기거주 10턴",
+      "sid": "s_0c5cccebb742",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "영국에서 IT 컨설턴트로 일하다 장기 거주하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "Senior or Specialist Worker Visa 신청 시 필요한 서류는 무엇인가요?",
+            "Skilled Worker Visa의 직무별 최소 연봉 기준은 어떻게 확인하나요?",
+            "영주권(ILR) 신청까지의 최소 체류 기간은 얼마인가요?",
+            "영국 현지 기업 스폰서십 확보 방법은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Senior or Specialist Worker Visa (Intra-company Transfer)**  \n- 영국 본사에서 IT 컨설턴트로 근무 중인 경우, 영국 지사로의 전근 시 신청 "
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "Senior or Specialist Worker Visa 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "스폰서 기업 등록 절차는 어떻게 되나요?",
+            "연봉이 £52,500 미만일 때 대안은 있나요?",
+            "ILR 신청 시 추가 서류가 필요한가요?",
+            "비자 신청 처리 기간은 얼마나 걸리나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Senior or Specialist Worker Visa (Intra-company Transfer)**  \n- 영국 본사에서 IT 컨설턴트로 근무 중인 경우, 영국 지사로의 전근 시 신청 "
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "스폰서 기업 등록 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 절차와 소요 기간은 어떻게 되나요?",
+            "영주권 전환 시 필요한 추가 요건은 무엇인가요?",
+            "스폰서 등록 시 필요한 기업 서류는 어떤 것이 있나요?",
+            "연봉 기준 미달 시 대체 가능한 비자 옵션은 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Senior or Specialist Worker Visa (Intra-company Transfer)**  \n- 영국 본사에서 IT 컨설턴트로 근무 중인 경우, 영국 지사로의 전근 시 신청하"
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "CoS 발급 절차와 소요 기간은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급을 위한 기업 준비 서류는 무엇인가요?",
+            "SOC Code 2135 외 다른 직업 코드도 가능한가요?",
+            "연봉이 £38,700 미만일 때 대체 조건은 있나요?",
+            "스폰서 라이선스 취득 절차는 어떻게 진행되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (CoS 발급 필수)**  \n- 영국 기업에서 IT 컨설턴트로 장기 근무 시 가장 일반적인 비자  \n- 스폰서 기업이 CoS(Certificate of Sp"
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "CoS 발급을 위한 기업 준비 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 기업의 영국 정부 승인 확인 방법은?",
+            "SOC 코드 확인 및 신청 절차는 어떻게 되나요?",
+            "영어 능력 증명에 필요한 서류는 무엇인가요?",
+            "체류 기간별 저축 증명 금액 계산 기준은?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (CoS 필수)**  \n- 영국 기업에서 IT 컨설턴트로 장기 근무 시 가장 일반적인 비자  \n- 스폰서 기업이 발급한 CoS(Certificate of S"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "CoS 발급 기업의 영국 정부 승인 확인 방법은?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 소요 기간은 보통 얼마나 걸리나요?",
+            "스폰서 라이선스 갱신 주기는 어떻게 되나요?",
+            "CoS 신청 시 필요한 추가 서류는 무엇인가요?",
+            "A-rated에서 B-rated로 변경될 경우 대처 방법은?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (CoS 필수)**  \n- 영국 기업에서 IT 컨설턴트로 장기 근무 시 가장 일반적인 비자  \n- CoS(Certificate of Sponsorship)는"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "CoS 발급 소요 기간은 보통 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 신청 시 필요한 서류는 무엇인가요?",
+            "SOC 코드 확인 방법은 어떻게 되나요?",
+            "최소 급여 요건 금액은 얼마인가요?",
+            "스폰서 기업 승인 상태를 온라인으로 확인할 수 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (CoS 필수)**  \n- 영국 기업에서 IT 컨설턴트로 장기 근무 시 가장 일반적인 비자  \n- CoS(Certificate of Sponsorship)는"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "CoS 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 발급 거절 시 재신청 절차는 어떻게 되나요?",
+            "CoS 신청 시 필요한 직무별 최소 급여 기준은 어디서 확인하나요?",
+            "스폰서 기업 승인 여부를 확인하는 방법은 무엇인가요?",
+            "CoS 발급 후 비자 신청까지의 유효 기간은 얼마인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa** 또는 **Senior or Specialist Worker Visa**  \n- 영국 기업에서 장기 근무 시 가장 일반적인 비자  \n- CoS(Certif"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "CoS 발급 거절 시 재신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 재신청 시 추가 서류가 필요한가요?",
+            "CoS 거절 후 재신청까지 대기 기간이 있나요?",
+            "CoS 발급 실패 시 다른 비자 옵션은 무엇인가요?",
+            "CoS 거절 사유 중 가장 흔한 유형은 무엇인가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (CoS 필수)**  \n- 영국 기업에서 장기 근무 시 가장 일반적인 비자  \n- CoS(Certificate of Sponsorship) 발급이 거절된 경"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "CoS 재신청 시 추가 서류가 필요한가요?",
+          "route": [
+            "intent_classifier",
+            "exception_handler",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "CoS 재신청 시 평균 처리 기간은 어떻게 되나요?",
+            "거절 사유별 구체적인 보완 방법은 무엇인가요?",
+            "CoS 없이 신청 가능한 다른 비자가 있을까요?",
+            "스폰서십 조건 미충족 시 대체 서류로 인정 가능한 게 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**Skilled Worker Visa (CoS 필수)**  \n- 영국 기업에서 장기 근무 시 가장 일반적인 비자  \n- CoS(Certificate of Sponsorship) 발급 거절 후 재"
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    },
+    {
+      "id": "D10_auto_extend_de_study_10",
+      "phase": "D_auto",
+      "note": "독일 TUM 유학→취업 10턴",
+      "sid": "s_ace633531e35",
+      "turns": [
+        {
+          "turn": 1,
+          "desc": "seed",
+          "msg": "독일 뮌헨공대(TUM)에서 석사 유학 후 취업까지 하고 싶어요",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "EU 블루카드 소득 조건 미달 시 대체 비자는 어떻게 되나요?",
+            "학생 비자 신청 시 필요한 추가 서류는 무엇인가요?",
+            "졸업 후 취업 비자 전환 절차는 어떻게 진행되나요?",
+            "독일어 B1 없이 영어만으로 학생 비자 신청이 가능한가요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 학생 비자 (Type D)** → **EU 블루카드** 또는 **전문직 취업 비자**로 전환  \n- **학생 비자 (Type D)**: TUM 석사 과정 등록 시 필요한 비자로, 학기 중"
+        },
+        {
+          "turn": 2,
+          "desc": "followup 1",
+          "msg": "EU 블루카드 소득 조건 미달 시 대체 비자는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "전문직 취업 비자 신청 시 필요한 서류는 무엇인가요?",
+            "경험자 비자 신청 시 연방고용청 승인 절차는 어떻게 되나요?",
+            "구직 비자 기간 연장이나 전환 가능한 비자가 있나요?",
+            "EU 블루카드와 전문직 취업 비자의 영주권 전환 조건 차이는?"
+          ],
+          "response_preview": "## 추천 비자  \n**EU 블루카드 소득 조건 미달 시 대체 비자**  \n- **전문직 취업 비자 (Section 18a/18b AufenthG)**  \n  - EU 블루카드보다 낮은 소득 기준으로도 신청 가능 ("
+        },
+        {
+          "turn": 3,
+          "desc": "followup 2",
+          "msg": "전문직 취업 비자 신청 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "전문직 취업 비자 신청 기간은 얼마나 걸리나요?",
+            "연방고용청 승인 면제 직종은 어떤 것이 있나요?",
+            "독일 외 다른 EU 국가에서도 동일한 비자를 신청할 수 있나요?",
+            "소득 조건 미달 시 영주권 전환 가능성은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**전문직 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건 미달 시 대체 가능한 비자로, 독일 고용계약서와 자격 요건 충족 시 신청 가능  \n\n## "
+        },
+        {
+          "turn": 4,
+          "desc": "followup 3",
+          "msg": "전문직 취업 비자 신청 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "소득 조건 구체적 기준은 어떻게 되나요?",
+            "경력 증명 시 필요한 서류는 무엇인가요?",
+            "신청 절차 중 인터뷰가 필요한가요?",
+            "비자 거절 시 대체 비자는 어떤 것이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**전문직 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건 미달 시 대체 가능한 비자로, 독일 고용계약서와 자격 요건 충족 시 신청 가능  \n\n## "
+        },
+        {
+          "turn": 5,
+          "desc": "followup 4",
+          "msg": "소득 조건 구체적 기준은 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "소득 미달 시 Section 18a/18b 신청 절차는 어떻게 되나요?",
+            "직업별 최저 임금 기준은 어디서 확인할 수 있나요?",
+            "EU 블루카드에서 전문직 비자로 전환 시 추가 서류가 필요한가요?",
+            "독일 고용계약서 준비 시 특별히 주의할 사항이 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건 미달 시 대체 가능한 비자로, 독일 고용계약서와 자격 요건 충족 시 신청 가능  \n\n## 주"
+        },
+        {
+          "turn": 6,
+          "desc": "followup 5",
+          "msg": "소득 미달 시 Section 18a/18b 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "연방고용청 승인 절차는 어떻게 진행되나요?",
+            "전문직 분야 외 다른 직종으로 신청 가능한가요?",
+            "고용계약서에 반드시 명시해야 할 내용은 무엇인가요?",
+            "Section 18a/18b 비자로 영주권 전환 시 추가 조건은?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건(연소득 56,400유로 이상)을 충족하지 못하는 전문직 종사자를 위한 비자  \n- IT·자연"
+        },
+        {
+          "turn": 7,
+          "desc": "followup 6",
+          "msg": "연방고용청 승인 절차는 어떻게 진행되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "연방고용청 승인 소요 기간은 얼마나 걸리나요?",
+            "소득 요건 미달 시 대체 가능한 비자는 있나요?",
+            "필요 서류 중 번역 공증이 필요한 서류가 있나요?",
+            "Section 18a/18b 비자로 영주권 전환 조건은 어떻게 되나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건(연소득 56,400유로 이상)을 충족하지 못하는 전문직 종사자를 위한 비자  \n- IT·자연"
+        },
+        {
+          "turn": 8,
+          "desc": "followup 7",
+          "msg": "연방고용청 승인 소요 기간은 얼마나 걸리나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "연방고용청 승인 시 필요한 서류는 무엇인가요?",
+            "독일어 능력 증명 기준은 어떻게 되나요?",
+            "EU 블루카드 대신 이 비자를 선택하는 장점은?",
+            "승인 후 비자 발급까지 추가 소요 기간은?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건(연소득 56,400유로 이상)을 충족하지 못하는 전문직 종사자를 위한 비자  \n- IT·자연"
+        },
+        {
+          "turn": 9,
+          "desc": "followup 8",
+          "msg": "연방고용청 승인 시 필요한 서류는 무엇인가요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "연방고용청 승인 후 비자 신청 절차는 어떻게 되나요?",
+            "EU 블루카드 소득 조건 미달 시 다른 비자 옵션은?",
+            "독일 취업 비자 신청 시 처리 기간은 보통 몇 주인가요?",
+            "연방고용청 승인 예외 적용 가능 직종은 어떤 게 있나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Section 18a/18b AufenthG)**  \n- EU 블루카드 소득 조건(연소득 56,400유로 이상)을 충족하지 못하는 전문직 종사자를 위한 비자  \n- IT·자연"
+        },
+        {
+          "turn": 10,
+          "desc": "followup 9",
+          "msg": "연방고용청 승인 후 비자 신청 절차는 어떻게 되나요?",
+          "route": [
+            "intent_classifier",
+            "visa_rag_search",
+            "response_formatter"
+          ],
+          "passed": true,
+          "followups": [
+            "연방고용청 승인 소요 기간은 얼마나 걸리나요?",
+            "IT 분야 간소화된 절차 구체적 조건은?",
+            "독일 취업 비자 신청 시 추가 서류가 필요한가요?",
+            "EU 블루카드 전환 가능 여부는 어떻게 확인하나요?"
+          ],
+          "response_preview": "## 추천 비자  \n**독일 취업 비자 (Section 18a/18b AufenthG)**  \n- 연방고용청(ZAV) 승인 후 신청 가능한 비자로, EU 블루카드 소득 조건(연소득 56,400유로 이상)을 충족하지 "
+        }
+      ],
+      "pass": 10,
+      "total": 10,
+      "pct": 100.0,
+      "all_pass": true
+    }
+  ]
+}

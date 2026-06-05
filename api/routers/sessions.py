@@ -35,6 +35,7 @@ class PatchReq(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     tags: Optional[List[str]] = None
+    pinned: Optional[bool] = None   # 상단 고정 토글
 
 
 class MessageReq(BaseModel):
@@ -79,7 +80,9 @@ def get_session(sid: str):
 
 @router.patch("/{sid}")
 def patch_session(sid: str, req: PatchReq):
-    s = store.update_session(sid, title=req.title, description=req.description, tags=req.tags)
+    s = store.update_session(
+        sid, title=req.title, description=req.description, tags=req.tags, pinned=req.pinned
+    )
     if not s:
         raise HTTPException(status_code=404, detail="session not found")
     return s

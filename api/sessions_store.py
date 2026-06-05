@@ -75,6 +75,7 @@ def _summary(s: dict) -> dict:
         "title": s.get("title") or "새 대화",
         "description": s.get("description", ""),
         "tags": s.get("tags", []),
+        "pinned": bool(s.get("pinned", False)),
         "created": s.get("created", ""),
         "updated": s.get("updated", ""),
         "message_count": len(s.get("messages", [])),
@@ -84,9 +85,14 @@ def _summary(s: dict) -> dict:
 
 # ── 공개 API ──────────────────────────────────────────────────────────────
 def list_sessions() -> list[dict]:
+    """목록 정렬: 고정(pinned) 우선, 그 안에서 생성 시각(created) 내림차순."""
     with _lock:
         _load()
-        items = sorted(_sessions.values(), key=lambda s: s.get("updated", ""), reverse=True)
+        items = sorted(
+            _sessions.values(),
+            key=lambda s: (bool(s.get("pinned", False)), s.get("created", "")),
+            reverse=True,
+        )
         return [_summary(s) for s in items]
 
 
@@ -107,6 +113,7 @@ def create_session(title: str = "새 대화", session_id: str | None = None) -> 
             "title": title or "새 대화",
             "description": "",
             "tags": [],
+            "pinned": False,
             "created": now,
             "updated": now,
             "messages": [],
@@ -116,7 +123,7 @@ def create_session(title: str = "새 대화", session_id: str | None = None) -> 
         return json.loads(json.dumps(_sessions[sid]))
 
 
-def update_session(sid: str, *, title=None, description=None, tags=None) -> dict | None:
+def update_session(sid: str, *, title=None, description=None, tags=None, pinned=None) -> dict | None:
     with _lock:
         _load()
         s = _sessions.get(sid)
@@ -128,7 +135,11 @@ def update_session(sid: str, *, title=None, description=None, tags=None) -> dict
             s["description"] = description.strip()[:160]
         if tags is not None:
             s["tags"] = [t.strip()[:20] for t in tags if t and t.strip()][:8]
-        s["updated"] = _now()
+        if pinned is not None:
+            s["pinned"] = bool(pinned)
+        # 고정 토글만 한 경우에는 updated(최근활동)를 갱신하지 않는다.
+        if not (pinned is not None and title is None and description is None and tags is None):
+            s["updated"] = _now()
         _persist()
         return json.loads(json.dumps(s))
 
