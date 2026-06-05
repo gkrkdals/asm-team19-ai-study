@@ -143,7 +143,8 @@ def delete_session(sid: str) -> bool:
 
 
 def append_message(sid: str, role: str, content: str, *, auto_title: bool = True,
-                   is_visa: bool | None = None, slots: dict | None = None) -> dict | None:
+                   is_visa: bool | None = None, slots: dict | None = None,
+                   is_followup: bool | None = None) -> dict | None:
     """세션에 메시지를 추가한다. 세션이 없으면 생성한다.
 
     is_visa/slots 는 비자 추천 답변(assistant)의 표시 복원용 선택 메타 — 주어질 때만 저장한다.
@@ -160,6 +161,8 @@ def append_message(sid: str, role: str, content: str, *, auto_title: bool = True
             msg["is_visa"] = is_visa
         if slots:
             msg["slots"] = slots
+        if is_followup is not None:
+            msg["is_followup"] = is_followup
         s["messages"].append(msg)
         # 첫 사용자 메시지로 제목 자동 설정
         if auto_title and role == "user" and (not s.get("title") or s["title"] == "새 대화"):

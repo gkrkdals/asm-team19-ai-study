@@ -142,6 +142,7 @@ async def _iter_events(req: ChatRequest):
     streamed_tokens = ""
     step = 0
     is_visa = None                          # intent_classifier 가 내는 is_visa_related 캡처(done 에 실어 카드 분기)
+    is_followup = False                     # 기존 비자 후속/상세 질문 여부(라이트 카드 분기)
     slots = {"country": None, "purpose": None, "duration": None, "profession": None}
     try:
         # 멀티모드 스트리밍:
@@ -174,13 +175,15 @@ async def _iter_events(req: ChatRequest):
                     final_response = update["final_response"]
                 if update and "is_visa_related" in update:
                     is_visa = update["is_visa_related"]
+                    is_followup = bool(update.get("is_followup"))
                     # 의도분류 직후 조기 신호 → 프론트가 답변 토큰을 그리기 전에
-                    # 카드/평문을 결정(일반대화 카드 깜빡임 방지)
+                    # 카드/평문/라이트를 결정(깜빡임 방지)
                     yield {
                         "type": "meta",
                         "run_id": run_id,
                         "session_id": sid,
                         "is_visa_related": is_visa,
+                        "is_followup": is_followup,
                     }
                 if update:
                     changed = False
@@ -231,6 +234,7 @@ async def _iter_events(req: ChatRequest):
         "final_response": final_response,
         "slots": slots,
         "is_visa_related": is_visa,         # 프론트: 추천(비자) 답변일 때만 VISA GUIDANCE 카드
+        "is_followup": is_followup,         # 기존 비자 후속/상세 → 라이트 카드(분류표·표지 생략)
         "total_ms": round((time.perf_counter() - t0) * 1000),
     }
 
