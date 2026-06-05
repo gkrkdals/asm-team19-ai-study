@@ -14,7 +14,7 @@
   "tags":        list[str],      # 예: ["장기체류","취업"]
   "created":     ISO8601,
   "updated":     ISO8601,
-  "messages":    [{"role","content","ts"}],
+  "messages":    [{"role","content","ts", "is_visa"?:bool, "slots"?:dict}],  # is_visa/slots 는 비자 답변 표시 복원용(선택)
   "last_run":    {"steps":[...], "total_ms":int, "followups":[...], "slots":{...}|None} | None   # 우측 패널/트레이스·요약 카드 복원용
 }
 
@@ -142,8 +142,13 @@ def delete_session(sid: str) -> bool:
         return existed
 
 
-def append_message(sid: str, role: str, content: str, *, auto_title: bool = True) -> dict | None:
-    """세션에 메시지를 추가한다. 세션이 없으면 생성한다."""
+def append_message(sid: str, role: str, content: str, *, auto_title: bool = True,
+                   is_visa: bool | None = None, slots: dict | None = None,
+                   is_followup: bool | None = None) -> dict | None:
+    """세션에 메시지를 추가한다. 세션이 없으면 생성한다.
+
+    is_visa/slots 는 비자 추천 답변(assistant)의 표시 복원용 선택 메타 — 주어질 때만 저장한다.
+    """
     with _lock:
         _load()
         s = _sessions.get(sid)
@@ -151,7 +156,14 @@ def append_message(sid: str, role: str, content: str, *, auto_title: bool = True
             s = create_session(session_id=sid)
             _load()
             s = _sessions.get(sid)
-        s["messages"].append({"role": role, "content": content, "ts": _now()})
+        msg = {"role": role, "content": content, "ts": _now()}
+        if is_visa is not None:
+            msg["is_visa"] = is_visa
+        if slots:
+            msg["slots"] = slots
+        if is_followup is not None:
+            msg["is_followup"] = is_followup
+        s["messages"].append(msg)
         # 첫 사용자 메시지로 제목 자동 설정
         if auto_title and role == "user" and (not s.get("title") or s["title"] == "새 대화"):
             s["title"] = content.strip()[:30] or "새 대화"
