@@ -80,6 +80,22 @@
   .conv-meta .dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto;}
   .conv-meta .time{margin-left:auto; font-family:var(--mono); font-size:10px;}
 
+  /* delete conversation (hover/focus reveal, 직인 빨강) */
+  .conv-wrap{position:relative;}
+  .conv-del{
+    position:absolute; top:50%; right:7px; transform:translateY(-50%);
+    width:28px;height:28px;border-radius:7px; border:none; cursor:pointer; padding:0;
+    display:grid; place-items:center; background:rgba(14,24,48,.55); color:var(--s-dim);
+    opacity:0; pointer-events:none; transition:opacity .15s ease, background .15s ease, color .15s ease;
+  }
+  .conv-wrap:hover .conv-del, .conv-del:focus-visible{opacity:1; pointer-events:auto;}
+  .conv-wrap:hover .conv-meta .time{visibility:hidden;}
+  .conv-del:hover{background:rgba(210,62,50,.92); color:#fff;}
+  .conv-del:focus-visible{outline:2px solid #9DB4FF; outline-offset:1px;}
+  .conv-del svg{width:15px;height:15px;}
+  /* 터치 기기엔 hover가 없어 삭제 버튼을 상시 노출(우측 여백 확보) */
+  @media (hover:none){ .conv{padding-right:44px;} .conv-del{opacity:.9; pointer-events:auto;} }
+
   .side-foot{border-top:1px solid var(--s-line); padding:11px 12px 13px; display:flex; flex-direction:column; gap:9px;}
   .side-trace{display:flex; align-items:center; gap:9px; text-decoration:none; color:#CBD6F2; font-size:12.5px; font-weight:500; background:rgba(157,180,255,.08); border:1px solid var(--s-line); border-radius:9px; padding:9px 11px; transition:all .18s ease;}
   .side-trace:hover{background:rgba(157,180,255,.16); border-color:rgba(157,180,255,.4);}
@@ -381,10 +397,16 @@
   function renderConv(){
     convlist.innerHTML = state.sessions.map(function(s){
       var tag=(s.tags&&s.tags[0])||''; var dot=TAGDOT[tag]||'#9DB4FF';
-      return '<button class="conv'+(s.id===state.sid?' active':'')+'" data-sid="'+esc(s.id)+'" data-title="'+esc(s.title||'새 대화')+'">'+
-        '<span class="conv-title">'+esc(s.title||'새 대화')+'</span>'+
-        '<span class="conv-meta">'+(tag?'<span class="tag"><span class="dot" style="background:'+dot+'"></span>'+esc(tag)+'</span>':'<span class="tag" style="color:var(--s-dim)">대화</span>')+
-        '<span class="time">'+relTime(s.updated)+'</span></span></button>';
+      var ttl=esc(s.title||'새 대화');
+      return '<div class="conv-wrap">'+
+        '<button class="conv'+(s.id===state.sid?' active':'')+'" data-sid="'+esc(s.id)+'" data-title="'+ttl+'">'+
+          '<span class="conv-title">'+ttl+'</span>'+
+          '<span class="conv-meta">'+(tag?'<span class="tag"><span class="dot" style="background:'+dot+'"></span>'+esc(tag)+'</span>':'<span class="tag" style="color:var(--s-dim)">대화</span>')+
+          '<span class="time">'+relTime(s.updated)+'</span></span></button>'+
+        '<button class="conv-del" data-del="'+esc(s.id)+'" data-title="'+ttl+'" aria-label="대화 삭제" title="대화 삭제">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13M10 11v6M14 11v6" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+        '</button>'+
+      '</div>';
     }).join('');
   }
   function setHeader(){
@@ -414,6 +436,21 @@
     });
   }
   function refreshSessions(){ return api('GET','/sessions').then(function(d){ state.sessions=d.sessions||[]; renderConv(); }); }
+
+  function deleteSession(sid, title){
+    if(!sid) return;
+    if(!confirm('"'+(title||'이 대화')+'" 대화를 삭제할까요?\n삭제한 대화는 복구할 수 없어요.')) return;
+    var wasActive=(sid===state.sid);
+    api('DELETE','/sessions/'+encodeURIComponent(sid)).then(function(){
+      return refreshSessions().then(function(){
+        if(!wasActive) return;                       // 비활성 대화 삭제 → 목록만 갱신
+        if(state.sessions.length) return loadActive(state.sessions[0].id);  // 최신 대화로 전환
+        return api('POST','/sessions',{title:'새 대화'}).then(function(s){   // 남은 게 없으면 새 대화
+          return refreshSessions().then(function(){ return loadActive(s.id); });
+        });
+      });
+    }).catch(function(){ refreshSessions(); });       // 실패(이미 삭제 등) → UI 재동기화
+  }
 
   function boot(){
     api('GET','/sessions').then(function(d){
@@ -498,13 +535,14 @@
   input.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); form.requestSubmit(); } });
   input.addEventListener('input', grow);
   document.addEventListener('click', function(e){
+    var del=e.target.closest('.conv-del'); if(del){ e.preventDefault(); deleteSession(del.dataset.del, del.dataset.title); return; }
     var chip=e.target.closest('.chip'); if(chip){ send(chip.dataset.q||chip.textContent.replace(/^\+\s*/,'')); return; }
     var conv=e.target.closest('.conv'); if(conv){ loadActive(conv.dataset.sid); if(window.innerWidth<=860) closeDrawer(); return; }
   });
   $('#newchat').addEventListener('click', function(){
     api('POST','/sessions',{title:'새 대화'}).then(function(s){ return refreshSessions().then(function(){ return loadActive(s.id); }); }).then(function(){ input.focus(); if(window.innerWidth<=860) closeDrawer(); }).catch(function(){});
   });
-  search.addEventListener('input', function(){ var q=search.value.trim().toLowerCase(); var els=convlist.querySelectorAll('.conv'); for(var i=0;i<els.length;i++){ els[i].style.display=(els[i].dataset.title||'').toLowerCase().indexOf(q)>=0?'':'none'; } });
+  search.addEventListener('input', function(){ var q=search.value.trim().toLowerCase(); var els=convlist.querySelectorAll('.conv-wrap'); for(var i=0;i<els.length;i++){ var c=els[i].querySelector('.conv'); els[i].style.display=((c&&c.dataset.title)||'').toLowerCase().indexOf(q)>=0?'':'none'; } });
   function openDrawer(){ sidebar.classList.add('open'); backdrop.classList.add('show'); menu.setAttribute('aria-expanded','true'); }
   function closeDrawer(){ sidebar.classList.remove('open'); backdrop.classList.remove('show'); menu.setAttribute('aria-expanded','false'); }
   menu.addEventListener('click', function(){ sidebar.classList.contains('open')?closeDrawer():openDrawer(); });
