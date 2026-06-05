@@ -411,9 +411,9 @@
   function loadActive(sid){
     return api('GET','/sessions/'+encodeURIComponent(sid)).then(function(full){
       state.meta={title:full.title, description:full.description, tags:full.tags||[], last_run:full.last_run};
-      state.messages=(full.messages||[]).map(function(m){ return {role:m.role, content:m.content}; });
+      state.messages=(full.messages||[]).map(function(m){ var o={role:m.role, content:m.content}; if(m.is_visa!==undefined) o.is_visa=m.is_visa; if(m.slots) o.slots=m.slots; return o; });
       var lr=full.last_run||{};
-      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ state.messages[i].slots=lr.slots; break; } } }
+      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ if(!state.messages[i].slots) state.messages[i].slots=lr.slots; break; } } }
       setSid(sid); renderConv(); setHeader(); renderStream();
       var last=state.messages[state.messages.length-1];
       var fu=(full.last_run&&full.last_run.followups)||[];
@@ -485,7 +485,8 @@
     var msgs=stream.querySelectorAll('.msg'); var aH=0,uH2=0; var aEl=msgs[msgs.length-1]; var uEl2=msgs[msgs.length-2]; if(aEl)aH=aEl.getBoundingClientRect().height; if(uEl2)uH2=uEl2.getBoundingClientRect().height;
     setSpacer(window.innerHeight - headerOffset() - aH - uH2 - 24);
     state.busy=false; sendBtn.disabled=false;
-    api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'assistant',content:finalText}).catch(function(){});
+    var saveMsg={role:'assistant',content:finalText}; if(isVisa===false) saveMsg.is_visa=false; if(slots) saveMsg.slots=slots;
+    api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',saveMsg).catch(function(){});
     var hist=state.messages.slice(-6).map(function(m){ return {role:m.role, content:m.content}; });
     function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
     api('POST','/chat/followups',{history:hist}).then(function(d){

@@ -40,6 +40,8 @@ class PatchReq(BaseModel):
 class MessageReq(BaseModel):
     role: str
     content: str
+    is_visa: Optional[bool] = None   # 비자 추천 답변 여부(일반대화=False) — 새로고침 후 카드/평문 복원
+    slots: Optional[dict] = None     # 답변 시점 파싱 슬롯 — 새로고침 후 요약 카드·동적 제목 복원
 
 
 class LastRunReq(BaseModel):
@@ -92,7 +94,7 @@ def delete_session(sid: str):
 
 @router.post("/{sid}/messages")
 def add_message(sid: str, req: MessageReq):
-    s = store.append_message(sid, req.role, req.content)
+    s = store.append_message(sid, req.role, req.content, is_visa=req.is_visa, slots=req.slots)
     if not s:
         raise HTTPException(status_code=404, detail="session not found")
     return {"id": sid, "message_count": len(s["messages"]), "title": s["title"]}
