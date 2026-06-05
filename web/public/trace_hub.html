@@ -74,14 +74,15 @@ function render(){
   const ids = Object.keys(SESS);
   $("cnt").textContent = "세션 " + ids.length;
   $("empty").style.display = ids.length ? "none" : "";
-  // 최근 실행 우선
-  ids.sort((a,b)=> (SESS[b].run_id||"").localeCompare(SESS[a].run_id||""));
+  // 최근 실행 우선(라이브·영속 공통 ts 내림차순)
+  ids.sort((a,b)=> (SESS[b].ts||0)-(SESS[a].ts||0));
   const g=$("grid");
   g.innerHTML = ids.map(id=>{
     const s=SESS[id];
     const cls = s.status==="running" ? "running" : (s.status==="done" ? "done" : "");
     const pct = Math.min(100, Math.round((s.nodeCount/APPROX_TOTAL)*100));
-    const stTxt = s.status==="running" ? "● 실행 중" : (s.status==="done" ? "✓ 완료"+(s.total_ms?` · ${s.total_ms}ms`:"") : "대기");
+    const isRec = s.persisted && s.status!=="running";
+    const stTxt = s.status==="running" ? "● 실행 중" : (isRec ? "🗂️ 기록" : (s.status==="done" ? "✓ 완료"+(s.total_ms?` · ${s.total_ms}ms`:"") : "대기"));
     return `<div class="card ${cls}">
       <div class="top">
         <span class="ttl" title="${esc(s.title)}">${esc(s.title||id)}</span>
@@ -103,7 +104,7 @@ function bootstrap(s){
   SESS[s.session_id] = {
     title:s.title, message:s.message, status:s.status,
     node:s.current_node, icon:s.node_icon, nodeCount:s.node_count||0,
-    total_ms:s.total_ms, run_id:s.run_id,
+    total_ms:s.total_ms, run_id:s.run_id, ts:s.ts, persisted:s.persisted,
   };
 }
 
@@ -113,7 +114,7 @@ function handle(evt){
   let s=SESS[id];
   if(evt.type==="start"){
     s = SESS[id] = { title:evt.session_title||id, message:evt.message||"", status:"running",
-      node:"시작", icon:"▶️", nodeCount:0, total_ms:null, run_id:evt.run_id };
+      node:"시작", icon:"▶️", nodeCount:0, total_ms:null, run_id:evt.run_id, ts:evt.ts };
   } else if(!s){ return; }
   if(evt.type==="node"){ s.status="running"; s.node=evt.label; s.icon=evt.icon; s.nodeCount=evt.step||s.nodeCount+1; }
   else if(evt.type==="done"){ s.status="done"; s.node="응답 완료"; s.icon="🏁"; s.total_ms=evt.total_ms; }

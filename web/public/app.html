@@ -81,37 +81,6 @@
   .conv-meta .tag{display:inline-flex; align-items:center; gap:5px;}
   .conv-meta .dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto;}
   .conv-meta .time{margin-left:auto; font-family:var(--mono); font-size:10px;}
-  /* ⋮ 메뉴 버튼 — span으로 (div>button 중첩 금지 회피) */
-  .conv-more{position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--s-dim); cursor:pointer; padding:4px 8px; border-radius:6px; font-size:18px; line-height:1; display:none; z-index:2;}
-  .conv:hover .conv-more, .conv.active .conv-more{display:inline-flex; align-items:center; justify-content:center;}
-  .conv-more:hover{background:rgba(157,180,255,.18); color:#EAF0FF;}
-  /* 📌 상단 고정 표시 */
-  .conv-pin{font-size:11px; color:#E2A23C; flex:0 0 auto; line-height:1;}
-  .conv.pinned{background:rgba(226,162,60,.07);}
-  .conv.pinned::after{content:""; position:absolute; right:0; top:0; border-width:0 14px 14px 0; border-style:solid; border-color:transparent #E2A23C transparent transparent; opacity:.55;}
-  .conv-title-row{display:flex; align-items:center; gap:5px; min-width:0;}
-  .conv-dropdown{position:fixed; background:#1E2740; border:1px solid rgba(157,180,255,.22); border-radius:10px; padding:5px; min-width:130px; z-index:9999; box-shadow:0 8px 28px rgba(0,0,0,.45); display:none;}
-  .conv-dropdown.open{display:block;}
-  .conv-dd-item{display:flex; align-items:center; gap:8px; width:100%; background:none; border:none; color:#CBD6F2; font-size:13px; padding:8px 10px; border-radius:7px; cursor:pointer; text-align:left;}
-  .conv-dd-item:hover{background:rgba(157,180,255,.14);}
-  .conv-dd-item.danger{color:#FF8A8A;}
-  .conv-dd-item.danger:hover{background:rgba(255,80,80,.12);}
-  /* ── 토스트 알림 ── */
-  .toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(14px); background:#1E2B4A; border:1px solid rgba(157,180,255,.28); color:#EAF0FF; border-radius:12px; padding:10px 20px; font-size:13px; z-index:99999; opacity:0; transition:opacity .22s, transform .22s; pointer-events:none; white-space:nowrap;}
-  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
-  .toast.ok{border-color:rgba(80,220,110,.4); color:#A8F0B0;}
-  .toast.err{border-color:rgba(255,90,90,.4); color:#FFB0B0;}
-  /* ── 삭제 확인 모달 ── */
-  .modal-ov{position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:99998; display:none; align-items:center; justify-content:center;}
-  .modal-ov.open{display:flex;}
-  .modal-box{background:#1A2235; border:1px solid rgba(157,180,255,.22); border-radius:16px; padding:24px 28px; max-width:340px; width:90%;}
-  .modal-box p{color:#EAF0FF; font-size:14px; line-height:1.6; margin:0 0 20px;}
-  .modal-btns{display:flex; gap:10px; justify-content:flex-end;}
-  .modal-btn{border:none; border-radius:9px; padding:8px 18px; font-size:13px; cursor:pointer; font-weight:600;}
-  .modal-btn.cancel{background:rgba(157,180,255,.12); color:#CBD6F2;}
-  .modal-btn.cancel:hover{background:rgba(157,180,255,.22);}
-  .modal-btn.del{background:#B83030; color:#fff;}
-  .modal-btn.del:hover{background:#D43535;}
 
   .side-foot{border-top:1px solid var(--s-line); padding:11px 12px 13px; display:flex; flex-direction:column; gap:9px;}
   .side-trace{display:flex; align-items:center; gap:9px; text-decoration:none; color:#CBD6F2; font-size:12.5px; font-weight:500; background:rgba(157,180,255,.08); border:1px solid var(--s-line); border-radius:9px; padding:9px 11px; transition:all .18s ease;}
@@ -466,19 +435,29 @@
       '<span class="step-pill">STEP '+n+' / 3</span></div>'+
       '<div class="record-row">'+_recField('Country',c)+_recField('Duration',d)+_recField('Purpose',p)+'</div></section>';
   }
-  function docCardHtml(content){
+  function docTitle(slots){
+    if(!slots) return '비자 안내';
+    var c=slots.country?(COUNTRY_KO[(''+slots.country).toUpperCase()]||slots.country):'';
+    var p=slots.purpose?(PURPOSE_KO[(''+slots.purpose).toLowerCase()]||slots.purpose):'';
+    var parts=[c,p].filter(Boolean);
+    return parts.length? parts.join(' ')+' 비자 안내' : '비자 안내';
+  }
+  function docCardHtml(content, slots, light){
+    if(light){ return '<article class="doc doc-light"><div class="doc-body">'+md(content)+'</div>'+TRACE_STRIP(state.sid)+'</article>'; }
     var tags=(state.meta.tags||[]).filter(Boolean);
     var tagHtml=tags.length? tags.map(function(t){ return '<span class="path-tag">'+esc(t)+'</span>'; }).join('') : '';
     return '<article class="doc"><div class="doc-band">'+SEAL+
       '<div class="doc-eyebrow">VISA GUIDANCE</div>'+
-      '<h2 class="doc-title">'+esc(state.meta.title||'비자 안내')+'</h2>'+
+      '<h2 class="doc-title">'+esc(docTitle(slots))+'</h2>'+
       '<div class="doc-tags">'+tagHtml+'<span class="docno">참고용 안내서</span></div></div>'+
       '<div class="doc-body">'+md(content)+'</div>'+
       TRACE_STRIP(state.sid)+'</article>';
   }
   function msgHtml(m){
     if(m.role==='user') return '<div class="msg user"><div class="av">나</div><div class="bubble-u">'+esc(m.content)+'</div></div>';
-    return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+(m.slots?recordHtml(m.slots):'')+docCardHtml(m.content)+'</div></div>';
+    if(m.is_visa===false) return '<div class="msg"><div class="av">V</div><div class="bubble-a">'+md(m.content)+'</div></div>';
+    if(m.is_followup) return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+docCardHtml(m.content, m.slots, true)+'</div></div>';
+    return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+(m.slots?recordHtml(m.slots):'')+docCardHtml(m.content, m.slots)+'</div></div>';
   }
   function renderStream(){
     stream.innerHTML = state.messages.length ? state.messages.map(msgHtml).join('') : (GREETING_MSG + suggestHtml());
@@ -591,9 +570,9 @@
     var prevSid = state.sid;
     return api('GET','/sessions/'+encodeURIComponent(sid)).then(function(full){
       state.meta={title:full.title, description:full.description, tags:full.tags||[], last_run:full.last_run};
-      state.messages=(full.messages||[]).map(function(m){ return {role:m.role, content:m.content}; });
+      state.messages=(full.messages||[]).map(function(m){ var o={role:m.role, content:m.content}; if(m.is_visa!==undefined) o.is_visa=m.is_visa; if(m.slots) o.slots=m.slots; if(m.is_followup) o.is_followup=m.is_followup; return o; });
       var lr=full.last_run||{};
-      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ state.messages[i].slots=lr.slots; break; } } }
+      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ if(!state.messages[i].slots) state.messages[i].slots=lr.slots; break; } } }
       setSid(sid); renderConv(); setHeader(); renderStream();
       // 다른 세션으로 전환 시 토스트 알림
       if(prevSid && prevSid !== sid){
@@ -625,7 +604,11 @@
   function grow(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,128)+'px'; }
   var LIVE_LOADING='<div class="loading"><span class="text">공식 자료를 차분히 확인하고 있어요</span><span class="dots"><i></i><i></i><i></i></span><a class="live-trace" href="/trace" target="_blank" rel="noopener">실시간 과정 보기 ↗</a></div>';
   function liveNode(){ var m=document.createElement('div'); m.className='msg'; m.innerHTML='<div class="av live">V</div>'+LIVE_LOADING; stream.appendChild(m); return m; }
-  function liveCard(node, acc, slots){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(slots?recordHtml(slots):'')+(acc?docCardHtml(acc):LIVE_LOADING)+'</div>'; }
+  function liveCard(node, acc, slots, isVisa, isFollowup){
+    if(isVisa===false){ node.innerHTML='<div class="av live">V</div><div class="bubble-a">'+(acc?md(acc):LIVE_LOADING)+'</div>'; return; }
+    if(isFollowup){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(acc?docCardHtml(acc, slots, true):LIVE_LOADING)+'</div>'; return; }
+    node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(slots?recordHtml(slots):'')+(acc?docCardHtml(acc, slots):LIVE_LOADING)+'</div>';
+  }
 
   function send(text){
     if(state.busy) return; if(!text||!text.trim()) return; text=text.trim();
@@ -643,7 +626,7 @@
     api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
     var acc='', finalResp=null, doneSlots=null, liveSlots=null;
-    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:sentSid,history:history})})
+    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
         var reader=resp.body.getReader(), dec=new TextDecoder(), buf='';
@@ -652,37 +635,24 @@
           buf+=dec.decode(r.value,{stream:true});
           var parts=buf.split('\n\n'); buf=parts.pop();
           for(var i=0;i<parts.length;i++){ var lines=parts[i].split('\n'); for(var j=0;j<lines.length;j++){ var ln=lines[j]; if(ln.indexOf('data:')===0){ try{ var evt=JSON.parse(ln.slice(5).trim());
-            if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots); }
-            else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots); }
-            else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; }
+            if(evt.type==='meta'){ if('is_visa_related' in evt){ liveVisa=evt.is_visa_related; doneVisa=evt.is_visa_related; } if('is_followup' in evt){ liveFollowup=evt.is_followup; doneFollowup=evt.is_followup; } liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            else if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; if('is_visa_related' in evt) doneVisa=evt.is_visa_related; if('is_followup' in evt) doneFollowup=evt.is_followup; }
           }catch(e){} } } }
           return pump();
         }); })();
       })
-      .then(function(){ finishAnswer(sentSid, live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots); })
+      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots); })
       .catch(function(){
-        api('POST','/chat/',{message:text,session_id:sentSid,history:history})
-          .then(function(d){ finishAnswer(sentSid, live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.'); })
-          .catch(function(){ finishAnswer(sentSid, live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
+        api('POST','/chat/',{message:text,session_id:state.sid,history:history})
+          .then(function(d){ finishAnswer(live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.'); })
+          .catch(function(){ finishAnswer(live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
       });
   }
-  function finishAnswer(sentSid, live, finalText, slots){
-    var isCurrent = (sentSid === state.sid);
-    // ── 백엔드 저장은 항상 원래 세션(sentSid)에 ──────────────────────────
-    api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'assistant',content:finalText}).catch(function(){});
-    function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(sentSid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
-    if(!isCurrent){
-      // 세션이 바뀐 경우: 로딩 스피너만 제거하고 현재 화면(B)은 건드리지 않는다
-      live.remove();
-      state.busy=false; sendBtn.disabled=false;
-      api('POST','/chat/followups',{history:[]}).catch(function(){});
-      saveLastRun([]);
-      refreshSessions();
-      return;
-    }
-    // ── 동일 세션: 정상 UI 업데이트 ────────────────────────────────────
+  function finishAnswer(live, finalText, slots){
     live.remove();
-    var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots;
+    var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots; if(isVisa===false) amsg.is_visa=false; if(isFollowup) amsg.is_followup=true;
     state.messages.push(amsg); renderStream();
     var msgs=stream.querySelectorAll('.msg'); var aH=0,uH2=0; var aEl=msgs[msgs.length-1]; var uEl2=msgs[msgs.length-2]; if(aEl)aH=aEl.getBoundingClientRect().height; if(uEl2)uH2=uEl2.getBoundingClientRect().height;
     setSpacer(window.innerHeight - headerOffset() - aH - uH2 - 24);
@@ -695,6 +665,7 @@
       var cur=state.sessions.filter(function(s){return s.id===state.sid;})[0];
       if(cur){
         state.meta.title=cur.title; if(cur.tags) state.meta.tags=cur.tags; setHeader();
+        // keep the just-rendered doc-band title in sync with the backend-generated title
         var titles=stream.querySelectorAll('.doc .doc-title');
         if(titles.length) titles[titles.length-1].textContent=state.meta.title||'비자 안내';
       }

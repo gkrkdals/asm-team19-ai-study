@@ -145,7 +145,8 @@ async def intent_classifier(state: AgentState) -> dict:
   "duration": "기간 문자열 또는 null",
   "profession": "직업/분야 또는 null",
   "has_sponsor": true|false|null,
-  "is_visa_related": true|false
+  "is_visa_related": true|false,
+  "is_followup": true|false
 }}
 
 판단 기준:
@@ -155,12 +156,18 @@ async def intent_classifier(state: AgentState) -> dict:
 - is_visa_related: 해외 비자·체류·취업/유학/여행/이민·입국·여권 관련이면 반드시 true.
   '취업/유학/체류/이민/입국'처럼 해외 이동을 함의하는 표현이 있으면 true 로 판단하세요.
   순수한 잡담(날씨·음식·인사 등)만 false.
+- is_followup: **이전 대화에서 이미 국가·목적(또는 특정 비자)이 정해진 뒤** 그 비자에 대한
+  추가·상세·후속 질문(필요서류·처리기간·비용·연장·특정 비자코드 상세·"스폰서 협의" 등 액션)이면 true.
+  **새로운 국가/목적의 비자를 처음 추천받으려는 요청**(예: "미국 취업하고 싶어", "그럼 영국은?")은 false.
+  이전 대화가 없으면(첫 질문) 항상 false.
 
 예시:
-- "캐나다에서 소프트웨어 개발자로 취업하고 싶어요" → {{"country":"CA","purpose":"employment","profession":"소프트웨어 개발자","is_visa_related":true}}
-- "일본 유학 비자 알려줘" → {{"country":"JP","purpose":"study","is_visa_related":true}}
-- "남아공에서 일하려면?" → {{"country":"ZA","purpose":"employment","is_visa_related":true}}
-- "오늘 점심 뭐 먹지?" → {{"country":null,"purpose":null,"is_visa_related":false}}"""
+- "캐나다에서 소프트웨어 개발자로 취업하고 싶어요" → {{"country":"CA","purpose":"employment","profession":"소프트웨어 개발자","is_visa_related":true,"is_followup":false}}
+- "일본 유학 비자 알려줘" → {{"country":"JP","purpose":"study","is_visa_related":true,"is_followup":false}}
+- "남아공에서 일하려면?" → {{"country":"ZA","purpose":"employment","is_visa_related":true,"is_followup":false}}
+- "오늘 점심 뭐 먹지?" → {{"country":null,"purpose":null,"is_visa_related":false,"is_followup":false}}
+- (직전 대화에서 미국 취업 H-1B 안내를 받은 뒤) "H-1B 신청 시 추가 서류는?" → {{"country":"US","purpose":"employment","is_visa_related":true,"is_followup":true}}
+- (직전 대화에서 미국 취업 안내 후) "고용주와 스폰서 협의" → {{"country":"US","purpose":"employment","is_visa_related":true,"is_followup":true}}"""
 
     try:
         response = await llm.ainvoke([HumanMessage(content=extraction_prompt)])
@@ -207,6 +214,11 @@ async def intent_classifier(state: AgentState) -> dict:
     else:
         is_visa_related = False
 
+    # 후속/상세 질문: 이전 대화가 있고(첫 질문 아님) 비자 관련이며 LLM 이 후속이라 판단하면 true.
+    # (새 추천이 아니라 기존 비자에 대한 추가 질문 → 프론트가 라이트 카드로 표시)
+    has_prior = len(state["messages"]) > 1
+    is_followup = bool(is_visa_related and has_prior and data.get("is_followup"))
+
     deep = is_deep_search(last_message)
 
     resolved = {
@@ -218,6 +230,7 @@ async def intent_classifier(state: AgentState) -> dict:
         "is_exception": bool(detected_exception),
         "exception_type": detected_exception or state.get("exception_type"),
         "is_visa_related": bool(is_visa_related),
+        "is_followup": is_followup,
         "deep_search": bool(deep),
     }
 

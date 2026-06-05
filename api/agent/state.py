@@ -13,6 +13,7 @@ class AgentState(TypedDict):
     is_exception: bool
     exception_type: Optional[str]    # extension, status_change, rejection
     is_visa_related: bool            # 비자 도메인 질문 여부(아니면 general_chat)
+    is_followup: bool                # 기존 비자에 대한 후속/상세 질문(신규 추천 아님) → 라이트 표시
     search_results: Optional[str]    # 라우팅 기준 컨텍스트(비자 RAG → 웹검색)
     extra_context: Optional[str]     # 교차 예외규칙 등 보조 컨텍스트(항상 프롬프트에 병합)
     web_query: Optional[str]         # (재생성된) 웹 검색어
