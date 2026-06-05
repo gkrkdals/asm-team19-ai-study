@@ -441,7 +441,10 @@
   function grow(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,128)+'px'; }
   var LIVE_LOADING='<div class="loading"><span class="text">공식 자료를 차분히 확인하고 있어요</span><span class="dots"><i></i><i></i><i></i></span><a class="live-trace" href="/trace" target="_blank" rel="noopener">실시간 과정 보기 ↗</a></div>';
   function liveNode(){ var m=document.createElement('div'); m.className='msg'; m.innerHTML='<div class="av live">V</div>'+LIVE_LOADING; stream.appendChild(m); return m; }
-  function liveCard(node, acc, slots){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(slots?recordHtml(slots):'')+(acc?docCardHtml(acc, slots):LIVE_LOADING)+'</div>'; }
+  function liveCard(node, acc, slots, isVisa){
+    if(isVisa===false){ node.innerHTML='<div class="av live">V</div><div class="bubble-a">'+(acc?md(acc):LIVE_LOADING)+'</div>'; return; }
+    node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(slots?recordHtml(slots):'')+(acc?docCardHtml(acc, slots):LIVE_LOADING)+'</div>';
+  }
 
   function send(text){
     if(state.busy) return; if(!text||!text.trim()) return; text=text.trim();
@@ -454,7 +457,7 @@
     anchorLastUser();
     api('POST','/sessions/'+encodeURIComponent(state.sid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
-    var acc='', finalResp=null, doneSlots=null, liveSlots=null, doneVisa=null;
+    var acc='', finalResp=null, doneSlots=null, liveSlots=null, doneVisa=null, liveVisa=null;
     fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
@@ -464,8 +467,9 @@
           buf+=dec.decode(r.value,{stream:true});
           var parts=buf.split('\n\n'); buf=parts.pop();
           for(var i=0;i<parts.length;i++){ var lines=parts[i].split('\n'); for(var j=0;j<lines.length;j++){ var ln=lines[j]; if(ln.indexOf('data:')===0){ try{ var evt=JSON.parse(ln.slice(5).trim());
-            if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots); }
-            else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots); }
+            if(evt.type==='meta'){ if('is_visa_related' in evt){ liveVisa=evt.is_visa_related; doneVisa=evt.is_visa_related; liveCard(live, acc, liveSlots, liveVisa); } }
+            else if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots, liveVisa); }
+            else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots, liveVisa); }
             else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; if('is_visa_related' in evt) doneVisa=evt.is_visa_related; }
           }catch(e){} } } }
           return pump();

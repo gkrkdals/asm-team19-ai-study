@@ -174,6 +174,14 @@ async def _iter_events(req: ChatRequest):
                     final_response = update["final_response"]
                 if update and "is_visa_related" in update:
                     is_visa = update["is_visa_related"]
+                    # 의도분류 직후 조기 신호 → 프론트가 답변 토큰을 그리기 전에
+                    # 카드/평문을 결정(일반대화 카드 깜빡임 방지)
+                    yield {
+                        "type": "meta",
+                        "run_id": run_id,
+                        "session_id": sid,
+                        "is_visa_related": is_visa,
+                    }
                 if update:
                     changed = False
                     for _k in ("country", "purpose", "duration", "profession"):
