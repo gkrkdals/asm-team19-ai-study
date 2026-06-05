@@ -72,9 +72,10 @@ class EventBus:
                 "node_count": len(nodes),
                 "total_ms": (done or {}).get("total_ms"),
                 "run_id": start.get("run_id"),
+                "ts": start.get("ts"),
             })
         # 최근 실행 먼저
-        out.sort(key=lambda x: x.get("run_id") or "", reverse=True)
+        out.sort(key=lambda x: x.get("ts") or 0, reverse=True)
         return out
 
     # ── 발행 ────────────────────────────────────────────────────────────

@@ -27,6 +27,7 @@ import asyncio
 import json
 import time
 import uuid
+from datetime import datetime
 
 from fastapi import APIRouter, Query
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -131,6 +132,7 @@ async def _iter_events(req: ChatRequest):
         "session_id": sid,
         "session_title": title,
         "message": req.message,
+        "ts": time.time(),                 # 정렬키(허브: 라이브·영속 공통 epoch float)
         "nodes": topo["nodes"],
         "edges": topo["edges"],
         "source_labels": topo["source_labels"],
@@ -139,6 +141,7 @@ async def _iter_events(req: ChatRequest):
     final_response = None
     streamed_tokens = ""
     step = 0
+    is_visa = None                          # intent_classifier 가 내는 is_visa_related 캡처(done 에 실어 카드 분기)
     slots = {"country": None, "purpose": None, "duration": None, "profession": None}
     try:
         # 멀티모드 스트리밍:
@@ -169,6 +172,8 @@ async def _iter_events(req: ChatRequest):
                 step += 1
                 if update and update.get("final_response"):
                     final_response = update["final_response"]
+                if update and "is_visa_related" in update:
+                    is_visa = update["is_visa_related"]
                 if update:
                     changed = False
                     for _k in ("country", "purpose", "duration", "profession"):
@@ -217,6 +222,7 @@ async def _iter_events(req: ChatRequest):
         "session_id": sid,
         "final_response": final_response,
         "slots": slots,
+        "is_visa_related": is_visa,         # 프론트: 추천(비자) 답변일 때만 VISA GUIDANCE 카드
         "total_ms": round((time.perf_counter() - t0) * 1000),
     }
 
@@ -276,7 +282,59 @@ async def trace_live(session_id: str | None = Query(default=None)) -> StreamingR
 
 
 # ── GET /trace/sessions : 통합 허브용 세션 개요 JSON ───────────────────────
+def _to_epoch(value) -> float:
+    """ISO8601 문자열/숫자를 정렬용 epoch float 로 통일(라이브 ts 와 같은 타입)."""
+    if value is None:
+        return 0.0
+    if isinstance(value, (int, float)):
+        return float(value)
+    try:
+        return datetime.fromisoformat(str(value)).timestamp()
+    except Exception:  # noqa: BLE001
+        return 0.0
+
+
+def _persisted_overview() -> list[dict]:
+    """영속 세션(data/sessions.json)을 허브 카드 형태로 매핑.
+
+    인메모리 버스가 비어도(재시작 직후 등) 과거 대화가 허브 목록에 보이게 한다.
+    스텝 트레이스는 영속되지 않으므로 목록 표시까지만(상세 페이지 복원은 범위 밖).
+    """
+    out: list[dict] = []
+    for summ in store.list_sessions():
+        sid = summ.get("id")
+        if not sid:
+            continue
+        full = store.get_session(sid) or {}
+        msgs = full.get("messages") or []
+        last_run = full.get("last_run") or {}
+        # 빈 '새 대화' 스텁 제외(메시지도 없고 실행 기록도 없는 세션)
+        if not msgs and not full.get("last_run"):
+            continue
+        first_user = next(
+            (m.get("content", "") for m in msgs if m.get("role") == "user"), ""
+        )
+        title = full.get("title") or first_user or sid
+        out.append({
+            "session_id": sid,
+            "title": title,
+            "message": first_user or title,
+            "status": "done",
+            "current_node": "기록",
+            "node_icon": "🗂️",
+            "node_count": len(last_run.get("steps", [])),
+            "total_ms": last_run.get("total_ms"),
+            "run_id": "p_" + sid,
+            "ts": _to_epoch(full.get("updated") or full.get("created")),
+            "persisted": True,
+        })
+    return out
+
+
 @router.get(SESSIONS_PATH)
 def trace_sessions() -> JSONResponse:
-    return JSONResponse({"sessions": bus.sessions_overview()},
-                        headers={"Cache-Control": "no-store"})
+    live = bus.sessions_overview()
+    live_ids = {s["session_id"] for s in live}
+    merged = live + [s for s in _persisted_overview() if s["session_id"] not in live_ids]
+    merged.sort(key=lambda s: s.get("ts") or 0, reverse=True)
+    return JSONResponse({"sessions": merged}, headers={"Cache-Control": "no-store"})
