@@ -143,7 +143,7 @@ async def _iter_events(req: ChatRequest):
     step = 0
     is_visa = None                          # intent_classifier 가 내는 is_visa_related 캡처(done 에 실어 카드 분기)
     is_followup = False                     # 기존 비자 후속/상세 질문 여부(라이트 카드 분기)
-    slots = {"country": None, "purpose": None, "duration": None, "profession": None}
+    slots = {"country": None, "purpose": None, "duration": None, "profession": None, "exception_type": None}
     try:
         # 멀티모드 스트리밍:
         #  - "updates" : 노드 종료 시 State 델타(노드 이벤트)
@@ -187,7 +187,7 @@ async def _iter_events(req: ChatRequest):
                     }
                 if update:
                     changed = False
-                    for _k in ("country", "purpose", "duration", "profession"):
+                    for _k in ("country", "purpose", "duration", "profession", "exception_type"):
                         v = update.get(_k)
                         if v and v != slots[_k]:
                             slots[_k] = v

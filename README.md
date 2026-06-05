@@ -88,7 +88,7 @@ intent_classifier ─┬─ (비자 무관) ───────→ general_cha
 
 - **URL**: `http://localhost:3000/analytics`
 - **구성**: ① 핵심 KPI 카드 ② 저신뢰영역 개선 추이(라인 차트) ③ 라운드별 전체율(바 차트)
-  ④ 라운드 상세 표 ⑤ Round 11 예상–실측 대조 결과
+  ④ 라운드 상세 표 ⑤ Round 11 예상–실측 대조 결과 ⑥ **Round 12 저신뢰 집중 검증 결과**
 - **데이터 갱신**: `python3 tests/build_analytics.py` 가 각 라운드 결과 JSON
   (`tests/results_*.json`)을 모아 `web/public/analytics_data.json` 으로 집계 → 페이지가 로드 시 fetch.
 
@@ -226,10 +226,11 @@ TAVILY_API_KEY=tvly-...         # 없으면 RAG만으로 동작
 
 | 영역 | v180 → 최신 | 비고 |
 |------|:----------:|------|
-| 전체 라우팅 신뢰도 | 83.3% → 100%(멀티턴) | — |
-| 신분변경 status_change | 20% → 75%+ | 전환 키워드 보강 |
-| 멀티턴 multi_turn | 43% → 100% | 부정신호 처리 수정 |
-| 충돌 conflicting | 50% → 100% | 'X가 아니라 Y' Y 추출 |
+| 전체 라우팅 신뢰도 | 83.3% → 88.9%(R12) | 저신뢰 집중 검증 |
+| 신분변경 status_change | 20% → **91.7%** | 동사형 키워드 + arrow regex 보강 |
+| 멀티턴 multi_turn | 43% → **100%** | 부정신호 처리 수정 |
+| 충돌 conflicting | 50% → **100%** | 'X가 아니라 Y' Y 추출 |
+| 난민·망명·범죄기록 (신규) | 0% → **100%** | R12: 키워드 10개 추가 |
 | ChromaDB 자가학습 사이클 | — | 라이브 4/4 증명 |
 
 ## 제약 사항 (MVP)

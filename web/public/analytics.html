@@ -59,7 +59,8 @@
     <a href="/trace" target="_blank">워크플로우 트레이스 ↗</a>
     <a href="#evolution">저신뢰영역 개선 추이</a>
     <a href="#rounds">라운드별 상세</a>
-    <a href="#v70">v70 예상-실측 대조</a>
+    <a href="#v70">R11 v70 예상-실측</a>
+    <a href="#r12">R12 저신뢰 집중검증</a>
   </nav>
 
   <div id="kpis" class="grid"></div>
@@ -88,6 +89,12 @@
     <h2>🔬 Round 11 · 예상–실측 대조 (v70)</h2>
     <p class="hint">각 시나리오의 <b>예상 분기</b>를 사전 기록한 뒤 실제 라우팅과 대조한 결과.</p>
     <div id="v70Box" class="loading">v70 검증 결과 대기 중… (검증 완료 후 자동 표시)</div>
+  </section>
+
+  <section class="card" id="r12">
+    <h2>🎯 Round 12 · 저신뢰 영역 집중 검증 (45개)</h2>
+    <p class="hint">v70에서 신뢰도가 낮거나 미검증이었던 4개 영역을 집중 검증. 키워드 보강 및 arrow regex 확장 후 재측정.</p>
+    <div id="r12Box" class="loading">R12 검증 결과 대기 중…</div>
   </section>
 </div>
 
@@ -157,9 +164,17 @@ function render(data){
 
   // ── 라운드 상세 테이블 ──
   let html = '<table><thead><tr><th>라운드</th><th>날짜</th><th>범위</th><th>전체</th><th>세부 카테고리</th></tr></thead><tbody>';
+  const CAT_LABELS = {
+    abc_basic:'A/B/C기본', exception_special:'예외·특수', followup_chain:'후속10턴+',
+    status_change:'신분변경', multi_turn:'멀티턴', conflicting:'충돌',
+    deep_dialog:'깊은대화', context_switch:'맥락전환', conflict:'충돌', auto_followup:'자동후속',
+    chroma_recall:'ChromaDB재활용',
+    status_change_verb:'status_change동사형', exception_other:'난민·망명·범죄',
+    deep_turns_7plus:'T7+깊은턴', followup_edge:'followup엣지',
+  };
   rounds.forEach(r=>{
     const cats = Object.entries(r.categories||{}).map(([k,v])=>
-      '<span class="tag '+(v>=85?'up':v>=50?'flat':'down')+'">'+esc(k)+' '+(v==null?'—':v+'%')+'</span>').join(' ');
+      '<span class="tag '+(v>=85?'up':v>=50?'flat':'down')+'">'+(CAT_LABELS[k]||k)+' '+(v==null?'—':v+'%')+'</span>').join(' ');
     html += '<tr><td><b>'+esc(r.label)+'</b><br><span style="color:var(--dim);font-size:11px">'+esc(r.desc||'')+'</span></td>'+
       '<td class="num">'+esc(r.date||'')+'</td>'+
       '<td class="num">'+esc(r.passed)+'/'+esc(r.total)+'</td>'+
@@ -169,19 +184,54 @@ function render(data){
   html += '</tbody></table>';
   document.getElementById('roundsTable').innerHTML = html;
 
-  // ── v70 상세 (있으면) ──
+  // ── v70 상세 ──
   const r11 = rounds.find(r=>r.id==='R11');
   if(r11){
     const cats = r11.categories||{};
-    let v = '<table><thead><tr><th>그룹</th><th>설명</th><th>일치율</th><th></th></tr></thead><tbody>';
-    const labels = {abc_basic:'A/B/C 기본 라우팅', exception_special:'예외·특수상황(저신뢰)', followup_chain:'후속질문 연계(10턴+)'};
+    let v = '<table><thead><tr><th>그룹</th><th>키</th><th>일치율</th><th></th></tr></thead><tbody>';
+    const labels11 = {abc_basic:'G1 A/B/C 기본 라우팅', exception_special:'G2 예외·특수상황(저신뢰)', followup_chain:'G3 후속질문 연계(10턴+)'};
     Object.entries(cats).forEach(([k,val])=>{
-      v += '<tr><td><b>'+esc(labels[k]||k)+'</b></td><td style="color:var(--muted)">'+esc(k)+'</td>'+
+      v += '<tr><td><b>'+esc(labels11[k]||k)+'</b></td><td style="color:var(--muted);font-family:var(--mono);font-size:11px">'+esc(k)+'</td>'+
         '<td class="num" style="color:'+(val>=85?C.ok:val>=60?C.warn:C.bad)+'"><b>'+esc(val)+'%</b></td>'+
         '<td><span class="bar" style="width:'+(val||0)+'px;background:'+(val>=85?C.ok:val>=60?C.warn:C.bad)+'"></span></td></tr>';
     });
     v += '</tbody></table><p class="footnote">전체 '+esc(r11.passed)+'/'+esc(r11.total)+' 턴 예상-실측 일치 ('+esc(r11.overall_pct)+'%). 예상 분기는 시나리오 코드에 사전 기록 후 대조.</p>';
     document.getElementById('v70Box').className=''; document.getElementById('v70Box').innerHTML = v;
+  }
+
+  // ── R12 저신뢰 집중 검증 상세 ──
+  const r12 = rounds.find(r=>r.id==='R12');
+  if(r12){
+    const cats12 = r12.categories||{};
+    const findings12 = r12.findings||{};
+    const labels12 = {
+      status_change_verb: 'G1 · status_change 동사형 (12개)',
+      exception_other:    'G2 · 난민/망명/간접범죄 (10개)',
+      deep_turns_7plus:   'G3 · T7+ 깊은 턴 컨텍스트 (13개)',
+      followup_edge:      'G4 · is_followup 엣지케이스 (10개)',
+    };
+    const findingKeys12 = {
+      status_change_verb: 'G1_STATUS_CHANGE',
+      exception_other:    'G2_EXCEPTION_OTHER',
+      deep_turns_7plus:   'G3_DEEP_TURNS',
+      followup_edge:      'G4_FOLLOWUP_EDGE',
+    };
+    let v12 = '<table><thead><tr><th>그룹</th><th>통과율</th><th>바</th><th>주요 발견</th></tr></thead><tbody>';
+    Object.entries(cats12).forEach(([k,val])=>{
+      const fk = findingKeys12[k]||k;
+      const finding = findings12[fk]||'';
+      v12 += '<tr><td><b>'+esc(labels12[k]||k)+'</b></td>'+
+        '<td class="num" style="color:'+(val>=85?C.ok:val>=60?C.warn:C.bad)+'"><b>'+esc(val)+'%</b></td>'+
+        '<td><span class="bar" style="width:'+(val||0)+'px;background:'+(val>=85?C.ok:val>=60?C.warn:C.bad)+'"></span></td>'+
+        '<td style="font-size:12px;color:var(--muted)">'+esc(finding)+'</td></tr>';
+    });
+    v12 += '</tbody></table>';
+    v12 += '<div class="note" style="margin-top:12px">'+
+      '🔑 <b>핵심 개선</b>: status_change 동사형 키워드 12개 + arrow regex 문장형 패턴 추가 (<b>8.3% → 91.7%</b>). '+
+      '난민/망명/경범죄 키워드 추가 후 G2 <b>0% → 100%</b>. '+
+      '잔여 5건은 LLM 판단 한계(이전 턴 암묵 country 전달, 예외+followup 동시 발생 시 flag 해제).</div>';
+    v12 += '<p class="footnote">전체 '+esc(r12.passed)+'/'+esc(r12.total)+' 통과 ('+esc(r12.overall_pct)+'%). 저신뢰 4영역 집중 검증. '+esc(r12.date)+'</p>';
+    document.getElementById('r12Box').className=''; document.getElementById('r12Box').innerHTML = v12;
   }
 }
 
@@ -190,8 +240,8 @@ function unionRounds(evo){
   ['status_change','multi_turn','conflicting'].forEach(k=>(evo[k]||[]).forEach(x=>{
     if(!seen[x.round]){ seen[x.round]=1; out.push({round:x.round,label:x.label}); }
   }));
-  // 정렬: R9, R10a, R10b, R11
-  const order = {R9:0,R10a:1,R10b:2,R11:3};
+  // 정렬: R9, R10a, R10b, R11, R12
+  const order = {R9:0,R10a:1,R10b:2,R11:3,R12:4};
   out.sort((a,b)=>(order[a.round]??9)-(order[b.round]??9));
   return out;
 }

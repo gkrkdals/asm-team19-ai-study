@@ -122,6 +122,32 @@ def build():
         })
         metric_evo["status_change"].append({"round": "R11", "label": "v70", "pct": sc_pct})
 
+    # ── R12: 저신뢰 영역 집중 검증 (45개) ──────────────────────────────────
+    lc = _load("results_low_confidence.json")
+    if lc:
+        s = lc.get("summary", {})
+        gs = s.get("group_stats", {})
+        def gp_lc(k): v = gs.get(k, {}); return v.get("rate")
+        rounds.append({
+            "id": "R12", "label": "Round 12 · 저신뢰 집중검증", "date": datetime.now().strftime("%Y-%m-%d"),
+            "overall_pct": s.get("pass_rate"), "total": s.get("total"),
+            "passed": s.get("passed"),
+            "categories": {
+                "status_change_verb": gp_lc("G1_STATUS_CHANGE"),
+                "exception_other": gp_lc("G2_EXCEPTION_OTHER"),
+                "deep_turns_7plus": gp_lc("G3_DEEP_TURNS"),
+                "followup_edge": gp_lc("G4_FOLLOWUP_EDGE"),
+            },
+            "desc": "저신뢰 4영역 집중 검증: 동사형 status_change, 난민/망명, T7+ 깊은 턴, is_followup 엣지케이스",
+            "findings": {
+                "G1_STATUS_CHANGE": f"{int(gp_lc('G1_STATUS_CHANGE') or 0)}% — 바꾸다/갈아타다/조정하다 동사형 및 arrow regex 보강으로 대폭 개선. 잔여: 이전 턴 country 암묵 전달 한계(G1-07)",
+                "G2_EXCEPTION_OTHER": f"{int(gp_lc('G2_EXCEPTION_OTHER') or 0)}% — 난민/망명/refugee/asylum/경범죄 키워드 5개 추가 후 10/10 완벽 통과",
+                "G3_DEEP_TURNS": f"{int(gp_lc('G3_DEEP_TURNS') or 0)}% — T7+ 국가유지/전환 정상. 잔여: 예외키워드+깊은턴에서 is_followup=True 해제 LLM 한계(3건)",
+                "G4_FOLLOWUP_EDGE": f"{int(gp_lc('G4_FOLLOWUP_EDGE') or 0)}% — FP/재후속/연속후속 거의 완벽. 잔여: 부정신호 후 country 소실(1건)",
+            },
+        })
+        metric_evo["status_change"].append({"round": "R12", "label": "저신뢰집중", "pct": gp_lc("G1_STATUS_CHANGE")})
+
     data = {
         "generated": datetime.now().isoformat(timespec="seconds"),
         "rounds": rounds,

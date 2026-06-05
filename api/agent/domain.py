@@ -117,6 +117,16 @@ EXCEPTION_KEYWORDS = {
     # "취업비자 → 영주권" — 비자 레코드 전환(status_change)
     "취업비자 →": "status_change", "취업 비자 →": "status_change",
     "비자에서 영주권": "status_change", "비자로 영주권": "status_change",
+    # ③ 동사형 자연어 전환 표현 — "바꾸고 싶다", "갈아타다", "조정하다" 등 (R12 추가)
+    "바꾸고 싶": "status_change", "바꾸려면": "status_change",
+    "바꿀 수 있": "status_change", "바꿔야": "status_change",
+    "바꿔서": "status_change", "바꿔도": "status_change",    # 파생형
+    "갈아타고": "status_change", "갈아타": "status_change",
+    "전환하고 싶": "status_change", "취업 전환": "status_change",
+    "유형을 바꾸": "status_change", "종류를 바꾸": "status_change",
+    "유형을 바꿔": "status_change", "종류를 바꿔": "status_change",
+    "조정하고 싶": "status_change", "조정하려면": "status_change", "조정하": "status_change",
+    "취소되": "status_change", "취소될": "status_change",    # 비자 취소/철회
 
     # ── 비자 거절·재신청 ────────────────────────────────────────────────────
     "거절": "rejection", "재신청": "rejection", "거부": "rejection",
@@ -141,6 +151,11 @@ EXCEPTION_KEYWORDS = {
     "여러 나라": "cross_rule", "복수 국가": "cross_rule", "여러나라": "cross_rule",
     "유럽 연합": "cross_rule", "유럽연합": "cross_rule", "유럽 여러": "cross_rule",
     "범죄경력": "cross_rule", "범죄 경력": "cross_rule", "전과": "cross_rule",
+    "범죄 기록": "cross_rule", "범죄기록": "cross_rule", "경범죄": "cross_rule",
+    # 난민·망명·보호 신청 (R12 추가)
+    "난민": "cross_rule", "망명": "cross_rule",
+    "보호 신청": "cross_rule", "인도적 보호": "cross_rule",
+    "asylum": "cross_rule", "refugee": "cross_rule",
     "dui": "cross_rule", "음주운전": "cross_rule",
     "입국 금지": "cross_rule", "입국금지": "cross_rule", "입국 거부": "cross_rule",
     "블랙리스트": "cross_rule", "3년 바": "cross_rule", "10년 바": "cross_rule",

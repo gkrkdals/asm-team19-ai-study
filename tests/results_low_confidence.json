@@ -1,0 +1,758 @@
+{
+  "summary": {
+    "total": 45,
+    "passed": 40,
+    "pass_rate": 88.9,
+    "group_stats": {
+      "G1_STATUS_CHANGE": {
+        "passed": 11,
+        "total": 12,
+        "rate": 91.7
+      },
+      "G2_EXCEPTION_OTHER": {
+        "passed": 10,
+        "total": 10,
+        "rate": 100.0
+      },
+      "G3_DEEP_TURNS": {
+        "passed": 10,
+        "total": 13,
+        "rate": 76.9
+      },
+      "G4_FOLLOWUP_EDGE": {
+        "passed": 9,
+        "total": 10,
+        "rate": 90.0
+      }
+    }
+  },
+  "rows": [
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-01",
+      "description": "동사형 전환 + 명시적 국가",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "US",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**학생비자(F-1) → 취업비자(H-1B) 또는 영주권(EB-1/2/3) 전환**  \n미국에서 학생비자(F-1)를 취업비자(H-1B) 또는 영주권(EB-1/2/3)으로 변경하려면 **고용주 스폰서십**이 필수적입니다. 일반적으로 H-1B 비자를 통해 단기 취업 후, EB-1(특출난 능력), EB-2(고학력/특기), EB-3(기술직) 등"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-02",
+      "description": "동사형 전환 + 국가 없음 (컨텍스트에서 추론 불가)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "### 일본 학생비자 → 취업비자 전환 안내\n\n## 추천 비자\n**재류자격 변경(在留資格変更) 또는 재류자격인정증명서(COE) 발급 후 취업비자 신청**  \n- 일본에서 학생비자(留学)로 체류 중인 경우, 현지 이민국(출입국재류관리청)에 **재류자격 변경 신청**을 하거나,  \n- 본국에서 **재류자격인정증명서(COE)**를 발급받은 후 취업비자(技術·人文"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-03",
+      "description": "'갈아타다' 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**캐나다 취업 비자 (Work Permit)**  \n관광비자(Visitor Visa)에서 취업 비자로 변경하려면 **개방형 취업 비자(Open Work Permit)** 또는 **고용주 지정 취업 비자(Employer-Specific Work Permit)**를 신청해야 합니다.  \n- **개방형 취업 비자**: 특정 고용주 없이 자유"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-04",
+      "description": "'조정하다' 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**독일 내 비자 유형 변경(취업 비자 → 영주권 등)**  \n현재 체류 중인 비자 유형(예: 학생·관광 비자)을 **취업 목적의 거주 허가(Aufenthaltserlaubnis)**로 변경하려면, **독일 외국인청(Ausländerbehörde)**에 신청해야 합니다. 주요 변경 경로는 다음과 같습니다:  \n- **EU 블루카드** ("
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-05",
+      "description": "화살표 없이 '~에서 ~로' 문장형",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "AU",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**호주 취업 비자 (Temporary Skill Shortage visa, subclass 482)**  \n워킹홀리데이(WH) 비자(417/462)에서 호주 현지 취업을 목표로 할 때 가장 일반적인 경로입니다. WH 비자 기간 중 고용주로부터 스폰서를 받아 신청할 수 있으며, **단기(STSOL) 또는 중장기(MLTSSL) 직종**에 "
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-06",
+      "description": "화살표 패턴 (기존 동작 유지 확인)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**일본 취업 비자 (기술·인문지식·국제업무 등)**  \n학생 비자(어학·유학)에서 취업 비자로 전환하려면, 일반적으로 **재류자격 변경(在留資格変更)** 절차를 진행해야 합니다. 단, 일본은 관광/단기 체류에서의 전환을 엄격히 제한하므로, 학생 비자 소지자는 체류 기간 내에 전환이 가능한지 확인이 필요합니다.\n\n---\n\n## 주요 자격"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-07",
+      "description": "국가 맥락이 이전 턴에만 있는 암묵적 전환 요청",
+      "passed": false,
+      "failures": [
+        "is_followup 불일치: 기대=False, 실측=True",
+        "country 불일치: 기대=JP, 실측="
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": "status_change",
+      "is_followup": true,
+      "answer_preview": "앞서 유학 비자로 체류 중인 상황에서 취업 비자로 전환하려면, **일본 입국관리청(ISA)에서 재류자격 변경**을 신청해야 합니다. 유학(留学) → 취업(技術・人文知識・国際業務 등)으로의 전환은 원칙적으로 **일본 현지에서 가능**하지만, 다음 조건을 충족해야 합니다:\n\n### 📌 필수 절차 및 요건\n1. **재류자격 변경 신청**  \n   - 일본 입국관"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-08",
+      "description": "부분 표현 — '종류를 바꾸'",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "GB",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 영국 비자 종류 변경 절차 안내  \n\n### 1. **추천 비자**  \n- **Senior or Specialist Worker visa (T2G)**  \n  - 영국 내 기존 비자에서 **스폰서 기업 소속**으로 직무·연봉 요건 충족 시 변경 가능  \n  - **스폰서십(Certificate of Sponsorship)**이 필수이며, **£52,5"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-09",
+      "description": "FP 방지 — 단순 취업비자 질문 (전환 아님)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "US",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**미국 취업 비자**는 크게 **임시 취업 비자(H-1B, L-1, O-1 등)**와 **영주권 기반 취업 이민 비자(EB-1, EB-2, EB-3 등)**로 구분됩니다.  \n- **H-1B**: 전문직 종사자 대상 (학사 이상 학위 필요)  \n- **L-1**: 다국적 기업 내 전근자 (1년 이상 해외 근무 경력 필요)  \n- **O"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-10",
+      "description": "FP 방지 — '취업 전환 가능한가요?' (너무 광범위한 표현)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**워킹홀리데이(International Experience Canada-IEC) → 취업 비자 전환**  \n캐나다 워킹홀리데이(IEC) 참가자는 체류 기간 중 취업 활동을 할 수 있으며, 졸업 후 취업 비자(PGWP) 또는 고용주 스폰서 워크 퍼밋으로 전환이 가능합니다. 단, 워킹홀리데이 기간 만료 후 추가 체류를 원할 경우 **새로운"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-11",
+      "description": "'유형을 바꿔' 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**독일 취업 비자 (Work Visa) 또는 EU 블루카드**  \n현재 체류 중인 비자 유형에서 독일 취업 비자로 변경하려면, **현지 외국인청(Ausländerbehörde)**에 신청해야 합니다. 취업 비자는 고용계약서와 전문 자격 요건 충족 시 발급되며, EU 블루카드는 학사 학위 소지자 + 연소득 56,400유로(IT 분야 43"
+    },
+    {
+      "group": "G1_STATUS_CHANGE",
+      "id": "G1-12",
+      "description": "비자 업그레이드 표현 (기존 동작 유지)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "US",
+      "exception_type": "status_change",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**미국 취업 기반 이민 비자(EB-1, EB-2, EB-3) 또는 비이민 취업 비자(H-1B, L-1, O-1 등)**  \n- **EB-1/EB-2/EB-3**: 영주권(그린카드) 직접 취득 가능한 취업 기반 이민 비자. 고학력자, 특기자, 다국적 기업 관리자 등이 대상입니다.  \n- **H-1B/L-1/O-1**: 단기 취업 비자. "
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-01",
+      "description": "난민 신청 직접 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**난민 신청 (Asylum Application in Germany)**  \n난민 신청은 독일 내에서 직접 진행할 수 있으며, 특정 비자 유형과는 무관합니다. 독일 입국 후 3일 이내에 관할 외국인청(Ausländerbehörde) 또는 난민 신청 센터(Erstaufnahmeeinrichtung)에 신청해야 합니다.  \n\n---\n\n##"
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-02",
+      "description": "정치적 망명 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 정치적 망명 절차 안내 (일본 기준)  \n\n### 📌 일본에서의 정치적 망명 관련 정보  \n일본에서는 **\"난민 인정\"** 절차를 통해 정치적 박해를 피해 온 외국인을 보호합니다. 단, 일본에는 특정 기술직 종사자를 위한 **「특정기술(特定技能)」** 비자는 있으나, 망명과는 무관합니다.  \n\n---\n\n### 1. **난민 인정 신청 절차**  \n- "
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-03",
+      "description": "asylum 영어 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "GB",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**영국 난민 신청(Asylum)**  \n난민 신청은 특정 비자 유형이 아닌, 영국 내에서 직접 신청할 수 있는 법적 절차입니다. 단기 관광비자(Standard Visitor visa)로는 난민 신청이 불가능하며, 반드시 영국 입국 후 14일 이내에 신청해야 합니다.  \n\n---\n\n## 주요 자격 요건  \n- **난민 요건 충족**: 본"
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-04",
+      "description": "간접 범죄 기록 표현 (경범죄)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n- **eTA (Electronic Travel Authorization)**: 단기 방문(관광/경유) 시 신청 가능한 전자여행허가.  \n- **Visitor Visa (TRV)**: eTA가 불가능하거나 장기 체류(6개월 이상)가 필요한 경우 신청.  \n- *경범죄 기록이 있는 경우 eTA보다 TRV 신청이 더 적합할 수 있습니다. 단"
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-05",
+      "description": "간접 표현 — '기록이 있는데'",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "US",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 범죄 기록과 미국 비자 신청 안내  \n\n범죄 기록이 있을 경우 미국 비자 신청 시 심사 과정에서 추가 검토가 이루어질 수 있습니다. 비자 발급 여부는 **신청자의 범죄 성격, 형량, 경과 기간, 재범 가능성** 등을 종합적으로 평가해 결정됩니다.  \n\n---\n\n### 📌 **범죄 기록에 따른 비자 신청 시 고려 사항**  \n1. **비자 종류 불문 심"
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-06",
+      "description": "'전과' 키워드 (기존 동작 유지)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "AU",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**전과가 있어도 호주 비자 신청 가능 여부**  \n호주 비자 신청 시 전과 기록은 **\"품성 요건(Character Test)\"** 심사 대상입니다. 범죄 유형·횟수·형량·경과 기간 등에 따라 승인 여부가 달라집니다. 주요 비자 유형:  \n- **Skills in Demand visa (subclass 482)**: 기술직 취업 비자 "
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-07",
+      "description": "난민 + 국가 없음",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "난민 인정을 받는 절차는 국가별로 상이하며, 아래 정보는 **캐나다**를 기준으로 안내합니다.  \n(※ 참고: 현재 제공된 자료에는 난민 인정 절차와 직접 관련된 정보가 없습니다. 일반적인 절차와 주의사항을 안내드리며, 정확한 내용은 캐나다 이민국(IRCC) 공식 자료를 반드시 확인하시기 바랍니다.)\n\n---\n\n### ## 추천 비자  \n- **난민 신청 "
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-08",
+      "description": "보호 신청 표현",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 인도적 보호 신청 관련 독일 비자 정보  \n\n### 인도적 보호(Humanitarian Protection) 개요  \n독일은 **국제적 보호**가 필요한 경우(예: 전쟁·박해·생명 위협) 인도적 보호를 신청할 수 있습니다. 이는 난민 인정(Asylum)과 별개 절차이며, **체류 중**에 신청해야 합니다.  \n\n---\n\n### 📌 인도적 보호 신청 가"
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-09",
+      "description": "FP 방지 — 일반 취업 질문 (범죄 없음)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific Work Permit)**: 특정 고용주의 오퍼(Job Offer)와 LMIA(노동시장 영향 평가) 승인 필요  \n- **개방형(Open Work Permit)**: 졸업 후 취업 허가증(PGWP), 국제경험 프로그램(IEC) 등 특"
+    },
+    {
+      "group": "G2_EXCEPTION_OTHER",
+      "id": "G2-10",
+      "description": "FP 방지 — '기록' 단어가 포함된 비관련 질문",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "country": "US",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**미국 None 비자**는 존재하지 않는 비자 유형입니다. 일반적으로 \"비자 없이\" 미국을 방문하는 경우 **비자 면제 프로그램(Visa Waiver Program, ESTA)**을 통해 최대 90일 체류가 가능합니다.  \n\n---\n\n## 주요 자격 요건  \n- **ESTA 승인** 필수 (전자여행허가)  \n- **체류 목적**: 관광"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-01",
+      "description": "T7 일반 후속 질문 — country=DE + is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 블루카드 기준으로, 영주권 신청까지 **최소 33개월**이 소요됩니다. 독일어 능력(B1 이상)을 증명하면 **21개월**로 단축될 수 있습니다.  \n\n### 핵심 조건  \n- **33개월 체류** 후 영주권 신청 가능 (월급 58,640유로 이상 시 21개월로 단축)  \n- **독일어 능력** 증명 시 기간 단축 가능  \n- **사회보"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-02",
+      "description": "T7 '거절' 키워드 → exception_handler, country=DE 유지",
+      "passed": false,
+      "failures": [
+        "exception_type 불일치: 기대=rejection, 실측=cross_rule"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "cross_rule",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**독일 블루카드 거절 후 대안**  \n- **재신청**: 거절 사유 보완 후 재신청  \n- **학생 비자(Student Visa Type D)**: 학업 목적 시 전환 가능  \n- **일반 취업 비자**: 블루카드 요건 미충족 시 대체  \n- **가족 재결합 비자**: 배우자/자녀가 독일 거주자일 경우  \n\n---\n\n## 주요 자격 요"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-03",
+      "description": "T7 '연장' 키워드 → exception_handler, country=DE 유지",
+      "passed": false,
+      "failures": [
+        "is_followup 불일치: 기대=False, 실측=True"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "extension",
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 블루카드 기준으로, 연장 신청은 **현재 비자 만료 8주 전부터** 가능합니다. 체류 중 현지 외국인청(Ausländerbehörde)에 신청해야 하며, 일반적으로 다음 조건을 충족해야 합니다:  \n- 유효한 고용 계약 유지  \n- 최소 소득 요건 충족(2024년 기준 연 €59,850 이상 또는 해당 직종 최소 임금)  \n- 건강 보험"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-04",
+      "description": "T8 예외 처리 후 일반 후속 — is_followup=True 복귀",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 취업 비자(블루카드) 거절 시 이의 신청 기간은 **행정처분 통지일로부터 1개월 이내**입니다. 독일 행정법원(Gerichtshof)에 서면으로 이의를 제기해야 하며, 거절 사유를 명확히 반박하는 서류(추가 고용계약서, 자격 증명 등)를 제출해야 합니다.  \n\n⚠️ 참고용 안내이며, 신청 전 공식 기관에서 최신 요건을 확인해 주세요.  "
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-05",
+      "description": "T7 국가 전환 → country 교체, is_followup=False",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific Work Permit)**: 특정 고용주로부터 Job Offer를 받아 LMIA(노동시장 영향 평가) 승인 후 신청  \n- **개방형(Open Work Permit)**: Job Offer 없이 신청 가능 (예: 졸업 후 취업 허가증"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-06",
+      "description": "T8 국가 전환 후 후속 → 새 국가 기준 압축",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 캐나다 취업 비자 기준으로, LMIA 없이 취업비자를 받을 수 있는 경우는 다음과 같습니다:  \n\n1. **개방형 취업비자(Open Work Permit)**  \n   - 졸업 후 취업허가증(PGWP): 캐나다 지정 교육기관(DLI) 졸업 시 신청 가능 (출처: [PGWP 공식 페이지](https://www.canada.ca/en/immigr"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-07",
+      "description": "T9 비자 취소/철회 질문 — country=DE 유지",
+      "passed": false,
+      "failures": [
+        "is_followup 불일치: 기대=False, 실측=True"
+      ],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "status_change",
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 블루카드 기준으로, 실직 시 **즉시 비자가 취소되지는 않지만** 다음 조건을 충족해야 합니다:  \n\n1. **실직 후 3개월 이내**에 새 일자리를 찾고, **새 고용계약서로 외국인청에 신고**해야 합니다.  \n2. **실업급여**를 받는 경우, 체류 허가가 일시 연장될 수 있으나 **최대 6개월**까지 제한됩니다.  \n3. **6개월"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-08",
+      "description": "T7 수치 확인 질문 — is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 취업 비자 기준으로, **EU 블루카드 최저 연봉은 2024년 기준 59,040유로**(월 약 4,920유로)입니다. 단, IT·공학·의학 등 부족 직종은 **46,440유로**(월 약 3,870유로)로 완화됩니다.  \n\n⚠️ 참고용 안내이며, 신청 전 공식 기관에서 최신 요건을 확인해 주세요.  \n\n(출처: [Make it in Ger"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-09",
+      "description": "T7 부정 신호(목적 수정) — 국가 유지, 목적 교체",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**독일 학생 비자 (Student Visa Type D)**  \n독일 대학에서 정규 학위 과정을 이수하기 위한 장기 체류 비자입니다. 최초 1~2년 발급 후 연장 가능하며, 졸업 후 취업·영주권 전환 경로가 있습니다.\n\n## 주요 자격 요건  \n1. **대학 입학 허가서** : 독일 대학 또는 공인 교육기관의 정식 입학 허가  \n2. "
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-10",
+      "description": "T7 비자 무관 질문 → 예외/RAG 경로 없음 (general_chat or resp)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "사용자님의 질문(\"독일 None 비자에 대해 안내해주세요\")과 실제 질문(\"독일 날씨는 어때요?\")이 일치하지 않는 것 같습니다. 독일 날씨에 대한 답변과 **독일 비자 정보**를 함께 안내드리겠습니다.\n\n---\n\n### 🌦️ 독일 날씨 (추가 질문 답변)\n- **기후**: 온대 기후로 4계절이 뚜렷합니다.  \n  - 봄(3~5월): 10~15°C, 꽃 피"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-11",
+      "description": "T8 이미 답한 내용 재질문 → is_followup=True(압축 재답)",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 블루카드 기준으로, 처리 기간은 **약 4~8주**가 소요됩니다(출처: [Make it in Germany](https://www.make-it-in-germany.com/en/visa-residence/procedure/entry-process)). 단, 서류 완성도·대사관 업무량에 따라 차이가 있을 수 있습니다.  \n\n⚠️ 참고용 안"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-12",
+      "description": "T7 긴급 처리 요청 → exception_handler/emergency",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": "emergency",
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**독일 EU 블루카드 긴급 처리**  \n- 3주 내 발급이 필요한 경우, 독일 대사관에 \"긴급 사유\"를 증빙하여 신청 가능합니다.  \n- 일반 처리 기간(4~12주)보다 단축될 수 있으나, 반드시 증빙 서류 제출이 필요합니다.  \n\n---\n\n## 주요 자격 요건  \n1. **독일 고용계약 체결** (최소 6개월 이상 계약)  \n2. *"
+    },
+    {
+      "group": "G3_DEEP_TURNS",
+      "id": "G3-13",
+      "description": "T7 행정 절차 세부 질문 — is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 독일 취업 비자 기준으로, 블루카드 신청 서류는 **모국 소재 독일 대사관 또는 영사관에 제출**해야 합니다. 단, 호주·미국·캐나다·이스라엘·일본·한국·뉴질랜드 국적자는 독일 입국 후 현지 외국인청(Ausländerbehörde)에서 신청할 수 있습니다(출처: [독일 외무부 비자 FAQ](https://www.auswaertiges-amt."
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-01",
+      "description": "첫 메시지가 후속처럼 보이는 표현 — is_followup=False",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "비자 신청 시 필요한 서류는 **목적지 국가, 체류 목적, 개인 상황**에 따라 달라집니다. 아래 기본 가이드라인과 함께 구체적인 사례를 안내드리겠습니다.  \n\n---\n\n### 📌 **공통 필수 서류 (대부분 국가)**  \n1. **여권** : 유효기간 6개월 이상 남은 여권 (쉥겐 지역은 귀국 항공권 확인 필요)  \n2. **비자 신청서** : 해당국 대"
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-02",
+      "description": "첫 메시지 '비용은요?' — is_followup=False",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "비자 비용은 **국가, 체류 목적, 비자 유형**에 따라 크게 달라집니다. 아래 기본 정보를 참고하시고, 정확한 비용은 해당 국가 공식 사이트에서 확인하시는 것이 안전합니다.  \n\n### 📌 **주요 국가별 비자 비용 예시 (2024년 기준)**  \n1. **미국**  \n   - **B-1/B-2 (관광/비즈니스)**: $185 (신청비) + SEVIS 비"
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-03",
+      "description": "정상 T2 후속 — is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "exception_handler",
+        "response_formatter"
+      ],
+      "country": "AU",
+      "exception_type": "extension",
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 호주 워킹홀리데이 비자 기준으로 2차 비자 연장 시 **3개월(12주) 이상의 지정된 농업·어업·축산 분야**에서 근무해야 합니다. 이는 462/417 비자 모두 동일하게 적용됩니다.  \n\n### 📌 주요 조건  \n- **직업 유형**: 농업(작물 재배·포장), 어업(선박 작업), 축산(동물 사육) 등  \n- **근무 시간**: 주당 최소 3"
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-04",
+      "description": "주제 전환(국가 변경) — is_followup=False",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-Specific Work Permit)**: 특정 고용주의 Job Offer와 LMIA(노동시장 영향 평가) 승인 필요  \n- **개방형(Open Work Permit)**: Job Offer 불필요 (예: 졸업 후 취업 허가증(PGWP), 국제경험"
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-05",
+      "description": "주제 전환 후 재후속 — 새 주제 기준 is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 캐나다 취업 비자 기준으로 LMIA 비용은 다음과 같습니다.  \n\n1. **LMIA 신청 비용**: 고용주당 **CDN $1,000** (2024년 기준)  \n2. **고용주 준수 수수료**: CDN $275 (LMIA 승인 시)  \n3. **추가 비용**:  \n   - LMIA 신청 대행 시 변호사/대행사 수수료 (약 CDN $1,000~$"
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-06",
+      "description": "부정 신호로 목적 수정 — is_followup=False (새 추천 시작)",
+      "passed": false,
+      "failures": [
+        "country 불일치: 기대=US, 실측="
+      ],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "country": null,
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "## 추천 비자  \n**F-1 비자 (학생 비자)**  \n미국에서의 정규 학업(대학, 대학원, 언어학교 등)을 목적으로 하는 경우 가장 일반적인 비자입니다. SEVP(Student and Exchange Visitor Program) 인증 기관에서 발급한 I-20 서류가 필수입니다.\n\n## 주요 자격 요건  \n- SEVP 인증 교육기관의 **입학 허가** "
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-07",
+      "description": "T3 연속 후속 — is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "GB",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 영국 유학 비자 기준으로, IELTS 외 **다른 공인 영어 시험**도 인정됩니다.  \n\n### 인정 시험 및 조건  \n- **IELTS Academic** (6.0 이상, 각 영역 5.5 이상)  \n- **TOEFL iBT** (72점 이상, 각 영역 18~20점 이상)  \n- **PTE Academic** (50점 이상, 각 영역 42점 "
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-08",
+      "description": "이전 메시지 1개 후 후속 — is_followup=True",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "country": "JP",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 일본 유학 비자 기준으로 체류 기간은 **보통 1년 또는 2년**이 부여되며, 학교 등록 기간에 따라 조정됩니다.  \n\n### 주요 기간 정보\n- **초기 발급**: 1년(단기 과정) 또는 2년(대학/대학원)  \n- **갱신**: 재류기간 만료 2~3개월 전 신청 가능(최대 2년 단위 연장)  \n- **졸업 후 체류**: \"취업 활동 기간(1"
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-09",
+      "description": "비자 무관 잡담 — exception_handler/rag 미진입",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "response_formatter"
+      ],
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": false,
+      "answer_preview": "사용자님의 질문 \"독일 음식은 어때요?\"는 비자 정보와 관련이 없는 문화/생활 관련 질문입니다. 독일 비자에 대한 문의로 오해하셨을 수 있어, 두 가지 방향으로 답변드립니다.\n\n### 1. 독일 블루카드(Blue Card) 정보 (비자 관련)\n## 추천 비자  \n**독일 블루카드(Blue Card)**  \n고학력 전문직 종사자를 위한 취업 비자로, 영주권 "
+    },
+    {
+      "group": "G4_FOLLOWUP_EDGE",
+      "id": "G4-10",
+      "description": "is_followup=True 응답에 상위 참조 표현 포함 여부",
+      "passed": true,
+      "failures": [],
+      "route": [
+        "intent_classifier",
+        "web_search_tool",
+        "search_quality_gate",
+        "knowledge_writer",
+        "response_formatter"
+      ],
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": true,
+      "answer_preview": "앞서 안내드린 캐나다 취업 비자 기준으로, **CRS 점수 향상 방법**을 다음과 같이 설명드립니다.  \n\n### 1. **기본 점수 향상**  \n- **언어 능력**: IELTS/CELPIP(프랑스어 TEF) 점수를 **CLB 9 이상**으로 향상하면 최대 280점(언어 288점 중 280점) 획득 가능 (출처: [IRCC 공식 CRS 계산기](https"
+    }
+  ]
+}
