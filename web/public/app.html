@@ -411,9 +411,9 @@
   // ── C2: cleanDoc — strip trailing disclaimer + extract official links ────
   function cleanDoc(content){
     var body=content||'';
-    // 1. Strip trailing disclaimer: optional "---" line + line with ⚠️ AND 참고용 or 공식 기관
-    body=body.replace(/\n?\s*---\s*\n+[^\n]*(?:참고용|공식 기관)[^\n]*$/,'');
-    body=body.replace(/\n+[^\n]*(?:참고용|공식 기관)[^\n]*$/,'');
+    // 1. Strip trailing disclaimer — ⚠️ 가 있어야만 제거(정상 주의사항 본문 오제거 방지)
+    body=body.replace(/\n*\s*-{3,}\s*\n+\s*⚠️[\s\S]*$/, '');          // "---" + ⚠️ … (백엔드 정상 경로)
+    body=body.replace(/\n+\s*⚠️[^\n]*(?:참고용|공식 기관)[\s\S]*$/, ''); // fallback: --- 없이 ⚠️ … 참고용/공식 기관
     // 2. Extract ## 공식 참고 링크 section
     var links=[];
     var secRe=/(^|\n)(#{1,6})\s*공식\s*참고\s*링크\s*(\n|$)/m;
@@ -451,8 +451,8 @@
     var cc=(slots.country||'').toUpperCase();
     var pur=slots.purpose?(PURPOSE_CODE[(''+slots.purpose).toLowerCase()]||'GEN'):'';
     var yyyy=new Date().getFullYear();
-    if(!cc && !pur) return '참고용 안내서';
-    return 'NO. '+(cc||'??')+'-'+(pur||'GEN')+'-'+yyyy;
+    if(!cc) return '참고용 안내서';            // 국가 코드 없으면 문서번호 무의미 → 폴백
+    return 'NO. '+cc+'-'+(pur||'GEN')+'-'+yyyy;
   }
   function api(method,path,body){
     return fetch(API_BASE+path,{method:method, headers:body?{'Content-Type':'application/json'}:undefined, body:body?JSON.stringify(body):undefined})
