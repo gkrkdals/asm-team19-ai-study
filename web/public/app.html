@@ -466,19 +466,29 @@
       '<span class="step-pill">STEP '+n+' / 3</span></div>'+
       '<div class="record-row">'+_recField('Country',c)+_recField('Duration',d)+_recField('Purpose',p)+'</div></section>';
   }
-  function docCardHtml(content){
+  function docTitle(slots){
+    if(!slots) return '비자 안내';
+    var c=slots.country?(COUNTRY_KO[(''+slots.country).toUpperCase()]||slots.country):'';
+    var p=slots.purpose?(PURPOSE_KO[(''+slots.purpose).toLowerCase()]||slots.purpose):'';
+    var parts=[c,p].filter(Boolean);
+    return parts.length? parts.join(' ')+' 비자 안내' : '비자 안내';
+  }
+  function docCardHtml(content, slots, light){
+    if(light){ return '<article class="doc doc-light"><div class="doc-body">'+md(content)+'</div>'+TRACE_STRIP(state.sid)+'</article>'; }
     var tags=(state.meta.tags||[]).filter(Boolean);
     var tagHtml=tags.length? tags.map(function(t){ return '<span class="path-tag">'+esc(t)+'</span>'; }).join('') : '';
     return '<article class="doc"><div class="doc-band">'+SEAL+
       '<div class="doc-eyebrow">VISA GUIDANCE</div>'+
-      '<h2 class="doc-title">'+esc(state.meta.title||'비자 안내')+'</h2>'+
+      '<h2 class="doc-title">'+esc(docTitle(slots))+'</h2>'+
       '<div class="doc-tags">'+tagHtml+'<span class="docno">참고용 안내서</span></div></div>'+
       '<div class="doc-body">'+md(content)+'</div>'+
       TRACE_STRIP(state.sid)+'</article>';
   }
   function msgHtml(m){
     if(m.role==='user') return '<div class="msg user"><div class="av">나</div><div class="bubble-u">'+esc(m.content)+'</div></div>';
-    return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+(m.slots?recordHtml(m.slots):'')+docCardHtml(m.content)+'</div></div>';
+    if(m.is_visa===false) return '<div class="msg"><div class="av">V</div><div class="bubble-a">'+md(m.content)+'</div></div>';
+    if(m.is_followup) return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+docCardHtml(m.content, m.slots, true)+'</div></div>';
+    return '<div class="msg"><div class="av">V</div><div style="flex:1; min-width:0;">'+(m.slots?recordHtml(m.slots):'')+docCardHtml(m.content, m.slots)+'</div></div>';
   }
   function renderStream(){
     stream.innerHTML = state.messages.length ? state.messages.map(msgHtml).join('') : (GREETING_MSG + suggestHtml());
@@ -591,9 +601,9 @@
     var prevSid = state.sid;
     return api('GET','/sessions/'+encodeURIComponent(sid)).then(function(full){
       state.meta={title:full.title, description:full.description, tags:full.tags||[], last_run:full.last_run};
-      state.messages=(full.messages||[]).map(function(m){ return {role:m.role, content:m.content}; });
+      state.messages=(full.messages||[]).map(function(m){ var o={role:m.role, content:m.content}; if(m.is_visa!==undefined) o.is_visa=m.is_visa; if(m.slots) o.slots=m.slots; if(m.is_followup) o.is_followup=m.is_followup; return o; });
       var lr=full.last_run||{};
-      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ state.messages[i].slots=lr.slots; break; } } }
+      if(lr.slots){ for(var i=state.messages.length-1;i>=0;i--){ if(state.messages[i].role==='assistant'){ if(!state.messages[i].slots) state.messages[i].slots=lr.slots; break; } } }
       setSid(sid); renderConv(); setHeader(); renderStream();
       // 다른 세션으로 전환 시 토스트 알림
       if(prevSid && prevSid !== sid){
@@ -625,7 +635,11 @@
   function grow(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,128)+'px'; }
   var LIVE_LOADING='<div class="loading"><span class="text">공식 자료를 차분히 확인하고 있어요</span><span class="dots"><i></i><i></i><i></i></span><a class="live-trace" href="/trace" target="_blank" rel="noopener">실시간 과정 보기 ↗</a></div>';
   function liveNode(){ var m=document.createElement('div'); m.className='msg'; m.innerHTML='<div class="av live">V</div>'+LIVE_LOADING; stream.appendChild(m); return m; }
-  function liveCard(node, acc, slots){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(slots?recordHtml(slots):'')+(acc?docCardHtml(acc):LIVE_LOADING)+'</div>'; }
+  function liveCard(node, acc, slots, isVisa, isFollowup){
+    if(isVisa===false){ node.innerHTML='<div class="av live">V</div><div class="bubble-a">'+(acc?md(acc):LIVE_LOADING)+'</div>'; return; }
+    if(isFollowup){ node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(acc?docCardHtml(acc, slots, true):LIVE_LOADING)+'</div>'; return; }
+    node.innerHTML='<div class="av live">V</div><div style="flex:1; min-width:0;">'+(slots?recordHtml(slots):'')+(acc?docCardHtml(acc, slots):LIVE_LOADING)+'</div>';
+  }
 
   function send(text){
     if(state.busy) return; if(!text||!text.trim()) return; text=text.trim();
@@ -642,7 +656,7 @@
     anchorLastUser();
     api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
-    var acc='', finalResp=null, doneSlots=null, liveSlots=null;
+    var acc='', finalResp=null, doneSlots=null, liveSlots=null, doneVisa=null, liveVisa=null, doneFollowup=null, liveFollowup=null;
     fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:sentSid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
@@ -652,24 +666,26 @@
           buf+=dec.decode(r.value,{stream:true});
           var parts=buf.split('\n\n'); buf=parts.pop();
           for(var i=0;i<parts.length;i++){ var lines=parts[i].split('\n'); for(var j=0;j<lines.length;j++){ var ln=lines[j]; if(ln.indexOf('data:')===0){ try{ var evt=JSON.parse(ln.slice(5).trim());
-            if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots); }
-            else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots); }
-            else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; }
+            if(evt.type==='meta'){ if('is_visa_related' in evt){ liveVisa=evt.is_visa_related; doneVisa=evt.is_visa_related; } if('is_followup' in evt){ liveFollowup=evt.is_followup; doneFollowup=evt.is_followup; } liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            else if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; if('is_visa_related' in evt) doneVisa=evt.is_visa_related; if('is_followup' in evt) doneFollowup=evt.is_followup; }
           }catch(e){} } } }
           return pump();
         }); })();
       })
-      .then(function(){ finishAnswer(sentSid, live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots); })
+      .then(function(){ finishAnswer(sentSid, live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup); })
       .catch(function(){
         api('POST','/chat/',{message:text,session_id:sentSid,history:history})
-          .then(function(d){ finishAnswer(sentSid, live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.'); })
-          .catch(function(){ finishAnswer(sentSid, live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
+          .then(function(d){ finishAnswer(sentSid, live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', undefined, undefined, undefined); })
+          .catch(function(){ finishAnswer(sentSid, live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', undefined, undefined, undefined); });
       });
   }
-  function finishAnswer(sentSid, live, finalText, slots){
+  function finishAnswer(sentSid, live, finalText, slots, isVisa, isFollowup){
     var isCurrent = (sentSid === state.sid);
-    // ── 백엔드 저장은 항상 원래 세션(sentSid)에 ──────────────────────────
-    api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'assistant',content:finalText}).catch(function(){});
+    // ── 백엔드 저장은 항상 원래 세션(sentSid)에 (비자/팔로업 메타 포함) ─────
+    var saveMsg={role:'assistant',content:finalText}; if(isVisa===false) saveMsg.is_visa=false; if(slots) saveMsg.slots=slots; if(isFollowup) saveMsg.is_followup=true;
+    api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',saveMsg).catch(function(){});
     function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(sentSid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
     if(!isCurrent){
       // 세션이 바뀐 경우: 로딩 스피너만 제거하고 현재 화면(B)은 건드리지 않는다
@@ -682,7 +698,7 @@
     }
     // ── 동일 세션: 정상 UI 업데이트 ────────────────────────────────────
     live.remove();
-    var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots;
+    var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots; if(isVisa===false) amsg.is_visa=false; if(isFollowup) amsg.is_followup=true;
     state.messages.push(amsg); renderStream();
     var msgs=stream.querySelectorAll('.msg'); var aH=0,uH2=0; var aEl=msgs[msgs.length-1]; var uEl2=msgs[msgs.length-2]; if(aEl)aH=aEl.getBoundingClientRect().height; if(uEl2)uH2=uEl2.getBoundingClientRect().height;
     setSpacer(window.innerHeight - headerOffset() - aH - uH2 - 24);
@@ -695,8 +711,7 @@
       var cur=state.sessions.filter(function(s){return s.id===state.sid;})[0];
       if(cur){
         state.meta.title=cur.title; if(cur.tags) state.meta.tags=cur.tags; setHeader();
-        var titles=stream.querySelectorAll('.doc .doc-title');
-        if(titles.length) titles[titles.length-1].textContent=state.meta.title||'비자 안내';
+        // doc-band 제목은 슬롯 기반 docTitle()이 소유 → 헤더/사이드바만 동기화(사후 덮어쓰기 제거)
       }
     });
   }
