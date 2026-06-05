@@ -411,37 +411,24 @@
   // ── C2: cleanDoc — strip trailing disclaimer + extract official links ────
   function cleanDoc(content){
     var body=content||'';
-    // 1. Strip trailing disclaimer — ⚠️ 가 있어야만 제거(정상 주의사항 본문 오제거 방지)
-    body=body.replace(/\n*\s*-{3,}\s*\n+\s*⚠️[\s\S]*$/, '');          // "---" + ⚠️ … (백엔드 정상 경로)
-    body=body.replace(/\n+\s*⚠️[^\n]*(?:참고용|공식 기관)[\s\S]*$/, ''); // fallback: --- 없이 ⚠️ … 참고용/공식 기관
-    // 2. Extract ## 공식 참고 링크 section
+    // 1. ⚠️ 면책 '한 줄'만 제거(뒤 내용 보존). ⚠️ 없으면 미동작 → 정상 본문 오제거 방지.
+    body=body.replace(/\n[ \t]*-{3,}[ \t]*\n+[ \t]*⚠️[^\n]*\n?/, '');          // "---" + ⚠️ 줄
+    body=body.replace(/\n*[ \t]*⚠️[^\n]*(?:참고용|공식 기관)[^\n]*\n?/, '');     // --- 없는 ⚠️ 면책 줄
+    // 2. "## 공식 참고 링크" 섹션만 추출·제거(앞 "---" 구분선 포함). 섹션 뒤 내용은 보존.
     var links=[];
-    var secRe=/(^|\n)(#{1,6})\s*공식\s*참고\s*링크\s*(\n|$)/m;
-    var m=secRe.exec(body);
+    var m=/(?:\n[ \t]*-{3,}[ \t]*\n)?\n*#{1,6}[ \t]*공식[ \t]*참고[ \t]*링크[ \t]*\n([\s\S]*?)(?=\n[ \t]*#{1,6}[ \t]|\n[ \t]*-{3,}[ \t]*(?:\n|$)|$)/.exec(body);
     if(m){
-      var secStart=m.index+(m[1]?1:0);
-      // find end: next heading of same or higher level, or EOF
-      var after=body.slice(secStart+m[0].length-(m[1]?1:0));
-      var nextHead=/\n#{1,6}\s/.exec(after);
-      var secContent=nextHead? after.slice(0, nextHead.index) : after;
-      // parse markdown links [text](url)
-      var mdLink=/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, lm;
-      var seen={};
-      while((lm=mdLink.exec(secContent))!==null){
-        if(!seen[lm[2]]){ seen[lm[2]]=1; links.push({text:lm[1],url:lm[2]}); }
-      }
-      // parse bare URLs
-      var bareUrl=/(^|[\s,])(https?:\/\/[^\s]+)/g, bm;
-      while((bm=bareUrl.exec(secContent))!==null){
-        var u=bm[2].replace(/[),.]+$/,'');
-        if(!seen[u]){ seen[u]=1; links.push({text:u,url:u}); }
-      }
+      var sec=m[1]||'', seen={}, lm, bm;
+      var mdLink=/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
+      while((lm=mdLink.exec(sec))!==null){ if(!seen[lm[2]]){ seen[lm[2]]=1; links.push({text:lm[1],url:lm[2]}); } }
+      var bareUrl=/(^|[\s,])(https?:\/\/[^\s)]+)/g;
+      while((bm=bareUrl.exec(sec))!==null){ var u=bm[2].replace(/[),.]+$/,''); if(!seen[u]){ seen[u]=1; links.push({text:u,url:u}); } }
       if(links.length>3) links=links.slice(0,3);
-      // remove section from body
-      var secEndInBody=secStart+m[0].length-(m[1]?1:0)+(nextHead?nextHead.index:after.length);
-      body=body.slice(0,secStart)+body.slice(secEndInBody);
+      body=body.slice(0,m.index)+body.slice(m.index+m[0].length);
     }
-    return {body:body.replace(/\n+$/,'\n'), links:links};
+    // 3. 정리: 빈 줄 3개+ → 2개, 끝에 매달린 "---" 제거
+    body=body.replace(/\n{3,}/g,'\n\n').replace(/\n[ \t]*-{3,}[ \t]*\s*$/,'');
+    return {body:body.replace(/\s+$/,'\n'), links:links};
   }
   // ── C3: docNo — synthesize document number from slots ───────────────────
   var GOV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
