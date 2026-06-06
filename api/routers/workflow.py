@@ -114,7 +114,7 @@ async def _iter_events(req: ChatRequest):
     필터링·그룹화할 수 있게 한다(병렬 실행 지원).
     """
     graph = get_graph()
-    state = build_initial_state(req.message, req.history)
+    state = build_initial_state(req.message, req.history, req.slots)
     run_id = uuid.uuid4().hex[:8]
     sid = req.session_id or "default"
     try:

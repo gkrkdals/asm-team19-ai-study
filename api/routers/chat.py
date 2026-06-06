@@ -22,6 +22,10 @@ class ChatRequest(BaseModel):
     message: str
     session_id: Optional[str] = "default"
     history: Optional[List[MessageItem]] = []
+    # ── 세션 맥락 슬롯: 직전 턴에서 확정된 country/purpose 를 전달해
+    # 매 요청마다 None으로 리셋되는 초기 state를 보완한다.
+    # 예: {"country": "AU", "purpose": "working_holiday"}
+    slots: Optional[dict] = None
 
 
 class ChatResponse(BaseModel):
@@ -29,8 +33,17 @@ class ChatResponse(BaseModel):
     session_id: str
 
 
-def build_initial_state(message: str, history: Optional[List[MessageItem]] = None) -> dict:
-    """채팅/스트리밍이 공유하는 LangGraph 초기 State 빌더."""
+def build_initial_state(
+    message: str,
+    history: Optional[List[MessageItem]] = None,
+    slots: Optional[dict] = None,
+) -> dict:
+    """채팅/스트리밍이 공유하는 LangGraph 초기 State 빌더.
+
+    slots 가 제공되면 직전 턴의 country/purpose/duration/profession 을
+    초기 state 에 주입한다. intent_classifier 가 이를 참조해 후속 질문에서
+    국가 맥락을 잃지 않도록 한다.
+    """
     messages = []
     for m in (history or []):
         if m.role == "user":
@@ -39,10 +52,11 @@ def build_initial_state(message: str, history: Optional[List[MessageItem]] = Non
             messages.append(AIMessage(content=m.content))
     messages.append(HumanMessage(content=message))
 
+    prior = slots or {}
     return {
         "messages": messages,
-        "country": None,
-        "purpose": None,
+        "country": prior.get("country") or None,
+        "purpose": prior.get("purpose") or None,
         "duration": None,
         "profession": None,
         "has_sponsor": None,
@@ -65,7 +79,7 @@ def build_initial_state(message: str, history: Optional[List[MessageItem]] = Non
 async def chat(req: ChatRequest):
     graph = get_graph()
 
-    initial_state = build_initial_state(req.message, req.history)
+    initial_state = build_initial_state(req.message, req.history, req.slots)
 
     try:
         result = await graph.ainvoke(initial_state)

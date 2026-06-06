@@ -765,9 +765,16 @@
     anchorLastUser();
     api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
+    // ── 직전 턴 슬롯 수집 ────────────────────────────────────────────────────
+    // 마지막 assistant 메시지의 slots(country/purpose 등)을 백엔드에 전달해
+    // 후속 질문에서 "정직원 제안" 같은 키워드 없는 문장도 올바른 국가 맥락을 유지하게 한다.
+    var lastSlots = null;
+    for(var _si=state.messages.length-2; _si>=0; _si--){
+      if(state.messages[_si].role==='assistant' && state.messages[_si].slots){ lastSlots=state.messages[_si].slots; break; }
+    }
     var acc='', finalResp=null, doneSlots=null, liveSlots=null;
     var liveVisa, doneVisa, liveFollowup, doneFollowup;
-    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
+    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:sentSid,history:history,slots:lastSlots})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
         var reader=resp.body.getReader(), dec=new TextDecoder(), buf='';

@@ -189,6 +189,15 @@ async def intent_classifier(state: AgentState) -> dict:
     kw_country = detect_country(last_message)
     kw_purpose = detect_purpose(last_message)
 
+    # ── 트랜스크립트 보조 폴백 ──────────────────────────────────────────────
+    # 새 메시지에 국가 키워드가 없어도, 직전 대화(transcript)에 이미 국가가 언급된 경우
+    # 해당 국가를 이어받는다.
+    # 예: Q1="호주 워킹홀리데이..." → Q2="정직원 제안을 받았어요. 비자를 바꿀 수 있나요?"
+    # → last_message 에 "호주" 없음 → kw_country=None → transcript 에서 "호주" 감지 → AU
+    # 단, LLM 이 새 국가를 명시적으로 감지했다면(llm_country) 트랜스크립트 폴백은 쓰지 않는다.
+    if not kw_country and not (data.get("country") or "").strip():
+        kw_country = detect_country(transcript)
+
     # 멀티턴: 국가가 바뀌면(예: 캐나다→영국) 이전 국가에 묶인 직업/기간/스폰서 정보는 폐기
     llm_country = (data.get("country") or "").upper() or None
     new_country = llm_country or kw_country
