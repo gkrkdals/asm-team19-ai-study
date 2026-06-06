@@ -4,55 +4,122 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VisaGuide AI · 신뢰도 분석</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Expanded:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg:#0c111c; --panel:#141b29; --panel2:#1a2336; --line:#243049;
-    --ink:#e7edf8; --muted:#8da0c0; --dim:#5d6e8e;
-    --accent:#4f9dff; --ok:#39d98a; --warn:#e2a23c; --bad:#ff6b6b;
+    --navy:#16223D; --navy-2:#0E1830;
+    --paper:#ECEFF5; --surface:#FFFFFF;
+    --ink:#131826; --muted:#5A6379; --dim:#8791A6;
+    --line:#DCE2EE; --line-2:#E8ECF4;
+    --azure:#2B57E6; --azure-soft:#E7EDFD; --azure-ink:#1E40C0;
+    --stamp:#D23E32;
+    --go:#1F9D6B; --go-soft:#E3F3EC; --go-ink:#0F7A50;
+    --notice:#B26A0E; --notice-bg:#FBF1DC; --notice-line:#EBD8B0; --notice-ink:#8A540B;
+    --bad:#C8442E; --bad-soft:#FBE6E1; --bad-ink:#A2331F;
+    --s-text:#C5D0EC; --s-dim:#8C9BC4; --s-line:rgba(157,180,255,.14);
+    --shadow:0 1px 2px rgba(19,24,38,.05), 0 12px 30px rgba(19,24,38,.09);
+    --shadow-sm:0 1px 2px rgba(19,24,38,.05), 0 4px 12px rgba(19,24,38,.05);
+    --r:12px; --r-sm:9px; --r-lg:14px;
+    --display:"Archivo Expanded","Archivo",sans-serif;
+    --grotesk:"Archivo",sans-serif;
+    --body:"Pretendard","Archivo",system-ui,sans-serif;
     --mono:"Space Mono",ui-monospace,monospace;
   }
   *{box-sizing:border-box;}
-  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard",system-ui,sans-serif; line-height:1.6;}
-  a{color:var(--accent); text-decoration:none;}
-  .wrap{max-width:1100px; margin:0 auto; padding:28px 20px 80px;}
-  header.top{display:flex; align-items:center; gap:14px; margin-bottom:6px; flex-wrap:wrap;}
-  header.top h1{font-size:21px; margin:0; font-weight:800;}
-  .pill{font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:20px; border:1px solid var(--line); color:var(--muted);}
-  .sub{color:var(--muted); font-size:13px; margin:0 0 22px;}
-  .nav{display:flex; gap:10px; margin:0 0 24px; flex-wrap:wrap;}
-  .nav a{font-size:12.5px; padding:7px 13px; border:1px solid var(--line); border-radius:9px; background:var(--panel); color:#cbd6f2;}
-  .nav a:hover{border-color:var(--accent);}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:var(--body); line-height:1.6;
+    -webkit-font-smoothing:antialiased; word-break:keep-all; min-height:100vh; }
+  a{color:var(--azure-ink); text-decoration:none;}
+
+  /* ===== 네이비 발급기관 헤더 밴드 ===== */
+  header.band{ position:relative; display:flex; align-items:center; gap:13px; flex-wrap:wrap;
+    padding:14px 22px; color:#fff; border-bottom:1px solid rgba(0,0,0,.3);
+    background:
+      repeating-radial-gradient(circle at 22% 18%, transparent 0 10px, rgba(255,255,255,.022) 10px 11px),
+      linear-gradient(115deg,var(--navy),var(--navy-2)); }
+  .logo{ width:36px;height:36px;border-radius:9px;flex:0 0 auto; display:grid; place-items:center;
+    background:var(--surface); color:var(--navy); font-family:var(--display); font-weight:700; font-size:18px;
+    box-shadow:0 2px 0 var(--stamp), inset 0 0 0 1px rgba(255,255,255,.6); }
+  .brand{ display:flex; flex-direction:column; line-height:1.12; min-width:0; }
+  .wordmark{ font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.14em; white-space:nowrap; }
+  .wordmark .ai{ color:#9DB4FF; }
+  .brand .sub{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; color:var(--s-dim); margin-top:3px; }
+  .band .sep{ width:1px; height:30px; background:rgba(157,180,255,.22); margin:0 3px; }
+  .band .ptitle{ font-family:var(--grotesk); font-weight:700; font-size:16px; letter-spacing:-.01em; }
+  .band .right{ margin-left:auto; display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+  .genpill{ font-family:var(--mono); font-size:11px; padding:5px 11px; border-radius:999px;
+    border:1px solid var(--s-line); color:var(--s-text); background:rgba(157,180,255,.07); white-space:nowrap; }
+
+  .wrap{max-width:1100px; margin:0 auto; padding:24px 22px 80px;}
+  .sub{color:var(--muted); font-size:13.5px; margin:14px 0 20px;}
+
+  .nav{display:flex; gap:9px; margin:0 0 24px; flex-wrap:wrap;}
+  .nav a{ font-family:var(--grotesk); font-weight:600; font-size:12.5px; padding:8px 13px; border:1px solid var(--line);
+    border-radius:var(--r-sm); background:var(--surface); color:var(--ink); box-shadow:var(--shadow-sm); transition:all .18s ease; }
+  .nav a:hover{ border-color:var(--azure); color:var(--azure-ink); transform:translateY(-1px); }
+  .nav a:focus-visible{ outline:2px solid var(--azure); outline-offset:2px; }
+
   .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-bottom:26px;}
-  .kpi{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 18px;}
-  .kpi .k{font-size:11.5px; color:var(--muted); font-family:var(--mono); text-transform:uppercase; letter-spacing:.05em;}
-  .kpi .v{font-size:30px; font-weight:800; margin-top:4px;}
-  .kpi .d{font-size:12px; color:var(--dim); margin-top:3px;}
-  .v.ok{color:var(--ok);} .v.warn{color:var(--warn);} .v.bad{color:var(--bad);}
-  section.card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:22px;}
-  section.card h2{font-size:15px; margin:0 0 4px; display:flex; align-items:center; gap:8px;}
+  .kpi{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:16px 18px;
+    box-shadow:var(--shadow-sm); animation:rise .45s cubic-bezier(.2,.7,.2,1) both; }
+  .kpi .k{ font-family:var(--mono); font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+  .kpi .v{ font-family:var(--display); font-size:30px; font-weight:700; margin-top:5px; letter-spacing:-.01em; color:var(--navy); line-height:1.1; }
+  .kpi .d{ font-size:12px; color:var(--dim); margin-top:4px; }
+  .v.ok{color:var(--go-ink);} .v.warn{color:var(--notice-ink);} .v.bad{color:var(--bad-ink);}
+
+  section.card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:20px 22px;
+    margin-bottom:20px; box-shadow:var(--shadow-sm); }
+  section.card h2{ font-family:var(--grotesk); font-size:15px; margin:0 0 5px; display:flex; align-items:center; gap:8px;
+    color:var(--navy); font-weight:700; letter-spacing:-.01em; }
   section.card .hint{font-size:12.5px; color:var(--muted); margin:0 0 16px;}
+  section.card .hint b{ color:var(--ink); font-weight:600; }
   .chartbox{position:relative; height:320px;}
+
   table{width:100%; border-collapse:collapse; font-size:13px;}
-  th,td{padding:9px 10px; text-align:left; border-bottom:1px solid var(--line);}
-  th{font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; font-weight:600;}
-  td.num{font-family:var(--mono); text-align:right;}
-  .bar{display:inline-block; height:8px; border-radius:5px; background:var(--accent); vertical-align:middle; margin-right:7px;}
-  .tag{display:inline-block; font-size:10.5px; font-family:var(--mono); padding:2px 7px; border-radius:5px;}
-  .tag.up{background:rgba(57,217,138,.14); color:var(--ok);}
-  .tag.down{background:rgba(255,107,107,.14); color:var(--bad);}
-  .tag.flat{background:rgba(141,160,192,.14); color:var(--muted);}
-  .note{background:var(--panel2); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:11px 14px; font-size:12.5px; color:#cbd6f2; margin:9px 0;}
+  th,td{padding:10px 10px; text-align:left; border-bottom:1px solid var(--line);}
+  th{ font-family:var(--mono); font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:700; }
+  td.num{font-family:var(--mono); text-align:right; color:var(--ink);}
+  tbody tr:hover{ background:#F7F9FD; }
+  /* 모바일: 표가 페이지를 밀지 않도록 표 영역만 가로 스크롤 */
+  #roundsTable, #v70Box{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  #roundsTable table, #v70Box table{ min-width:520px; }
+  .bar{display:inline-block; height:8px; border-radius:5px; background:var(--azure); vertical-align:middle; margin-right:7px;}
+  .tag{ display:inline-block; font-size:10.5px; font-family:var(--mono); padding:2px 8px; border-radius:6px; border:1px solid transparent; }
+  .tag.up{ background:var(--go-soft); color:var(--go-ink); border-color:#BFE6D2; }
+  .tag.down{ background:var(--bad-soft); color:var(--bad-ink); border-color:#F2C9BF; }
+  .tag.flat{ background:#EEF1F7; color:var(--muted); border-color:var(--line); }
+  .note{ background:var(--azure-soft); border:1px solid #D2DEFA; border-left:3px solid var(--azure); border-radius:0 8px 8px 0;
+    padding:11px 14px; font-size:12.5px; color:#23306A; margin:9px 0; }
   .loading{color:var(--muted); padding:40px; text-align:center;}
-  .footnote{font-size:11.5px; color:var(--dim); margin-top:6px;}
+  .footnote{font-size:11.5px; color:var(--dim); margin-top:8px;}
+
+  @keyframes rise{ from{ opacity:0; transform:translateY(9px);} to{ opacity:1; transform:none;} }
+  @media (max-width:560px){
+    header.band{ padding:12px 15px; }
+    .band .sep{ display:none; }
+    .wrap{ padding:18px 14px 60px; }
+  }
+  @media (prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
+<header class="band">
+  <div class="logo">V</div>
+  <div class="brand">
+    <span class="wordmark">VISAGUIDE<span class="ai"> AI</span></span>
+    <span class="sub">RELIABILITY ANALYTICS · 신뢰도 분석</span>
+  </div>
+  <span class="sep"></span>
+  <span class="ptitle">신뢰도 분석</span>
+  <div class="right">
+    <span class="genpill" id="genpill">loading…</span>
+  </div>
+</header>
 <div class="wrap">
-  <header class="top">
-    <h1>📊 신뢰도 분석</h1>
-    <span class="pill" id="genpill">loading…</span>
-  </header>
   <p class="sub">VisaGuide AI 라우팅 신뢰도의 라운드별 변화와 저신뢰 영역 개선 추이를 시각화합니다.</p>
   <nav class="nav">
     <a href="/">← 고객 화면</a>
@@ -66,43 +133,43 @@
   <div id="kpis" class="grid"></div>
 
   <section class="card" id="evolution">
-    <h2>🎯 저신뢰 영역 개선 추이</h2>
+    <h2>저신뢰 영역 개선 추이</h2>
     <p class="hint">v180에서 취약했던 <b>신분변경 · 멀티턴 · 충돌</b> 영역이 라운드를 거치며 어떻게 변화했는지.</p>
     <div class="chartbox"><canvas id="evoChart"></canvas></div>
     <div id="evoNotes"></div>
   </section>
 
   <section class="card">
-    <h2>📈 라운드별 전체 신뢰도</h2>
+    <h2>라운드별 전체 신뢰도</h2>
     <p class="hint">각 검증 라운드의 전체 일치/통과율.</p>
     <div class="chartbox"><canvas id="overallChart"></canvas></div>
     <p class="footnote" id="overallFoot"></p>
   </section>
 
   <section class="card" id="rounds">
-    <h2>🗂 라운드별 상세</h2>
+    <h2>라운드별 상세</h2>
     <p class="hint">각 라운드의 측정 범위·전체율·세부 카테고리.</p>
     <div id="roundsTable"></div>
   </section>
 
   <section class="card" id="v70">
-    <h2>🔬 Round 11 · 예상–실측 대조 (v70)</h2>
+    <h2>Round 11 · 예상–실측 대조 (v70)</h2>
     <p class="hint">각 시나리오의 <b>예상 분기</b>를 사전 기록한 뒤 실제 라우팅과 대조한 결과.</p>
     <div id="v70Box" class="loading">v70 검증 결과 대기 중… (검증 완료 후 자동 표시)</div>
   </section>
 
   <section class="card" id="r12">
-    <h2>🎯 Round 12 · 저신뢰 영역 집중 검증 (45개)</h2>
+    <h2>Round 12 · 저신뢰 영역 집중 검증 (45개)</h2>
     <p class="hint">v70에서 신뢰도가 낮거나 미검증이었던 4개 영역을 집중 검증. 키워드 보강 및 arrow regex 확장 후 재측정.</p>
     <div id="r12Box" class="loading">R12 검증 결과 대기 중…</div>
   </section>
 </div>
 
 <script>
-const C = {accent:'#4f9dff', ok:'#39d98a', warn:'#e2a23c', bad:'#ff6b6b', muted:'#8da0c0', line:'#243049', ink:'#e7edf8'};
+const C = {accent:'#2B57E6', ok:'#1F9D6B', warn:'#B26A0E', bad:'#C8442E', muted:'#5A6379', line:'#DCE2EE', ink:'#131826'};
 Chart.defaults.color = C.muted;
 Chart.defaults.borderColor = C.line;
-Chart.defaults.font.family = 'Pretendard, system-ui, sans-serif';
+Chart.defaults.font.family = 'Archivo, Pretendard, system-ui, sans-serif';
 
 function pctClass(p){ return p>=85?'ok':p>=60?'warn':'bad'; }
 function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
@@ -148,7 +215,7 @@ function render(data){
   const notes = data.notes||{};
   document.getElementById('evoNotes').innerHTML =
     ['status_change','multi_turn','conflicting'].filter(k=>notes[k]).map(k=>'<div class="note">'+esc(notes[k])+'</div>').join('')
-    + (notes.root_fix?'<div class="note" style="border-color:#39d98a">🔧 핵심 수정: '+esc(notes.root_fix)+'</div>':'');
+    + (notes.root_fix?'<div class="note" style="border-left-color:'+C.ok+'; background:var(--go-soft); border-color:#BFE6D2; color:#0F5A3C">🔧 핵심 수정: '+esc(notes.root_fix)+'</div>':'');
 
   // ── 라운드별 전체율 (bar) ──
   new Chart(document.getElementById('overallChart'), {
@@ -178,13 +245,13 @@ function render(data){
     html += '<tr><td><b>'+esc(r.label)+'</b><br><span style="color:var(--dim);font-size:11px">'+esc(r.desc||'')+'</span></td>'+
       '<td class="num">'+esc(r.date||'')+'</td>'+
       '<td class="num">'+esc(r.passed)+'/'+esc(r.total)+'</td>'+
-      '<td class="num"><b class="'+( ({ok:'',}) , 'v') +'" style="color:'+(r.overall_pct>=85?C.ok:r.overall_pct>=60?C.warn:C.bad)+'">'+esc(r.overall_pct)+'%</b></td>'+
+      '<td class="num"><b style="font-family:var(--display);color:'+(r.overall_pct>=85?C.ok:r.overall_pct>=60?C.warn:C.bad)+'">'+esc(r.overall_pct)+'%</b></td>'+
       '<td>'+cats+'</td></tr>';
   });
   html += '</tbody></table>';
   document.getElementById('roundsTable').innerHTML = html;
 
-  // ── v70 상세 ──
+  // ── v70 상세 (있으면) ──
   const r11 = rounds.find(r=>r.id==='R11');
   if(r11){
     const cats = r11.categories||{};

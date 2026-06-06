@@ -4,63 +4,159 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VisaGuide AI · 통합 워크플로우 허브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Expanded:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <style>
-  :root{ --bg:#0f1420; --panel:#18202f; --line:#2b3648; --text:#e6edf3; --muted:#93a1b5;
-    --accent:#4f9dff; --ok:#3fb950; --warn:#d29922; --idle:#3a455a; }
+  :root{
+    --navy:#16223D; --navy-2:#0E1830;
+    --paper:#ECEFF5; --surface:#FFFFFF;
+    --ink:#131826; --muted:#5A6379;
+    --line:#DCE2EE; --line-2:#E8ECF4;
+    --azure:#2B57E6; --azure-soft:#E7EDFD; --azure-ink:#1E40C0;
+    --stamp:#D23E32;
+    --go:#1F9D6B; --go-soft:#E3F3EC; --go-ink:#0F7A50;
+    --notice:#B26A0E; --notice-bg:#FBF1DC; --notice-line:#EBD8B0; --notice-ink:#8A540B;
+    --s-text:#C5D0EC; --s-dim:#8C9BC4; --s-line:rgba(157,180,255,.14);
+    --shadow:0 1px 2px rgba(19,24,38,.05), 0 12px 30px rgba(19,24,38,.09);
+    --shadow-sm:0 1px 2px rgba(19,24,38,.05), 0 4px 12px rgba(19,24,38,.05);
+    --r:12px; --r-sm:9px; --r-lg:14px;
+    --display:"Archivo Expanded","Archivo",sans-serif;
+    --grotesk:"Archivo",sans-serif;
+    --body:"Pretendard","Archivo",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+  }
   *{ box-sizing:border-box; }
-  body{ margin:0; background:var(--bg); color:var(--text); font-size:14px; line-height:1.5;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
-  header{ padding:13px 22px; border-bottom:1px solid var(--line); display:flex; align-items:center;
-    gap:10px; flex-wrap:wrap; background:linear-gradient(180deg,#131a28,#0f1420); }
-  header .title{ font-size:17px; font-weight:800; }
-  .badge{ font-size:11px; color:var(--muted); border:1px solid var(--line); padding:2px 8px; border-radius:999px; }
-  .pill{ font-size:12px; padding:3px 10px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
-  .pill.on{ color:var(--ok); border-color:var(--ok); }
-  .wrap{ padding:18px 22px; max-width:1320px; margin:0 auto; }
-  .hint{ color:var(--muted); font-size:12.5px; margin:0 0 14px; }
+  html,body{ margin:0; padding:0; }
+  body{ background:var(--paper); color:var(--ink); font-size:14px; line-height:1.6;
+    font-family:var(--body); -webkit-font-smoothing:antialiased; word-break:keep-all; min-height:100vh; }
+
+  /* ===== 네이비 발급기관 헤더 밴드 (메인과 동일 DNA) ===== */
+  header.band{ position:relative; display:flex; align-items:center; gap:13px; flex-wrap:wrap;
+    padding:14px 22px; color:#fff; border-bottom:1px solid rgba(0,0,0,.3);
+    background:
+      repeating-radial-gradient(circle at 22% 18%, transparent 0 10px, rgba(255,255,255,.022) 10px 11px),
+      linear-gradient(115deg,var(--navy),var(--navy-2)); }
+  .logo{ width:36px;height:36px;border-radius:9px;flex:0 0 auto; display:grid; place-items:center;
+    background:var(--surface); color:var(--navy); font-family:var(--display); font-weight:700; font-size:18px;
+    box-shadow:0 2px 0 var(--stamp), inset 0 0 0 1px rgba(255,255,255,.6); }
+  .brand{ display:flex; flex-direction:column; line-height:1.12; min-width:0; }
+  .wordmark{ font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.14em; white-space:nowrap; }
+  .wordmark .ai{ color:#9DB4FF; }
+  .brand .sub{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; color:var(--s-dim); margin-top:3px; }
+  .band .sep{ width:1px; height:30px; background:rgba(157,180,255,.22); margin:0 3px; }
+  .band .ptitle{ font-family:var(--grotesk); font-weight:700; font-size:16px; letter-spacing:-.01em; }
+  .band .right{ margin-left:auto; display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+  .pill{ display:inline-flex; align-items:center; gap:7px; font-size:12px; padding:5px 12px; border-radius:999px;
+    border:1px solid var(--s-line); color:var(--s-text); background:rgba(157,180,255,.07); white-space:nowrap; }
+  .pill::before{ content:""; width:7px;height:7px;border-radius:50%; background:var(--s-dim); flex:0 0 auto; }
+  .pill.on{ color:#A7EBC8; border-color:rgba(63,185,80,.5); background:rgba(31,157,107,.16); }
+  .pill.on::before{ background:#46d394; box-shadow:0 0 0 0 rgba(70,211,148,.5); animation:pulse 1.6s ease-out infinite; }
+  .pill.warnp{ color:#F4D9A6; border-color:rgba(178,106,14,.5); background:rgba(178,106,14,.18); }
+  .pill.warnp::before{ background:#E2A23C; }
+  .badge{ font-size:11px; color:var(--s-dim); border:1px solid var(--s-line); padding:4px 10px; border-radius:999px;
+    font-family:var(--mono); letter-spacing:.04em; white-space:nowrap; }
+
+  .wrap{ padding:22px; max-width:1320px; margin:0 auto; }
+  .hint{ color:var(--muted); font-size:13px; margin:0 0 16px; display:flex; gap:7px; align-items:flex-start; }
+  .hint svg{ width:15px;height:15px;color:var(--azure);flex:0 0 auto;margin-top:1px; }
+  .hint b{ color:var(--ink); font-weight:600; }
+  .hint code{ font-family:var(--mono); font-size:11.5px; background:var(--azure-soft); color:var(--azure-ink); padding:1px 6px; border-radius:5px; }
+
   .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(330px,1fr)); gap:14px; }
-  .card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
-    transition:border-color .2s, box-shadow .2s; }
-  .card.running{ border-color:var(--accent); box-shadow:0 0 0 2px rgba(79,157,255,.18), 0 6px 20px rgba(0,0,0,.35); }
-  .card.done{ border-color:var(--ok); }
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:15px 16px 14px;
+    box-shadow:var(--shadow-sm); transition:border-color .2s, box-shadow .2s, transform .2s;
+    animation:rise .45s cubic-bezier(.2,.7,.2,1) both; }
+  .card.running{ border-color:var(--azure); box-shadow:0 0 0 3px var(--azure-soft), var(--shadow); }
+  .card.done{ border-color:rgba(31,157,107,.55); }
   .card .top{ display:flex; align-items:center; gap:8px; }
-  .card .ttl{ font-weight:800; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .card .st{ margin-left:auto; font-size:11px; padding:2px 9px; border-radius:999px; border:1px solid var(--idle); color:var(--muted); white-space:nowrap; }
-  .card.running .st{ color:var(--accent); border-color:var(--accent); }
-  .card.done .st{ color:var(--ok); border-color:var(--ok); }
-  .card .msg{ color:var(--muted); font-size:12px; margin:7px 0 10px; min-height:17px;
+  .card .ttl{ font-family:var(--grotesk); font-weight:700; font-size:15px; color:var(--ink);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:-.01em; }
+  .card .st{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:11px; padding:3px 10px;
+    border-radius:999px; border:1px solid var(--line); color:var(--muted); background:#F4F6FB; white-space:nowrap; font-weight:600; }
+  .card .st::before{ content:""; width:6px;height:6px;border-radius:50%; background:var(--muted); }
+  .card.running .st{ color:var(--azure-ink); border-color:#CFDBFB; background:var(--azure-soft); }
+  .card.running .st::before{ background:var(--azure); }
+  .card.done .st{ color:var(--go-ink); border-color:#BFE6D2; background:var(--go-soft); }
+  .card.done .st::before{ background:var(--go); }
+  /* 보관 기록(persisted) — 라이브 완료(녹)와 구분되는 중립 칩 */
+  .card.done .st.rec, .card .st.rec{ color:var(--muted); background:#EEF1F7; border-color:var(--line); }
+  .card.done .st.rec::before, .card .st.rec::before{ background:var(--muted); }
+  .card .msg{ color:var(--muted); font-size:12.5px; margin:8px 0 11px; min-height:18px;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .nowline{ display:flex; align-items:center; gap:9px; background:#121a28; border:1px solid var(--line);
-    border-radius:9px; padding:8px 10px; }
-  .nowline .dot{ width:10px; height:10px; border-radius:50%; background:var(--idle); flex:none; }
-  .card.running .nowline .dot{ background:var(--accent); animation:pulse 1s infinite; }
-  .card.done .nowline .dot{ background:var(--ok); }
-  @keyframes pulse{ 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.7);opacity:.6;} }
-  .nowline .nm{ font-weight:700; font-size:13px; }
-  .nowline .ic{ font-size:15px; }
-  .meta{ display:flex; gap:12px; margin:10px 0 12px; font-size:11.5px; color:var(--muted); flex-wrap:wrap; }
-  .meta b{ color:var(--text); font-weight:700; }
-  .card a.detail{ display:inline-block; width:100%; text-align:center; text-decoration:none;
-    background:#1e2740; color:#cfe0ff; border:1px solid #2a3550; border-radius:9px; padding:8px 0; font-weight:700; font-size:12.5px; }
-  .card a.detail:hover{ border-color:var(--accent); color:#fff; }
-  .empty{ color:var(--muted); border:1px dashed var(--line); border-radius:12px; padding:26px; text-align:center; }
-  /* 진행 단계 미니 바(간단한 동작만; 상세는 링크) */
-  .bar{ height:5px; border-radius:999px; background:#101725; overflow:hidden; margin-bottom:11px; }
-  .bar > i{ display:block; height:100%; width:0; background:linear-gradient(90deg,#4f9dff,#3fb950); transition:width .4s; }
+
+  .bar{ height:6px; border-radius:999px; background:var(--line-2); overflow:hidden; margin-bottom:12px; }
+  .bar > i{ display:block; height:100%; width:0; border-radius:999px;
+    background:linear-gradient(90deg,var(--azure),var(--navy)); transition:width .45s ease; }
+  .card.done .bar > i{ background:linear-gradient(90deg,var(--go),var(--go-ink)); }
+
+  .nowline{ display:flex; align-items:center; gap:9px; background:#F7F9FD; border:1px solid var(--line-2);
+    border-radius:var(--r-sm); padding:9px 11px; }
+  .nowline .dot{ width:9px; height:9px; border-radius:50%; background:#C3CCDD; flex:none; }
+  .card.running .nowline .dot{ background:var(--azure); box-shadow:0 0 0 0 rgba(43,87,230,.45); animation:pulse 1.4s ease-out infinite; }
+  .card.done .nowline .dot{ background:var(--go); }
+  .nowline .ic{ font-size:14px; line-height:1; filter:saturate(.9); }
+  .nowline .nm{ font-family:var(--grotesk); font-weight:700; font-size:13px; color:var(--ink); }
+
+  .meta{ display:flex; gap:9px; margin:11px 0 12px; font-size:11px; color:var(--muted); flex-wrap:wrap; align-items:center; }
+  .meta .ml{ font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .meta b{ color:var(--ink); font-weight:700; }
+  .meta code{ font-family:var(--mono); font-size:10.5px; color:var(--azure-ink); background:var(--azure-soft);
+    border:1px solid #DCE6FC; padding:1px 6px; border-radius:5px; max-width:130px; overflow:hidden;
+    text-overflow:ellipsis; white-space:nowrap; vertical-align:middle; }
+
+  .card a.detail{ display:flex; align-items:center; justify-content:center; gap:7px; text-decoration:none;
+    background:var(--azure-soft); color:var(--azure-ink); border:1px solid #CFDBFB; border-radius:var(--r-sm);
+    padding:9px 0; font-family:var(--grotesk); font-weight:700; font-size:12.5px; transition:all .18s ease; }
+  .card a.detail:hover{ border-color:var(--azure); background:#DCE6FC; transform:translateY(-1px); }
+  .card a.detail:focus-visible{ outline:2px solid var(--azure); outline-offset:2px; }
+
+  .empty{ color:var(--muted); border:1.5px dashed var(--line); border-radius:var(--r-lg); padding:34px 26px;
+    text-align:center; background:rgba(255,255,255,.5); font-size:13.5px; line-height:1.7; }
+  .empty .ei{ display:grid; place-items:center; width:46px;height:46px;border-radius:11px; margin:0 auto 12px;
+    background:var(--azure-soft); color:var(--azure); }
+  .empty .ei svg{ width:23px;height:23px; }
+
+  @keyframes pulse{ 0%{ box-shadow:0 0 0 0 rgba(43,87,230,.45);} 100%{ box-shadow:0 0 0 8px rgba(43,87,230,0);} }
+  .pill.on::before{ animation-name:pulseGo; }
+  @keyframes pulseGo{ 0%{ box-shadow:0 0 0 0 rgba(70,211,148,.5);} 100%{ box-shadow:0 0 0 7px rgba(70,211,148,0);} }
+  @keyframes rise{ from{ opacity:0; transform:translateY(9px);} to{ opacity:1; transform:none;} }
+
+  @media (max-width:560px){
+    header.band{ padding:12px 15px; gap:10px; }
+    .band .ptitle{ font-size:14px; }
+    .band .sep{ display:none; }
+    .wrap{ padding:16px 14px; }
+    .grid{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
-<header>
-  <span class="title">🛰️ 통합 워크플로우 허브</span>
-  <span class="badge">모든 대화 세션의 병렬 실행을 한눈에</span>
-  <span id="livePill" class="pill">⚪ 연결 대기</span>
-  <span id="cnt" class="badge">세션 0</span>
+<header class="band">
+  <div class="logo">V</div>
+  <div class="brand">
+    <span class="wordmark">VISAGUIDE<span class="ai"> AI</span></span>
+    <span class="sub">WORKFLOW HUB · 통합 허브</span>
+  </div>
+  <span class="sep"></span>
+  <span class="ptitle">통합 워크플로우 허브</span>
+  <div class="right">
+    <span id="livePill" class="pill">연결 대기</span>
+    <span id="cnt" class="badge">세션 0</span>
+  </div>
 </header>
 <div class="wrap">
-  <p class="hint">💡 각 카드는 세션의 실행을 <b>간단한 동작</b>으로만 보여줍니다.
-    자세한 데이터 흐름·노드 상세는 카드의 <b>상세 트레이스</b> 링크(<code>/{session_id}/trace</code>)에서 확인하세요.</p>
+  <p class="hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg>
+    <span>각 카드는 세션의 실행을 <b>간단한 동작</b>으로만 보여줍니다. 자세한 데이터 흐름·노드 상세는 카드의 <b>상세 트레이스</b> 링크(<code>/{session_id}/trace</code>)에서 확인하세요.</span>
+  </p>
   <div id="grid" class="grid"></div>
-  <div id="empty" class="empty">아직 실행된 세션이 없습니다. 고객 화면(:3000/)에서 질문하면 여기에 실시간으로 나타납니다.</div>
+  <div id="empty" class="empty">
+    <div class="ei"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    아직 실행된 세션이 없습니다.<br>고객 화면(<b>:3000/</b>)에서 질문하면 여기에 실시간으로 나타납니다.
+  </div>
 </div>
 <script>
 var API_BASE=(window.__API_BASE__||'http://localhost:8000').replace(/\/+$/,'');
@@ -82,11 +178,12 @@ function render(){
     const cls = s.status==="running" ? "running" : (s.status==="done" ? "done" : "");
     const pct = Math.min(100, Math.round((s.nodeCount/APPROX_TOTAL)*100));
     const isRec = s.persisted && s.status!=="running";
-    const stTxt = s.status==="running" ? "● 실행 중" : (isRec ? "🗂️ 기록" : (s.status==="done" ? "✓ 완료"+(s.total_ms?` · ${s.total_ms}ms`:"") : "대기"));
+    const stCls = s.status==="running" ? "" : (isRec ? "rec" : "");
+    const stTxt = s.status==="running" ? "실행 중" : (isRec ? "기록" : (s.status==="done" ? "완료"+(s.total_ms?` · ${s.total_ms}ms`:"") : "대기"));
     return `<div class="card ${cls}">
       <div class="top">
         <span class="ttl" title="${esc(s.title)}">${esc(s.title||id)}</span>
-        <span class="st">${esc(stTxt)}</span>
+        <span class="st ${stCls}">${esc(stTxt)}</span>
       </div>
       <div class="msg" title="${esc(s.message)}">${esc(s.message||"—")}</div>
       <div class="bar"><i style="width:${s.status==="done"?100:pct}%"></i></div>
@@ -94,7 +191,7 @@ function render(){
         <span class="dot"></span><span class="ic">${esc(s.icon||"⏳")}</span>
         <span class="nm">${esc(s.node||"대기 중")}</span>
       </div>
-      <div class="meta"><span>노드 <b>${s.nodeCount}</b>개</span><span>세션 <b>${esc(id)}</b></span></div>
+      <div class="meta"><span class="ml">Nodes</span><b>${s.nodeCount}</b><span class="ml" style="margin-left:6px">Session</span><code>${esc(id)}</code></div>
       <a class="detail" href="/${encodeURIComponent(id)}/trace">상세 트레이스 ↗</a>
     </div>`;
   }).join("");
@@ -109,7 +206,7 @@ function bootstrap(s){
 }
 
 function handle(evt){
-  if(evt.type==="connected"){ $("livePill").textContent="🟢 연결됨"; $("livePill").className="pill on"; return; }
+  if(evt.type==="connected"){ $("livePill").textContent="연결됨"; $("livePill").className="pill on"; return; }
   const id=evt.session_id; if(!id) return;
   let s=SESS[id];
   if(evt.type==="start"){
@@ -129,7 +226,7 @@ async function init(){
   }catch(_){}
   const es=new EventSource(API_BASE+"/trace/live");   // 세션 필터 없음 → 전체 수신
   es.onmessage=(m)=>{ try{ handle(JSON.parse(m.data)); }catch(_){} };
-  es.onerror=()=>{ $("livePill").textContent="🟡 재연결 중…"; $("livePill").className="pill"; };
+  es.onerror=()=>{ $("livePill").textContent="재연결 중…"; $("livePill").className="pill warnp"; };
 }
 init();
 </script>
