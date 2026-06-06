@@ -450,6 +450,10 @@
   if(_mov) _mov.addEventListener('click', function(e){ if(e.target===_mov){ _mov.classList.remove('open'); _modalCb=null; } });
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var state={sessions:[], sid:null, meta:{}, messages:[], busy:false};
+  // ── 세션 격리: loadActive 경쟁 조건 방지 ────────────────────────────────
+  // 빠른 세션 클릭 등으로 복수의 loadActive 가 동시에 진행될 경우,
+  // 가장 최신 호출(_loadGen)만 state 를 갱신하고 나머지는 조용히 버린다.
+  var _loadGen = 0;
   var TAGDOT={'취업':'#6E8BFF','유학':'#4FC58C','여행':'#E2A23C','워킹홀리데이':'#B69CFF','장기체류':'#5BC0BE','예외상황':'#E2A23C','기타':'#9DB4FF'};
 
   function esc(s){var d=document.createElement('div'); d.textContent=(s==null?'':String(s)); return d.innerHTML;}
@@ -699,7 +703,12 @@
 
   function loadActive(sid){
     var prevSid = state.sid;
+    // ── 세션 격리: 경쟁 조건 방지 ──────────────────────────────────────────
+    // 이 loadActive 호출의 고유 세대 번호를 캡처한다.
+    // API 응답이 돌아왔을 때 더 새로운 loadActive 가 이미 시작됐으면(세대 불일치) 결과를 버린다.
+    var myGen = ++_loadGen;
     return api('GET','/sessions/'+encodeURIComponent(sid)).then(function(full){
+      if(myGen !== _loadGen) return;  // 더 최신 loadActive 가 완료/진행 중 → 이 결과는 폐기
       state.meta={title:full.title, description:full.description, tags:full.tags||[], last_run:full.last_run};
       state.messages=(full.messages||[]).map(function(m){ var o={role:m.role, content:m.content}; if(m.is_visa!==undefined) o.is_visa=m.is_visa; if(m.slots) o.slots=m.slots; if(m.is_followup) o.is_followup=m.is_followup; return o; });
       var lr=full.last_run||{};
@@ -775,17 +784,35 @@
           return pump();
         }); })();
       })
-      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup); })
+      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup, sentSid); })
       .catch(function(){
         api('POST','/chat/',{message:text,session_id:sentSid,history:history})
-          .then(function(d){ finishAnswer(live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', null, null, null); })
-          .catch(function(){ finishAnswer(live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', null, null, null); });
+          .then(function(d){ finishAnswer(live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', null, null, null, sentSid); })
+          .catch(function(){ finishAnswer(live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', null, null, null, sentSid); });
       });
   }
-  function finishAnswer(live, finalText, slots, isVisa, isFollowup){
+  function finishAnswer(live, finalText, slots, isVisa, isFollowup, sentSid){
+    // ── 세션 격리 guard ────────────────────────────────────────────────────
+    // 스트리밍 도중 다른 세션으로 전환된 경우, 이 응답을 새 세션 state에 오염시키지 않는다.
+    // live 노드만 제거하고 조용히 종료.
+    if(sentSid && state.sid !== sentSid){
+      live.remove();
+      state.busy=false; sendBtn.disabled=false;
+      return;
+    }
     live.remove();
     var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots; if(isVisa===false) amsg.is_visa=false; if(isFollowup) amsg.is_followup=true;
     state.messages.push(amsg); renderStream();
+    // ── 어시스턴트 응답을 서버에도 영속화 ─────────────────────────────────
+    // 저장하지 않으면 loadActive(세션 전환·삭제 후 리다이렉트 등) 시
+    // 서버에서 받아온 메시지 목록에 assistant 응답이 빠져 답변창이 비어 보이는 버그 방지.
+    (function(sid){
+      var payload={role:'assistant', content:finalText};
+      if(isVisa===false) payload.is_visa=false;
+      if(slots)         payload.slots=slots;
+      if(isFollowup)    payload.is_followup=true;
+      api('POST','/sessions/'+encodeURIComponent(sid)+'/messages', payload).catch(function(){});
+    })(sentSid||state.sid);
     var msgs=stream.querySelectorAll('.msg'); var aH=0,uH2=0; var aEl=msgs[msgs.length-1]; var uEl2=msgs[msgs.length-2]; if(aEl)aH=aEl.getBoundingClientRect().height; if(uEl2)uH2=uEl2.getBoundingClientRect().height;
     setSpacer(window.innerHeight - headerOffset() - aH - uH2 - 24);
     state.busy=false; sendBtn.disabled=false;

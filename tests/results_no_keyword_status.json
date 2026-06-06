@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "total": 5,
+    "normal_path": 5,
+    "exception_hit": 0,
+    "note": "키워드 없는 상태변경 탐지 한계 투명성 검증"
+  },
+  "rows": [
+    {
+      "id": "NK-01",
+      "label": "US: F-1 졸업 → H-1B 스폰서 (키워드: 없음)",
+      "note": "implicit F-1→H-1B without '전환/변경' keywords",
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "route_short": "intent → RAG → RESP",
+      "country": "US",
+      "exception_type": null,
+      "is_followup": false,
+      "hit_exception_handler": false,
+      "verdict": "normal_path",
+      "answer_preview": "## 추천 비자  \n**H-1B 비자**  \n미국에서 컴퓨터공학 석사 학위 소지자로 IT 기업에 취업한 경우, **H-1B 비자**가 가장 적합합니다. 이 비자는 전문직 종사자를 위한 임시 취업 비자로, 최대 6년까지 체류 가능하며, 이후 영주권(EB-2/EB-3)으로의 전환도 가능합니다.  \n\n---\n\n## 주요 자격 요건  \n1. **고용주 스폰서십**: 미국 내 고용주가 **Form I-129 청원서**를 USCIS에 제출해야 합니다.  \n2. **학력 요건**: 학사 학위 이상 또는 이에 상응하는 경력(5년 이상)이 필요합니"
+    },
+    {
+      "id": "NK-02",
+      "label": "AU: 학생 비자 졸업 → 취업 (키워드: 없음)",
+      "note": "implicit student→work visa without '신분/전환' keywords",
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "route_short": "intent → RAG → RESP",
+      "country": "AU",
+      "exception_type": null,
+      "is_followup": false,
+      "hit_exception_handler": false,
+      "verdict": "normal_path",
+      "answer_preview": "## 추천 비자  \n### 1. **Work and Holiday visa (subclass 462/417)**  \n- 현재 어학원 수료 후 풀타임 근무를 목표로 하는 경우, **만 18~30세(한국인 기준)**라면 신청 가능한 단기 취업 비자입니다.  \n- 최대 12개월 체류 가능하며, **12개월 중 6개월 연속 동일 고용주 근무 가능**합니다.  \n- **두 번째 비자**를 신청하려면 **지정된 지역/직종에서 3개월 근무**해야 합니다.  \n\n### 2. **Temporary Graduate visa (subclass 485)"
+    },
+    {
+      "id": "NK-03",
+      "label": "DE: 구직 비자 체류 → 취업 확정 (키워드: 없음)",
+      "note": "implicit job-seeker visa→work permit without '변경' keywords",
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "route_short": "intent → RAG → RESP",
+      "country": "DE",
+      "exception_type": null,
+      "is_followup": false,
+      "hit_exception_handler": false,
+      "verdict": "normal_path",
+      "answer_preview": "## 추천 비자  \n**취업 비자 (Section 18a/18b AufenthG) 또는 EU 블루카드**  \n- 현재 **구직 비자(Jobseekervisum)**로 체류 중이며, 베를린 스타트업에서 채용이 확정된 경우, **취업 목적의 거주 허가**로 전환해야 합니다.  \n- 학력(학사 이상)과 연봉(56,400유로 이상*)을 충족하면 **EU 블루카드**를 신청할 수 있습니다. IT·공학·의학 분야는 연봉 기준이 완화(43,992유로 이상)됩니다.  \n- 학력 또는 경력 요건은 충족하지만 연봉 기준을 충족하지 못할 경우 **일반"
+    },
+    {
+      "id": "NK-04",
+      "label": "JP: 워킹홀리데이 → 정직원 제안 (키워드: 없음)",
+      "note": "implicit WH→employment permit without '전환' keywords",
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "route_short": "intent → RAG → RESP",
+      "country": "JP",
+      "exception_type": null,
+      "is_followup": false,
+      "hit_exception_handler": false,
+      "verdict": "normal_path",
+      "answer_preview": "## 추천 비자  \n**기술·인문지식·국제업무 비자 (「技術・人文知識・国際業務」)**  \n- 일본 기업에서 정규직으로 장기 근무 시 가장 일반적인 비자입니다.  \n- 카페 아르바이트가 아닌 **전문적 업무**로 전환 시 신청 가능합니다.  \n\n## 주요 자격 요건  \n1. **학력 요건**:  \n   - 대학(4년제) 졸업 이상 또는 이에 상응하는 자격 필요.  \n   - (참고) \"Future Creation\" 비자는 최근 5년 이내 학위 취득자만 가능(2년 체류).  \n2. **고용 계약**:  \n   - 일본 기업과의 정식 고"
+    },
+    {
+      "id": "NK-05",
+      "label": "CA: 학생 → PGWP → 영주권 경로 (키워드: 없음)",
+      "note": "implicit multi-step status change path without change keywords",
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "route_short": "intent → RAG → RESP",
+      "country": "CA",
+      "exception_type": null,
+      "is_followup": false,
+      "hit_exception_handler": false,
+      "verdict": "normal_path",
+      "answer_preview": "## 추천 비자  \n**캐나다 영주권 (Permanent Residence)**  \n- 현재 PGWP(졸업 후 취업 허가)를 소지하고 소프트웨어 개발자로 근무 중인 경우, **Express Entry** 또는 **주정부 이민 프로그램(PNP)**을 통해 영주권 신청이 가능합니다.  \n- 특히 **기술직 종사자**에게 유리한 **Federal Skilled Worker Program(FSWP)** 또는 **Canadian Experience Class(CEC)**가 적합합니다.  \n\n---\n\n## 주요 자격 요건  \n1. **언어 능"
+    }
+  ]
+}
