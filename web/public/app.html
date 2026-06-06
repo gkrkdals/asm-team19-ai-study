@@ -283,11 +283,11 @@
   @media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none !important; transition:none !important;} }
 
   /* ── conv 아이템 내 ⋮ 버튼 ── */
-  .conv-title-row{display:flex; align-items:center; gap:5px; min-width:0; overflow:hidden;}
+  .conv-title-row{display:flex; align-items:center; gap:5px; min-width:0; overflow:hidden; padding-right:26px;}
   .conv-pin{flex:0 0 auto; font-size:11px; line-height:1;}
   .conv.pinned .conv-title{color:#FFD580;}
   .conv-more{
-    position:absolute; top:50%; right:8px; transform:translateY(-50%);
+    position:absolute; top:18px; right:8px; transform:translateY(-50%);
     width:26px; height:26px; border-radius:6px; display:grid; place-items:center;
     font-size:17px; line-height:1; color:var(--s-dim); cursor:pointer; user-select:none;
     opacity:0; transition:opacity .15s ease, background .15s ease;
@@ -335,9 +335,7 @@
   .modal-btn.cancel:hover{background:#F0F3FA;}
   .modal-btn.del{background:#D23E32; color:#fff; border-color:#D23E32;}
   .modal-btn.del:hover{background:#B83128;}
-  /* ── doc-light — 후속질문 압축 응답 카드 (직인·분류표 없이 본문만) ── */
-  .doc.doc-light{background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r); box-shadow:var(--shadow-sm);}
-  .doc.doc-light .doc-body{padding:16px 20px 6px;}
+  /* doc-light(후속 카드) = 본 카드(.doc)와 동일 외형·간격, 밴드만 생략 (#26 디자인) */
   /* ── 모바일 전용 사이드바 닫기 버튼 ── */
   .side-close{
     display:none; position:absolute; top:14px; right:14px; width:34px; height:34px;
@@ -824,9 +822,7 @@
       var cur=state.sessions.filter(function(s){return s.id===state.sid;})[0];
       if(cur){
         state.meta.title=cur.title; if(cur.tags) state.meta.tags=cur.tags; setHeader();
-        // keep the just-rendered doc-band title in sync with the backend-generated title
-        var titles=stream.querySelectorAll('.doc .doc-title');
-        if(titles.length) titles[titles.length-1].textContent=state.meta.title||'비자 안내';
+        // doc-band 제목은 슬롯 기반 docTitle()이 소유 → 헤더/사이드바만 동기화(사후 덮어쓰기 안 함)
       }
     });
   }
