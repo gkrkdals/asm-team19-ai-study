@@ -144,8 +144,21 @@
   .msg{display:flex; gap:12px; align-items:flex-start; animation:rise .45s cubic-bezier(.2,.7,.2,1) both;}
   .av{width:36px;height:36px;border-radius:9px;flex:0 0 auto; display:grid; place-items:center; background:linear-gradient(170deg,var(--navy),var(--navy-2)); color:#fff; font-family:var(--display); font-weight:700; font-size:15px; position:relative; box-shadow:0 2px 8px rgba(19,24,38,.25), inset 0 0 0 1px rgba(255,255,255,.08);}
   .av.live::after{content:""; position:absolute; inset:-3px; border-radius:12px; border:1.5px solid var(--azure); opacity:.4; animation:breathe 4s ease-in-out infinite;}
-  .bubble-a{background:var(--surface); border:1px solid var(--line); border-radius:4px 12px 12px 12px; padding:13px 16px; box-shadow:var(--shadow-sm);}
+  .bubble-a{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:13px 16px; box-shadow:var(--shadow);}
   .bubble-a b{color:var(--navy); font-weight:600;}
+  /* 일반답변 말풍선 본문 = 비자 카드 본문과 동일 간격(섹션 인덴트·번호는 없음) */
+  .bubble-a > :first-child{margin-top:0;} .bubble-a > :last-child{margin-bottom:0;}
+  .bubble-a p{margin:.45rem 0; font-size:14.5px; line-height:1.72;}
+  .bubble-a strong{color:var(--azure-ink); font-weight:600;}
+  .bubble-a a{color:var(--azure-ink); text-decoration:underline; text-underline-offset:2px;}
+  .bubble-a code{font-family:var(--mono); font-size:.9em; background:var(--azure-soft); color:var(--azure-ink); padding:1px 5px; border-radius:4px;}
+  .bubble-a ul{margin:.45rem 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px;}
+  .bubble-a ul > li{position:relative; padding-left:17px; font-size:14px; line-height:1.6;}
+  .bubble-a ul > li::before{content:""; position:absolute; left:0; top:7px; width:6px; height:6px; border-radius:1px; background:var(--azure); transform:rotate(45deg);}
+  .bubble-a ol{margin:.45rem 0; padding-left:1.6rem; list-style:decimal; display:flex; flex-direction:column; gap:7px;}
+  .bubble-a ol > li{font-size:14px; line-height:1.6;}
+  .bubble-a ol > li::marker{font-family:var(--mono); font-size:.78rem; color:var(--azure); font-weight:700;}
+  .bubble-a li > ul{margin:.4rem 0 .15rem; padding-left:2px;}
   .msg.user{flex-direction:row-reverse;}
   .msg.user .av{background:#E4E9F4; color:var(--navy); box-shadow:var(--shadow-sm); font-family:var(--grotesk); font-weight:700; font-size:13px;}
   .bubble-u{background:linear-gradient(170deg,#1D2F54,var(--navy)); color:#EAEFFA; border-radius:12px 4px 12px 12px; padding:12px 16px; max-width:80%; box-shadow:0 6px 18px rgba(19,24,38,.18);}
@@ -179,14 +192,14 @@
   .field.set .chk .num{display:none;} .field.set .chk svg{display:block;}
 
   /* doc body = backend markdown rendered to match prototype sections */
-  .doc-body{padding:6px 20px 2px; counter-reset:vgsec;}
+  .doc-body{padding:18px 20px 18px; counter-reset:vgsec;}
   .doc-body > :first-child{margin-top:.2rem;}
   .doc-body h1,.doc-body h2,.doc-body h3{
-    counter-increment:vgsec; font-family:var(--grotesk); font-size:1.02rem; font-weight:700; color:var(--navy);
-    letter-spacing:-.01em; border-left:3px solid var(--azure); padding-left:.55rem; margin:1.05rem 0 .5rem;
-    display:flex; align-items:baseline; gap:.5rem;}
+    counter-increment:vgsec; font-family:var(--grotesk); font-size:0.96rem; font-weight:600; color:var(--navy);
+    letter-spacing:-.01em; margin:1.05rem 0 .5rem;
+    position:relative; padding-left:1.3rem;}
   .doc-body h1::before,.doc-body h2::before,.doc-body h3::before{
-    content:counter(vgsec,decimal-leading-zero); font-family:var(--mono); font-size:.76rem; color:var(--azure); font-weight:700; flex:0 0 auto;}
+    content:counter(vgsec,decimal-leading-zero); font-family:var(--mono); font-size:.76rem; color:var(--azure); font-weight:700; position:absolute; left:0; top:.06em;}
   .doc-body h4{margin:.7rem 0 .35rem; font-size:14px; font-weight:700; color:var(--navy);}
   .doc-body p{margin:.45rem 0; font-size:14.5px; color:var(--ink); line-height:1.72;}
   .doc-body strong, .doc-body b{color:var(--azure-ink); font-weight:600;}
@@ -214,6 +227,13 @@
   .doc-body blockquote p + p{margin-top:.4rem;}
   .doc-body blockquote strong, .doc-body blockquote b{color:var(--notice-ink); font-weight:700;}
   .doc-body blockquote a{color:var(--notice-ink);}
+  /* 섹션 본문(제목·문단·목록)을 번호 우측 칼럼으로 들여쓰기 (하네스 정렬) */
+  .doc-body > p, .doc-body > ul, .doc-body > ol, .doc-body > blockquote, .doc-body > h4, .doc-body > pre, .doc-body > table{margin-left:1.3rem;}
+
+  .gov{display:inline-flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; color:var(--azure-ink); text-decoration:none; background:var(--azure-soft); border:1px solid #CFDBFB; padding:9px 13px; border-radius:8px; transition:all .18s ease;}
+  .gov:hover{background:#DCE6FC; transform:translateY(-1px);}
+  .gov svg{width:15px;height:15px;}
+  .gov-links{display:flex; flex-wrap:wrap; gap:8px;}
 
   .doc-foot{padding:14px 20px 16px; border-top:1px solid var(--line); background:#F8FAFD; display:flex; flex-direction:column; gap:11px;}
   .trace-strip{display:flex; align-items:center; gap:12px; text-decoration:none; padding:11px 13px; border-radius:10px; border:1px solid var(--line); background:var(--surface); transition:all .18s ease;}
@@ -403,6 +423,39 @@
     return html;
   }
   function md(t){ try{ return window.marked? fixEmphasis(marked.parse(t||'')) : esc(t).replace(/\n/g,'<br>'); }catch(e){ return esc(t); } }
+  // ── C2: cleanDoc — strip trailing disclaimer + extract official links ────
+  function cleanDoc(content){
+    var body=content||'';
+    // 1. ⚠️ 면책 '한 줄'만 제거(뒤 내용 보존). ⚠️ 없으면 미동작 → 정상 본문 오제거 방지.
+    body=body.replace(/\n[ \t]*-{3,}[ \t]*\n+[ \t]*⚠️[^\n]*\n?/, '');          // "---" + ⚠️ 줄
+    body=body.replace(/\n*[ \t]*⚠️[^\n]*(?:참고용|공식 기관)[^\n]*\n?/, '');     // --- 없는 ⚠️ 면책 줄
+    // 2. "## 공식 참고 링크" 섹션만 추출·제거(앞 "---" 구분선 포함). 섹션 뒤 내용은 보존.
+    var links=[];
+    var m=/(?:\n[ \t]*-{3,}[ \t]*\n)?\n*#{1,6}[ \t]*공식[ \t]*참고[ \t]*링크[ \t]*\n([\s\S]*?)(?=\n[ \t]*#{1,6}[ \t]|\n[ \t]*-{3,}[ \t]*(?:\n|$)|$)/.exec(body);
+    if(m){
+      var sec=m[1]||'', seen={}, lm, bm;
+      var mdLink=/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
+      while((lm=mdLink.exec(sec))!==null){ if(!seen[lm[2]]){ seen[lm[2]]=1; links.push({text:lm[1],url:lm[2]}); } }
+      var bareUrl=/(^|[\s,])(https?:\/\/[^\s)]+)/g;
+      while((bm=bareUrl.exec(sec))!==null){ var u=bm[2].replace(/[),.]+$/,''); if(!seen[u]){ seen[u]=1; links.push({text:u,url:u}); } }
+      if(links.length>3) links=links.slice(0,3);
+      body=body.slice(0,m.index)+body.slice(m.index+m[0].length);
+    }
+    // 3. 정리: 빈 줄 3개+ → 2개, 끝에 매달린 "---" 제거
+    body=body.replace(/\n{3,}/g,'\n\n').replace(/\n[ \t]*-{3,}[ \t]*\s*$/,'');
+    return {body:body.replace(/\s+$/,'\n'), links:links};
+  }
+  // ── C3: docNo — synthesize document number from slots ───────────────────
+  var GOV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var PURPOSE_CODE={employment:'EMP',work:'EMP',job:'EMP',study:'STU',student:'STU',education:'STU',travel:'TRV',tourism:'TRV',tour:'TRV',working_holiday:'WHV',workingholiday:'WHV',immigration:'IMM',settlement:'IMM',business:'BIZ',long_term:'LTS',longterm:'LTS'};
+  function docNo(slots){
+    if(!slots) return '참고용 안내서';
+    var cc=(slots.country||'').toUpperCase();
+    var pur=slots.purpose?(PURPOSE_CODE[(''+slots.purpose).toLowerCase()]||'GEN'):'';
+    var yyyy=new Date().getFullYear();
+    if(!cc) return '참고용 안내서';            // 국가 코드 없으면 문서번호 무의미 → 폴백
+    return 'NO. '+cc+'-'+(pur||'GEN')+'-'+yyyy;
+  }
   function api(method,path,body){
     return fetch(API_BASE+path,{method:method, headers:body?{'Content-Type':'application/json'}:undefined, body:body?JSON.stringify(body):undefined})
       .then(function(r){ if(!r.ok) throw new Error(path+' '+r.status); var ct=r.headers.get('content-type')||''; return ct.indexOf('json')>=0?r.json():r.text(); });
@@ -445,7 +498,13 @@
       '<div class="chips">'+picks.map(function(q){ return '<button class="chip" data-q="'+esc(q)+'"><span class="pl">+</span>'+esc(q)+'</button>'; }).join('')+'</div></div>';
   }
   var GREETING=GREETING_MSG; // 하위호환(기존 참조)
-  var TRACE_STRIP=function(sid){ return '<div class="doc-foot"><a class="trace-strip" href="/'+encodeURIComponent(sid)+'/trace" target="_blank" rel="noopener"><span class="ts-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="ts-main"><span class="ts-title">이 안내가 만들어진 처리 경로 보기</span><span class="ts-path">의도 분석 <span class="a">→</span> 비자 RAG 검색 <span class="a">→</span> 응답 정리</span></span><span class="ts-arr">↗</span></a><div class="disclaimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg><span>이 안내는 <b>참고용</b>이에요. 신청 전 공식 기관(대사관·이민국)에서 최신 요건을 꼭 확인해 주세요.</span></div></div>'; };
+  var TRACE_STRIP=function(sid, links){
+    var govHtml='';
+    if(links && links.length){
+      govHtml='<div class="gov-links">'+links.map(function(l){ return '<a class="gov" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+GOV_SVG+esc(l.text)+'</a>'; }).join('')+'</div>';
+    }
+    return '<div class="doc-foot"><a class="trace-strip" href="/'+encodeURIComponent(sid)+'/trace" target="_blank" rel="noopener"><span class="ts-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="ts-main"><span class="ts-title">이 안내가 만들어진 처리 경로 보기</span><span class="ts-path">의도 분석 <span class="a">→</span> 비자 RAG 검색 <span class="a">→</span> 응답 정리</span></span><span class="ts-arr">↗</span></a>'+govHtml+'<div class="disclaimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg><span>이 안내는 <b>참고용</b>이에요. 신청 전 공식 기관(대사관·이민국)에서 최신 요건을 꼭 확인해 주세요.</span></div></div>';
+  };
 
   var COUNTRY_KO={US:'🇺🇸 미국',JP:'🇯🇵 일본',GB:'🇬🇧 영국',UK:'🇬🇧 영국',CA:'🇨🇦 캐나다',AU:'🇦🇺 호주',DE:'🇩🇪 독일'};
   var PURPOSE_KO={employment:'취업',work:'취업',job:'취업',study:'유학',student:'유학',education:'유학',travel:'여행',tourism:'여행',tour:'여행',immigration:'이민',settlement:'정착',working_holiday:'워킹홀리데이',workingholiday:'워킹홀리데이',business:'사업',long_term:'장기체류',longterm:'장기체류'};
@@ -474,15 +533,16 @@
     return parts.length? parts.join(' ')+' 비자 안내' : '비자 안내';
   }
   function docCardHtml(content, slots, light){
-    if(light){ return '<article class="doc doc-light"><div class="doc-body">'+md(content)+'</div>'+TRACE_STRIP(state.sid)+'</article>'; }
+    var cleaned=cleanDoc(content);
+    if(light){ return '<article class="doc doc-light"><div class="doc-body">'+md(cleaned.body)+'</div>'+TRACE_STRIP(state.sid, cleaned.links)+'</article>'; }
     var tags=(state.meta.tags||[]).filter(Boolean);
     var tagHtml=tags.length? tags.map(function(t){ return '<span class="path-tag">'+esc(t)+'</span>'; }).join('') : '';
     return '<article class="doc"><div class="doc-band">'+SEAL+
       '<div class="doc-eyebrow">VISA GUIDANCE</div>'+
       '<h2 class="doc-title">'+esc(docTitle(slots))+'</h2>'+
-      '<div class="doc-tags">'+tagHtml+'<span class="docno">참고용 안내서</span></div></div>'+
-      '<div class="doc-body">'+md(content)+'</div>'+
-      TRACE_STRIP(state.sid)+'</article>';
+      '<div class="doc-tags">'+tagHtml+'<span class="docno">'+esc(docNo(slots))+'</span></div></div>'+
+      '<div class="doc-body">'+md(cleaned.body)+'</div>'+
+      TRACE_STRIP(state.sid, cleaned.links)+'</article>';
   }
   function msgHtml(m){
     if(m.role==='user') return '<div class="msg user"><div class="av">나</div><div class="bubble-u">'+esc(m.content)+'</div></div>';
