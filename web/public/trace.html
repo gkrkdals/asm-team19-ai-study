@@ -113,13 +113,17 @@
   .gtoolbar .ahint b{ color:var(--azure-ink); }
   #edges { position:absolute; top:0; left:0; overflow:visible; z-index:0; }
   #edgesFlow { position:absolute; top:0; left:0; overflow:visible; z-index:2; pointer-events:none; }
-  .edge { stroke:#C3CCDD; stroke-width:2; fill:none; }
+  .edge { stroke:#D4DBE8; stroke-width:1.8; fill:none; transition:stroke .14s, stroke-width .14s, opacity .14s; }
   .edge.cond { stroke-dasharray:6 4; }
+  .edge.hi { stroke:var(--azure); stroke-width:2.6; opacity:1; }   /* 노드 hover → 연결 간선 강조 */
+  .edge.dim { opacity:.3; }                                        /* 그 외 간선 흐리게 */
   .edge.flow { stroke:var(--azure); stroke-width:3.5; stroke-dasharray:9 6; animation:dash .7s linear infinite; }
   @keyframes dash { to { stroke-dashoffset:-30; } }
-  .elabel { position:absolute; z-index:2; transform:translate(-50%,-50%); font-family:var(--mono); font-size:10px; color:var(--muted);
-    background:var(--surface); border:1px solid var(--line); padding:2px 7px; border-radius:999px; white-space:nowrap; pointer-events:none; }
-  .elabel.data { z-index:4; color:var(--azure-ink); border-color:#CFDBFB; background:var(--azure-soft); font-weight:700; }
+  .elabel { position:absolute; z-index:3; transform:translate(-50%,-50%); font-family:var(--mono); font-size:10px; color:var(--muted);
+    background:var(--surface); border:1px solid var(--line); padding:2px 7px; border-radius:999px; white-space:nowrap; pointer-events:none;
+    opacity:0; transition:opacity .14s ease; }                     /* 평소 숨김 → 노드 hover 시에만(밀도↓) */
+  .elabel.show { opacity:1; }
+  .elabel.data { opacity:1; z-index:5; color:var(--azure-ink); border-color:#CFDBFB; background:var(--azure-soft); font-weight:700; }
   .gnode { position:absolute; z-index:1; border:1px solid var(--line); border-radius:var(--r); background:var(--surface);
     padding:9px 11px; cursor:pointer; transition:border-color .2s, box-shadow .2s, opacity .2s, transform .2s; opacity:.9; overflow:hidden; box-shadow:var(--shadow-sm); }
   .gnode:hover { border-color:var(--azure); z-index:7; box-shadow:0 0 0 2px var(--azure-soft), 0 10px 26px 4px rgba(19,24,38,.16); opacity:1; }
@@ -317,6 +321,7 @@
           <span><span class="ln"></span>고정 간선</span>
           <span><span class="ln cond"></span>조건 분기</span>
           <span><span class="ln" style="border-color:var(--accent)"></span>이번 실행 경로</span>
+          <span style="margin-left:auto"><b style="color:var(--azure-ink)">💡 노드에 올리면</b> 연결 간선·조건 라벨 표시</span>
         </div>
       </div>
     </div>
@@ -365,7 +370,9 @@ const SESSION_ID = deriveSessionId();
 
 let TOPO = null;            // {nodes,edges}
 let META = {};             // id -> node meta (label,icon,desc,sources,produces,source_labels)
-let POS = {};              // id -> {x,y,W,H}
+let POS = {};              // id -> {x,y,W,H,cx,cy} (real 노드만)
+let EDGE_PTS = {};         // "src__tgt" -> [{x,y}...] 간선 경로점(실행 플로우/hover 재사용)
+let EDGES_BY_NODE = {};    // nodeId -> ["src__tgt"...] (hover 시 연결 간선/라벨 강조)
 let DETAILS = {};          // id -> detail record (latest run)
 let curRunId = null;
 let prevExec = null;
@@ -392,57 +399,206 @@ async function loadTopology(){
   layoutAndRender(topo);
 }
 
-// 레이어드 DAG 레이아웃(최장경로 랭킹) — 노드 추가/루프에도 자동 대응.
-// orient="TB"(세로/열) | "LR"(가로/행)
-function computeLayout(nodes, edges, orient){
-  const ids = nodes.map(n=>n.id);
-  const idset = new Set(ids);
-  // 1) DFS 로 back-edge(되돌아가는 루프 간선) 탐지 → 랭킹에서 제외(그리기는 유지)
-  const adj={}; ids.forEach(id=>adj[id]=[]);
-  edges.forEach(e=>{ if(adj[e.source]&&idset.has(e.target)) adj[e.source].push(e.target); });
-  const vis={}; ids.forEach(id=>vis[id]=0); // 0 미방문,1 스택,2 완료
-  const back=new Set();
-  const dfs=(u)=>{ vis[u]=1; for(const v of adj[u]){ if(vis[v]===1) back.add(u+">"+v); else if(vis[v]===0) dfs(v); } vis[u]=2; };
-  ids.forEach(id=>{ if(vis[id]===0) dfs(id); });
+// ── 이 워크플로우는 고정 토폴로지 → 손으로 배치(가장 깔끔) ──────────────────
+// 노드별 a=깊이축 인덱스, c=분기축 레인(0=메인, 음수=위, 양수=아래).
+// 미등록 노드가 하나라도 있으면 autoLayout(자동)으로 폴백 → graph.py 확장성 유지.
+const FIXED_GRID = {
+  "__start__":          {a:0, c:0},
+  "intent_classifier":  {a:1, c:0},
+  "general_chat":       {a:2, c:-2},
+  "visa_rag_search":    {a:2, c:0},
+  "exception_handler":  {a:2, c:2},
+  "web_search_tool":    {a:3, c:0},
+  "search_quality_gate":{a:4, c:0},
+  "query_refiner":      {a:4, c:2},
+  "knowledge_writer":   {a:5, c:0},
+  "response_formatter": {a:6, c:0},
+  "__end__":            {a:7, c:0},
+};
 
-  const preds={}, succs={}, indeg={};
-  ids.forEach(id=>{preds[id]=[];succs[id]=[];indeg[id]=0;});
-  edges.forEach(e=>{
-    if(back.has(e.source+">"+e.target)) return;       // back-edge 는 랭킹 제외
-    if(succs[e.source]&&preds[e.target]!==undefined){ succs[e.source].push(e.target); preds[e.target].push(e.source); indeg[e.target]++; }
-  });
-  const rank={}; ids.forEach(id=>rank[id]=0);
-  const q = ids.filter(id=>indeg[id]===0);
-  while(q.length){ const u=q.shift(); (succs[u]||[]).forEach(v=>{ rank[v]=Math.max(rank[v],rank[u]+1); if(--indeg[v]===0) q.push(v); }); }
-  const byRank={}; ids.forEach(id=>{ (byRank[rank[id]]=byRank[rank[id]]||[]).push(id); });
-  const maxRank = Math.max(0,...ids.map(id=>rank[id]));
-  const maxPer = Math.max(1,...Object.values(byRank).map(a=>a.length));
-  const W=176, H=86;
-  const pos={};
-  if(orient==="LR"){
-    // 가로(행) 배치: rank 가 좌→우, 같은 rank 는 세로로 분산
-    const hGap=232, height = Math.max(360, maxPer*128 + 24), width=(maxRank+1)*hGap + 24;
-    for(let r=0;r<=maxRank;r++){ const arr=byRank[r]||[];
-      arr.forEach((id,i)=>{ pos[id]={ x:r*hGap+12, y:(i+1)/(arr.length+1)*height - H/2, W, H }; });
-    }
-    return { pos, width, height };
-  }
-  // 세로(열) 배치: rank 가 상→하, 같은 rank 는 가로로 분산(기본)
-  const vGap=148, width = Math.max(560, maxPer*250), height=(maxRank+1)*vGap + 24;
-  for(let r=0;r<=maxRank;r++){ const arr=byRank[r]||[];
-    arr.forEach((id,i)=>{ pos[id]={ x:(i+1)/(arr.length+1)*width - W/2, y:r*vGap+12, W, H }; });
-  }
-  return { pos, width, height };
+function computeLayout(nodes, edges, orient){
+  // 모든 노드가 고정 좌표에 정의돼 있으면 손배치, 아니면 자동 폴백
+  if(nodes.every(n=>FIXED_GRID[n.id])) return fixedLayout(nodes, edges, orient);
+  return autoLayout(nodes, edges, orient);
 }
 
-// 간선 베지어 기하(방향별). 시작/끝 접점과 path d 를 함께 반환.
-function edgeGeom(s, t, orient){
-  if(orient==="LR"){
-    const x1=s.x+s.W, y1=s.y+s.H/2, x2=t.x, y2=t.y+t.H/2, dx=Math.max(40,(x2-x1));
-    return { x1,y1,x2,y2, d:`M${x1},${y1} C${x1+dx*0.45},${y1} ${x2-dx*0.45},${y2} ${x2},${y2}` };
+// 고정 좌표 + 직교 라우팅: 메인 파이프라인은 곧은 직선, 분기는 위/아래 레인,
+// 깊이를 건너뛰는 수렴/루프 간선은 노드를 피해 직교(ㄷ자) 버스로 우회한다.
+function fixedLayout(nodes, edges, orient){
+  const LR = orient!=="TB";
+  const W=176, H=86, PAD=18;
+  const AGAP = LR?244:150;     // 깊이축 간격
+  const CGAP = LR?96:250;      // 분기축(레인) 간격
+  const cMin=-3.7;
+  const aSize=LR?W:H, cSize=LR?H:W;
+  const aStart=(a)=> a*AGAP+PAD;
+  const cMid=(c)=> (c-cMin)*CGAP+PAD+cSize/2;
+  const ac=(al,cr)=> LR?{x:al,y:cr}:{x:cr,y:al};
+
+  const pos={};
+  nodes.forEach(n=>{ const f=FIXED_GRID[n.id], tl=ac(aStart(f.a), cMid(f.c)-cSize/2);
+    pos[n.id]={x:tl.x,y:tl.y,W,H,cx:tl.x+W/2,cy:tl.y+H/2}; });
+
+  const aEdge=(id,d)=>{ const f=FIXED_GRID[id]; return ac(aStart(f.a)+(d>0?aSize:0), cMid(f.c)); };
+  const cEdge=(id,d)=>{ const f=FIXED_GRID[id]; return ac(aStart(f.a)+aSize/2, cMid(f.c)+(d>0?cSize/2:-cSize/2)); };
+
+  let down=0, up=0;
+  const routes = edges.filter(e=>FIXED_GRID[e.source]&&FIXED_GRID[e.target]).map(e=>{
+    const u=e.source, v=e.target, fu=FIXED_GRID[u], fv=FIXED_GRID[v], da=fv.a-fu.a;
+    let pts;
+    if(da===1){
+      pts=[ aEdge(u,1), aEdge(v,-1) ];                      // 인접: 곧은 직선(대각 허용)
+    } else if(da===0){
+      const dir=fv.c>fu.c?1:-1;
+      pts=[ cEdge(u,dir), cEdge(v,-dir) ];                  // 같은 깊이: 레인축 수직
+    } else if(da>1){
+      const viaUp=(u==="general_chat")||(u==="intent_classifier"&&v==="web_search_tool");
+      const s=aEdge(u,1), t=aEdge(v,-1);
+      const sA=LR?s.x:s.y, sC=LR?s.y:s.x, tA=LR?t.x:t.y, tC=LR?t.y:t.x;
+      const busC = viaUp ? cMid(-3-0.45*(up++)) : cMid(2.7+0.5*(down++));  // 위/아래 직교 버스
+      pts=[ s, ac(sA+16,sC), ac(sA+16,busC), ac(tA-16,busC), ac(tA-16,tC), t ];
+    } else {
+      const s=cEdge(u,1), t=cEdge(v,1);                     // 역방향 루프(재생성→웹검색)
+      const sA=LR?s.x:s.y, sC=LR?s.y:s.x, tA=LR?t.x:t.y, tC=LR?t.y:t.x;
+      const busC=cMid(2.7+0.5*(down++));
+      pts=[ s, ac(sA,busC), ac(tA,busC), t ];
+    }
+    return { source:u, target:v, label:e.label, conditional:!!e.conditional, back:fu.a>fv.a, chain:[u,v], pts };
+  });
+
+  let maxX=0,maxY=0;
+  Object.values(pos).forEach(p=>{ maxX=Math.max(maxX,p.x+W); maxY=Math.max(maxY,p.y+H); });
+  routes.forEach(rt=>rt.pts.forEach(p=>{ maxX=Math.max(maxX,p.x); maxY=Math.max(maxY,p.y); }));
+  return { pos, dpos:{}, routes, width:maxX+PAD, height:maxY+PAD };
+}
+
+// 레이어드 DAG 레이아웃(Sugiyama 축약) — 미등록 노드가 있을 때의 자동 폴백.
+//   ① 최장경로 랭킹  ② 장거리 간선에 더미 경유점 삽입(노드 관통 방지)
+//   ③ barycenter 정렬로 같은 계층 노드 순서 최적화(교차 최소화)
+function autoLayout(nodes, edges, orient){
+  const ids = nodes.map(n=>n.id);
+  const idset = new Set(ids);
+
+  // 1) back-edge(루프) 탐지 → 랭킹에서만 제외(그리기는 유지)
+  const adj={}; ids.forEach(id=>adj[id]=[]);
+  edges.forEach(e=>{ if(adj[e.source]&&idset.has(e.target)) adj[e.source].push(e.target); });
+  const vis={}; ids.forEach(id=>vis[id]=0);
+  const back=new Set();
+  const dfs=(u)=>{ vis[u]=1; for(const v of adj[u]){ if(vis[v]===1) back.add(u+">"+v); else if(vis[v]===0) dfs(v);} vis[u]=2; };
+  ids.forEach(id=>{ if(vis[id]===0) dfs(id); });
+
+  // 2) 최장경로 랭킹(back-edge 제외)
+  const succs={}, indeg={};
+  ids.forEach(id=>{succs[id]=[];indeg[id]=0;});
+  edges.forEach(e=>{
+    if(back.has(e.source+">"+e.target)) return;
+    if(succs[e.source]&&indeg[e.target]!==undefined){ succs[e.source].push(e.target); indeg[e.target]++; }
+  });
+  const rank={}; ids.forEach(id=>rank[id]=0);
+  const q=ids.filter(id=>indeg[id]===0);
+  while(q.length){ const u=q.shift(); (succs[u]||[]).forEach(v=>{ rank[v]=Math.max(rank[v],rank[u]+1); if(--indeg[v]===0) q.push(v); }); }
+  const maxRank=Math.max(0,...ids.map(id=>rank[id]));
+
+  // 3) 장거리 간선 분해: rank 차>1 이면 내부 계층마다 더미 경유점 생성
+  const rankNodes={}; for(let r=0;r<=maxRank;r++) rankNodes[r]=[];
+  nodes.forEach(n=>rankNodes[rank[n.id]].push(n.id));
+  const dummyRank={}; let dseq=0;
+  const routes=[];
+  edges.forEach(e=>{
+    const u=e.source, v=e.target;
+    if(rank[u]===undefined||rank[v]===undefined) return;
+    const chain=[u];
+    const lo=Math.min(rank[u],rank[v]), hi=Math.max(rank[u],rank[v]);
+    if(hi-lo>1){
+      const inner=[]; for(let r=lo+1;r<=hi-1;r++) inner.push(r);
+      if(rank[u]>rank[v]) inner.reverse();          // back-edge: u(고)→v(저) 방향 정렬
+      inner.forEach(r=>{ const d="__d"+(dseq++); dummyRank[d]=r; rankNodes[r].push(d); chain.push(d); });
+    }
+    chain.push(v);
+    routes.push({source:u, target:v, label:e.label, conditional:!!e.conditional, back:back.has(u+">"+v), chain});
+  });
+
+  // 4) barycenter 정렬(교차 최소화) — 더미 포함 인접 그래프
+  const rk=(id)=> dummyRank[id]!==undefined?dummyRank[id]:rank[id];
+  const up={}, dn={};
+  for(let r=0;r<=maxRank;r++) rankNodes[r].forEach(id=>{up[id]=[];dn[id]=[];});
+  routes.forEach(rt=>{
+    for(let i=0;i+1<rt.chain.length;i++){
+      let a=rt.chain[i], b=rt.chain[i+1];
+      if(rk(a)>rk(b)){ const t=a;a=b;b=t; }           // a=상위(rank 작음), b=하위
+      dn[a].push(b); up[b].push(a);
+    }
+  });
+  const ord={}; for(let r=0;r<=maxRank;r++) rankNodes[r].forEach((id,i)=>ord[id]=i);
+  const bary=(nb)=>{ if(!nb.length) return -1; let s=0; nb.forEach(x=>s+=ord[x]); return s/nb.length; };
+  for(let pass=0; pass<8; pass++){
+    const down = pass%2===0;
+    const from = down?1:maxRank-1, to = down?maxRank:0, st = down?1:-1;
+    for(let r=from; down?r<=to:r>=to; r+=st){
+      const arr=rankNodes[r];
+      const key={}; arr.forEach(id=>{ const b=bary(down?up[id]:dn[id]); key[id]= b<0?ord[id]:b; });
+      arr.sort((a,b)=> (key[a]-key[b]) || (ord[a]-ord[b]) );
+      arr.forEach((id,i)=>ord[id]=i);
+    }
   }
-  const x1=s.x+s.W/2, y1=s.y+s.H, x2=t.x+t.W/2, y2=t.y, dy=Math.max(40,(y2-y1));
-  return { x1,y1,x2,y2, d:`M${x1},${y1} C${x1},${y1+dy*0.45} ${x2},${y2-dy*0.45} ${x2},${y2}` };
+
+  // 5) 좌표 배정(rank축 t / order축 s). 더미는 좁은 슬롯.
+  const W=176, H=86;
+  const RGAP = orient==="LR"?226:150;
+  const SREAL= orient==="LR"?112:230;
+  const SDUM = orient==="LR"?26:40;
+  const sOf=(id)=> dummyRank[id]!==undefined?SDUM:SREAL;
+  let maxSpan=1;
+  for(let r=0;r<=maxRank;r++){ let s=0; rankNodes[r].forEach(id=>s+=sOf(id)); maxSpan=Math.max(maxSpan,s); }
+  const pos={}, dpos={};
+  for(let r=0;r<=maxRank;r++){
+    const arr=rankNodes[r].slice().sort((a,b)=>ord[a]-ord[b]);
+    let span=0; arr.forEach(id=>span+=sOf(id));
+    let cur=(maxSpan-span)/2;                         // 중앙 정렬
+    const t=r*RGAP+12;
+    arr.forEach(id=>{
+      const g=sOf(id), c=cur+g/2; cur+=g;
+      const isD=dummyRank[id]!==undefined;
+      if(orient==="LR"){
+        if(isD) dpos[id]={x:t+W/2, y:c};
+        else pos[id]={x:t, y:c-H/2, W, H, cx:t+W/2, cy:c};
+      } else {
+        if(isD) dpos[id]={x:c, y:t+H/2};
+        else pos[id]={x:c-W/2, y:t, W, H, cx:c, cy:t+H/2};
+      }
+    });
+  }
+
+  // 6) 간선 경로점(real=경계 접점, dummy=중심)
+  const anchor=(id,dir)=>{ const p=pos[id];
+    return orient==="LR" ? {x:p.cx+dir*W/2, y:p.cy} : {x:p.cx, y:p.cy+dir*H/2}; };
+  routes.forEach(rt=>{
+    const ch=rt.chain, pts=[];
+    for(let i=0;i<ch.length;i++){
+      const id=ch[i];
+      if(dummyRank[id]!==undefined){ pts.push({x:dpos[id].x,y:dpos[id].y}); continue; }
+      const nb = i===0?ch[1]:ch[i-1];
+      const dir = rk(nb)>rk(id) ? 1 : -1;
+      pts.push(anchor(id,dir));
+    }
+    rt.pts=pts;
+  });
+
+  // 크기
+  let width,height;
+  const rankExtent = maxRank*RGAP + 12 + (orient==="LR"?W:H) + 12;
+  if(orient==="LR"){ width=rankExtent; height=Math.max(360, maxSpan+24); }
+  else { width=Math.max(560, maxSpan+24); height=rankExtent; }
+  return { pos, dpos, routes, width, height };
+}
+
+// 경로점들을 직선(polyline)으로 잇는다. 더미 경유점에서만 꺾여 노드를 피하고
+// 그 외에는 곧은 직선. 전역(flowEdge 재사용).
+function smoothD(pts, orient){
+  if(!pts||pts.length<2) return "";
+  let d="M"+pts[0].x+","+pts[0].y;
+  for(let i=1;i<pts.length;i++) d+=" L"+pts[i].x+","+pts[i].y;
+  return d;
 }
 
 function effectiveOrient(){
@@ -454,38 +610,50 @@ function effectiveOrient(){
 function layoutAndRender(topo){
   LAST_TOPO = topo;
   const orient = effectiveOrient(); CUR_ORIENT = orient;
-  const { pos, width, height } = computeLayout(topo.nodes, topo.edges, orient);
+  const { pos, routes, width, height } = computeLayout(topo.nodes, topo.edges, orient);
   POS = pos; GW = width; GH = height;
-  const wrap = $("graphWrap"); wrap.style.width = width+"px"; wrap.style.height = height+"px";
-  const svg = $("edges"); svg.setAttribute("width",width); svg.setAttribute("height",height);
-  const svgF = $("edgesFlow"); svgF.setAttribute("width",width); svgF.setAttribute("height",height);
+  EDGE_PTS = {}; EDGES_BY_NODE = {};
+  const wrap=$("graphWrap"); wrap.style.width=width+"px"; wrap.style.height=height+"px";
+  const svg=$("edges"); svg.setAttribute("width",width); svg.setAttribute("height",height);
+  const svgF=$("edgesFlow"); svgF.setAttribute("width",width); svgF.setAttribute("height",height);
   // 기존 노드/라벨 제거(엣지 defs 는 유지)
   [...wrap.querySelectorAll(".gnode,.elabel")].forEach(e=>e.remove());
   [...svg.querySelectorAll("path.edge")].forEach(e=>e.remove());
   [...svgF.querySelectorAll("path.edge")].forEach(e=>e.remove());
 
-  // 엣지(간선)
-  topo.edges.forEach(e=>{
-    const s=pos[e.source], t=pos[e.target]; if(!s||!t) return;
-    const g=edgeGeom(s,t,orient);
+  // 간선(더미 경유 다점 경로) + 라벨(평소 숨김, 노드 hover 시 노출)
+  routes.forEach(rt=>{
+    const key=rt.source+"__"+rt.target;
+    EDGE_PTS[key]=rt.pts;
+    (EDGES_BY_NODE[rt.source]=EDGES_BY_NODE[rt.source]||[]).push(key);
+    (EDGES_BY_NODE[rt.target]=EDGES_BY_NODE[rt.target]||[]).push(key);
     const path=document.createElementNS("http://www.w3.org/2000/svg","path");
-    path.setAttribute("d",g.d);
-    path.setAttribute("class","edge"+(e.conditional?" cond":""));
+    path.setAttribute("d",smoothD(rt.pts,orient));
+    path.setAttribute("class","edge"+(rt.conditional?" cond":"")+(rt.back?" back":""));
     path.setAttribute("marker-end","url(#arrow)");
-    path.id = "edge-"+e.source+"__"+e.target;
+    path.id="edge-"+key;
     svg.appendChild(path);
-    if(e.label){
-      const lab=document.createElement("div"); lab.className="elabel"; lab.id="elabel-"+e.source+"__"+e.target;
-      lab.style.left=((g.x1+g.x2)/2)+"px"; lab.style.top=((g.y1+g.y2)/2)+"px"; lab.textContent=e.label;
+    if(rt.label){
+      const i=Math.floor((rt.pts.length-1)/2);
+      const a=rt.pts[i], b=rt.pts[i+1]||a;
+      let mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+      // 라벨을 간선에서 '그래프 중앙 바깥쪽'(cross 방향)으로 비켜 노드 박스를 피한다.
+      // 메인 라인(중앙) 라벨은 위로, 아래 레인 라벨은 아래로 빠진다.
+      const ctr = (orient==="LR") ? GH/2 : GW/2;
+      const cur = (orient==="LR") ? my : mx;
+      const off = ((orient==="LR") ? 54 : 101) * (cur<=ctr ? -1 : 1);  // LR: 노드 H/2(43)+11 / TB: W/2(88)+13
+      if(orient==="LR") my += off; else mx += off;
+      const lab=document.createElement("div"); lab.className="elabel"; lab.id="elabel-"+key;
+      lab.style.left=mx+"px"; lab.style.top=my+"px"; lab.textContent=rt.label;
       wrap.appendChild(lab);
     }
   });
 
-  // 노드
+  // 노드(real 만; 더미는 경로점이라 그리지 않음)
   topo.nodes.forEach(n=>{
     const p=pos[n.id]; if(!p) return;
     const div=document.createElement("div");
-    const term = n.kind==="terminal";
+    const term=n.kind==="terminal";
     div.className="gnode"; div.id="gnode-"+n.id;
     div.style.left=p.x+"px"; div.style.top=p.y+"px"; div.style.width=p.W+"px"; div.style.minHeight=p.H+"px";
     if(term){ div.style.opacity=.6; div.style.borderStyle="dashed"; }
@@ -493,11 +661,27 @@ function layoutAndRender(topo){
     div.innerHTML = `<div class="r1"><span class="ico">${esc(n.icon)}</span><span class="nm">${esc(n.label)}</span><span class="dot"></span></div>`
       + (badges?`<div class="brief">${badges}</div>`:"")
       + `<div class="gist" id="gist-${esc(n.id)}"></div>`;
+    div.addEventListener("mouseenter",()=>highlightNode(n.id,true));
+    div.addEventListener("mouseleave",()=>highlightNode(n.id,false));
     if(!term) div.addEventListener("click",()=>openNode(n.id));
     wrap.appendChild(div);
   });
   applyZoom();
   if(!_autoFitDone){ _autoFitDone=true; maybeInitialFit(); }
+}
+
+// 노드 hover: 연결된 간선/라벨만 또렷하게, 나머지는 흐리게(거미줄 방지).
+function highlightNode(id, on){
+  const keys=new Set(EDGES_BY_NODE[id]||[]);
+  document.querySelectorAll("#edges path.edge").forEach(p=>{
+    const k=p.id.replace(/^edge-/,"");
+    p.classList.toggle("hi", on && keys.has(k));
+    p.classList.toggle("dim", on && !keys.has(k));
+  });
+  document.querySelectorAll(".elabel").forEach(l=>{
+    const k=l.id.replace(/^elabel-/,"");
+    l.classList.toggle("show", on && keys.has(k));
+  });
 }
 
 // 최초 1회: 그래프가 카드보다 넓을 때만(데스크탑 LR) 가로로 줄여 전체 노드를 보여준다.
@@ -529,24 +713,29 @@ function updateOrientTxt(){
 
 function setNode(id,cls){ const el=$("gnode-"+id); if(el){ el.classList.remove("active","done","skipped"); el.classList.add(cls); } }
 function resetGraph(){ document.querySelectorAll(".gnode").forEach(el=>el.classList.remove("active","done","skipped"));
-  // 기본 간선 화살표 복구 + 오버레이(실행 경로) 화살표 제거
-  document.querySelectorAll("#edges path.edge").forEach(p=>{ p.classList.remove("flow"); p.setAttribute("marker-end","url(#arrow)"); });
+  // 기본 간선 화살표 복구 + 강조/오버레이(실행 경로) 정리
+  document.querySelectorAll("#edges path.edge").forEach(p=>{ p.classList.remove("flow","hi","dim"); p.setAttribute("marker-end","url(#arrow)"); });
   document.querySelectorAll("#edgesFlow path.edge").forEach(p=>p.remove());
   document.querySelectorAll(".elabel.data").forEach(e=>e.remove());
+  document.querySelectorAll(".elabel.show").forEach(e=>e.classList.remove("show"));
   document.querySelectorAll(".gist").forEach(e=>e.textContent=""); }
 
 function flowEdge(src,tgt,dataLabel){
-  const s=POS[src], t=POS[tgt]; if(!s||!t) return;
-  const g=edgeGeom(s,t,CUR_ORIENT);
+  let pts=EDGE_PTS[src+"__"+tgt];
+  if(!pts){
+    const s=POS[src], t=POS[tgt]; if(!s||!t) return;
+    pts=[{x:(s.cx??s.x), y:(s.cy??s.y)}, {x:(t.cx??t.x), y:(t.cy??t.y)}];
+  }
   // 실행 경로 화살표를 '상단 오버레이 SVG'에 그려 비활성 노드에 가려지지 않게 한다.
   const fp=document.createElementNS("http://www.w3.org/2000/svg","path");
-  fp.setAttribute("d",g.d);
+  fp.setAttribute("d",smoothD(pts,CUR_ORIENT));
   fp.setAttribute("class","edge flow");
   fp.setAttribute("marker-end","url(#arrowFlowTop)");
   $("edgesFlow").appendChild(fp);
   if(dataLabel){
+    const a=pts[Math.floor((pts.length-1)/2)], b=pts[Math.ceil((pts.length-1)/2)];
     const lab=document.createElement("div"); lab.className="elabel data";
-    lab.style.left=((g.x1+g.x2)/2)+"px"; lab.style.top=((g.y1+g.y2)/2+14)+"px"; lab.textContent="📦 "+dataLabel;
+    lab.style.left=((a.x+b.x)/2)+"px"; lab.style.top=((a.y+b.y)/2+14)+"px"; lab.textContent="📦 "+dataLabel;
     $("graphWrap").appendChild(lab);
   }
 }
