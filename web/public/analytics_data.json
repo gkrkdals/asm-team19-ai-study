@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-05T13:30:37",
+  "generated": "2026-06-06T00:25:35",
   "rounds": [
     {
       "id": "R9",
@@ -74,6 +74,27 @@
         "G2_EXC": "교차규칙·거절·DUI 등은 정상. 신분변경 8건 불일치: 국가 미명시(5건) + 동사 키워드 미등록(3건)",
         "G3_FOLLOWUP": "273/300(91%). 불일치 27건: EXC로 더 적절히 처리 13건, RESP(재질문) 12건, WEB 2건"
       }
+    },
+    {
+      "id": "R12",
+      "label": "Round 12 · 저신뢰 집중검증",
+      "date": "2026-06-06",
+      "overall_pct": 88.9,
+      "total": 45,
+      "passed": 40,
+      "categories": {
+        "status_change_verb": 91.7,
+        "exception_other": 100.0,
+        "deep_turns_7plus": 76.9,
+        "followup_edge": 90.0
+      },
+      "desc": "저신뢰 4영역 집중 검증: 동사형 status_change, 난민/망명, T7+ 깊은 턴, is_followup 엣지케이스",
+      "findings": {
+        "G1_STATUS_CHANGE": "91% — 바꾸다/갈아타다/조정하다 동사형 및 arrow regex 보강으로 대폭 개선. 잔여: 이전 턴 country 암묵 전달 한계(G1-07)",
+        "G2_EXCEPTION_OTHER": "100% — 난민/망명/refugee/asylum/경범죄 키워드 5개 추가 후 10/10 완벽 통과",
+        "G3_DEEP_TURNS": "76% — T7+ 국가유지/전환 정상. 잔여: 예외키워드+깊은턴에서 is_followup=True 해제 LLM 한계(3건)",
+        "G4_FOLLOWUP_EDGE": "90% — FP/재후속/연속후속 거의 완벽. 잔여: 부정신호 후 country 소실(1건)"
+      }
     }
   ],
   "metric_evolution": {
@@ -92,6 +113,11 @@
         "round": "R11",
         "label": "v70",
         "pct": 0.0
+      },
+      {
+        "round": "R12",
+        "label": "저신뢰집중",
+        "pct": 91.7
       }
     ],
     "multi_turn": [

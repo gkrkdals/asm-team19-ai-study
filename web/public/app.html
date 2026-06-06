@@ -81,37 +81,6 @@
   .conv-meta .tag{display:inline-flex; align-items:center; gap:5px;}
   .conv-meta .dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto;}
   .conv-meta .time{margin-left:auto; font-family:var(--mono); font-size:10px;}
-  /* ⋮ 메뉴 버튼 — span으로 (div>button 중첩 금지 회피) */
-  .conv-more{position:absolute; right:8px; top:18px; transform:translateY(-50%); background:none; border:none; color:var(--s-dim); cursor:pointer; padding:4px 8px; border-radius:6px; font-size:18px; line-height:1; display:none; z-index:2;}
-  .conv:hover .conv-more, .conv.active .conv-more{display:inline-flex; align-items:center; justify-content:center;}
-  .conv-more:hover{background:rgba(157,180,255,.18); color:#EAF0FF;}
-  /* 📌 상단 고정 표시 */
-  .conv-pin{font-size:11px; color:#E2A23C; flex:0 0 auto; line-height:1;}
-  .conv.pinned{background:rgba(226,162,60,.07);}
-  .conv.pinned::after{content:""; position:absolute; right:0; top:0; border-width:0 14px 14px 0; border-style:solid; border-color:transparent #E2A23C transparent transparent; opacity:.55;}
-  .conv-title-row{display:flex; align-items:center; gap:5px; min-width:0;}
-  .conv-dropdown{position:fixed; background:#1E2740; border:1px solid rgba(157,180,255,.22); border-radius:10px; padding:5px; min-width:130px; z-index:9999; box-shadow:0 8px 28px rgba(0,0,0,.45); display:none;}
-  .conv-dropdown.open{display:block;}
-  .conv-dd-item{display:flex; align-items:center; gap:8px; width:100%; background:none; border:none; color:#CBD6F2; font-size:13px; padding:8px 10px; border-radius:7px; cursor:pointer; text-align:left;}
-  .conv-dd-item:hover{background:rgba(157,180,255,.14);}
-  .conv-dd-item.danger{color:#FF8A8A;}
-  .conv-dd-item.danger:hover{background:rgba(255,80,80,.12);}
-  /* ── 토스트 알림 ── */
-  .toast{position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(14px); background:#1E2B4A; border:1px solid rgba(157,180,255,.28); color:#EAF0FF; border-radius:12px; padding:10px 20px; font-size:13px; z-index:99999; opacity:0; transition:opacity .22s, transform .22s; pointer-events:none; white-space:nowrap;}
-  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
-  .toast.ok{border-color:rgba(80,220,110,.4); color:#A8F0B0;}
-  .toast.err{border-color:rgba(255,90,90,.4); color:#FFB0B0;}
-  /* ── 삭제 확인 모달 ── */
-  .modal-ov{position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:99998; display:none; align-items:center; justify-content:center;}
-  .modal-ov.open{display:flex;}
-  .modal-box{background:#1A2235; border:1px solid rgba(157,180,255,.22); border-radius:16px; padding:24px 28px; max-width:340px; width:90%;}
-  .modal-box p{color:#EAF0FF; font-size:14px; line-height:1.6; margin:0 0 20px;}
-  .modal-btns{display:flex; gap:10px; justify-content:flex-end;}
-  .modal-btn{border:none; border-radius:9px; padding:8px 18px; font-size:13px; cursor:pointer; font-weight:600;}
-  .modal-btn.cancel{background:rgba(157,180,255,.12); color:#CBD6F2;}
-  .modal-btn.cancel:hover{background:rgba(157,180,255,.22);}
-  .modal-btn.del{background:#B83030; color:#fff;}
-  .modal-btn.del:hover{background:#D43535;}
 
   .side-foot{border-top:1px solid var(--s-line); padding:11px 12px 13px; display:flex; flex-direction:column; gap:9px;}
   .side-trace{display:flex; align-items:center; gap:9px; text-decoration:none; color:#CBD6F2; font-size:12.5px; font-weight:500; background:rgba(157,180,255,.08); border:1px solid var(--s-line); border-radius:9px; padding:9px 11px; transition:all .18s ease;}
@@ -312,6 +281,76 @@
     .composer-wrap{padding:16px 13px 14px;}
   }
   @media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none !important; transition:none !important;} }
+
+  /* ── conv 아이템 내 ⋮ 버튼 ── */
+  .conv-title-row{display:flex; align-items:center; gap:5px; min-width:0; overflow:hidden;}
+  .conv-pin{flex:0 0 auto; font-size:11px; line-height:1;}
+  .conv.pinned .conv-title{color:#FFD580;}
+  .conv-more{
+    position:absolute; top:50%; right:8px; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:6px; display:grid; place-items:center;
+    font-size:17px; line-height:1; color:var(--s-dim); cursor:pointer; user-select:none;
+    opacity:0; transition:opacity .15s ease, background .15s ease;
+  }
+  .conv:hover .conv-more,.conv.active .conv-more,.conv-more:focus-visible{opacity:1;}
+  .conv-more:hover{background:rgba(157,180,255,.18); color:#fff;}
+  /* ⋮ 드롭다운 */
+  .conv-dropdown{
+    position:fixed; z-index:200; min-width:150px; background:#1E2B4A;
+    border:1px solid rgba(157,180,255,.2); border-radius:10px;
+    box-shadow:0 8px 28px rgba(0,0,0,.4); padding:4px; display:none;
+  }
+  .conv-dropdown.open{display:block;}
+  .conv-dd-item{
+    display:block; width:100%; padding:9px 13px; border:none; background:transparent;
+    color:#CDD7F0; font-family:var(--body); font-size:13.5px; text-align:left;
+    cursor:pointer; border-radius:7px; transition:background .12s ease;
+  }
+  .conv-dd-item:hover{background:rgba(157,180,255,.15); color:#fff;}
+  .conv-dd-item.danger{color:#FF7B72;}
+  .conv-dd-item.danger:hover{background:rgba(255,90,70,.15);}
+  /* ── 토스트 알림 ── */
+  .toast{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(14px);
+    background:#1E2B4A; color:#EAF0FF; font-family:var(--body); font-size:13.5px;
+    padding:11px 20px; border-radius:10px; border:1px solid rgba(157,180,255,.25);
+    box-shadow:0 8px 24px rgba(0,0,0,.35); z-index:300; opacity:0; pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease; white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .toast.ok{border-color:rgba(31,157,107,.45); background:#102B1C;}
+  .toast.err{border-color:rgba(220,60,60,.45); background:#2B1111;}
+  /* ── 삭제 확인 모달 ── */
+  .modal-ov{
+    position:fixed; inset:0; background:rgba(14,24,48,.65); z-index:400;
+    display:none; place-items:center; backdrop-filter:blur(4px);
+  }
+  .modal-ov.open{display:grid;}
+  .modal-box{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg);
+    padding:26px 28px; max-width:380px; width:90%; box-shadow:var(--shadow);}
+  .modal-box p{margin:0 0 22px; font-size:14.5px; color:var(--ink); line-height:1.65; white-space:pre-line;}
+  .modal-btns{display:flex; gap:10px; justify-content:flex-end;}
+  .modal-btn{padding:9px 20px; border-radius:9px; border:1px solid var(--line); font-family:var(--body); font-size:14px; font-weight:600; cursor:pointer;}
+  .modal-btn.cancel{background:var(--surface); color:var(--muted);}
+  .modal-btn.cancel:hover{background:#F0F3FA;}
+  .modal-btn.del{background:#D23E32; color:#fff; border-color:#D23E32;}
+  .modal-btn.del:hover{background:#B83128;}
+  /* ── doc-light — 후속질문 압축 응답 카드 (직인·분류표 없이 본문만) ── */
+  .doc.doc-light{background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r); box-shadow:var(--shadow-sm);}
+  .doc.doc-light .doc-body{padding:16px 20px 6px;}
+  /* ── 모바일 전용 사이드바 닫기 버튼 ── */
+  .side-close{
+    display:none; position:absolute; top:14px; right:14px; width:34px; height:34px;
+    border-radius:8px; border:1px solid var(--s-line); background:rgba(255,255,255,.07);
+    color:var(--s-text); cursor:pointer; place-items:center; z-index:2;
+    transition:background .15s ease;
+  }
+  .side-close svg{width:16px; height:16px; flex:0 0 auto;}
+  .side-close:hover{background:rgba(255,255,255,.15);}
+  @media (max-width:860px){
+    .side-brand{padding-right:54px; position:relative;}
+    .side-close{display:grid;}
+  }
 </style>
 </head>
 <body>
@@ -334,6 +373,7 @@
     <div class="side-brand">
       <div class="logo">V</div>
       <div class="brand-txt"><span class="wordmark">VISAGUIDE<span class="ai"> AI</span></span><span class="brand-sub">VISA GUIDANCE DESK</span></div>
+      <button class="side-close" id="side-close" aria-label="사이드바 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
     <button class="newchat" id="newchat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>새 대화</button>
     <div class="side-search">
@@ -716,8 +756,9 @@
     anchorLastUser();
     api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',{role:'user',content:text}).catch(function(){});
     var history=state.messages.slice(0,-1).slice(-10).map(function(m){ return {role:m.role, content:m.content}; });
-    var acc='', finalResp=null, doneSlots=null, liveSlots=null, doneVisa=null, liveVisa=null, doneFollowup=null, liveFollowup=null;
-    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:sentSid,history:history})})
+    var acc='', finalResp=null, doneSlots=null, liveSlots=null;
+    var liveVisa, doneVisa, liveFollowup, doneFollowup;
+    fetch(API_BASE+'/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,session_id:state.sid,history:history})})
       .then(function(resp){
         if(!resp.ok||!resp.body) throw new Error('stream '+resp.status);
         var reader=resp.body.getReader(), dec=new TextDecoder(), buf='';
@@ -734,29 +775,14 @@
           return pump();
         }); })();
       })
-      .then(function(){ finishAnswer(sentSid, live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup); })
+      .then(function(){ finishAnswer(live, finalResp||acc||'죄송합니다. 응답을 생성하지 못했어요.', doneSlots, doneVisa, doneFollowup); })
       .catch(function(){
         api('POST','/chat/',{message:text,session_id:sentSid,history:history})
-          .then(function(d){ finishAnswer(sentSid, live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', undefined, undefined, undefined); })
-          .catch(function(){ finishAnswer(sentSid, live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', undefined, undefined, undefined); });
+          .then(function(d){ finishAnswer(live,(d&&d.response)||'⚠️ 응답을 받지 못했어요.', null, null, null); })
+          .catch(function(){ finishAnswer(live,'⚠️ 백엔드 연결에 실패했어요. 잠시 후 다시 시도해 주세요.', null, null, null); });
       });
   }
-  function finishAnswer(sentSid, live, finalText, slots, isVisa, isFollowup){
-    var isCurrent = (sentSid === state.sid);
-    // ── 백엔드 저장은 항상 원래 세션(sentSid)에 (비자/팔로업 메타 포함) ─────
-    var saveMsg={role:'assistant',content:finalText}; if(isVisa===false) saveMsg.is_visa=false; if(slots) saveMsg.slots=slots; if(isFollowup) saveMsg.is_followup=true;
-    api('POST','/sessions/'+encodeURIComponent(sentSid)+'/messages',saveMsg).catch(function(){});
-    function saveLastRun(sug){ api('PUT','/sessions/'+encodeURIComponent(sentSid)+'/last_run',{steps:[],followups:sug||[],slots:slots||null}).catch(function(){}); }
-    if(!isCurrent){
-      // 세션이 바뀐 경우: 로딩 스피너만 제거하고 현재 화면(B)은 건드리지 않는다
-      live.remove();
-      state.busy=false; sendBtn.disabled=false;
-      api('POST','/chat/followups',{history:[]}).catch(function(){});
-      saveLastRun([]);
-      refreshSessions();
-      return;
-    }
-    // ── 동일 세션: 정상 UI 업데이트 ────────────────────────────────────
+  function finishAnswer(live, finalText, slots, isVisa, isFollowup){
     live.remove();
     var amsg={role:'assistant', content:finalText}; if(slots) amsg.slots=slots; if(isVisa===false) amsg.is_visa=false; if(isFollowup) amsg.is_followup=true;
     state.messages.push(amsg); renderStream();
@@ -771,10 +797,22 @@
       var cur=state.sessions.filter(function(s){return s.id===state.sid;})[0];
       if(cur){
         state.meta.title=cur.title; if(cur.tags) state.meta.tags=cur.tags; setHeader();
-        // doc-band 제목은 슬롯 기반 docTitle()이 소유 → 헤더/사이드바만 동기화(사후 덮어쓰기 제거)
+        // keep the just-rendered doc-band title in sync with the backend-generated title
+        var titles=stream.querySelectorAll('.doc .doc-title');
+        if(titles.length) titles[titles.length-1].textContent=state.meta.title||'비자 안내';
       }
     });
   }
+
+  // last_run(후속질문 칩) 백엔드 저장 — 새로고침 후에도 칩 복원에 사용
+  function saveLastRun(followups){
+    if(!state.sid) return;
+    api('PUT','/sessions/'+encodeURIComponent(state.sid)+'/last_run',{followups:followups}).catch(function(){});
+  }
+
+  // 모바일 사이드바 닫기 버튼
+  var _sideClose=document.getElementById('side-close');
+  if(_sideClose) _sideClose.addEventListener('click', closeDrawer);
 
   form.addEventListener('submit', function(e){ e.preventDefault(); var t=input.value; input.value=''; grow(); send(t); });
   input.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); form.requestSubmit(); } });

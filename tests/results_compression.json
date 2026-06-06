@@ -1,0 +1,113 @@
+{
+  "summary": {
+    "total": 6,
+    "passed": 6,
+    "full_len": 1760,
+    "avg_compressed_len": 409,
+    "reduction_pct": 76.8
+  },
+  "rows": [
+    {
+      "turn": 1,
+      "msg": "독일 블루카드 자격 요건을 알려주세요",
+      "kind": "full",
+      "exp_followup": false,
+      "act_followup": false,
+      "fu_match": true,
+      "body_ok": true,
+      "length": 1760,
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "answer_preview": "## 추천 비자  \n**EU 블루카드 (EU Blue Card)**  \n독일에서 고학력 전문직 종사자를 위한 비자로, 취업 후 영주권(영구 체류권)으로의 전환 경로가 명확합니다. IT·공학·의학 등 특정 분야 종사자에게 유리합니다.\n\n---\n\n## 주요 자격 요건  \n1. **학력 요건**  \n   - 독일 또는 국제적으로 인정된 학사 학위 이상 소지  \n"
+    },
+    {
+      "turn": 2,
+      "msg": "독일 블루카드 신청 시 필요한 서류는 무엇인가요?",
+      "kind": "compressed",
+      "exp_followup": true,
+      "act_followup": true,
+      "fu_match": true,
+      "body_ok": true,
+      "length": 547,
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "answer_preview": "앞서 안내드린 독일 취업 비자 기준으로 **블루카드 신청 시 필수 서류**를 요약하면 다음과 같습니다:  \n\n1. **신분 증명**  \n   - 여권 (유효기간 3개월 이상)  \n   - 여권용 사진  \n\n2. **학력 증명**  \n   - 학위 증명서 (독일 또는 동등성 인증 필수)  \n   - 번역본 및 공증 서류 (필요 시)  \n\n3. **고용 증명*"
+    },
+    {
+      "turn": 3,
+      "msg": "독일어 B1 미만일 때 대체 가능한 조건은 있나요?",
+      "kind": "compressed",
+      "exp_followup": true,
+      "act_followup": true,
+      "fu_match": true,
+      "body_ok": true,
+      "length": 350,
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "answer_preview": "앞서 안내드린 독일 취업 비자 기준으로, **독일어 B1 미만일 때**도 블루카드 신청이 가능합니다. 단, 영주권(영구 체류권) 전환 시 **21개월 단축 혜택**을 받으려면 B1 증명이 필요합니다.  \n\n### 대체 조건  \n- **B1 미만**이라도 블루카드 자체는 취득 가능 (단, 영주권 전환 시 33개월 근무 필요)  \n- **예외**: IT·공학 "
+    },
+    {
+      "turn": 4,
+      "msg": "블루카드 처리 기간은 보통 얼마나 걸리나요?",
+      "kind": "compressed",
+      "exp_followup": true,
+      "act_followup": true,
+      "fu_match": true,
+      "body_ok": true,
+      "length": 229,
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "answer_preview": "앞서 안내드린 독일 취업 비자 기준으로, **블루카드 처리 기간**은 일반적으로 **8~12주**가 소요됩니다. 단, 대사관별·사례별로 차이가 있을 수 있으며, 서류 미비 시 추가 시간이 발생할 수 있습니다.  \n\n⚠️ 참고용 안내이며, 신청 전 공식 기관(독일 대사관 또는 [Make it in Germany](https://www.make-it-in-ge"
+    },
+    {
+      "turn": 5,
+      "msg": "그럼 캐나다에서 취업하려면 어떤 비자가 필요한가요?",
+      "kind": "full",
+      "exp_followup": false,
+      "act_followup": false,
+      "fu_match": true,
+      "body_ok": true,
+      "length": 1695,
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "answer_preview": "## 추천 비자  \n**캐나다 취업 비자(Work Permit)**  \n- **고용주 지정형(Employer-specific)**: 특정 고용주에게 고용된 경우 (예: LMIA 승인 필요)  \n- **개방형(Open Work Permit)**: 졸업 후 취업 허가(PGWP), IEC 참가자 등 특정 조건 충족 시  \n\n---\n\n## 주요 자격 요건  \n1."
+    },
+    {
+      "turn": 6,
+      "msg": "캐나다 그 비자 신청 시 필요한 서류는요?",
+      "kind": "compressed",
+      "exp_followup": true,
+      "act_followup": true,
+      "fu_match": true,
+      "body_ok": true,
+      "length": 509,
+      "route": [
+        "intent_classifier",
+        "visa_rag_search",
+        "response_formatter"
+      ],
+      "passed": true,
+      "answer_preview": "앞서 안내드린 캐나다 취업 비자 기준으로, **필요 서류**는 다음과 같습니다.  \n\n### 공통 서류  \n- 신청서(IMM 1295)  \n- 유효한 여권  \n- 디지털 사진(최근 6개월 이내)  \n- 수수료 영수증(CAD 255)  \n\n### 고용주 지정형 추가 서류  \n- **취업 오퍼(Job Offer)**  \n- **LMIA 승인서**(해당 시)  "
+    }
+  ]
+}
