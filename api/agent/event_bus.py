@@ -42,6 +42,11 @@ class EventBus:
     def unsubscribe(self, q: asyncio.Queue) -> None:
         self._subscribers.pop(q, None)
 
+    # ── 세션 제거 ─────────────────────────────────────────────────────────
+    def remove_session(self, session_id: str) -> None:
+        """세션 삭제 시 인메모리 버퍼도 제거 → /trace 허브에서 즉시 사라짐."""
+        self._last_runs.pop(session_id, None)
+
     # ── 리플레이/조회 ────────────────────────────────────────────────────
     def replay(self, session_id: str | None = None) -> list[dict]:
         """세션의 직전/진행 중 이벤트열. session_id=None 이면 모든 세션을 합쳐 반환."""

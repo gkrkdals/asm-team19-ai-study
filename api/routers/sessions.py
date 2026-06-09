@@ -22,6 +22,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 import sessions_store as store
+from agent.event_bus import bus
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
@@ -93,6 +94,8 @@ def delete_session(sid: str):
     ok = store.delete_session(sid)
     if not ok:
         raise HTTPException(status_code=404, detail="session not found")
+    # 인메모리 이벤트버스 버퍼에서도 제거 → /trace 허브에서 즉시 사라짐
+    bus.remove_session(sid)
     return {"deleted": sid}
 
 
