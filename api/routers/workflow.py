@@ -58,6 +58,9 @@ router = APIRouter(tags=["workflow"])
 # 백그라운드 실행 태스크가 GC 되지 않도록 참조 유지
 _bg_tasks: set[asyncio.Task] = set()
 
+# ── 세션별 실행 중 잠금: 동일 세션에 두 페이지가 동시 요청 시 두 번째를 거절 ──
+_BUSY: set[str] = set()
+
 
 # ── 토폴로지 인트로스펙션 ─────────────────────────────────────────────────
 def _build_topology() -> dict:
@@ -117,6 +120,17 @@ async def _iter_events(req: ChatRequest):
     state = build_initial_state(req.message, req.history, req.slots)
     run_id = uuid.uuid4().hex[:8]
     sid = req.session_id or "default"
+
+    # 동일 세션 동시 요청 방지: 이미 실행 중이면 즉시 거절
+    if sid in _BUSY:
+        yield {
+            "type": "error", "run_id": run_id, "session_id": sid,
+            "code": "BUSY",
+            "message": "이 세션은 현재 다른 탭에서 답변 중입니다. 잠시 후 다시 시도해 주세요.",
+        }
+        return
+
+    _BUSY.add(sid)
     try:
         title = store.session_title(sid)
     except Exception:  # noqa: BLE001
@@ -222,6 +236,8 @@ async def _iter_events(req: ChatRequest):
             last = now
     except Exception as e:  # noqa: BLE001
         yield {"type": "error", "run_id": run_id, "session_id": sid, "message": str(e)}
+    finally:
+        _BUSY.discard(sid)   # 완료·오류·취소 어떤 경우든 잠금 해제
 
     # 토큰 스트림이 있었으면 그것을 최종 답변으로 사용(updates 누락 대비)
     if not final_response and streamed_tokens:

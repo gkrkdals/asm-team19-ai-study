@@ -781,7 +781,8 @@
           buf+=dec.decode(r.value,{stream:true});
           var parts=buf.split('\n\n'); buf=parts.pop();
           for(var i=0;i<parts.length;i++){ var lines=parts[i].split('\n'); for(var j=0;j<lines.length;j++){ var ln=lines[j]; if(ln.indexOf('data:')===0){ try{ var evt=JSON.parse(ln.slice(5).trim());
-            if(evt.type==='meta'){ if('is_visa_related' in evt){ liveVisa=evt.is_visa_related; doneVisa=evt.is_visa_related; } if('is_followup' in evt){ liveFollowup=evt.is_followup; doneFollowup=evt.is_followup; } liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
+            if(evt.type==='error' && evt.code==='BUSY'){ live.remove(); state.busy=false; sendBtn.disabled=false; toast('⏳ '+evt.message, 'err'); return; }
+            else if(evt.type==='meta'){ if('is_visa_related' in evt){ liveVisa=evt.is_visa_related; doneVisa=evt.is_visa_related; } if('is_followup' in evt){ liveFollowup=evt.is_followup; doneFollowup=evt.is_followup; } liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
             else if(evt.type==='slots'){ liveSlots=evt.slots; liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
             else if(evt.type==='token'){ acc+=(evt.text||''); liveCard(live, acc, liveSlots, liveVisa, liveFollowup); }
             else if(evt.type==='done'){ finalResp=evt.final_response||acc; if(evt.slots) doneSlots=evt.slots; if('is_visa_related' in evt) doneVisa=evt.is_visa_related; if('is_followup' in evt) doneFollowup=evt.is_followup; }

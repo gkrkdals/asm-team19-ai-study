@@ -166,35 +166,63 @@ const esc=(s)=>String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replac
 const APPROX_TOTAL = 6;
 const SESS = {};   // session_id -> state
 
+function cardHtml(id, s){
+  const cls = s.status==="running" ? "running" : (s.status==="done" ? "done" : "");
+  const pct = Math.min(100, Math.round((s.nodeCount/APPROX_TOTAL)*100));
+  const isRec = s.persisted && s.status!=="running";
+  const stCls = s.status==="running" ? "" : (isRec ? "rec" : "");
+  const stTxt = s.status==="running" ? "실행 중" : (isRec ? "기록" : (s.status==="done" ? "완료"+(s.total_ms?` · ${s.total_ms}ms`:"") : "대기"));
+  const barW = s.status==="done" ? 100 : pct;
+  return {cls, stCls, stTxt, barW};
+}
+
 function render(){
   const ids = Object.keys(SESS);
   $("cnt").textContent = "세션 " + ids.length;
   $("empty").style.display = ids.length ? "none" : "";
-  // 최근 실행 우선(라이브·영속 공통 ts 내림차순)
   ids.sort((a,b)=> (SESS[b].ts||0)-(SESS[a].ts||0));
   const g=$("grid");
-  g.innerHTML = ids.map(id=>{
+
+  // 삭제된 세션 카드 제거
+  [...g.children].forEach(el=>{ if(!SESS[el.dataset.sid]) el.remove(); });
+
+  // 신규 생성 or 기존 in-place 업데이트 (전체 innerHTML 교체 → 점멸 없음)
+  ids.forEach(id=>{
     const s=SESS[id];
-    const cls = s.status==="running" ? "running" : (s.status==="done" ? "done" : "");
-    const pct = Math.min(100, Math.round((s.nodeCount/APPROX_TOTAL)*100));
-    const isRec = s.persisted && s.status!=="running";
-    const stCls = s.status==="running" ? "" : (isRec ? "rec" : "");
-    const stTxt = s.status==="running" ? "실행 중" : (isRec ? "기록" : (s.status==="done" ? "완료"+(s.total_ms?` · ${s.total_ms}ms`:"") : "대기"));
-    return `<div class="card ${cls}">
-      <div class="top">
-        <span class="ttl" title="${esc(s.title)}">${esc(s.title||id)}</span>
-        <span class="st ${stCls}">${esc(stTxt)}</span>
-      </div>
-      <div class="msg" title="${esc(s.message)}">${esc(s.message||"—")}</div>
-      <div class="bar"><i style="width:${s.status==="done"?100:pct}%"></i></div>
-      <div class="nowline">
-        <span class="dot"></span><span class="ic">${esc(s.icon||"⏳")}</span>
-        <span class="nm">${esc(s.node||"대기 중")}</span>
-      </div>
-      <div class="meta"><span class="ml">Nodes</span><b>${s.nodeCount}</b><span class="ml" style="margin-left:6px">Session</span><code>${esc(id)}</code></div>
-      <a class="detail" href="/${encodeURIComponent(id)}/trace">상세 트레이스 ↗</a>
-    </div>`;
-  }).join("");
+    const {cls,stCls,stTxt,barW}=cardHtml(id,s);
+    let card=[...g.children].find(el=>el.dataset.sid===id);
+    if(!card){
+      // 신규 세션: 카드 전체 생성 (rise 애니메이션 1회)
+      card=document.createElement("div");
+      card.dataset.sid=id;
+      card.innerHTML=`
+        <div class="top">
+          <span class="ttl" title="${esc(s.title)}">${esc(s.title||id)}</span>
+          <span class="st ${stCls}">${esc(stTxt)}</span>
+        </div>
+        <div class="msg" title="${esc(s.message)}">${esc(s.message||"—")}</div>
+        <div class="bar"><i style="width:${barW}%"></i></div>
+        <div class="nowline"><span class="dot"></span><span class="ic">${esc(s.icon||"⏳")}</span><span class="nm">${esc(s.node||"대기 중")}</span></div>
+        <div class="meta"><span class="ml">Nodes</span><b>${s.nodeCount}</b><span class="ml" style="margin-left:6px">Session</span><code>${esc(id)}</code></div>
+        <a class="detail" href="/${encodeURIComponent(id)}/trace">상세 트레이스 ↗</a>`;
+      g.appendChild(card);
+    } else {
+      // 기존 카드: 변화하는 필드만 교체 → 점멸·재애니메이션 없음
+      card.className="card "+cls;
+      const st=card.querySelector(".st"); if(st){st.className="st "+stCls; st.textContent=stTxt;}
+      const bar=card.querySelector(".bar i"); if(bar) bar.style.width=barW+"%";
+      const ic=card.querySelector(".ic"); if(ic) ic.textContent=s.icon||"⏳";
+      const nm=card.querySelector(".nm"); if(nm) nm.textContent=s.node||"대기 중";
+      const nb=card.querySelector(".meta b"); if(nb) nb.textContent=s.nodeCount;
+    }
+    card.className="card "+cls;
+  });
+
+  // ts 내림차순 DOM 순서 유지
+  ids.forEach((id,i)=>{
+    const card=[...g.children].find(el=>el.dataset.sid===id);
+    if(card && g.children[i]!==card) g.insertBefore(card, g.children[i]||null);
+  });
 }
 
 function bootstrap(s){
